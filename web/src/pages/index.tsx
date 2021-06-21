@@ -1,3 +1,5 @@
-const Index = () => ();
+const Index = () => {
+  return("hello world");
+};
 
-export default Index
+export default Index;

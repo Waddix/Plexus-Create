@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "start": "node server/app.js",
-    "start:dev": "nodemon webpack --mode development",
-    "build:dev": "webpack --config webpack.config.js --mode development --watch",
-    "build:prod": "webpack --config webpack.config.js --mode production",
+    "start": "node server/dist/",
+    "start:dev": "nodemon webpack --mode development server/dist/",
+    "tsc": "tsc /server",
+    "build:dev": "webpack --config webpack.config.js --mode development --watch && tsc",
+    "build:prod": "webpack --config webpack.config.js --mode production && tsc -p",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "./node_modules/.bin/eslint"
   },
