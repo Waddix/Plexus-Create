@@ -1,0 +1,5 @@
+{
+  "extends": ["airbnb", "airbnb/hooks", "plugin:react/recommended"],
+  "plugins": ["react-hooks", "jsx-a11y"],
+  "parser": "@typescript-eslint/parser"
+}
