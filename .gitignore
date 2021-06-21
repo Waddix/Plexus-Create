@@ -4,10 +4,6 @@
 # Node/NPM
 node_modules
 
-# Yarn
-yarn.lock
-yarn
-
 # Project
 client/dist/bundle.js
 .env
