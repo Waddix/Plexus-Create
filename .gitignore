@@ -7,3 +7,12 @@ node_modules
 # Project
 client/dist/bundle.js
 .env
+.env.build
+
+# next.js build output
+.next
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
