@@ -1,0 +1,11 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --w",
+    "build-prod": "tsc"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
