@@ -1,3 +1,5 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import express from 'express';
 import { MikroORM } from '@mikro-orm/core';
 import { ApolloServer } from 'apollo-server-express';
@@ -18,7 +20,11 @@ const main = async () => {
       ],
       validate: false,
     }),
-    context: ({ req, res }) => ({ em: orm.em, req, res }), // allows us to use express req and res in graphql
+    context: ({ req, res }) => ({
+      em: orm.em,
+      req,
+      res,
+    }), // allows us to use express req and res in graphql
   });
   apolloServer.applyMiddleware({ app });
 
