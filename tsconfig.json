@@ -30,7 +30,6 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "isolatedModules": true,
     "jsx": "preserve"
   },
