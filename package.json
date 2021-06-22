@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "start": "node /dist",
-    "start:dev": "nodemon webpack --mode development /dist",
-    "build:dev": "tsc --w && webpack --config webpack.config.js --mode development --watch && tsc",
-    "build:prod": "tsc && webpack --config webpack.config.js --mode production && tsc -p",
+    "start": "node --loader ts-node/esm server/src/index.ts",
+    "start:dev": "nodemon webpack --mode development server/src/index.ts",
+    "build:dev": "webpack --config webpack.config.js --mode development --watch && tsc",
+    "build:prod": "webpack --config webpack.config.js --mode production && tsc -p",
     "test": "yarn lint",
     "create:migration": "mikro-orm migration:create",
     "next:dev": "next dev",
@@ -20,6 +20,8 @@
   "author": "Waddix",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^15.12.4",
+    "@types/react": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
     "dotenv": "^10.0.0",
@@ -34,9 +36,7 @@
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.4",
     "webpack": "^5.40.0",
-    "webpack-cli": "^4.7.2",
-    "@types/node": "^15.12.4",
-    "@types/react": "^17.0.11"
+    "webpack-cli": "^4.7.2"
   },
   "dependencies": {
     "@mikro-orm/core": "^4.5.6",
@@ -52,6 +52,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.0.0",
     "type-graphql": "^1.1.1"
   },
   "mikro-orm": {
