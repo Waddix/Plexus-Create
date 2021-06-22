@@ -7,9 +7,14 @@
     "start": "node server/dist/",
     "start:dev": "nodemon webpack --mode development server/dist/",
     "tsc": "tsc /server",
-    "build:dev": "webpack --config webpack.config.js --mode development --watch && tsc",
-    "build:prod": "webpack --config webpack.config.js --mode production && tsc -p",
+    "build:dev": "tsc --w && webpack --config webpack.config.js --mode development --watch && tsc",
+    "build:prod": "tsc && webpack --config webpack.config.js --mode production && tsc -p",
     "test": "yarn lint",
+    "create:migration": "mikro-orm migration:create",
+    "next:dev": "next dev",
+    "next:build": "next build",
+    "next:start": "next start",
+    "next:lint": "next lint",
     "lint": "eslint \"**/*.{js,ts,tsx}\""
   },
   "keywords": [],
@@ -18,20 +23,50 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
+    "dotenv": "^10.0.0",
     "eslint": "^7.29.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-react": "^0.0.4",
     "nodemon": "^2.0.7",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.4",
     "webpack": "^5.40.0",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "@types/node": "^15.12.4",
+    "@types/react": "^17.0.11"
   },
   "dependencies": {
+    "@mikro-orm/core": "^4.5.6",
+    "@mikro-orm/migrations": "^4.5.6",
+    "@mikro-orm/postgresql": "^4.5.6",
+    "@typescript-eslint/parser": "^4.27.0",
+    "apollo-server-express": "^2.25.1",
+    "class-validator": "^0.13.1",
+    "express": "^4.17.1",
+    "graphql": "^15.5.1",
+    "husky": "^6.0.0",
+    "next": "^11.0.0",
+    "pg": "^8.6.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/db/mikro-orm.config.ts",
+      "./dist/db/mikro-orm.config.js"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint"
+    }
   }
 }
