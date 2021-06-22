@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.tsx",
   "scripts": {
-    "start": "node server/dist/",
-    "start:dev": "nodemon webpack --mode development server/dist/",
+    "start": "node /dist",
+    "start:dev": "nodemon webpack --mode development /dist",
     "tsc": "tsc /server",
     "build:dev": "tsc --w && webpack --config webpack.config.js --mode development --watch && tsc",
     "build:prod": "tsc && webpack --config webpack.config.js --mode production && tsc -p",
@@ -43,7 +43,6 @@
     "@mikro-orm/core": "^4.5.6",
     "@mikro-orm/migrations": "^4.5.6",
     "@mikro-orm/postgresql": "^4.5.6",
-    "@typescript-eslint/parser": "^4.27.0",
     "apollo-server-express": "^2.25.1",
     "class-validator": "^0.13.1",
     "express": "^4.17.1",
