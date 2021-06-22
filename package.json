@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node /dist",
     "start:dev": "nodemon webpack --mode development /dist",
-    "tsc": "tsc /server",
     "build:dev": "tsc --w && webpack --config webpack.config.js --mode development --watch && tsc",
     "build:prod": "tsc && webpack --config webpack.config.js --mode production && tsc -p",
     "test": "yarn lint",
