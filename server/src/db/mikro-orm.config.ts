@@ -2,7 +2,9 @@
 /* eslint-disable import/no-unresolved */
 import { MikroORM } from '@mikro-orm/core';
 import path from 'path';
+import Follow from './entities/Follow';
 import Post from './entities/Post';
+import Tag from './entities/Tag';
 import User from './entities/User';
 
 export default {
@@ -11,7 +13,7 @@ export default {
     pattern: /^[\w-]+\d+\.[tj]s$/, // regex pattern for the migration files
     disableForeignKeys: false, // causes set_session_replicate error
   },
-  entities: [Post, User],
+  entities: [Post, User, Follow, Tag],
   dbName: 'plexus',
   user: 'postgres',
   password: 'postgres',
