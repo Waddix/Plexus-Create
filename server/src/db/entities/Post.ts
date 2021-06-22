@@ -1,5 +1,10 @@
-import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+import {
+  Entity, Property, PrimaryKey, Collection, ManyToMany,
+} from '@mikro-orm/core';
 import { Field, ObjectType } from 'type-graphql';
+import Tag from './Tag';
 
 @ObjectType()
 @Entity()
@@ -8,13 +13,17 @@ export default class Post {
   @PrimaryKey()
   id!: number;
 
-  @Field()
+  @Field(() => String)
   @Property({ type: 'text' })
   text!: string;
 
-  @Field()
+  @Field(() => String)
   @Property({ type: 'text' })
   type!: string;
+
+  @Field(() => [Tag])
+  @ManyToMany(() => Tag)
+  tags = new Collection<Tag>(this);
 
   @Field(() => String)
   @Property({ type: 'date' })
