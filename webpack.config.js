@@ -1,10 +1,10 @@
 const path = require('path');
 
-const SRC_DIR = path.join(__dirname, 'src/pages/');
-const DIST_DIR = path.join(__dirname, '/dist');
+const SRC_DIR = path.join(__dirname, 'src/pages');
+const DIST_DIR = path.join(__dirname, 'dist');
 
 module.exports = {
-  entry: `${SRC_DIR}/index.tsx`,
+  entry: `${SRC_DIR}/_app.tsx`,
   devtool: 'inline-source-map',
   module: {
     rules: [
