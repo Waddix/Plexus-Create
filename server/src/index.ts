@@ -7,6 +7,7 @@ import mikroConfig from './db/mikro-orm.config';
 import 'reflect-metadata';
 
 const PORT = 8080;
+
 const main = async () => {
   const app = express();
   const orm = await MikroORM.init(mikroConfig);

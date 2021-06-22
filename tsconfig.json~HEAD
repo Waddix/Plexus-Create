@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./web/dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "esnext",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+  },
+  "exclude": [
+    "node_modules",
+  ]
+}
