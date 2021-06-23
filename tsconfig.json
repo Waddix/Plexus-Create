@@ -28,5 +28,5 @@
     "server/src/*.ts",
     "**/*.js",
     "*.js"
-, "pages/_app.tsx", "pages/api/auth/[...nextauth].ts"  ]
+, "pages/_app.tsx", "pages/api/auth/[...nextauth].ts", "components/Header.tsx"  ]
 }
