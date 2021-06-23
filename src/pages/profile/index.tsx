@@ -1,6 +1,6 @@
 function ProfileView() {
   return (
-    <div>Profile View here</div>
+    <h1>Profile View here</h1>
   )
 }
 

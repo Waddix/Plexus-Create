@@ -19,13 +19,6 @@ export default NextAuth({
       clientSecret: process.env.TWITTER_SECRET,
     }),
   ],
-  // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
-  // https://next-auth.js.org/configuration/databases
-  //
-  // Notes:
-  // * You must install an appropriate node_module for your database
-  // * The Email provider requires a database (OAuth providers do not)
-  // ------database: process.env.DATABASE_URL,
 
   // The secret should be set to a reasonably long random string.
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
@@ -52,17 +45,24 @@ export default NextAuth({
     // async signIn(user, account, profile) { return true },
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
-    // async jwt(token, user, account, profile, isNewUser) { return token }
   },
 
   // Events are useful for logging
   // https://next-auth.js.org/configuration/events
-  events: {},
+  events: {
+    // async signIn(message) { /* on successful sign in */ },
+    // async signOut(message) { /* on signout */ },
+    // async createUser(message) { /* user created */ },
+    // async updateUser(message) { /* user updated - e.g. their email was verified */ },
+    // async linkAccount(message) { /* account (e.g. Twitter) linked to a user */ },
+    // async session(message) { /* session is active */ },
+    // async error(message) { /* error in authentication flow */ }
+  },
 
   // You can set the theme to 'light', 'dark' or use 'auto' to default to the
   // whatever prefers-color-scheme is set to in the browser. Default is 'auto'
   theme: 'auto',
 
   // Enable debug messages in the console if you are having problems
-  debug: false,
+  debug: true,
 })
