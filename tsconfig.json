@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
     "lib": [
       "dom",
-      "DOM.Iterable",
-      "es6",
-      "es2017"
+      "dom.iterable",
+      "esnext"
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -17,18 +16,14 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "experimentalDecorators": true
+    "jsx": "preserve"
   },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "exclude": [
     "node_modules"
-  ],
-  "include": [
-    "src/**/*.tsx",
-    "src/**/*.ts",
-    "server/src/**/*.ts",
-    "server/src/*.ts",
-    "**/*.js",
-    "*.js", "src/components/nav.tsx.bak",
   ]
 }

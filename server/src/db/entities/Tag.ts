@@ -1,29 +1,25 @@
-/* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import {
   Entity, Property, PrimaryKey, Collection, ManyToMany,
 } from '@mikro-orm/core';
 import { Field, Int, ObjectType } from 'type-graphql';
-import Tag from './Tag';
+import Post from './Post';
 
 @ObjectType()
 @Entity()
-export default class Post {
+export default class Tag {
   @Field(() => Int)
   @PrimaryKey()
   id!: number;
 
   @Field(() => String)
   @Property({ type: 'text' })
-  text!: string;
+  name!: string;
 
-  @Field(() => String)
-  @Property({ type: 'text' })
-  type!: string;
-
-  @Field(() => [Tag])
-  @ManyToMany(() => Tag)
-  tags = new Collection<Tag>(this);
+  @Field(() => [Post])
+  @ManyToMany(() => Post, (p: Post) => p.tags)
+  posts = new Collection<Post>(this);
 
   @Field(() => String)
   @Property({ type: 'date' })
