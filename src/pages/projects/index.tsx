@@ -1,9 +1,9 @@
-import React from 'react'
-
-interface indexProps {
-
+import NavBar from "../../components/nav.tsx.bak";
+function ProjectView() {
+  return (
+    <div>
+      <h1>Project View here</h1>
+    </div>
+  )
 }
 
-export const index: React.FC<indexProps> = ({}) => {
-    return ();
-}
