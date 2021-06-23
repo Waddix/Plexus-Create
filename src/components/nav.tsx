@@ -79,11 +79,14 @@ export default function Nav() {
                   cursor={'pointer'}>
                   {
                     session ?
-                      <Avatar
-                        name={session.user.name}
-                        size={'sm'}
-                        src={session.user.image}
-                      />
+                      session.user.image ?
+                        <Avatar
+                          name={session.user.name}
+                          size={'sm'}
+                          src={session.user.image}
+                        />
+                        :
+                        <Icon as={loggedOutIcon} />
                       :
                       <Icon as={loggedOutIcon} />
                   }

@@ -3,16 +3,9 @@ import {
   Box,
   Flex,
   Avatar,
-  HStack,
   Link,
-  IconButton,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  useDisclosure,
   useColorModeValue,
-  Stack,
   Icon,
   PopoverContent,
   PopoverHeader,
@@ -109,18 +102,18 @@ export default function NextAuth() {
             ))}
           </PopoverBody>
           <PopoverFooter>
-            <Button
-              onClick={(e) => {
-                e.preventDefault()
-                signOut()
-              }}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('orange.200', 'orange.700'),
-              }}
-            >
-              Sign Out
-            </Button>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault()
+                  signOut()
+                }}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('orange.200', 'orange.700'),
+                }}
+              >
+                Sign Out
+              </Button>
           </PopoverFooter>
         </>
       }
