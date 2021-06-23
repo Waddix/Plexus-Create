@@ -1,30 +1,33 @@
 import Head from 'next/head';
-import Link from 'next/link';
+import { Flex, Spacer, Box } from '@chakra-ui/react'
 import Header from '../components/Header';
-import NavBar from '../components/Nav';
+import { Nav } from '../components/Nav';
+import UserPanel from '../components/home/UserPanel'
+import MainFeed from '../components/home/MainFeed'
 
 export default function Home() {
   return (
     <div>
-      <Head>
-        <title>Plexus Create</title>
-        <meta name="description" content="Create, Connect, Collaborate" />
-        {/* <link rel="icon" href="/favicon.ico" /> */}
-      </Head>
-
-      <main>
-        <nav>
-          <NavBar />
-          <Header />
-        </nav>
-
-        <body>
-          <h1>Hello World</h1>
-        </body>
-      </main>
-
-      <footer>
-      </footer>
+      <Nav />
+      <body>
+        <h1>Home Feed</h1>
+      </body>
+        <footer>
+        </footer>
     </div>
-  )
+      )
 }
+
+
+
+// <Head>
+// <title>Plexus Create</title>
+// <meta name="description" content="Create, Connect, Collaborate" />
+// {/* <link rel="icon" href="/favicon.ico" /> */}
+// </Head>
+
+// <main>
+// {/* <nav> */}
+//   <Header /> */}
+// {/* </nav>
+// </main>

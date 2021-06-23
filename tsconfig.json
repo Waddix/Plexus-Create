@@ -9,7 +9,8 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    //James switched this
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -26,6 +27,8 @@
   "include": [
     "server/src/**/*.ts",
     "server/src/*.ts",
+    "**/*.tsx",
+    "src/*.tsx",
     "**/*.js",
     "*.js"
 , "src/pages/_app.tsx", "src/pages/api/auth/[...nextauth].ts"  ]
