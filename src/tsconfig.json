@@ -1,31 +1,29 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext"
+      "DOM.Iterable",
+      "es6",
+      "es2017"
     ],
     "allowJs": true,
+    "outDir": "./dist",
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "include": [
+    "**/*.ts", "**/*.tsx", "src/pages/_app.tsx", "src/pages/api/auth/[...nextauth].ts"  ]
 }

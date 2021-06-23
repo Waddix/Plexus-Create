@@ -1,8 +1,8 @@
-import NavBar from "../../components/Nav";
+import NavBar from "../../components/nav.tsx.bak";
 function ProjectView() {
   return (
     <div>
-      <h2>Project View here</h2>
+      <h1>Project View here</h1>
     </div>
   )
 }
