@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app'
+import { ProjectsCtxProvider } from '../context/projectsContext'
 import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react'
 import theme from '../theme'
 function MyApp({ Component, pageProps }: AppProps) {
@@ -8,7 +9,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       options={{
         useSystemColorMode: true,
       }}>
-      <Component {...pageProps} />
+        <ProjectsCtxProvider>
+          <Component {...pageProps} />
+        </ProjectsCtxProvider>
       </ColorModeProvider>
     </ChakraProvider>
   

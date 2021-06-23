@@ -1,10 +1,15 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, createContext, ReactNode, ReactElement } from "react";
 
-const ProjectsContext = createContext();
+//* work in progress. Still a little unclear on how contexts are defined in typescript
+//* May need to use define interface, but not sure what properties it would take on.
 
-function ProjectsContextProvider({children}: { children:}) {
-  const [projects, setProjects] = useState([]);
-  const [top10Projects, setTop10Projects] = useState([]);
+
+const ProjectsCtx = createContext();
+
+//Todo create context to manage projects in state and provide that data to rest of the app
+function ProjectsCtxProvider({children}: { children: ReactNode }): ReactElement | null {
+  const [projects, setProjects] = useState<[]>([]);
+  const [top10Projects, setTop10Projects] = useState<[]>([]);
 
 
   const projectsProps = {
@@ -13,10 +18,10 @@ function ProjectsContextProvider({children}: { children:}) {
   }
 
   return (
-    <ProjectsContext.Provider value={projectsProps}>
+    <ProjectsCtx.Provider value={projectsProps}>
       {children}
-    </ProjectsContext.Provider>
+    </ProjectsCtx.Provider>
   )
 }
 
-export {ProjectsContextProvider, ProjectsContext};
+export {ProjectsCtxProvider, ProjectsCtx};
