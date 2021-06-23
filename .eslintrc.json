@@ -1,5 +1,18 @@
 {
-  "extends": ["airbnb", "airbnb/hooks", "plugin:react/recommended"],
-  "plugins": ["react-hooks", "jsx-a11y"],
-  "parser": "@typescript-eslint/parser"
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks",
+    "jsx-a11y"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  }
 }

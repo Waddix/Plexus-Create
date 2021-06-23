@@ -19,3 +19,6 @@ yarn-error.log*
 
 # dist folder
 dist
+
+# ENV
+.env.local
