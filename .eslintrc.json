@@ -1,7 +1,7 @@
 {
   "extends": [
-    "airbnb",
-    "airbnb/hooks",
+    "next",
+    "next/core-web-vitals",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended"
   ],

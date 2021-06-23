@@ -1,12 +1,30 @@
+import Head from 'next/head';
+import Link from 'next/link';
+import Header from '../components/Header';
 import NavBar from '../components/Nav';
 
-function HomePage() {
+export default function Home() {
   return (
     <div>
-      <NavBar />
-      <h1>Home Page</h1>
-    </div>
-  );
-}
+      <Head>
+        <title>Plexus Create</title>
+        <meta name="description" content="Create, Connect, Collaborate" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+      </Head>
 
-export default HomePage;
+      <main>
+        <nav>
+          <NavBar />
+          <Header />
+        </nav>
+
+        <body>
+          <h1>Hello World</h1>
+        </body>
+      </main>
+
+      <footer>
+      </footer>
+    </div>
+  )
+}

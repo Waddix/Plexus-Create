@@ -10,8 +10,10 @@ const PORT = 8080;
 
 const main = async () => {
   const app = express();
+
   const orm = await MikroORM.init(mikroConfig);
   await orm.getMigrator().up();
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
@@ -19,12 +21,14 @@ const main = async () => {
       ],
       validate: false,
     }),
-    context: ({ req, res }) => ({ em: orm.em, req, res }), // allows us to use express req and res in graphql
+    // allows us to use express req and res in graphql
+    context: ({ req, res }) => ({ em: orm.em, req, res }),
   });
+
   apolloServer.applyMiddleware({ app });
 
   app.listen(PORT, () => {
-    console.log(`server started on ${PORT}`);
+    console.info(`server started on ${PORT}`);
   });
 };
 
