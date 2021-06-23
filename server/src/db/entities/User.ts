@@ -1,9 +1,11 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 import {
-  Entity, Property, PrimaryKey,
+  Entity, Property, OneToMany, Collection, PrimaryKey
 } from '@mikro-orm/core';
-import { Field, Int, ObjectType } from 'type-graphql';
+// import { Base } from './Base';
+import { Field, ObjectType, Int } from 'type-graphql';
+import { Project } from './Project';
 
 @ObjectType()
 @Entity()
@@ -23,6 +25,10 @@ export default class User {
   // No Field type here means the password is only accessible on database not accessible in graphql
   @Property({ type: 'text' })
   password!: string;
+
+  @Field(() => [Project])
+  @OneToMany(() => Project, (p: Project) => p.owner) //  {cascade: [Cascade.ALL]}
+  projects = new Collection<Project>(this)
 
   @Field(() => String)
   @Property({ type: 'date' })
