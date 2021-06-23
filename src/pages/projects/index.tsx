@@ -1,6 +1,9 @@
+import NavBar from "../../components/Nav";
 function ProjectView() {
   return (
-    <div>Project View here</div>
+    <div>
+      <h2>Project View here</h2>
+    </div>
   )
 }
 

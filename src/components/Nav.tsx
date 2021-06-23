@@ -1,6 +1,13 @@
+import { Fragment } from 'react';
+import Link from 'next/link';
+
 function NavBar() {
   return (
-    <div>this will be a fuckin navbar. gotta learn how to use next.js layouts first</div>
+    <Fragment>
+      <Link href='/projects'>Projects</Link>
+      <Link href='/'>Home</Link>
+      <Link href='/profile'>Profile</Link>
+    </Fragment>
   )
 }
 

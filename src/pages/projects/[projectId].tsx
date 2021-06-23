@@ -7,6 +7,6 @@ function Project() {
   return (
     <div>Project with id: { projectId }</div>
   )
-};
+}
 
 export default Project;
