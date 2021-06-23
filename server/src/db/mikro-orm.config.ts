@@ -4,6 +4,7 @@ import { MikroORM } from '@mikro-orm/core';
 import path from 'path';
 import Follow from './entities/Follow';
 import Post from './entities/Post';
+import { Project } from './entities/Project';
 import Tag from './entities/Tag';
 import User from './entities/User';
 
@@ -11,9 +12,10 @@ export default {
   migrations: {
     path: path.join(__dirname, './migrations'), // path to the folder with migrations
     pattern: /^[\w-]+\d+\.[tj]s$/, // regex pattern for the migration files
-    disableForeignKeys: false, // causes set_session_replicate error
+    disableForeignKeys: false, // wrap statements with `set foreign_key_checks = 0` or equivalent
+    dropTables: true,
   },
-  entities: [Post, User, Follow, Tag],
+  entities: [Post, User, Follow, Tag, Project],
   dbName: 'plexus',
   user: 'postgres',
   password: 'postgres',
