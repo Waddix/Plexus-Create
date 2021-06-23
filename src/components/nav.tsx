@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   Box,
   Flex,
@@ -22,9 +22,14 @@ import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
-const Links = ['Home', 'Projects',];
+const Links = ['Home', 'Projects'];
 
-const NavLink = ({ children }: { children }) => (
+interface Props {
+  children: ReactNode;
+  elementType?: string;
+}
+
+const NavLink = ({ children }: Props): JSX.Element => (
   <Link
     px={2}
     py={1}
@@ -39,11 +44,11 @@ const NavLink = ({ children }: { children }) => (
   </Link>
 );
 
-const loggedOutIcon = () => {
+const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='2x' />
 }
 
-export default function Nav() {
+export default function Nav(): JSX.Element {
   const [session, loading] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
 

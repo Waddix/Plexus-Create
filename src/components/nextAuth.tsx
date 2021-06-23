@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
   Box,
   Flex,
@@ -18,7 +18,12 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 const UserLinks = ['Profile'];
 
-const PopoverLink = ({ children }: { children }) => (
+interface Props {
+  children: ReactNode;
+  elementType?: string;
+}
+
+const PopoverLink = ({ children }: Props): JSX.Element => (
   <Link
     px={2}
     py={1}
@@ -33,14 +38,14 @@ const PopoverLink = ({ children }: { children }) => (
   </Link>
 );
 
-const loggedOutIcon = () => {
+const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='3x' />
 }
 
 // The approach used in this component shows how to built a sign in and sign out
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
-export default function NextAuth() {
+export default function NextAuth(): JSX.Element {
   const [session, loading] = useSession()
 
   return (
