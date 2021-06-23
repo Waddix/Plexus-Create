@@ -37,7 +37,8 @@
     "node_modules"
   ],
   "include": [
-    "./server/src/**/*.ts"
+    "server/src/**/*.ts",
+    "server/src/*.ts"
     // "./src/**/*.tsx",
     // "./src/**/*.ts"
   ]
