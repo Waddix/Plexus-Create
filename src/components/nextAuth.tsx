@@ -5,11 +5,11 @@ import styles from './header.module.css'
 // The approach used in this component shows how to built a sign in and sign out
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
-export default function Header () {
+export default function NextAuth () {
   const [ session, loading ] = useSession()
   
   return (
-    <header>
+    <>
       <noscript>
         <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
       </noscript>
@@ -33,6 +33,7 @@ export default function Header () {
             <span className={styles.signedInText}>
               <small>Signed in as</small><br/>
               <strong>{session.user.email || session.user.name}</strong>
+              {console.log(session.user)}
               </span>
             <a
                 href={`/api/auth/signout`}
@@ -47,6 +48,6 @@ export default function Header () {
           </>}
         </p>
       </div>
-    </header>
+    </>
   )
 }
