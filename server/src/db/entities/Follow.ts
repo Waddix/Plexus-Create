@@ -3,13 +3,13 @@
 import {
   Entity, Property, PrimaryKey,
 } from '@mikro-orm/core';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 // import User from './User';
 
 @ObjectType()
 @Entity()
 export default class Follow {
-  @Field()
+  @Field(() => Int)
   @PrimaryKey()
   id!: number;
 
