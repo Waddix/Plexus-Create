@@ -48,7 +48,7 @@ export default function NextAuth() {
       {!session &&
         <>
           <PopoverHeader>
-            <Flex justifyContent={'space-between'} alignItems={'center'}>
+            <Flex alignItems={'center'}>
               <Box justifyContent="flex-start">
                 <p><strong>You're not signed in</strong></p>
               </Box>
