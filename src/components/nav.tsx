@@ -50,7 +50,7 @@ export default function Nav() {
   return (
     <nav>
       <Text
-        width='23vw'
+        width='12rem'
         top='2'
         left='0'
         right='0'
@@ -88,7 +88,7 @@ export default function Nav() {
               ))}
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
+          <Box marginLeft='2rem' alignItems={'center'}>
             <Popover
               placement="bottom"
               closeOnBlur={false}
@@ -116,7 +116,7 @@ export default function Nav() {
               </PopoverTrigger>
               <NextAuth />
             </Popover>
-          </Flex>
+          </Box>
         </Flex>
 
         {isOpen ? (
