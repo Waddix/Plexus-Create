@@ -44,15 +44,15 @@ export default function NextAuth() {
   const [session, loading] = useSession()
 
   return (
-    <PopoverContent bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
+    <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
       {!session &&
         <>
           <PopoverHeader>
-            <Flex alignItems={'center'}>
-              <Box justifyContent="flex-start">
+            <Flex alignItems={'center'} justifyContent={'space-between'} >
+              <Box>
                 <p><strong>You're not signed in</strong></p>
               </Box>
-              <Box justifyContent="flex-end">
+              <Box>
                 <Icon as={loggedOutIcon} />
               </Box>
             </Flex>
