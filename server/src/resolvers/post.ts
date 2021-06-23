@@ -2,7 +2,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable class-methods-use-this */
 import {
-  Resolver, Query, Ctx, Arg, Mutation,
+  Resolver, Query, Ctx, Arg, Mutation, Int
 } from 'type-graphql';
 import Post from '../db/entities/Post';
 import { PlexusContext } from '../types';
@@ -19,7 +19,7 @@ export class PostResolver {
 
   @Query(() => Post, { nullable: true })
   post(
-    @Arg('id') id: number,
+    @Arg('id', () => Int) id: number ,
     @Ctx() { em }: PlexusContext,
   ): Promise<Post | null> {
     return em.findOne(Post, { id });
@@ -27,8 +27,8 @@ export class PostResolver {
 
   @Mutation(() => Post)
   async createPost(
-    @Arg('text') text: string,
-    @Arg('type') type: string,
+    @Arg('text', () => String) text: string,
+    @Arg('type', () => String) type: string,
     @Ctx() { em }: PlexusContext,
   ): Promise<Post> {
     const post = em.create(Post, { text, type });
@@ -38,9 +38,9 @@ export class PostResolver {
 
   @Mutation(() => Post, { nullable: true })
   async updatePost(
-    @Arg('id') id: number,
-    @Arg('text', { nullable: true }) text: string,
-    @Arg('type') type: string,
+    @Arg('id', () => Int) id: number,
+    @Arg('text', () => String, { nullable: true }) text: string,
+    @Arg('type', () => String) type: string,
     @Ctx() { em }: PlexusContext,
   ): Promise<Post | null> {
     const post = await em.findOne(Post, { id });
@@ -57,9 +57,9 @@ export class PostResolver {
 
   @Mutation(() => Boolean)
   async deletePost(
-    @Arg('id') id: number,
+    @Arg('id', () => Int) id: number,
     @Ctx() { em }: PlexusContext,
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     try {
       await em.nativeDelete(Post, { id });
     } catch {
