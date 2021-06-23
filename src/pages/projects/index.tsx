@@ -1,10 +1,9 @@
-import NavBar from "../../components/Nav";
-function ProjectView() {
-  return (
-    <div>
-      <h2>Project View here</h2>
-    </div>
-  )
+import React from 'react'
+
+interface indexProps {
+
 }
 
-export default ProjectView;
+export const index: React.FC<indexProps> = ({}) => {
+    return ();
+}
