@@ -3,17 +3,17 @@
 import {
   Entity, Property, PrimaryKey, Collection, ManyToMany,
 } from '@mikro-orm/core';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 import Post from './Post';
 
 @ObjectType()
 @Entity()
 export default class Tag {
-  @Field()
+  @Field(() => Int)
   @PrimaryKey()
   id!: number;
 
-  @Field()
+  @Field(() => String)
   @Property({ type: 'text' })
   name!: string;
 
