@@ -4,7 +4,7 @@
     "lib": [
       "dom",
       "es6",
-      "es2017",
+      "es2017"
     ],
     "sourceMap": true,
     "outDir": "dist",
@@ -28,7 +28,9 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "noEmit": true,
+    "module": "esnext"
   },
   "exclude": [
     "node_modules"
