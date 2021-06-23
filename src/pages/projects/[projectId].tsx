@@ -1,6 +1,7 @@
 import { useRouter } from "next/dist/client/router";
+import React from "react";
 
-function Project() {
+function Project(): JSX.Element {
   const router = useRouter();
   const { projectId } = router.query;
 

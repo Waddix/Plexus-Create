@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { Fragment } from 'react'
 import {
   Box,
   Flex,
@@ -12,19 +12,15 @@ import {
   PopoverBody,
   PopoverFooter
 } from '@chakra-ui/react';
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 const UserLinks = ['Profile'];
 
-interface Props {
-  children: ReactNode;
-  elementType?: string;
-}
-
-const PopoverLink = ({ children }: Props): JSX.Element => (
+const PopoverLink = (link: string): JSX.Element => (
   <Link
+    key={link}
     px={2}
     py={1}
     rounded={'md'}
@@ -32,9 +28,9 @@ const PopoverLink = ({ children }: Props): JSX.Element => (
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
-    href={`/${children.toLowerCase()}`}
+    href={`/${link.toLowerCase()}`}
   >
-    {children}
+    {link}
   </Link>
 );
 
@@ -46,16 +42,16 @@ const loggedOutIcon = (): JSX.Element => {
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
 export default function NextAuth(): JSX.Element {
-  const [session, loading] = useSession()
+  const [session] = useSession()
 
   return (
     <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
       {!session &&
-        <>
+        <Fragment>
           <PopoverHeader>
             <Flex alignItems={'center'} justifyContent={'space-between'} >
               <Box>
-                <p><strong>You're not signed in</strong></p>
+                <p><strong>{"You're not signed in"}</strong></p>
               </Box>
               <Box>
                 <Icon as={loggedOutIcon} />
@@ -79,9 +75,9 @@ export default function NextAuth(): JSX.Element {
               </Button>
             </Link>
           </PopoverFooter>
-        </>}
+        </Fragment>}
       {session &&
-        <>
+        <Fragment>
           <PopoverHeader>
             <Flex justifyContent={'space-between'} alignItems={'center'}>
               <Box justifyContent="flex-start">
@@ -103,24 +99,24 @@ export default function NextAuth(): JSX.Element {
           </PopoverHeader>
           <PopoverBody>
             {UserLinks.map((link) => (
-              <PopoverLink key={link}>{link}</PopoverLink>
+              PopoverLink(link)
             ))}
           </PopoverBody>
           <PopoverFooter>
-              <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
-                }}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-              >
-                Sign Out
-              </Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault()
+                signOut()
+              }}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
+            >
+              Sign Out
+            </Button>
           </PopoverFooter>
-        </>
+        </Fragment>
       }
     </PopoverContent>
   )

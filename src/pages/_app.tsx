@@ -7,7 +7,7 @@ import Layout from '../components/layout';
 
 
 
-function Plexus({ Component, pageProps }: AppProps) {
+function Plexus({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <Provider
       // Provider options are not required but can be useful in situations where

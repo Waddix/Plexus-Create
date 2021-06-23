@@ -1,10 +1,14 @@
-import type { AppProps } from 'next/app'
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import Nav from './nav';
 
-function Layout({ children }: AppProps) {
+interface Props {
+  children: ReactNode;
+  elementType?: string;
+}
+
+function Layout({ children }: Props): JSX.Element {
   return (
     <Fragment>
       <Head>

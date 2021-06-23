@@ -42,6 +42,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@mikro-orm/cli": "^4.5.6",
     "@mikro-orm/core": "^4.5.6",
     "@mikro-orm/migrations": "^4.5.6",
     "@mikro-orm/postgresql": "^4.5.6",

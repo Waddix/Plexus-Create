@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
   Box,
   Flex,
@@ -24,13 +24,9 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 const Links = ['Home', 'Projects'];
 
-interface Props {
-  children: ReactNode;
-  elementType?: string;
-}
-
-const NavLink = ({ children }: Props): JSX.Element => (
+const NavLink = (link: string): JSX.Element => (
   <Link
+    key={link}
     px={2}
     py={1}
     rounded={'md'}
@@ -38,9 +34,9 @@ const NavLink = ({ children }: Props): JSX.Element => (
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
-    href={children === "Home" ? "/" : `/${children.toLowerCase()}`}
+    href={link === "Home" ? "/" : `/${link.toLowerCase()}`}
   >
-    {children}
+    {link}
   </Link>
 );
 
@@ -49,7 +45,7 @@ const loggedOutIcon = (): JSX.Element => {
 }
 
 export default function Nav(): JSX.Element {
-  const [session, loading] = useSession();
+  const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -89,7 +85,7 @@ export default function Nav(): JSX.Element {
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                NavLink(link)
               ))}
             </HStack>
           </HStack>
@@ -128,7 +124,7 @@ export default function Nav(): JSX.Element {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                NavLink(link)
               ))}
             </Stack>
           </Box>

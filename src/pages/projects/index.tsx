@@ -1,5 +1,6 @@
-import NavBar from "../../components/nav.tsx.bak";
-function ProjectView() {
+import React from "react"
+
+function ProjectView(): JSX.Element {
   return (
     <div>
       <h1>Project View here</h1>
