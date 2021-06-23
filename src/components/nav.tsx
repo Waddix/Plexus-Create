@@ -1,4 +1,4 @@
-import { React, Fragment } from 'react';
+import { React } from 'react';
 import {
   Box,
   Flex,
@@ -7,13 +7,12 @@ import {
   Link,
   IconButton,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
   useDisclosure,
   useColorModeValue,
   Stack,
   Icon,
+  Popover,
+  PopoverTrigger
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from './nextAuth';
@@ -21,7 +20,7 @@ import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
-const Links = ['Home', 'Projects', 'Profile'];
+const Links = ['Home', 'Projects',];
 
 const NavLink = ({ children }: { children }) => (
   <Link
@@ -32,7 +31,8 @@ const NavLink = ({ children }: { children }) => (
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
-    href={children === "Home" ? "/" : `/${children.toLowerCase()}`}>
+    href={children === "Home" ? "/" : `/${children.toLowerCase()}`}
+  >
     {children}
   </Link>
 );
@@ -47,7 +47,7 @@ export default function Nav() {
 
   return (
     <nav>
-      <Box px={4}>
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -67,28 +67,30 @@ export default function Nav() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}>
-                {
-                  session &&
-                  <Avatar
-                    size={'sm'}
-                    src={session.user.image}
-                  />
-                }
-                {
-                  !session &&
-                  <Icon as={loggedOutIcon} />
-                }
-              </MenuButton>
-              <MenuList>
-                <NextAuth />
-              </MenuList>
-            </Menu>
+            <Popover
+              placement="bottom"
+              closeOnBlur={false}
+            >
+              <PopoverTrigger>
+                <Button
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}>
+                  {
+                    session ?
+                      <Avatar
+                        name={session.user.name}
+                        size={'sm'}
+                        src={session.user.image}
+                      />
+                      :
+                      <Icon as={loggedOutIcon} />
+                  }
+                </Button>
+              </PopoverTrigger>
+              <NextAuth />
+            </Popover>
           </Flex>
         </Flex>
 
