@@ -3,8 +3,13 @@ import React from 'react';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import Nav from './nav';
+interface LayoutProps {
+  // react props in typescript 
+  // ? === optional
+children?: React.ReactNode
+}
 
-function Layout({ children }: AppProps) {
+function Layout({ children }: LayoutProps) : JSX.Element {
   return (
     <Fragment>
       <Head>
