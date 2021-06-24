@@ -2,10 +2,9 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable class-methods-use-this */
 import {
-  Resolver, Query, Ctx, Arg, Mutation, Int
+  Resolver, Query, Arg, Mutation, Int
 } from 'type-graphql';
-import Post from '../db/entities/Post';
-import { PlexusContext } from '../types';
+import {Post} from '../db/entities/Post';
 
 @Resolver()
 // eslint-disable-next-line import/prefer-default-export
@@ -13,58 +12,47 @@ export class PostResolver {
 // ** BASIC CRUD OPERATIONS ** \\
 
   @Query(() => [Post])
-  posts(@Ctx() { em }: PlexusContext): Promise<Post[]> {
-    return em.find(Post, {});
+  posts(): Promise<Post[]> {
+    return Post.find();
   }
 
   @Query(() => Post, { nullable: true })
   post(
     @Arg('id', () => Int) id: number ,
-    @Ctx() { em }: PlexusContext,
-  ): Promise<Post | null> {
-    return em.findOne(Post, { id });
+  ): Promise<Post | undefined> {
+    return Post.findOne(id);
   }
 
   @Mutation(() => Post)
   async createPost(
     @Arg('text', () => String) text: string,
     @Arg('type', () => String) type: string,
-    @Ctx() { em }: PlexusContext,
   ): Promise<Post> {
-    const post = em.create(Post, { text, type });
-    await em.persistAndFlush(post);
-    return post;
+    return Post.create({text, type}).save();
   }
 
   @Mutation(() => Post, { nullable: true })
   async updatePost(
-    @Arg('id', () => Int) id: number,
+    @Arg('id', () => String) id: string,
     @Arg('text', () => String, { nullable: true }) text: string,
     @Arg('type', () => String) type: string,
-    @Ctx() { em }: PlexusContext,
   ): Promise<Post | null> {
-    const post = await em.findOne(Post, { id });
+    const post = await Post.findOne(id);
     if (!post) {
       return null;
     }
     // if the text isnt blank
     if (typeof text !== 'undefined' && typeof type !== 'undefined') {
-      post.text = text;
-      await em.persistAndFlush(post);
+     Post.update({id}, {text, type})
     }
     return post;
   }
 
   @Mutation(() => Boolean)
   async deletePost(
-    @Arg('id', () => Int) id: number,
-    @Ctx() { em }: PlexusContext,
+    @Arg('id', () => String) id: string,
   ): Promise<boolean> {
-    try {
-      await em.nativeDelete(Post, { id });
-    } catch {
-      return false;
-    }
+    await Post.delete(id)
     return true;
   }
 }
