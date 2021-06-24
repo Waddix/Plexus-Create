@@ -50,7 +50,7 @@ export default function Nav(): JSX.Element {
 
   return (
     <nav>
-      <Text
+      <Text // Logo/App Name
         width='12rem'
         top='2'
         left='0'
@@ -69,6 +69,7 @@ export default function Nav(): JSX.Element {
       >
         Plexus Create
       </Text>
+
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
