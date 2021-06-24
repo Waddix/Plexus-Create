@@ -7,6 +7,7 @@ import { buildSchema } from 'type-graphql';
 import { PostResolver } from './resolvers/post';
 import mikroConfig from './db/mikro-orm.config';
 import 'reflect-metadata';
+import { ProjectResolver } from './resolvers/project';
 
 const PORT = 8080;
 
@@ -20,6 +21,7 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [
         PostResolver,
+        ProjectResolver
       ],
       validate: false,
     }),
