@@ -1,31 +1,19 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-import {
-  Entity, Property, PrimaryKey, Collection, ManyToMany,
-} from '@mikro-orm/core';
-import { Field, Int, ObjectType } from 'type-graphql';
-import Post from './Post';
+// /* eslint-disable import/extensions */
+// /* eslint-disable import/no-unresolved */
+// import { Field, ObjectType } from 'type-graphql';
+// import { Column, Entity, ManyToOne } from 'typeorm';
+// import { Base } from './Base';
+// import {Post} from './Post';
 
-@ObjectType()
-@Entity()
-export default class Tag {
-  @Field(() => Int)
-  @PrimaryKey()
-  id!: number;
+// @ObjectType()
+// @Entity()
+// export class Tag extends Base {
+//   @Field(() => String)
+//   @Column({ type: 'text' })
+//   name!: string;
 
-  @Field(() => String)
-  @Property({ type: 'text' })
-  name!: string;
+//   @Field(() => [Post])
+//   @ManyToOne(() => Post, (p: Post) => p.tags)
+//   posts = Post[];
 
-  @Field(() => [Post])
-  @ManyToMany(() => Post, (p: Post) => p.tags)
-  posts = new Collection<Post>(this);
-
-  @Field(() => String)
-  @Property({ type: 'date' })
-  createdAt = new Date();
-
-  @Field(() => String)
-  @Property({ type: 'date', onUpdate: () => new Date() })
-  updatedAt = new Date();
-}
+// }
