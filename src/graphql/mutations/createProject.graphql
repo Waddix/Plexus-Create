@@ -1,0 +1,7 @@
+mutation createProject(title: String, description: String, owner: Int){
+    id
+    title
+    description
+    createdAt
+    updatedAt
+}
