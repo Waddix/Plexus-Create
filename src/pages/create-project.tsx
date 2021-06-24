@@ -9,7 +9,7 @@ import { Box, Button } from "@chakra-ui/react";
 
  const createProject: React.FC<{}> = ({}) => {
   return (
-    <Wrapper variant="regular">
+    <Wrapper variant="small">
       <Formik
         initialValues={{ title: "", description: "" }}
         onSubmit={async (values, { setErrors }) => {
