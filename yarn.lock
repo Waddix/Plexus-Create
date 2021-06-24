@@ -661,7 +661,7 @@
     "@chakra-ui/icon" "1.1.9"
     "@chakra-ui/utils" "1.8.0"
 
-"@chakra-ui/textarea@1.1.11":
+"@chakra-ui/textarea@1.1.11", "@chakra-ui/textarea@^1.1.11":
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/@chakra-ui/textarea/-/textarea-1.1.11.tgz#412fc396317bd03c52c39596a4456918be79b0c1"
   integrity sha512-R2PmGcLP1zyBL5xK8IJuY66IKCsdEOpGlf5rJZOI/2XhUF1MrZTJveUHnkxur3O2JqGhJUxzY15rgwE17/vZcA==
