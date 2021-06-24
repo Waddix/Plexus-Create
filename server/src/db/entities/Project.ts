@@ -1,18 +1,22 @@
-import { Entity, ManyToOne, Property } from "@mikro-orm/core";
 import { Base } from "./Base"
 import { Field, ObjectType } from "type-graphql";
-import User from "./User";
+import {User} from "./User";
+import { Column, Entity, ManyToOne  } from "typeorm";
 
 @ObjectType()
 @Entity()
-export class Project extends Base<Project>{
+export class Project extends Base{
   @Field()
-  @Property()
+  @Column()
   title!: string
 
   @Field()
-  @Property()
+  @Column()
   description!: string
+
+  @Field()
+  @Column()
+  ownerId: string;
 
   @Field(() => User)
   @ManyToOne(() => User)

@@ -1,40 +1,27 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
-import {
-  Entity, Property, OneToMany, Collection, PrimaryKey
-} from '@mikro-orm/core';
+
 // import { Base } from './Base';
-import { Field, ObjectType, Int } from 'type-graphql';
+import { Field, ObjectType, } from 'type-graphql';
+import { Column, OneToMany, } from 'typeorm';
+import { Entity } from 'typeorm/decorator/entity/Entity';
+import { Base } from './Base';
 import { Project } from './Project';
 
 @ObjectType()
 @Entity()
-export default class User {
-  @Field(() => Int)
-  @PrimaryKey()
-  id!: number;
-
+export class User extends Base {
   @Field(() => String)
-  @Property({ type: 'text', unique: true })
+  @Column({ unique: true })
   username!: string;
 
-  // @Field(() => User)
-  // @ManyToMany(() => User, (user) => user.username)
-  // users = new Collection<User>(this);
-
-  // No Field type here means the password is only accessible on database not accessible in graphql
-  @Property({ type: 'text' })
+  @Field(() => String)
+  @Column({unique: true})
+  email!: string;
+  // No Field Decorator here means the password is only accessible on database not accessible in graphql
+  @Column()
   password!: string;
 
-  @Field(() => [Project])
-  @OneToMany(() => Project, (p: Project) => p.owner) //  {cascade: [Cascade.ALL]}
-  projects = new Collection<Project>(this)
-
-  @Field(() => String)
-  @Property({ type: 'date' })
-  createdAt = new Date();
-
-  @Field(() => String)
-  @Property({ type: 'date', onUpdate: () => new Date() })
-  updatedAt = new Date();
+  @OneToMany(() => Project, (p: Project) => p.owner) 
+  projects: Project[]
 }

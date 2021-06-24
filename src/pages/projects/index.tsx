@@ -1,10 +1,10 @@
-import NavBar from "../../components/nav.tsx.bak";
+import NavBar from "../../components/Nav";
 function ProjectView() {
   return (
     <div>
-      <h1>Project View here</h1>
+      <h2>Project View here</h2>
     </div>
   )
 }
 
-export default ProjectView
+export default ProjectView;
