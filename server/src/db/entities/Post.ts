@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
 import { Field, ObjectType } from 'type-graphql';
-import {  Column, Entity, OneToMany,  } from 'typeorm';
+import {  Column, Entity,  } from 'typeorm';
 import { Base } from './Base';
 // import {Tag} from './Tag';
 
