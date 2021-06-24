@@ -1,35 +1,32 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/extensions */
-import {
-  Entity, Property, PrimaryKey, Collection, ManyToMany,
-} from '@mikro-orm/core';
 import { Field, Int, ObjectType } from 'type-graphql';
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import Tag from './Tag';
 
 @ObjectType()
 @Entity()
-export default class Post {
+export class Post extends BaseEntity {
   @Field(() => Int)
-  @PrimaryKey()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Field(() => String)
-  @Property({ type: 'text' })
+  @Column()
   text!: string;
 
   @Field(() => String)
-  @Property({ type: 'text' })
+  @Column()
   type!: string;
 
-  @Field(() => [Tag])
-  @ManyToMany(() => Tag)
-  tags = new Collection<Tag>(this);
+  @OneToMany(() => Tag, (tag) => tag.name)
+  tags: Tag[];
 
   @Field(() => String)
-  @Property({ type: 'date' })
-  createdAt = new Date();
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Field(() => String)
-  @Property({ type: 'date', onUpdate: () => new Date() })
-  updatedAt = new Date();
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
