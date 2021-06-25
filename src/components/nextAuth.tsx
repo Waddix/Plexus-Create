@@ -108,7 +108,7 @@ export default function NextAuth() {
             rounded={'md'}
             _hover={{
             textDecoration: 'none',
-            bg: useColorModeValue('orange.200', 'orange.700'),
+            bg: 'orange', // useColorMode hook inside conditional render throws errors
             }}
             href={`/create-project`}
              >

@@ -11,14 +11,15 @@ import { withUrqlClient } from "next-urql";
 
  const CreateProject: React.FC<{}> = ({}) => {
    const [, createProject] = useCreateProjectMutation();
-  return (
-    <Wrapper variant="small">
+   return (
+     <Wrapper variant="small">
       <Formik
         initialValues={{ title: "", description: "" }}
         onSubmit={async (values, { setErrors }) => {
-         const response = await createProject({input: values, ownerId: "ab7ffb6c-c6e2-4565-b425-5dff863cfa81"});
-         // need to add error handling in resolver
-         // this isnt effective
+          // test userId
+          // need to add error handling in resolver
+          // this isnt effective
+          const response = await createProject({input: values, ownerId: "ab7ffb6c-c6e2-4565-b425-5dff863cfa81"});
          if(response.error){
           setErrors({title: 'error in title', description: 'error in description'})
          } else if(response.data){
