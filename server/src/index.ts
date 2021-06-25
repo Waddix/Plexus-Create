@@ -5,7 +5,8 @@ import { buildSchema } from 'type-graphql';
 import { PostResolver } from './resolvers/post';
 import { ProjectResolver } from './resolvers/project';
 import { createConnection } from 'typeorm'
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 
 const PORT = 8080;
@@ -23,6 +24,11 @@ const main = async () => {
     // dropSchema: true,
     entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
   });
+
+  app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }))
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({

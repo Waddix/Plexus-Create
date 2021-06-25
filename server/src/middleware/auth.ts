@@ -8,3 +8,5 @@
 //   return next()
 // }
 // type-graphql has built in middleware function type that runs before resolvers
+
+export {}

@@ -2,6 +2,11 @@ import React, { ReactNode } from 'react';
 import { Fragment } from 'react';
 import Head from 'next/head';
 import Nav from './nav';
+interface LayoutProps {
+  // react props in typescript 
+  // ? === optional
+children?: React.ReactNode
+}
 
 interface Props {
   children: ReactNode;

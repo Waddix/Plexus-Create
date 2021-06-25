@@ -1,13 +1,14 @@
 import type { AppProps } from 'next/app'
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
-import theme from '../components/theme';
+import theme from '../components/theme/chakra/theme';
 import { Provider } from 'next-auth/client'
 import React from 'react';
-import Layout from '../components/layout';
+import Layout from '../components/theme/layout';
+import { ProjectsContext, ProjectsContextProvider } from '../context/projectsContext'
+import { UserContextProvider } from '../context/userContext';
 
 
-
-function Plexus({ Component, pageProps }: AppProps): JSX.Element {
+const Plexus = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <Provider
       // Provider options are not required but can be useful in situations where
@@ -32,11 +33,16 @@ function Plexus({ Component, pageProps }: AppProps): JSX.Element {
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <ChakraProvider>
         <Layout>
-          <Component {...pageProps} />
+          <UserContextProvider>
+            <ProjectsContextProvider>
+              <Component {...pageProps} />
+            </ProjectsContextProvider>
+          </UserContextProvider>
         </Layout>
       </ChakraProvider>
 
     </Provider>
   );
 }
+
 export default Plexus;

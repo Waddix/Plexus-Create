@@ -1,7 +1,9 @@
-mutation createProject(title: String, description: String, owner: Int){
+mutation CreateProject($input: ProjectInput!, $ownerId: String!){
+    createProject(input: $input, ownerId: $ownerId){
     id
     title
     description
     createdAt
     updatedAt
+    }
 }
