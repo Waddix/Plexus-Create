@@ -21,14 +21,12 @@ export class Users extends NABase {
   })
   email: string;
 
-  @Field(() => Date)
   @Column({
     type: 'timestamptz',
     nullable: true,
   })
   email_verified: string;
 
-  @Field(() => String)
   @Column({
     type:'text',
     nullable: true,

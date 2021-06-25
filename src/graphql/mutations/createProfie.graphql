@@ -1,0 +1,13 @@
+mutation CreatePorfile($input: ProfileInput!, $user_id: Number!) {
+  id
+  user_id
+  name
+  username
+  email
+  image
+  title
+  bio
+  website
+  createdAt
+  updatedAt
+}

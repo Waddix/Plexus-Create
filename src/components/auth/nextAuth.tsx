@@ -56,7 +56,6 @@ export default function NextAuth(): JSX.Element {
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
                 <p><strong>{session.user.email || session.user.name}</strong></p>
-                {console.log(session.user)}
               </Box>
               <Box justifyContent="flex-end">
                 {session.user.image ?

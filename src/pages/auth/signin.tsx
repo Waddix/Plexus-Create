@@ -3,7 +3,7 @@
 
 // export default function SingIn({providers}) {
 //   return (
-    
+
 //   )
 // }
 
@@ -25,4 +25,4 @@
 //   }
 // }
 
-export {}
+export { }

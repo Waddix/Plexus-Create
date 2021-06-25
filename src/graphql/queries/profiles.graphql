@@ -1,0 +1,10 @@
+query Profiles{
+  profiles{
+    id
+    user_id
+    name
+    username
+    createdAt
+    updatedAt
+  }
+}

@@ -10,7 +10,7 @@ function MainFeed(): React.ReactElement {
   const projectsFeed = projectsFollowing.map((project: Project, i: number) => (
     <div className="projectFeedItem" key={i}>{project.title}: {project.owner}</div>
   ))
-  console.log(projectsFollowing)
+  // console.log(projectsFollowing)
   return (
     <>
       {projectsFeed.length ? projectsFeed : 'no projects following'}
