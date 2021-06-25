@@ -6,9 +6,6 @@ import { PostResolver } from './resolvers/post';
 import { ProjectResolver } from './resolvers/project';
 import { createConnection } from 'typeorm'
 import dotenv from 'dotenv'
-// import { Post } from './db/entities/Post';
-// import { User } from './db/entities/User';
-// import { Project } from './db/entities/Project';
 dotenv.config();
 
 const PORT = 8080;
@@ -21,9 +18,9 @@ const main = async () => {
     database: 'plex-us',
     username: 'postgres',
     password: 'postgres',
-    logging: true,
+    // logging: true,
     synchronize: true,
-    dropSchema: true,
+    // dropSchema: true,
     entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
   });
 
