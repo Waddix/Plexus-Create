@@ -1,10 +1,15 @@
+import { withUrqlClient } from 'next-urql/';
 import React from 'react';
 import { Fragment } from 'react';
 
-export default function Home() {
+const Home = () => {
   return (
     <Fragment>
       <h1>Home</h1>
     </Fragment>
   )
 }
+export default withUrqlClient((_ssrExchange, ctx) => ({
+  // ...add your Client options here
+  url: 'http://localhost:8080/graphql',
+}))(Home);
