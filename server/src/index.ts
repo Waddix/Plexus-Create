@@ -11,13 +11,14 @@ import dotenv from 'dotenv'
 import { Post } from './db/entities/Post';
 import { User } from './db/entities/User';
 import { Project } from './db/entities/Project';
+import cors from 'cors';
 dotenv.config();
 
 const PORT = 8080;
 
 const main = async () => {
   const app = express();
-   await createConnection({
+  await createConnection({
     type: 'postgres',
     database: 'plexus',
     username: process.env.DB_USER,
@@ -27,6 +28,11 @@ const main = async () => {
     entities: [Post, User, Project]
   });
 
+  app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }))
+  
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [

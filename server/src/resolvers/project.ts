@@ -14,8 +14,6 @@ class ProjectInput{
   @Field(() => String)
   description: string
 
-  @Field(() => String)
-  ownerId: string
 }
 @Resolver()
 // eslint-disable-next-line import/prefer-default-export
