@@ -3,6 +3,9 @@
 ## Overview
 Plexus Create is a application designed to connect content creators of all backgrounds together in one central network. Creators can sign up and create a profile with their contact information and their social media information start campaigns to crowdfund and gather support for their projects or ideas. Users may also list their skills and proficiencies on their profile to fulfill open positions needed on current projects...
 ## GraphQL Server
+The apollo-server-express middleware is used to create the GraphQL endpoint used in the backend of the application. 
+While in development mode the GraphQL Playground GUI is accessible:
+
 To start the server run:
 yarn start:dev
 
