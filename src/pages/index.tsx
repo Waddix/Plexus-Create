@@ -3,8 +3,8 @@ import React from 'react';
 import { Fragment } from 'react';
 import { usePostsQuery } from '../generated/graphql';
 
-const Home = () => {
-  const [{data}] = usePostsQuery()
+const Home =  () => {
+  const [{data}] =  usePostsQuery()
   return (
     <Fragment>
       <h1>Home</h1>
