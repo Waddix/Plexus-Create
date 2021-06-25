@@ -7,10 +7,10 @@ import Project from '../models/project';
 
 
 
-const ProjectsCtx = React.createContext({});
+const ProjectsContext = React.createContext({});
 
 //Todo create context to manage projects in state and provide that data to rest of the app
-function ProjectsCtxProvider({children}: { children: React.ReactNode }): React.ReactElement | null {
+function ProjectsContextProvider({children}: { children: React.ReactNode }): React.ReactElement | null {
   const [projects, setProjects] = React.useState<Project[]>([]);
   const [top10Projects, setTop10Projects] = React.useState<Project[]>([]);
 
@@ -23,10 +23,10 @@ function ProjectsCtxProvider({children}: { children: React.ReactNode }): React.R
   // const sum = (x: number, y: number): number => x + y;
 
   return (
-    <ProjectsCtx.Provider value={projectsProps}>
+    <ProjectsContext.Provider value={projectsProps}>
       {children}
-    </ProjectsCtx.Provider>
+    </ProjectsContext.Provider>
   )
 }
 
-export {ProjectsCtxProvider, ProjectsCtx};
+export {ProjectsContextProvider, ProjectsContext};

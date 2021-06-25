@@ -1,8 +1,9 @@
 import React from 'react';
 import { Fragment } from 'react';
-import { Flex, Grid, GridItem, Stack, HStack, VStack, Box, Col} from '@chakra-ui/react';
+import { Flex, Grid, GridItem, Stack, HStack, VStack, Box, Col } from '@chakra-ui/react';
 
 import UserPanel from '../components/home/UserPanel';
+import MainFeed from '../components/home/MainFeed';
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
       <Flex
         // maxW="1000px"
         w="100%"
-        direction={["column","column","row","row"]}
+        direction={["column", "column", "row", "row"]}
         justify="center"
         rounded="lg"
         p="6"
@@ -21,7 +22,7 @@ export default function Home() {
           <UserPanel />
         </Flex>
         <Flex align="center" mx="2" p="20">
-          Main Feed
+          <MainFeed />
         </Flex>
         <Flex align="center" mx="2" p="20">
           Side shit
