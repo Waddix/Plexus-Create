@@ -1,30 +1,30 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
 import 'reflect-metadata';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { PostResolver } from './resolvers/post';
 import { ProjectResolver } from './resolvers/project';
-import {createConnection} from 'typeorm'
+import { createConnection } from 'typeorm'
 import dotenv from 'dotenv'
-import { Post } from './db/entities/Post';
-import { User } from './db/entities/User';
-import { Project } from './db/entities/Project';
+// import { Post } from './db/entities/Post';
+// import { User } from './db/entities/User';
+// import { Project } from './db/entities/Project';
 dotenv.config();
 
 const PORT = 8080;
 
+// TODO: Remove dropSchema in Prod!!!
 const main = async () => {
   const app = express();
-   await createConnection({
+  await createConnection({
     type: 'postgres',
     database: 'plex-us',
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    username: 'postgres',
+    password: 'postgres',
     logging: true,
     synchronize: true,
-    entities: [Post, User, Project]
+    dropSchema: true,
+    entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
   });
 
   const apolloServer = new ApolloServer({
@@ -43,7 +43,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({ app });
 
-  app.listen(PORT, () => {
+  app.listen(PORT, (): void => {
     console.info(`server started on ${PORT}`);
   });
 };
