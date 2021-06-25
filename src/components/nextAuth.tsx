@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Box,
   Flex,
@@ -10,16 +10,19 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter
+  PopoverFooter,
+  useColorMode
 } from '@chakra-ui/react';
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import {FcPlus} from 'react-icons/fc'
 
 const UserLinks = ['Profile'];
 
-const PopoverLink = ({ children }: { children }) => (
+const PopoverLink = (link: string): JSX.Element => (
   <Link
+    key={link}
     px={2}
     py={1}
     rounded={'md'}
@@ -27,57 +30,28 @@ const PopoverLink = ({ children }: { children }) => (
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
-    href={`/${children.toLowerCase()}`}
+    href={`/${link.toLowerCase()}`}
   >
-    {children}
+    {link}
   </Link>
 );
 
-const loggedOutIcon = () => {
+const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='3x' />
 }
 
 // The approach used in this component shows how to built a sign in and sign out
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
-export default function NextAuth() {
-  const [session, loading] = useSession()
+export default function NextAuth(): JSX.Element {
+  const [session] = useSession();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <PopoverContent bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
-      {!session &&
-        <>
-          <PopoverHeader>
-            <Flex justifyContent={'space-between'} alignItems={'center'}>
-              <Box justifyContent="flex-start">
-                <p><strong>You're not signed in</strong></p>
-              </Box>
-              <Box justifyContent="flex-end">
-                <Icon as={loggedOutIcon} />
-              </Box>
-            </Flex>
-          </PopoverHeader>
-          <PopoverFooter>
-            <Link
-              px={2}
-              py={1}
-              rounded={'md'}
-              href={`/api/auth/signin`}
-            >
-              <Button
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-              >
-                Sign In
-              </Button>
-            </Link>
-          </PopoverFooter>
-        </>}
-      {session &&
-        <>
-          <PopoverHeader>
+    <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
+      <Fragment>
+        <PopoverHeader>
+          {session ?
             <Flex justifyContent={'space-between'} alignItems={'center'}>
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
@@ -95,28 +69,86 @@ export default function NextAuth() {
                   <Icon as={loggedOutIcon} />}
               </Box>
             </Flex>
-          </PopoverHeader>
-          <PopoverBody>
-            {UserLinks.map((link) => (
-              <PopoverLink key={link}>{link}</PopoverLink>
-            ))}
-          </PopoverBody>
-          <PopoverFooter>
+            :
+            <Flex alignItems={'center'} justifyContent={'space-between'} >
+              <Box>
+                <p><strong>{"You're not signed in"}</strong></p>
+              </Box>
+              <Box>
+                <Icon as={loggedOutIcon} />
+              </Box>
+            </Flex>
+          }
+        </PopoverHeader>
+        <PopoverBody>
+          {session ?
+            <Fragment>
+              {UserLinks.map((link) => (
+                PopoverLink(link)
+              ))}
+            </Fragment>
+            :
+            null
+          }
+          <Button
+            size="sm"
+            rounded={'md'}
+            _hover={{
+              textDecoration: 'none',
+              bg: useColorModeValue('orange.200', 'orange.700'),
+            }}
+            onClick={toggleColorMode}
+          >
+            {colorMode === "light" ? "Dark Mode" : "Light Mode"}
+          </Button>
+        </PopoverBody>
+        <PopoverFooter>
+          {session ?
+            <Button
+              onClick={(e) => {
+                e.preventDefault()
+                signOut()
+              }}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
+            >
+              Sign Out
+            </Button>
+            :
+            <Link
+              px={2}
+              py={1}
+              rounded={'md'}
+              href={`/api/auth/signin`}
+            >
               <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
-                }}
                 _hover={{
                   textDecoration: 'none',
                   bg: useColorModeValue('orange.200', 'orange.700'),
                 }}
               >
-                Sign Out
+                Sign In
               </Button>
-          </PopoverFooter>
-        </>
-      }
+            </Link>
+          }
+          <Flex>
+            <Link
+            px={2}
+            py={1}
+            rounded={'md'}
+            _hover={{
+            textDecoration: 'none',
+            bg: 'orange', // useColorMode hook inside conditional render throws errors
+            }}
+            href={`/create-project`}
+             >
+             New Project
+              </Link>
+            </Flex>
+        </PopoverFooter>
+      </Fragment>
     </PopoverContent>
   )
 }

@@ -1,24 +1,33 @@
 import NextAuth from "next-auth"
 import Providers from "next-auth/providers"
 
+
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   providers: [
-        Providers.GitHub({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
+    // Providers.GitHub({
+    //   clientId: process.env.GITHUB_ID,
+    //   clientSecret: process.env.GITHUB_SECRET,
+    // }),
     Providers.Google({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
-    Providers.Twitter({
-      clientId: process.env.TWITTER_ID,
-      clientSecret: process.env.TWITTER_SECRET,
-    }),
+    // Providers.Twitter({
+    //   clientId: process.env.TWITTER_ID,
+    //   clientSecret: process.env.TWITTER_SECRET,
+    // }),
   ],
+
+  // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
+  // https://next-auth.js.org/configuration/databases
+  //
+  // Notes:
+  // * You must install an appropriate node_module for your database
+  // * The Email provider requires a database (OAuth providers do not)
+  database: process.env.DATABASE_URL,
 
   // The secret should be set to a reasonably long random string.
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
@@ -45,24 +54,17 @@ export default NextAuth({
     // async signIn(user, account, profile) { return true },
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
+    // async jwt(token, user, account, profile, isNewUser) { return token }
   },
 
   // Events are useful for logging
   // https://next-auth.js.org/configuration/events
-  events: {
-    // async signIn(message) { /* on successful sign in */ },
-    // async signOut(message) { /* on signout */ },
-    // async createUser(message) { /* user created */ },
-    // async updateUser(message) { /* user updated - e.g. their email was verified */ },
-    // async linkAccount(message) { /* account (e.g. Twitter) linked to a user */ },
-    // async session(message) { /* session is active */ },
-    // async error(message) { /* error in authentication flow */ }
-  },
+  events: {},
 
   // You can set the theme to 'light', 'dark' or use 'auto' to default to the
   // whatever prefers-color-scheme is set to in the browser. Default is 'auto'
-  theme: 'auto',
+  theme: 'light',
 
   // Enable debug messages in the console if you are having problems
-  debug: true,
+  debug: false,
 })

@@ -1,6 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable class-methods-use-this */
 import {
   Resolver, Query, Arg, Mutation, Field, InputType,
 } from 'type-graphql';
@@ -14,8 +11,6 @@ class ProjectInput{
   @Field(() => String)
   description: string
 
-  @Field(() => String)
-  ownerId: string
 }
 @Resolver()
 // eslint-disable-next-line import/prefer-default-export
