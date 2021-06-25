@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import {
   Box,
   Flex,
@@ -12,7 +12,9 @@ import {
   Stack,
   Icon,
   Popover,
-  PopoverTrigger
+  PopoverTrigger,
+  Spacer,
+  Text,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from './nextAuth';
@@ -20,10 +22,11 @@ import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
-const Links = ['Home', 'Projects',];
+const Links = ['Home', 'Projects'];
 
-const NavLink = ({ children }: { children }) => (
+const NavLink = (link: string): JSX.Element => (
   <Link
+    key={link}
     px={2}
     py={1}
     rounded={'md'}
@@ -31,22 +34,42 @@ const NavLink = ({ children }: { children }) => (
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
-    href={children === "Home" ? "/" : `/${children.toLowerCase()}`}
+    href={link === "Home" ? "/" : `/${link.toLowerCase()}`}
   >
-    {children}
+    {link}
   </Link>
 );
 
-const loggedOutIcon = () => {
+const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='2x' />
 }
 
-export default function Nav() {
-  const [session, loading] = useSession();
+export default function Nav(): JSX.Element {
+  const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <nav>
+      <Text // Logo/App Name
+        width='12rem'
+        top='2'
+        left='0'
+        right='0'
+        marginLeft='auto'
+        marginRight='auto'
+        position='absolute'
+        d='flex'
+        justifyContent='center'
+        fontSize="3xl"
+        _hover={{
+          textDecoration: 'none',
+          cursor: 'pointer',
+          bg: useColorModeValue('orange.200', 'orange.700'),
+        }}
+      >
+        Plexus Create
+      </Text>
+
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
@@ -56,17 +79,18 @@ export default function Nav() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
+          <Spacer />
           <HStack spacing={8} alignItems={'center'}>
             <HStack
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                NavLink(link)
               ))}
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
+          <Box marginLeft='2rem' alignItems={'center'}>
             <Popover
               placement="bottom"
               closeOnBlur={false}
@@ -94,14 +118,14 @@ export default function Nav() {
               </PopoverTrigger>
               <NextAuth />
             </Popover>
-          </Flex>
+          </Box>
         </Flex>
 
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                NavLink(link)
               ))}
             </Stack>
           </Box>

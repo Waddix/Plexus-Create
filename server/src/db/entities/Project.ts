@@ -1,11 +1,11 @@
 import { Base } from "./Base"
 import { Field, ObjectType } from "type-graphql";
-import {User} from "./User";
-import { Column, Entity, ManyToOne  } from "typeorm";
+import { Profile } from "./Profile";
+import { Column, Entity, ManyToOne } from "typeorm";
 
 @ObjectType()
 @Entity()
-export class Project extends Base{
+export class Project extends Base {
   @Field()
   @Column()
   title!: string
@@ -18,9 +18,9 @@ export class Project extends Base{
   @Column()
   ownerId: string;
 
-  @Field(() => User)
-  @ManyToOne(() => User)
-  owner!: User
+  @Field(() => Profile)
+  @ManyToOne(() => Profile)
+  owner!: Profile
 
 
 }

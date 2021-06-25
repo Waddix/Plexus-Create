@@ -1,6 +1,7 @@
+import React from "react";
 import { useRouter } from "next/dist/client/router";
 
-function UserProfile() {
+function UserProfile(): JSX.Element {
   const router = useRouter();
   const { userId } = router.query;
 
