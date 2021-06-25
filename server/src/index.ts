@@ -17,10 +17,14 @@ const main = async () => {
   await createConnection({
     type: 'postgres',
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> register-flow
     database: 'plex-us',
     username: 'postgres',
     password: 'postgres',
     // logging: true,
+<<<<<<< HEAD
 =======
     database: 'plexus',
     username: process.env.DB_USER,
@@ -30,6 +34,8 @@ const main = async () => {
     // password: 'postgres',
     logging: true,
 >>>>>>> main
+=======
+>>>>>>> register-flow
     synchronize: true,
     // dropSchema: true,
     entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
