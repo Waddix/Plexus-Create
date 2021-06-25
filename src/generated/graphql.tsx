@@ -84,7 +84,6 @@ export type Project = {
 export type ProjectInput = {
   title: Scalars['String'];
   description: Scalars['String'];
-  ownerId: Scalars['String'];
 };
 
 export type Query = {
