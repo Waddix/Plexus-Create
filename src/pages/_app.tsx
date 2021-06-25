@@ -8,7 +8,7 @@ import { ProjectsContext, ProjectsContextProvider } from '../context/projectsCon
 import { UserContextProvider } from '../context/userContext';
 
 
-function Plexus({ Component, pageProps }: AppProps):JSX.Element {
+const Plexus = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <Provider
       // Provider options are not required but can be useful in situations where
