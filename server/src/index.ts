@@ -19,9 +19,9 @@ const main = async () => {
     database: 'plex-us',
     username: 'postgres',
     password: 'postgres',
-    logging: true,
+    // logging: true,
     synchronize: true,
-    dropSchema: true,
+    // dropSchema: true,
     entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
   });
 
@@ -29,7 +29,7 @@ const main = async () => {
     origin: 'http://localhost:3000',
     credentials: true,
   }))
-  
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [
