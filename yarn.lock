@@ -3577,19 +3577,12 @@ debug@^3.2.6, debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-<<<<<<< HEAD
-decamelize@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
-  integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
-=======
 debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.1.tgz#f0d229c505e0c6d8c49ac553d1b13dc183f6b2ee"
   integrity sha512-doEwdvm4PCeK4K3RQN2ZC2BYUBaxwLARCqZmMjtF8a51J2Rb0xpVloFRnCODwqjpwnAoao4pelN8l3RJdv3gRQ==
   dependencies:
     ms "2.1.2"
->>>>>>> 8541f46e7b6bfb9272a8b1b1a53e44a1425ad398
 
 decompress-response@^3.3.0:
   version "3.3.0"
@@ -7451,6 +7444,10 @@ split2@^3.1.1:
     readable-stream "^3.0.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 2878671dde57a4b4f18eff5d92004285e676bc99
 sponge-case@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/sponge-case/-/sponge-case-1.0.1.tgz#260833b86453883d974f84854cdb63aecc5aef4c"
@@ -7458,8 +7455,12 @@ sponge-case@^1.0.1:
   dependencies:
     tslib "^2.0.3"
 
+<<<<<<< HEAD
+>>>>>>> 979892511b639541e79a36179a13aa7e55fdaa43
+=======
 =======
 >>>>>>> 8541f46e7b6bfb9272a8b1b1a53e44a1425ad398
+>>>>>>> 2878671dde57a4b4f18eff5d92004285e676bc99
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
