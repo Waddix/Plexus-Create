@@ -14,9 +14,9 @@ To access GraphQL Playground GUI and schema visit http://localhost:8080/graphql 
 Access the Docs and Schema tabs on the GraphQL Playground GUI for more information on the Resolvers and Queries used in the application.
 
 # Front End is built using Next.js with React and typescript
-  - all front end files can be found in '/src' directory 
+  - all front end files can be found in '/src' directory
   - entry point is 'src/pages/_app.tsx'
-  - Next.js creates routes based on file structure and file names. 
+  - Next.js creates routes based on file structure and file names.
   *** Docs here: https://nextjs.org/docs ***
   - All pages (or views) that will have their own route reside in the 'pages' directory and
       their url paths reflect the file path to the file, starting from the 'pages' directory
