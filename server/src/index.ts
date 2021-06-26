@@ -29,7 +29,7 @@ const main = async () => {
     origin: 'http://localhost:3000',
     credentials: true,
   }))
-  
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [

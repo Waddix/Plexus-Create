@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Wrapper } from "../components/Wrapper";
+import { Wrapper } from "../components/forms/Wrapper";
 import { Form, Formik } from "formik";
 import React from "react";
 import router from "next/dist/client/router";
-import { InputField } from "../components/InputField";
-import { TextArea } from "../components/TextArea";
+import { InputField } from "../components/forms/InputField";
+import { TextArea } from "../components/forms/TextArea";
 import { Box, Button } from "@chakra-ui/react";
 import { useCreateProjectMutation } from "../generated/graphql";
 import { withUrqlClient } from "next-urql";

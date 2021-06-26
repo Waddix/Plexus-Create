@@ -1,9 +1,9 @@
 import type { AppProps } from 'next/app'
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
-import theme from '../components/theme';
+import theme from '../components/theme/chakra/theme';
 import { Provider } from 'next-auth/client'
 import React from 'react';
-import Layout from '../components/layout';
+import Layout from '../components/theme/layout';
 import { ProjectsContext, ProjectsContextProvider } from '../context/projectsContext'
 import { UserContextProvider } from '../context/userContext';
 
