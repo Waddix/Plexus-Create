@@ -16,8 +16,6 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import {FcPlus} from 'react-icons/fc'
-import { SimpleConsoleLogger } from 'typeorm';
 
 const UserLinks = ['Profile'];
 
@@ -47,7 +45,6 @@ export const loggedOutIcon = (): JSX.Element => {
 export default function NextAuth(): JSX.Element {
   const [session] = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
-  console.log(session);
 
   return (
     <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
