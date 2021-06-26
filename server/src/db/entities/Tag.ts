@@ -17,3 +17,5 @@
 //   posts = Post[];
 
 // }
+
+export {}

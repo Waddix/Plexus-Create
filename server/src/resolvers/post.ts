@@ -30,7 +30,7 @@ export class PostResolver {
 
   @Mutation(() => Post, { nullable: true })
   async updatePost(
-    @Arg('id', () => String) id: string,
+    @Arg('id', () => Int) id: number,
     @Arg('text', () => String, { nullable: true }) text: string,
     @Arg('type', () => String) type: string,
   ): Promise<Post | null> {
@@ -47,7 +47,7 @@ export class PostResolver {
 
   @Mutation(() => Boolean)
   async deletePost(
-    @Arg('id', () => String) id: string,
+    @Arg('id', () => Int) id: number,
   ): Promise<boolean> {
     await Post.delete(id)
     return true;

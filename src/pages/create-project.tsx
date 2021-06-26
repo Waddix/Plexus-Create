@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Wrapper } from "../components/Wrapper";
+import { Wrapper } from "../components/forms/Wrapper";
 import { Form, Formik } from "formik";
 import React from "react";
 import router from "next/dist/client/router";
-import { InputField } from "../components/InputField";
-import { TextArea } from "../components/TextArea";
+import { InputField } from "../components/forms/InputField";
+import { TextArea } from "../components/forms/TextArea";
 import { Box, Button } from "@chakra-ui/react";
 import { useCreateProjectMutation } from "../generated/graphql";
 import { withUrqlClient } from "next-urql";
@@ -19,12 +19,12 @@ import { withUrqlClient } from "next-urql";
           // test userId
           // need to add error handling in resolver
           // this isnt effective
-          const response = await createProject({input: values, ownerId: "ab7ffb6c-c6e2-4565-b425-5dff863cfa81"});
+          const response = await createProject({input: values, ownerId: 1});
          if(response.error){
           setErrors({title: 'error in title', description: 'error in description'})
          } else if(response.data){
            console.log(response.data)
-          router.push("/")
+          router.push("/projects")
          }
         }}
       >
