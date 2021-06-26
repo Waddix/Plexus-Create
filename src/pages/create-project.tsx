@@ -19,7 +19,7 @@ import { withUrqlClient } from "next-urql";
           // test userId
           // need to add error handling in resolver
           // this isnt effective
-          const response = await createProject({input: values, ownerId: "528b524f-d3e3-4abe-91fa-fe381a9c7552"});
+          const response = await createProject({input: values, ownerId: 1});
          if(response.error){
           setErrors({title: 'error in title', description: 'error in description'})
          } else if(response.data){
