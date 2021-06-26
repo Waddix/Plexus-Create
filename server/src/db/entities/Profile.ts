@@ -11,9 +11,9 @@ import { Project } from './Project';
 @Entity()
 export class Profile extends Base {
   @Field(() => Int)
-  @OneToOne(() => Users, user => user.id)
-  @JoinColumn()
-  user_id: Users;
+  @OneToOne(() => Users)
+  @JoinColumn({name: 'user_id'})
+  user: Users;
 
   @Field(() => String)
   @Column({})
@@ -24,8 +24,8 @@ export class Profile extends Base {
   username!: string;
 
   @Field(() => String)
-  @OneToOne(() => Users, user => user.email)
-  @JoinColumn()
+  @OneToOne(() => Users)
+  @JoinColumn({ name: 'email', referencedColumnName: "email" })
   email: Users;
 
   // No Field Decorator here means the password is only accessible on database not accessible in graphql
