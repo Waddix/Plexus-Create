@@ -56,11 +56,9 @@ export default function UserCard() {
           textAlign={'center'}
           color={useColorModeValue('gray.700', 'gray.400')}
           px={3}>
-          You know what it is{' '}
-          <Link href={'#'} color={'blue.400'}>
-            #tag
-          </Link>{' '}
-          me in your posts
+          You know what it is.{' '}
+          Don't @ me
+          {' '}
         </Text>
 
         <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
