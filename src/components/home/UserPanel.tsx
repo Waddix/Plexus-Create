@@ -1,8 +1,10 @@
-function UserPanel() {
+import React, { ReactElement } from 'react';
+import UserCard from "../UserCard"
+function UserPanel(): ReactElement {
   return (
-    <div>
-      <h2>User Info</h2>
-    </div>
+    <>
+      <UserCard />
+    </>
   )
 }
 
