@@ -14,7 +14,7 @@ export class Users extends NABase {
   })
   name: string;
 
-  @Field(() => Number)
+  @Field(() => String)
   @Index()
   @Column({
     nullable: true,

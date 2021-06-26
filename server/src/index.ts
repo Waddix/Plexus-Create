@@ -19,7 +19,7 @@ const main = async () => {
     password: "postgres",
     // logging: true,
     synchronize: true,
-    // dropSchema: true,
+    dropSchema: true,
     entities: [
       __dirname + "/db/entities/*.ts",
       __dirname + "/db/entities/**/*.ts",
