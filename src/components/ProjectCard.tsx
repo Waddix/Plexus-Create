@@ -18,7 +18,6 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
 import {FcNext} from 'react-icons/fc'
-import {MdFavoriteBorder} from 'react-icons/md'
 
 
 interface ProjectCardProps {
@@ -97,7 +96,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
 
           <Flex>
             <Spacer>
-        <FcNext onClick={()=> router.push(`/projects/${id}`)}></FcNext>
+        <FcNext onClick={()=> router.push(`/projects/${id}`)}></FcNext> 
             </Spacer>
           </Flex>
         </Stack>
