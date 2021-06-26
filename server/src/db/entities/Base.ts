@@ -6,11 +6,11 @@ export abstract class Base extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Field(() => String)
-  @CreateDateColumn()
+  @Field()
+  @CreateDateColumn({ type: 'timestamptz'})
   createdAt: Date;
 
-  @Field(() => String)
-  @UpdateDateColumn()
+  @Field()
+  @UpdateDateColumn({ type: 'timestamptz'})
   updatedAt: Date;
 }
