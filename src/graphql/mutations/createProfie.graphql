@@ -1,4 +1,4 @@
-mutation CreatePorfile($input: ProfileInput!, $user_id: Number!) {
+mutation CreateProfileForUser($input: ProfileInput!, $user_id: Number!) {
   id
   user_id
   name

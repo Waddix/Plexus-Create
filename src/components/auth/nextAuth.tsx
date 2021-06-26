@@ -16,7 +16,7 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import {FcPlus} from 'react-icons/fc'
+import { FcPlus } from 'react-icons/fc'
 
 const UserLinks = ['Profile'];
 
@@ -134,18 +134,18 @@ export default function NextAuth(): JSX.Element {
           }
           <Flex>
             <Link
-            px={2}
-            py={1}
-            rounded={'md'}
-            _hover={{
-            textDecoration: 'none',
-            bg: 'orange', // useColorMode hook inside conditional render throws errors
-            }}
-            href={`/create-project`}
-             >
-             New Project
-              </Link>
-            </Flex>
+              px={2}
+              py={1}
+              rounded={'md'}
+              _hover={{
+                textDecoration: 'none',
+                bg: 'orange', // useColorMode hook inside conditional render throws errors
+              }}
+              href={`/create-project`}
+            >
+              New Project
+            </Link>
+          </Flex>
         </PopoverFooter>
       </Fragment>
     </PopoverContent>

@@ -1,16 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import { Base } from './Base';
-import { Field, ObjectType, } from 'type-graphql';
-import { Column, OneToMany, } from 'typeorm';
+import { Field, Int, ObjectType, } from 'type-graphql';
+import { Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 import { Base } from './Base';
+import { Users } from './nextauth/Users';
 import { Project } from './Project';
 
 @ObjectType()
 @Entity()
 export class Profile extends Base {
-  @Field(() => Number)
-  @Column({ unique: true })
-  user_id: number;
+  @Field(() => Int)
+  @OneToOne(() => Users, user => user.id)
+  @JoinColumn()
+  user_id: Users;
 
   @Field(() => String)
   @Column({})
@@ -21,15 +24,16 @@ export class Profile extends Base {
   username!: string;
 
   @Field(() => String)
-  @Column({ unique: true })
-  email!: string;
+  @OneToOne(() => Users, user => user.email)
+  @JoinColumn()
+  email: Users;
 
   // No Field Decorator here means the password is only accessible on database not accessible in graphql
   @Column()
   password!: string;
 
   @Column({
-    type:'text',
+    type: 'text',
     nullable: true,
   })
   image: string;
@@ -40,13 +44,13 @@ export class Profile extends Base {
   title: string;
 
   @Column({
-    type:'text',
+    type: 'text',
     nullable: true,
   })
   bio: string;
 
   @Column({
-    type:'text',
+    type: 'text',
     nullable: true,
   })
   website: string;
