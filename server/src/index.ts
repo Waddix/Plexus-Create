@@ -14,12 +14,12 @@ const main = async () => {
   const app = express();
   await createConnection({
     type: 'postgres',
-    database: process.env.DATABASE_URL,
+    database: process.env.DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    logging: true,
+    // logging: true,
     synchronize: true,
-    dropSchema: true,
+    // dropSchema: true,
     entities: [
       __dirname + "/db/entities/*.ts",
       __dirname + "/db/entities/**/*.ts",

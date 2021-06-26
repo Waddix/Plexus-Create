@@ -58,13 +58,13 @@ export class ProfileResolver {
   findProfileUserId(
     @Arg("user_id", () => Int) user_id: number
   ): Promise<Profile | undefined> {
-    return Profile.findOne(user_id);
+    return Profile.findOne({ where: { user_id: user_id } });
   }
   @Query(() => Profile)
   findProfileUsername(
-    @Arg("username", () => Int) username: number
+    @Arg("username", () => String) username: string
   ): Promise<Profile | undefined> {
-    return Profile.findOne(username);
+    return Profile.findOne({ where: { username: username } });
   }
 
   @Mutation(() => Profile)

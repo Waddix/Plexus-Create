@@ -1,8 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Arg,
-} from "type-graphql";
+import { Resolver, Query, Arg } from "type-graphql";
 import { Users } from "../db/entities/nextauth/Users";
 
 @Resolver()
@@ -12,17 +8,17 @@ export class ProfileResolver {
     return Users.find();
   }
 
-  @Query(() => Users)
+  @Query(() => Users, { nullable: true })
   findUserName(
     @Arg("name", () => String) name: string
   ): Promise<Users | undefined> {
-    return Users.findOne(name);
+    return Users.findOne({ where: { name: name } });
   }
 
   @Query(() => Users)
   findUserEmail(
     @Arg("email", () => String) email: string
   ): Promise<Users | undefined> {
-    return Users.findOne(email);
+    return Users.findOne({ where: { email: email } });
   }
 }

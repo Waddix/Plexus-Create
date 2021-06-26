@@ -52,6 +52,7 @@ export default function NextAuth(): JSX.Element {
         <PopoverHeader>
           {session ?
             <Flex justifyContent={'space-between'} alignItems={'center'}>
+              {/* {console.log(session)} */}
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
                 <p><strong>{session.user.email || session.user.name}</strong></p>

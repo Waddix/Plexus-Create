@@ -57,7 +57,7 @@ export default NextAuth({
       // User is from the accounts DB
       // Account is from the oAuth
       // Profile is the trimmed down version of the oAuth response
-      // handleLogin(user);
+      handleLogin(user);
 
       // Need to lookup the user from the Users table and send it to the handleLogin function.
       return true;

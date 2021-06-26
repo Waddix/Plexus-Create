@@ -14,7 +14,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
-import { loggedOutIcon } from './nextAuth';
+import { loggedOutIcon } from './auth/nextAuth';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
