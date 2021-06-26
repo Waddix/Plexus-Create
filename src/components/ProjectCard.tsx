@@ -11,6 +11,7 @@ import {
   Icon,
   Flex,
   Spacer,
+  Badge,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
 import { loggedOutIcon } from './nextAuth';
@@ -62,15 +63,19 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
             alt={"project image"}
             />
         </Box>
-        <Stack>
-          <Text
-            color={'green.500'}
-            textTransform={'uppercase'}
-            fontWeight={800}
-            fontSize={'sm'}
-            letterSpacing={1.1}>
-            {"Project"}
-          </Text>
+        <Stack> 
+          <Stack direction="row">
+          <Badge
+         fontSize="0.8em"
+         colorScheme="blue"
+         textTransform={'uppercase'} 
+         letterSpacing={1.1} 
+         fontWeight={800} 
+         variant="solid"
+         > 
+         Project 
+         </Badge>
+         </Stack>
           <Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
