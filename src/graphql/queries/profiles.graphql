@@ -1,5 +1,5 @@
-query Profiles{
-  profiles{
+query Profiles {
+  profiles {
     id
     user_id
     name

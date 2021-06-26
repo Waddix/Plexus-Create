@@ -1,0 +1,28 @@
+import {
+  Resolver,
+  Query,
+  Arg,
+} from "type-graphql";
+import { Users } from "../db/entities/nextauth/Users";
+
+@Resolver()
+export class ProfileResolver {
+  @Query(() => [Users], { nullable: true })
+  getAllUsers(): Promise<Users[]> {
+    return Users.find();
+  }
+
+  @Query(() => Users)
+  findUserName(
+    @Arg("name", () => String) name: string
+  ): Promise<Users | undefined> {
+    return Users.findOne(name);
+  }
+
+  @Query(() => Users)
+  findUserEmail(
+    @Arg("email", () => String) email: string
+  ): Promise<Users | undefined> {
+    return Users.findOne(email);
+  }
+}

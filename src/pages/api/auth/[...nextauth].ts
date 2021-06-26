@@ -2,7 +2,6 @@ import NextAuth from "next-auth"
 import Providers from "next-auth/providers"
 
 import handleLogin from "../../../components/auth/handleLogin"
-import { Users } from "../../../../server/src/db/entities/nextauth/Users"
 
 
 // For more information on each option (and a full list of options) go to
@@ -54,11 +53,13 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    async signIn(user: Users, account, profile) {
-      // User is from the DB
+    async signIn(user, account, profile) {
+      // User is from the accounts DB
       // Account is from the oAuth
       // Profile is the trimmed down version of the oAuth response
-      handleLogin(user);
+      // handleLogin(user);
+
+      // Need to lookup the user from the Users table and send it to the handleLogin function.
       return true;
     },
     // async redirect(url, baseUrl) { return baseUrl },

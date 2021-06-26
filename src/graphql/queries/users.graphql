@@ -1,0 +1,11 @@
+query Users {
+  users {
+    id
+    name
+    email
+    email_verified
+    image
+    createdAt
+    updatedAt
+  }
+}
