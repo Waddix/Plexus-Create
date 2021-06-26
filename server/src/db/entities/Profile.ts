@@ -32,32 +32,36 @@ export class Profile extends Base {
   @Column({ nullable: true })
   password: string;
 
+  @Field(() => String)
   @Column({
     type: "text",
     nullable: true,
   })
   image: string;
 
+  @Field(() => String)
   @Column({
     nullable: true,
   })
   title: string;
 
+  @Field(() => String)
   @Column({
     type: "text",
     nullable: true,
   })
   bio: string;
 
+  @Field(() => String)
   @Column({
     type: "text",
     nullable: true,
   })
   website: string;
 
-  @OneToOne(() => Users)
-  @JoinColumn()
-  user: Users;
+  // @OneToOne(() => Users)
+  // @JoinColumn()
+  // user: Users;
 
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];

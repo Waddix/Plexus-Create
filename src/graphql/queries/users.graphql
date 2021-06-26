@@ -1,11 +1,8 @@
 query Users {
-  users {
+  getAllUsers {
     id
     name
     email
-    email_verified
     image
-    createdAt
-    updatedAt
   }
 }

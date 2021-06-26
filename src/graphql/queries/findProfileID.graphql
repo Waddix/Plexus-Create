@@ -1,5 +1,5 @@
-query Profiles {
-  getAllProfiles {
+query GetProfileID($id: Int!) {
+  findProfileID(id: $id) {
     id
     user_id
     name

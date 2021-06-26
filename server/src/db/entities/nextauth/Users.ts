@@ -8,13 +8,13 @@ import { NABase } from './NABase'
 @Unique(['email'])
 @Entity()
 export class Users extends NABase {
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column({
     nullable: true,
   })
   name: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Index()
   @Column({
     nullable: true,
@@ -27,6 +27,7 @@ export class Users extends NABase {
   })
   email_verified: string;
 
+  @Field(() => String)
   @Column({
     type:'text',
     nullable: true,

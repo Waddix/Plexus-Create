@@ -1,5 +1,5 @@
-query Profiles {
-  getAllProfiles {
+query GetProfileUsername($username: String!) {
+  findProfileUsername(username: $username) {
     id
     user_id
     name

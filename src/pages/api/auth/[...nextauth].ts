@@ -1,8 +1,7 @@
-import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
+import NextAuth from "next-auth";
+import Providers from "next-auth/providers";
 
-import handleLogin from "../../../components/auth/handleLogin"
-
+import HandleLogin from "../../../components/auth/handleLogin";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -53,11 +52,11 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    async signIn(user, account, profile) {
+    signIn(user, account, profile): boolean {
       // User is from the accounts DB
       // Account is from the oAuth
       // Profile is the trimmed down version of the oAuth response
-      handleLogin(user);
+      HandleLogin(user);
 
       // Need to lookup the user from the Users table and send it to the handleLogin function.
       return true;
@@ -73,8 +72,8 @@ export default NextAuth({
 
   // You can set the theme to 'light', 'dark' or use 'auto' to default to the
   // whatever prefers-color-scheme is set to in the browser. Default is 'auto'
-  theme: 'light',
+  theme: "light",
 
   // Enable debug messages in the console if you are having problems
   debug: false,
-})
+});

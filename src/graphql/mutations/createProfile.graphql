@@ -1,0 +1,14 @@
+mutation CreateProfileForUser($input: ProfileInput!) {
+  createProfile(input: $input) {
+    user_id
+    name
+    username
+    email
+    image
+    title
+    bio
+    website
+    createdAt
+    updatedAt
+  }
+}
