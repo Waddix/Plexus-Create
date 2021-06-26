@@ -13,9 +13,4 @@ export abstract class Base extends BaseEntity {
   @Field(() => String)
   @UpdateDateColumn()
   updatedAt: Date;
-
-  // constructor(body = {}) {
-  //   super();
-  //   this.assign(body); for validation
-  // }
 }
