@@ -16,7 +16,6 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { FcPlus } from 'react-icons/fc'
 
 const UserLinks = ['Profile'];
 
@@ -36,7 +35,7 @@ const PopoverLink = (link: string): JSX.Element => (
   </Link>
 );
 
-const loggedOutIcon = (): JSX.Element => {
+export const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='3x' />
 }
 

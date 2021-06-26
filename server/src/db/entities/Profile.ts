@@ -55,6 +55,10 @@ export class Profile extends Base {
   })
   website: string;
 
+  @OneToOne(() => Users)
+  @JoinColumn()
+  user: Users;
+
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
 }

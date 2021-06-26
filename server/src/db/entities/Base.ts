@@ -3,19 +3,14 @@ import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn 
 @ObjectType({ isAbstract: true })
 export abstract class Base extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({})
-  id!: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  @Field(() => String)
-  @CreateDateColumn()
+  @Field()
+  @CreateDateColumn({ type: 'timestamptz'})
   createdAt: Date;
 
-  @Field(() => String)
-  @UpdateDateColumn()
+  @Field()
+  @UpdateDateColumn({ type: 'timestamptz'})
   updatedAt: Date;
-
-  // constructor(body = {}) {
-  //   super();
-  //   this.assign(body); for validation
-  // }
 }

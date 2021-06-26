@@ -12,7 +12,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
+
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -34,51 +37,60 @@ export type MutationCreatePostArgs = {
 export type MutationUpdatePostArgs = {
   type: Scalars['String'];
   text?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeletePostArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationCreateProjectArgs = {
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Int'];
   input: ProjectInput;
 };
 
 
 export type MutationUpdateProjectArgs = {
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Int'];
   description: Scalars['String'];
   title: Scalars['String'];
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteProjectArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type Post = {
   __typename?: 'Post';
   id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   text: Scalars['String'];
   type: Scalars['String'];
+};
+
+export type Profile = {
+  __typename?: 'Profile';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  username: Scalars['String'];
+  email: Scalars['String'];
 };
 
 export type Project = {
   __typename?: 'Project';
   id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
   description: Scalars['String'];
-  ownerId: Scalars['String'];
-  owner: User;
+  ownerId: Scalars['Float'];
+  owner: Profile;
 };
 
 export type ProjectInput = {
@@ -101,16 +113,7 @@ export type QueryPostArgs = {
 
 
 export type QueryProjectArgs = {
-  id: Scalars['String'];
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-  username: Scalars['String'];
-  email: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -129,7 +132,7 @@ export type CreatePostMutation = (
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Int'];
 }>;
 
 
@@ -152,6 +155,34 @@ export type PostsQuery = (
   )> }
 );
 
+export type ProjectQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ProjectQuery = (
+  { __typename?: 'Query' }
+  & { project?: Maybe<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'id' | 'title' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
+    & { owner: (
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'username' | 'email'>
+    ) }
+  )> }
+);
+
+export type ProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProjectsQuery = (
+  { __typename?: 'Query' }
+  & { projects: Array<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
+  )> }
+);
+
 
 export const CreatePostDocument = gql`
     mutation CreatePost($type: String!, $text: String!) {
@@ -169,7 +200,7 @@ export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
 export const CreateProjectDocument = gql`
-    mutation CreateProject($input: ProjectInput!, $ownerId: String!) {
+    mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
   createProject(input: $input, ownerId: $ownerId) {
     id
     title
@@ -197,4 +228,39 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
+};
+export const ProjectDocument = gql`
+    query Project($id: Int!) {
+  project(id: $id) {
+    id
+    title
+    owner {
+      username
+      email
+    }
+    ownerId
+    description
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useProjectQuery(options: Omit<Urql.UseQueryArgs<ProjectQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProjectQuery>({ query: ProjectDocument, ...options });
+};
+export const ProjectsDocument = gql`
+    query Projects {
+  projects {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useProjectsQuery(options: Omit<Urql.UseQueryArgs<ProjectsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProjectsQuery>({ query: ProjectsDocument, ...options });
 };

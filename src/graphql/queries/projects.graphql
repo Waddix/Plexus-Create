@@ -1,0 +1,10 @@
+query Projects{
+ projects{
+	id
+  title
+  description
+  createdAt
+  updatedAt
+}
+}
+
