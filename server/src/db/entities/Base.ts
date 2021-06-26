@@ -3,8 +3,8 @@ import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn 
 @ObjectType({ isAbstract: true })
 export abstract class Base extends BaseEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Field()
   @CreateDateColumn({ type: 'timestamptz'})
