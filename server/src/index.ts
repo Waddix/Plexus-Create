@@ -16,9 +16,9 @@ const main = async () => {
   const app = express();
   await createConnection({
     type: 'postgres',
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    database: "plex-us",
+    username: "postgres",
+    password: "postgres",
     logging: true,
     synchronize: true,
     // dropSchema: true,
