@@ -1,5 +1,5 @@
 import {
-  Resolver, Query, Arg, Mutation, Field, InputType,
+  Resolver, Query, Arg, Mutation, Field, InputType, Int,
 } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import {Project} from '../db/entities/Project';
@@ -24,7 +24,7 @@ export class ProjectResolver {
 
   @Query(() => Project, { nullable: true })
   project(
-    @Arg('id', () => String) id: string ,
+    @Arg('id', () => Int) id: number ,
   ): Promise<Project | undefined> {
     return Project.findOne( id );
   }
@@ -34,19 +34,19 @@ export class ProjectResolver {
   // remove ownerId from args after session implementation
   async createProject(
     @Arg('input') input: ProjectInput,
-    @Arg('ownerId', () => String) ownerId: string,
+    @Arg('ownerId', () => Int) ownerId: number,
   ): Promise<Project> {
-    return Project.create({ ...input, ownerId }).save();
+    return Project.create({ ...input,  ownerId}).save();
   }
   
   @Mutation(() => Project, { nullable: true })
     // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
   // remove ownerId from args after session implementation
   async updateProject(
-    @Arg('id', () => String) id: string,
+    @Arg('id', () => Int) id: number,
     @Arg('title', () => String) title: string,
     @Arg('description', () => String) description: string,
-    @Arg('ownerId', () => String) ownerId: string,
+    @Arg('ownerId', () => Int) ownerId: number,
   ): Promise<Project | null> {
     // const project = await Project.findOne(id);
     // if (!project) {
@@ -73,7 +73,7 @@ export class ProjectResolver {
 
   @Mutation(() => Boolean)
   async deleteProject(
-    @Arg('id', () => String) id: string,
+    @Arg('id', () => Int) id: number,
   ): Promise<boolean> {
     await Project.delete(id)
     return true;

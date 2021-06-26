@@ -16,10 +16,10 @@ const main = async () => {
   const app = express();
   await createConnection({
     type: 'postgres',
-    database: 'plex-us',
-    username: 'postgres',
-    password: 'postgres',
-    // logging: true,
+    database: process.env.DB_NAME,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    logging: true,
     synchronize: true,
     // dropSchema: true,
     entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]

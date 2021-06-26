@@ -73,8 +73,7 @@ const Home =  () => {
     </Fragment>
   )
 }
-//_ssrExchange, ctx -> caching
+
 export default withUrqlClient(() => ({
-  // ...add your Client options here
   url: 'http://localhost:8080/graphql',
 }))(Home);

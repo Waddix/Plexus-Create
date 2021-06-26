@@ -16,7 +16,7 @@ export class Project extends Base {
 
   @Field()
   @Column()
-  ownerId: string;
+  ownerId!: number;
 
   @Field(() => Profile)
   @ManyToOne(() => Profile)
