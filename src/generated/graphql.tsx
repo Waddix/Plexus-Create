@@ -12,7 +12,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
+
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -34,38 +37,38 @@ export type MutationCreatePostArgs = {
 export type MutationUpdatePostArgs = {
   type: Scalars['String'];
   text?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeletePostArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationCreateProjectArgs = {
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Int'];
   input: ProjectInput;
 };
 
 
 export type MutationUpdateProjectArgs = {
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Int'];
   description: Scalars['String'];
   title: Scalars['String'];
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
 export type MutationDeleteProjectArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type Post = {
   __typename?: 'Post';
   id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   text: Scalars['String'];
   type: Scalars['String'];
 };
@@ -73,8 +76,8 @@ export type Post = {
 export type Profile = {
   __typename?: 'Profile';
   id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   username: Scalars['String'];
   email: Scalars['String'];
 };
@@ -82,11 +85,11 @@ export type Profile = {
 export type Project = {
   __typename?: 'Project';
   id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
   description: Scalars['String'];
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Float'];
   owner: Profile;
 };
 
@@ -110,7 +113,7 @@ export type QueryPostArgs = {
 
 
 export type QueryProjectArgs = {
-  id: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -129,7 +132,7 @@ export type CreatePostMutation = (
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
-  ownerId: Scalars['String'];
+  ownerId: Scalars['Int'];
 }>;
 
 
@@ -153,7 +156,7 @@ export type PostsQuery = (
 );
 
 export type ProjectQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['Int'];
 }>;
 
 
@@ -197,7 +200,7 @@ export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
 };
 export const CreateProjectDocument = gql`
-    mutation CreateProject($input: ProjectInput!, $ownerId: String!) {
+    mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
   createProject(input: $input, ownerId: $ownerId) {
     id
     title
@@ -227,7 +230,7 @@ export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariable
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };
 export const ProjectDocument = gql`
-    query Project($id: String!) {
+    query Project($id: Int!) {
   project(id: $id) {
     id
     title
