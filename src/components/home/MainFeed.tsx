@@ -7,13 +7,13 @@ function MainFeed(): React.ReactElement {
   const { projectsFollowing } = useContext(UserContext);
 
   // need to add onClick that routes to 'projects/[projectId]'
-    const projectsFeed = projectsFollowing.map((project: Project, i: number) => (
+  const projectsFeed = projectsFollowing.map((project: Project, i: number) => (
     <div className="projectFeedItem" key={i}>{project.title}: {project.owner}</div>
   ))
   console.log(projectsFollowing)
   return (
     <>
-     {projectsFeed.length ? projectsFeed : 'no projects following' }
+      {projectsFeed.length ? projectsFeed : 'no projects following'}
     </>
   )
 }

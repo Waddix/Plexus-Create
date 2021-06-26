@@ -17,7 +17,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-import NextAuth from './nextAuth';
+import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
