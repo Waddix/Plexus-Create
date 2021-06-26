@@ -9,26 +9,38 @@ import {
   Avatar,
   useColorModeValue,
   Icon,
+  Flex,
+  Spacer,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
 import { loggedOutIcon } from './nextAuth';
-import {formatRelative, parseISO} from 'date-fns'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import router from "next/dist/client/router";
+import {FcNext} from 'react-icons/fc'
+import {MdFavoriteBorder} from 'react-icons/md'
 
 
 interface ProjectCardProps {
-  // id: string,
- title: string,
- description: string,
- createdAt: string,
- updatedAt: string,
+  id: string,
+  title: string,
+  description: string,
+  createdAt: string,
+  updatedAt: string,
+  // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, createdAt, updatedAt}) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt}) => {
   const [session] = useSession();
+  dayjs.extend(relativeTime);
+  const postedAt = dayjs().to(dayjs(createdAt)) 
   // need hook for query to get user by id
   // need hook for query to get user image
-    return (<Center py={6} px={2}>
-      <Box
+    return (
+      <Flex>
+    <Spacer>
+      <Center py={6} px={2} >
+       <Box
         maxW={'445px'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.900')}
@@ -49,7 +61,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, cr
             }
             layout={'fill'}
             alt={"project image"}
-          />
+            />
         </Box>
         <Stack>
           <Text
@@ -73,17 +85,26 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, cr
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
         {session?.user?.image ?
                   <Avatar
-                    size={'md'}
-                    src={session.user.image}
+                  size={'md'}
+                  src={session.user.image}
                   />
                   :
                   <Icon as={loggedOutIcon} />}
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
             <Text fontWeight={600}>{session?.user?.name || 'not logged in'}</Text>
-            <Text color={'gray.500'}> {formatRelative(new Date(), new Date(parseISO(updatedAt)))}</Text> {/* change to use project created at */}
+            <Text color={'gray.500'}> {postedAt}</Text> {/* change to use project created at */}
           </Stack>
+
+          <Flex>
+            <Spacer>
+        <FcNext onClick={()=> router.push(`/projects/${id}`)}></FcNext>
+            </Spacer>
+          </Flex>
         </Stack>
       </Box>
-    </Center>);
+    </Center>
+   </Spacer>
+  </Flex>
+  );
 }
 
