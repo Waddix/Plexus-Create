@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
 import { loggedOutIcon } from './nextAuth';
+import {formatRelative, parseISO} from 'date-fns'
 
 
 interface ProjectCardProps {
@@ -79,7 +80,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, cr
                   <Icon as={loggedOutIcon} />}
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
             <Text fontWeight={600}>{session?.user?.name || 'not logged in'}</Text>
-            <Text color={'gray.500'}>Feb 08, 2021 · 6min read</Text> {/* change to use project created at */}
+            <Text color={'gray.500'}> {formatRelative(new Date(), new Date(parseISO(updatedAt)))}</Text> {/* change to use project created at */}
           </Stack>
         </Stack>
       </Box>
