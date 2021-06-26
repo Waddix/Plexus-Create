@@ -13,11 +13,11 @@ const PORT = 8080;
 const main = async () => {
   const app = express();
   await createConnection({
-    type: "postgres",
-    database: "plex-us",
-    username: "postgres",
-    password: "postgres",
-    // logging: true,
+    type: 'postgres',
+    database: process.env.DATABASE_URL,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    logging: true,
     synchronize: true,
     dropSchema: true,
     entities: [
