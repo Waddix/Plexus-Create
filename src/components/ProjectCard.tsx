@@ -14,14 +14,19 @@ import { useSession } from 'next-auth/client';
 import { loggedOutIcon } from './nextAuth';
 
 
-// interface CardWithImageProps {
+interface ProjectCardProps {
+  // id: string,
+ title: string,
+ description: string,
+ createdAt: string,
+ updatedAt: string,
+}
 
-// }
-
-export const CardWithImage: React.FC<unknown> = ({}) => {
-  console.log(__dirname)
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, createdAt, updatedAt}) => {
   const [session] = useSession();
-    return (<Center py={6}>
+  // need hook for query to get user by id
+  // need hook for query to get user image
+    return (<Center py={6} px={2}>
       <Box
         maxW={'445px'}
         w={'full'}
@@ -58,10 +63,10 @@ export const CardWithImage: React.FC<unknown> = ({}) => {
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'}>
-            {"Project Title"}
+            {title}
           </Heading>
           <Text color={'gray.500'}>
-            {"Project Description"}
+            {description}
           </Text>
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
