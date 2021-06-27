@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { withUrqlClient } from "next-urql";
 import {
   useGetUserEmailQuery,
   useGetUserNameQuery,
@@ -8,7 +5,7 @@ import {
   // useGetProfileUsernameQuery,
 } from "../../generated/graphql";
 
-const HandleLogin = (UserObj: any): void => {
+export default function HandleLogin(UserObj): void {
   // Check if this user has a profile linked to the db
   const { name, email } = UserObj;
 
@@ -28,8 +25,3 @@ const HandleLogin = (UserObj: any): void => {
 
   // If there is a conflict finding or creating the profile return false.
 }
-
-export default withUrqlClient(() => ({
-  // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
-}))(HandleLogin);

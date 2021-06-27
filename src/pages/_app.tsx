@@ -9,7 +9,6 @@ import theme from '../components/theme/chakra/theme';
 import React from 'react';
 import Layout from '../components/theme/layout';
 
-
 const Plexus = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <Provider
