@@ -24,7 +24,6 @@ const main = async () => {
     // dropSchema: true,
     entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
   });
-
   app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
