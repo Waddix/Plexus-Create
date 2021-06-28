@@ -50,14 +50,13 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    signIn(user, account, profile): boolean {
-      // User is from the accounts DB
-      // Account is from the oAuth
-      // Profile is the trimmed down version of the oAuth response
+    // signIn(user, account, profile): boolean {
+    //   // User is from the accounts DB
+    //   // Account is from the oAuth
+    //   // Profile is the trimmed down version of the oAuth response
 
-      console.log(user);
-      return true;
-    },
+    //   return true;
+    // },
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
