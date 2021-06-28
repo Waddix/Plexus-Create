@@ -24,12 +24,14 @@ export class ProjectResolver {
 
   @Query(() => [Project])
   projects(): Promise<Project[]> {
-    return Project.find();
+    return Project.find({relations: ["owner"]});
   }
 
   @Query(() => Project, { nullable: true })
-  project(@Arg("id", () => Int) id: number): Promise<Project | undefined> {
-    return Project.findOne(id);
+  project(
+    @Arg('id', () => Int) id: number ,
+  ): Promise<Project | undefined> {
+    return Project.findOne( id, {relations: ["owner"]} );
   }
 
   @Mutation(() => Project)

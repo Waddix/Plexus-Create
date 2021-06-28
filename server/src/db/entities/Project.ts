@@ -19,7 +19,7 @@ export class Project extends Base {
   ownerId!: number;
 
   @Field(() => Profile)
-  @ManyToOne(() => Profile)
+  @ManyToOne(() => Profile, (p) => p.projects)
   owner!: Profile
 
 
