@@ -179,7 +179,11 @@ export type ProjectsQuery = (
   { __typename?: 'Query' }
   & { projects: Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
+    & Pick<Project, 'title' | 'description' | 'ownerId' | 'id' | 'createdAt' | 'updatedAt'>
+    & { owner: (
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'username' | 'email' | 'id'>
+    ) }
   )> }
 );
 
@@ -252,9 +256,15 @@ export function useProjectQuery(options: Omit<Urql.UseQueryArgs<ProjectQueryVari
 export const ProjectsDocument = gql`
     query Projects {
   projects {
-    id
     title
     description
+    ownerId
+    owner {
+      username
+      email
+      id
+    }
+    id
     createdAt
     updatedAt
   }
