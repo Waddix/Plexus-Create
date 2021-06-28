@@ -27,10 +27,11 @@ interface ProjectCardProps {
   description: string,
   createdAt: string,
   updatedAt: string,
+  // username?: string | undefined
   // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt}) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt,}) => {
   const [session] = useSession();
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt)) 
@@ -95,7 +96,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                   :
                   <Icon as={loggedOutIcon} />}
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>{session?.user?.name || 'not logged in'}</Text>
+            <Text fontWeight={600}>{session?.user?.name || ''}</Text>
             <Text color={'gray.500'}> {postedAt}</Text> {/* change to use project created at */}
           </Stack>
           <Flex>
