@@ -5,8 +5,6 @@ query Projects {
     ownerId
     owner {
       username
-      email
-      id
     }
     id
     createdAt

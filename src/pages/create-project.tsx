@@ -9,17 +9,14 @@ import { Box, Button } from "@chakra-ui/react";
 import { useCreateProjectMutation } from "../generated/graphql";
 import { withUrqlClient } from "next-urql";
 
-<<<<<<< HEAD
 import { UserContext } from '../context/userContext';
 
 const CreateProject: React.FC<{}> = ({ }) => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
 
-=======
-const CreateProject: React.FC<{}> = ({ }) => {
-  const [, createProject] = useCreateProjectMutation();
->>>>>>> main
+  console.log(parseInt(userProfile.id))
+
   return (
     <Wrapper variant="small">
       <Formik
@@ -28,7 +25,7 @@ const CreateProject: React.FC<{}> = ({ }) => {
           // test userId
           // need to add error handling in resolver
           // this isnt effective
-          const response = await createProject({ input: values, ownerId: 1 });
+          const response = await createProject({ input: values, ownerId: parseInt(userProfile.id) });
           if (response.error) {
             setErrors({ title: 'error in title', description: 'error in description' })
           } else if (response.data) {

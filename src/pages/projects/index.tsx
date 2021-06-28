@@ -7,7 +7,12 @@ import { useProjectsQuery } from "../../generated/graphql";
 
 
 const ProjectsView: React.FC<unknown> = (): JSX.Element => {
-  const [{ data }] = useProjectsQuery();
+  const [{ data, error }] = useProjectsQuery();
+
+  if (error) {
+    console.error(error);
+  }
+
   return (
     <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
       {data?.projects?.map((p, i) => {
