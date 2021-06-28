@@ -1,10 +1,9 @@
-query Projects{
- projects{
-	id
-  title
-  description
-  createdAt
-  updatedAt
+query Projects {
+  projects {
+    id
+    title
+    description
+    createdAt
+    updatedAt
+  }
 }
-}
-

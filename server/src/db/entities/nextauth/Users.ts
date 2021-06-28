@@ -8,20 +8,19 @@ import { NABase } from './NABase'
 @Unique(['email'])
 @Entity()
 export class Users extends NABase {
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column({
     nullable: true,
   })
   name: string;
 
-  @Field(() => Number)
+  @Field(() => String, { nullable: true })
   @Index()
   @Column({
     nullable: true,
   })
   email: string;
 
-  @Field(() => Date)
   @Column({
     type: 'timestamptz',
     nullable: true,

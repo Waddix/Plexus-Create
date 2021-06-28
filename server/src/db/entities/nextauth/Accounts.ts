@@ -18,7 +18,6 @@ export class Accounts extends NABase {
   @Column({})
   user_id!: number;
 
-  @Field(() => String)
   @Column({})
   provider_type!: string;
 
@@ -32,21 +31,18 @@ export class Accounts extends NABase {
   @Column({})
   provider_account_id!: string;
 
-  @Field(() => String)
   @Column({
     type: 'text',
     nullable: true,
   })
   refresh_token: string;
 
-  @Field(() => String)
   @Column({
     type: 'text',
     nullable: true,
   })
   access_token: string;
 
-  @Field(() => Date)
   @Column({
     type: 'timestamptz',
     nullable: true,

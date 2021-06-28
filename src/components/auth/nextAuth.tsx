@@ -52,10 +52,10 @@ export default function NextAuth(): JSX.Element {
         <PopoverHeader>
           {session ?
             <Flex justifyContent={'space-between'} alignItems={'center'}>
+              {/* {console.log(session)} */}
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
                 <p><strong>{session.user.email || session.user.name}</strong></p>
-                {console.log(session.user)}
               </Box>
               <Box justifyContent="flex-end">
                 {session.user.image ?
@@ -134,18 +134,18 @@ export default function NextAuth(): JSX.Element {
           }
           <Flex>
             <Link
-            px={2}
-            py={1}
-            rounded={'md'}
-            _hover={{
-            textDecoration: 'none',
-            bg: 'orange', // useColorMode hook inside conditional render throws errors
-            }}
-            href={`/create-project`}
-             >
-             New Project
-              </Link>
-            </Flex>
+              px={2}
+              py={1}
+              rounded={'md'}
+              _hover={{
+                textDecoration: 'none',
+                bg: 'orange', // useColorMode hook inside conditional render throws errors
+              }}
+              href={`/create-project`}
+            >
+              New Project
+            </Link>
+          </Flex>
         </PopoverFooter>
       </Fragment>
     </PopoverContent>

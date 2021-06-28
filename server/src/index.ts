@@ -1,12 +1,10 @@
-import 'reflect-metadata';
-import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
-import { PostResolver } from './resolvers/post';
-import { ProjectResolver } from './resolvers/project';
-import { createConnection } from 'typeorm'
-import dotenv from 'dotenv';
-import cors from 'cors';
+import "reflect-metadata";
+import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { createConnection } from "typeorm";
+import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 const PORT = 8080;
@@ -16,25 +14,28 @@ const main = async () => {
   const app = express();
   await createConnection({
     type: 'postgres',
-    database: process.env.DB_NAME,
+    database: process.env.DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    logging: true,
+    // logging: true,
     synchronize: true,
     // dropSchema: true,
-    entities: [__dirname + "/db/entities/*.ts", __dirname + "/db/entities/**/*.ts"]
+    entities: [
+      __dirname + "/db/entities/*.ts",
+      __dirname + "/db/entities/**/*.ts",
+    ],
   });
-  app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  }))
+
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [
-        PostResolver,
-        ProjectResolver
-      ],
+      resolvers: [__dirname + "/resolvers/*.ts"],
       validate: false,
     }),
     context: ({ req, res }) => ({

@@ -1,9 +1,9 @@
-mutation CreateProject($input: ProjectInput!, $ownerId: Int!){
-    createProject(input: $input, ownerId: $ownerId){
+mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
+  createProject(input: $input, ownerId: $ownerId) {
     id
     title
     description
     createdAt
     updatedAt
-    }
+  }
 }

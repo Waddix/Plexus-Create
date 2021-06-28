@@ -13,8 +13,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-export default function UserCard() {
-  const { userInfo } = useContext(UserContext);
+export const UserCard: React.FC<{}> = ({}) => {
+  // may use userContext for this later
+  // const { userInfo } = useContext(UserContext);
 
   return (
     <Center py={6}>
@@ -47,11 +48,11 @@ export default function UserCard() {
           }}
         />
         <Heading fontSize={'2xl'} fontFamily={'body'}>
-          Hank
+          Horizontaljames
         </Heading>
-        <Text fontWeight={600} color={'gray.500'} mb={4}>
+        {/* <Text fontWeight={600} color={'gray.500'} mb={4}>
           @Hank
-        </Text>
+        </Text> */}
         <Text
           textAlign={'center'}
           color={useColorModeValue('gray.700', 'gray.400')}

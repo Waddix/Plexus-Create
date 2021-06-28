@@ -9,23 +9,23 @@ import { Box, Button } from "@chakra-ui/react";
 import { useCreateProjectMutation } from "../generated/graphql";
 import { withUrqlClient } from "next-urql";
 
- const CreateProject: React.FC<{}> = ({}) => {
-   const [, createProject] = useCreateProjectMutation();
-   return (
-     <Wrapper variant="small">
+const CreateProject: React.FC<{}> = ({ }) => {
+  const [, createProject] = useCreateProjectMutation();
+  return (
+    <Wrapper variant="small">
       <Formik
         initialValues={{ title: "", description: "" }}
         onSubmit={async (values, { setErrors }) => {
           // test userId
           // need to add error handling in resolver
           // this isnt effective
-          const response = await createProject({input: values, ownerId: 1});
-         if(response.error){
-          setErrors({title: 'error in title', description: 'error in description'})
-         } else if(response.data){
-           console.log(response.data)
-          router.push("/projects")
-         }
+          const response = await createProject({ input: values, ownerId: 1 });
+          if (response.error) {
+            setErrors({ title: 'error in title', description: 'error in description' })
+          } else if (response.data) {
+            console.log(response.data)
+            router.push("/projects")
+          }
         }}
       >
         {({ isSubmitting }) => (

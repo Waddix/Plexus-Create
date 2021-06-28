@@ -1,21 +1,26 @@
 import {
-  Resolver, Query, Arg, Mutation, Field, InputType, Int,
-} from 'type-graphql';
-import { getConnection } from 'typeorm';
-import {Project} from '../db/entities/Project';
+  Resolver,
+  Query,
+  Arg,
+  Mutation,
+  Field,
+  InputType,
+  Int,
+} from "type-graphql";
+import { getConnection } from "typeorm";
+import { Project } from "../db/entities/Project";
 @InputType()
-class ProjectInput{
+class ProjectInput {
   @Field(() => String)
-  title: string
+  title: string;
 
   @Field(() => String)
-  description: string
-
+  description: string;
 }
 @Resolver()
 // eslint-disable-next-line import/prefer-default-export
 export class ProjectResolver {
-// ** BASIC CRUD OPERATIONS ** \\
+  // ** BASIC CRUD OPERATIONS ** \\
 
   @Query(() => [Project])
   projects(): Promise<Project[]> {
@@ -23,30 +28,28 @@ export class ProjectResolver {
   }
 
   @Query(() => Project, { nullable: true })
-  project(
-    @Arg('id', () => Int) id: number ,
-  ): Promise<Project | undefined> {
-    return Project.findOne( id );
+  project(@Arg("id", () => Int) id: number): Promise<Project | undefined> {
+    return Project.findOne(id);
   }
 
   @Mutation(() => Project)
   // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
   // remove ownerId from args after session implementation
   async createProject(
-    @Arg('input') input: ProjectInput,
-    @Arg('ownerId', () => Int) ownerId: number,
+    @Arg("input") input: ProjectInput,
+    @Arg("ownerId", () => Int) ownerId: number
   ): Promise<Project> {
-    return Project.create({ ...input,  ownerId}).save();
+    return Project.create({ ...input, ownerId }).save();
   }
-  
+
   @Mutation(() => Project, { nullable: true })
-    // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
+  // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
   // remove ownerId from args after session implementation
   async updateProject(
-    @Arg('id', () => Int) id: number,
-    @Arg('title', () => String) title: string,
-    @Arg('description', () => String) description: string,
-    @Arg('ownerId', () => Int) ownerId: number,
+    @Arg("id", () => Int) id: number,
+    @Arg("title", () => String) title: string,
+    @Arg("description", () => String) description: string,
+    @Arg("ownerId", () => Int) ownerId: number
   ): Promise<Project | null> {
     // const project = await Project.findOne(id);
     // if (!project) {
@@ -56,26 +59,24 @@ export class ProjectResolver {
     // if (typeof title !== 'undefined' && typeof description !== 'undefined') {
     //   Project.update({id}, {title, description})
     // }
-    // return project; 
+    // return project;
     // using the query builder
     const project = await getConnection()
-    .createQueryBuilder()
-    .update(Project)
-    .set({title, description})
-    .where('id = :id and "ownerId" = :ownerId', {
-      id,
-      ownerId
-    })
-    .returning("*")
-    .execute();
+      .createQueryBuilder()
+      .update(Project)
+      .set({ title, description })
+      .where('id = :id and "ownerId" = :ownerId', {
+        id,
+        ownerId,
+      })
+      .returning("*")
+      .execute();
     return project.raw[0];
   }
 
   @Mutation(() => Boolean)
-  async deleteProject(
-    @Arg('id', () => Int) id: number,
-  ): Promise<boolean> {
-    await Project.delete(id)
+  async deleteProject(@Arg("id", () => Int) id: number): Promise<boolean> {
+    await Project.delete(id);
     return true;
   }
 }
