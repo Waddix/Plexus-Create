@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // import { Users } from "../db/entities/nextauth/Users";
+=======
+>>>>>>> main
 import {
   Resolver,
   Query,
@@ -45,33 +48,49 @@ class ProfileInput {
 export class ProfileResolver {
   @Query(() => [Profile], { nullable: true })
   getAllProfiles(): Promise<Profile[]> {
+<<<<<<< HEAD
     return Profile.find({ relations: ["user_id", "email"] });
+=======
+    return Profile.find();
+>>>>>>> main
   }
 
   @Query(() => Profile)
   findProfileID(
     @Arg("id", () => Int) id: number
   ): Promise<Profile | undefined> {
+<<<<<<< HEAD
     return Profile.findOne(id, { relations: ["user_id", "email"] });
+=======
+    return Profile.findOne(id);
+>>>>>>> main
   }
 
   @Query(() => Profile)
   findProfileUserId(
     @Arg("user_id", () => Int) user_id: number
   ): Promise<Profile | undefined> {
+<<<<<<< HEAD
     return Profile.findOne({
       where: { user_id: user_id },
       relations: ["user_id", "email"],
     });
+=======
+    return Profile.findOne({ where: { user_id: user_id } });
+>>>>>>> main
   }
   @Query(() => Profile)
   findProfileUsername(
     @Arg("username", () => String) username: string
   ): Promise<Profile | undefined> {
+<<<<<<< HEAD
     return Profile.findOne({
       where: { username: username },
       relations: ["user_id", "email"],
     });
+=======
+    return Profile.findOne({ where: { username: username } });
+>>>>>>> main
   }
 
   @Mutation(() => Profile)

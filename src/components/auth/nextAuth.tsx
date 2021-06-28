@@ -122,7 +122,11 @@ const NextAuth: React.FC<{}> = ({ }) => {
               {/* {console.log(session)} */}
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
+<<<<<<< HEAD
                 <p><strong>{userProfile.username || userProfile.name || userProfile.email}</strong></p>
+=======
+                <p><strong>{ session.user.name }</strong></p>
+>>>>>>> main
               </Box>
               <Box justifyContent="flex-end">
                 {userProfile.image ?

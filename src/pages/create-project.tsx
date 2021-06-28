@@ -9,12 +9,17 @@ import { Box, Button } from "@chakra-ui/react";
 import { useCreateProjectMutation } from "../generated/graphql";
 import { withUrqlClient } from "next-urql";
 
+<<<<<<< HEAD
 import { UserContext } from '../context/userContext';
 
 const CreateProject: React.FC<{}> = ({ }) => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
 
+=======
+const CreateProject: React.FC<{}> = ({ }) => {
+  const [, createProject] = useCreateProjectMutation();
+>>>>>>> main
   return (
     <Wrapper variant="small">
       <Formik

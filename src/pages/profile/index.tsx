@@ -1,8 +1,17 @@
 import React from "react";
+import { Flex } from '@chakra-ui/react'
+import { UserCard } from "../../components/UserCard";
 
-function ProfileView(): JSX.Element {
+function ProfileView() {
   return (
-    <h1>Profile View here</h1>
+    <Flex
+    justify={'center'}
+    >
+      <UserCard />
+    </Flex>
+
+
+
   )
 }
 

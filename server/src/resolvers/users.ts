@@ -21,6 +21,7 @@ export class ProfileResolver {
   ): Promise<Users | undefined> {
     return Users.findOne({ where: { email: email } });
   }
+<<<<<<< HEAD
 
   @Query(() => Users)
   findUser(
@@ -29,4 +30,6 @@ export class ProfileResolver {
   ): Promise<Users | undefined> {
     return Users.findOne({ where: { name: name, email: email} });
   }
+=======
+>>>>>>> main
 }
