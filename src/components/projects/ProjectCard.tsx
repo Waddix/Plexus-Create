@@ -14,7 +14,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
-import { loggedOutIcon } from './nextAuth';
+import { loggedOutIcon } from '../auth/nextAuth';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
@@ -98,7 +98,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
             <Text fontWeight={600}>{session?.user?.name || 'not logged in'}</Text>
             <Text color={'gray.500'}> {postedAt}</Text> {/* change to use project created at */}
           </Stack>
-
           <Flex>
             <Spacer>
         <FcNext onClick={()=> router.push(`/projects/${id}`)}></FcNext> 
