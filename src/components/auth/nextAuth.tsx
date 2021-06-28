@@ -42,32 +42,38 @@ export const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='3x' />
 }
 
-// The approach used in this component shows how to built a sign in and sign out
-// component that works on pages which support both client and server side
-// rendering, and avoids any flash incorrect content on initial page load.
 const NextAuth: React.FC<{}> = ({ }) => {
+  // Next auth session
   const [session] = useSession();
+  // User from next auth session
   const user = session ? session.user : { name: "", email: "", image: "" };
 
+  // Grab props from user in the session or use empty strings
   const name = user?.name || "";
   const email = user?.email || "";
   const image = user?.image || "";
 
+  // Color mode
   const { colorMode, toggleColorMode } = useColorMode();
 
+  // Get users
   const [userResult] = useGetUserQuery({ variables: { name: name, email: email } });
   const { data: userData, fetching: userFetching, error: userError } = userResult;
 
+  // User id from the queried user
   const userId = useRef(0)
 
+// Get user's profile
   const [profileResult, refetch] = useGetProfileUserIdQuery({ variables: { user_id: userId.current } });
   const { data: profileData, fetching: profileFetching, error: profileError } = profileResult;
 
+  // User profile
   const { userProfile, setUserProfile } = useContext(UserContext)
 
+  // Create profile mutation
   const [, createProfile] = useCreateProfileForUserMutation();
 
-  // Getting userId from database and setting it ot a useRef
+  // Getting userId from database and setting it to a useRef
   useEffect(() => {
     if (session) {
       if (userFetching === false) {
@@ -77,25 +83,15 @@ const NextAuth: React.FC<{}> = ({ }) => {
           refetch();
         }
       }
-      // Check if this user has a profile linked to the db
-
-      // const {data: userByName}  = useGetUserNameQuery({variables: {name: name}});
-
-      // If the user has a profile in the db, set it to the account/user/profile context and return true
-
-      /**
-       * If the user does not have a profile in the db, create their profile in the database, set it to the context,
-       * then return true and a way to signify it is a new profile so that the register-flow can be triggered.
-       */
-
-      // If there is a conflict finding or creating the profile return false.
     }
   }, [refetch, session, userData?.findUser, userFetching])
 
+  // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {
     if (profileFetching === false && userId.current !== 0) {
       const profile = profileData?.findProfileUserId;
       if (profile) {
+        // There is a bug with join tables in GraphQL. Using the user id and email from the sessions for now.
         const newVals = { user_id: userId.current, email: email };
         const newProfile = { ...profile, ...newVals };
         setUserProfile(newProfile);
