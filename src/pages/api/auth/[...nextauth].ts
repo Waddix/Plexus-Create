@@ -1,8 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-import HandleLogin from "../../../components/auth/handleLogin";
-
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
@@ -56,9 +54,8 @@ export default NextAuth({
       // User is from the accounts DB
       // Account is from the oAuth
       // Profile is the trimmed down version of the oAuth response
-      HandleLogin(user);
 
-      // Need to lookup the user from the Users table and send it to the handleLogin function.
+      console.log(user);
       return true;
     },
     // async redirect(url, baseUrl) { return baseUrl },

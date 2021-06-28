@@ -146,6 +146,7 @@ export type Query = {
   getAllUsers?: Maybe<Array<Users>>;
   findUserName?: Maybe<Users>;
   findUserEmail: Users;
+  findUser: Users;
 };
 
 
@@ -181,6 +182,12 @@ export type QueryFindUserNameArgs = {
 
 export type QueryFindUserEmailArgs = {
   email: Scalars['String'];
+};
+
+
+export type QueryFindUserArgs = {
+  email: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type Sessions = {
@@ -243,6 +250,28 @@ export type CreateProjectMutation = (
   ) }
 );
 
+export type GetAllProfilesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllProfilesQuery = (
+  { __typename?: 'Query' }
+  & { getAllProfiles?: Maybe<Array<(
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+  )>> }
+);
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllUsersQuery = (
+  { __typename?: 'Query' }
+  & { getAllUsers?: Maybe<Array<(
+    { __typename?: 'Users' }
+    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
+  )>> }
+);
+
 export type GetProfileIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -251,6 +280,19 @@ export type GetProfileIdQueryVariables = Exact<{
 export type GetProfileIdQuery = (
   { __typename?: 'Query' }
   & { findProfileID: (
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+  ) }
+);
+
+export type GetProfileUserIdQueryVariables = Exact<{
+  user_id: Scalars['Int'];
+}>;
+
+
+export type GetProfileUserIdQuery = (
+  { __typename?: 'Query' }
+  & { findProfileUserId: (
     { __typename?: 'Profile' }
     & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
   ) }
@@ -266,6 +308,20 @@ export type GetProfileUsernameQuery = (
   & { findProfileUsername: (
     { __typename?: 'Profile' }
     & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+  ) }
+);
+
+export type GetUserQueryVariables = Exact<{
+  name: Scalars['String'];
+  email: Scalars['String'];
+}>;
+
+
+export type GetUserQuery = (
+  { __typename?: 'Query' }
+  & { findUser: (
+    { __typename?: 'Users' }
+    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
   ) }
 );
 
@@ -306,17 +362,6 @@ export type PostsQuery = (
   )> }
 );
 
-export type ProfilesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProfilesQuery = (
-  { __typename?: 'Query' }
-  & { getAllProfiles?: Maybe<Array<(
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
-  )>> }
-);
-
 export type ProjectQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -345,17 +390,6 @@ export type ProjectsQuery = (
   )> }
 );
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UsersQuery = (
-  { __typename?: 'Query' }
-  & { getAllUsers?: Maybe<Array<(
-    { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
-  )>> }
-);
-
 
 export const CreatePostDocument = gql`
     mutation CreatePost($type: String!, $text: String!) {
@@ -371,7 +405,7 @@ export const CreatePostDocument = gql`
 
 export function useCreatePostMutation() {
   return Urql.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument);
-}
+};
 export const CreateProfileForUserDocument = gql`
     mutation CreateProfileForUser($input: ProfileInput!) {
   createProfile(input: $input) {
@@ -391,7 +425,7 @@ export const CreateProfileForUserDocument = gql`
 
 export function useCreateProfileForUserMutation() {
   return Urql.useMutation<CreateProfileForUserMutation, CreateProfileForUserMutationVariables>(CreateProfileForUserDocument);
-}
+};
 export const CreateProjectDocument = gql`
     mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
   createProject(input: $input, ownerId: $ownerId) {
@@ -406,7 +440,40 @@ export const CreateProjectDocument = gql`
 
 export function useCreateProjectMutation() {
   return Urql.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument);
+};
+export const GetAllProfilesDocument = gql`
+    query GetAllProfiles {
+  getAllProfiles {
+    id
+    user_id
+    name
+    username
+    email
+    image
+    title
+    bio
+    website
+  }
 }
+    `;
+
+export function useGetAllProfilesQuery(options: Omit<Urql.UseQueryArgs<GetAllProfilesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetAllProfilesQuery>({ query: GetAllProfilesDocument, ...options });
+};
+export const GetAllUsersDocument = gql`
+    query GetAllUsers {
+  getAllUsers {
+    id
+    name
+    email
+    image
+  }
+}
+    `;
+
+export function useGetAllUsersQuery(options: Omit<Urql.UseQueryArgs<GetAllUsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetAllUsersQuery>({ query: GetAllUsersDocument, ...options });
+};
 export const GetProfileIdDocument = gql`
     query GetProfileID($id: Int!) {
   findProfileID(id: $id) {
@@ -425,7 +492,26 @@ export const GetProfileIdDocument = gql`
 
 export function useGetProfileIdQuery(options: Omit<Urql.UseQueryArgs<GetProfileIdQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetProfileIdQuery>({ query: GetProfileIdDocument, ...options });
+};
+export const GetProfileUserIdDocument = gql`
+    query GetProfileUserID($user_id: Int!) {
+  findProfileUserId(user_id: $user_id) {
+    id
+    user_id
+    name
+    username
+    email
+    image
+    title
+    bio
+    website
+  }
 }
+    `;
+
+export function useGetProfileUserIdQuery(options: Omit<Urql.UseQueryArgs<GetProfileUserIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetProfileUserIdQuery>({ query: GetProfileUserIdDocument, ...options });
+};
 export const GetProfileUsernameDocument = gql`
     query GetProfileUsername($username: String!) {
   findProfileUsername(username: $username) {
@@ -444,7 +530,21 @@ export const GetProfileUsernameDocument = gql`
 
 export function useGetProfileUsernameQuery(options: Omit<Urql.UseQueryArgs<GetProfileUsernameQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetProfileUsernameQuery>({ query: GetProfileUsernameDocument, ...options });
+};
+export const GetUserDocument = gql`
+    query GetUser($name: String!, $email: String!) {
+  findUser(name: $name, email: $email) {
+    id
+    name
+    email
+    image
+  }
 }
+    `;
+
+export function useGetUserQuery(options: Omit<Urql.UseQueryArgs<GetUserQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetUserQuery>({ query: GetUserDocument, ...options });
+};
 export const GetUserEmailDocument = gql`
     query GetUserEmail($email: String!) {
   findUserEmail(email: $email) {
@@ -458,7 +558,7 @@ export const GetUserEmailDocument = gql`
 
 export function useGetUserEmailQuery(options: Omit<Urql.UseQueryArgs<GetUserEmailQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetUserEmailQuery>({ query: GetUserEmailDocument, ...options });
-}
+};
 export const GetUserNameDocument = gql`
     query GetUserName($name: String!) {
   findUserName(name: $name) {
@@ -472,7 +572,7 @@ export const GetUserNameDocument = gql`
 
 export function useGetUserNameQuery(options: Omit<Urql.UseQueryArgs<GetUserNameQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetUserNameQuery>({ query: GetUserNameDocument, ...options });
-}
+};
 export const PostsDocument = gql`
     query Posts {
   posts {
@@ -487,26 +587,7 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
-}
-export const ProfilesDocument = gql`
-    query Profiles {
-  getAllProfiles {
-    id
-    user_id
-    name
-    username
-    email
-    image
-    title
-    bio
-    website
-  }
-}
-    `;
-
-export function useProfilesQuery(options: Omit<Urql.UseQueryArgs<ProfilesQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ProfilesQuery>({ query: ProfilesDocument, ...options });
-}
+};
 export const ProjectDocument = gql`
     query Project($id: Int!) {
   project(id: $id) {
@@ -526,7 +607,7 @@ export const ProjectDocument = gql`
 
 export function useProjectQuery(options: Omit<Urql.UseQueryArgs<ProjectQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProjectQuery>({ query: ProjectDocument, ...options });
-}
+};
 export const ProjectsDocument = gql`
     query Projects {
   projects {
@@ -541,18 +622,4 @@ export const ProjectsDocument = gql`
 
 export function useProjectsQuery(options: Omit<Urql.UseQueryArgs<ProjectsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProjectsQuery>({ query: ProjectsDocument, ...options });
-}
-export const UsersDocument = gql`
-    query Users {
-  getAllUsers {
-    id
-    name
-    email
-    image
-  }
-}
-    `;
-
-export function useUsersQuery(options: Omit<Urql.UseQueryArgs<UsersQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<UsersQuery>({ query: UsersDocument, ...options });
-}
+};
