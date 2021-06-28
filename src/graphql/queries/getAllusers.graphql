@@ -2,7 +2,6 @@ query GetAllUsers {
   getAllUsers {
     id
     name
-    email
     image
   }
 }

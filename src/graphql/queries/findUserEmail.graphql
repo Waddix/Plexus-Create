@@ -1,8 +1,0 @@
-query GetUserEmail($email: String!) {
-  findUserEmail(email: $email) {
-    id
-    name
-    email
-    image
-  }
-}
