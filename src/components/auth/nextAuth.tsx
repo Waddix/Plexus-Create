@@ -11,7 +11,9 @@ import {
   PopoverHeader,
   PopoverBody,
   PopoverFooter,
-  useColorMode
+  useColorMode,
+  Skeleton,
+  SkeletonCircle
 } from '@chakra-ui/react';
 import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,9 +65,12 @@ const NextAuth: React.FC<{}> = ({ }) => {
   // User id from the queried user
   const userId = useRef(0)
 
-// Get user's profile
+  // Get user's profile
   const [profileResult, refetch] = useGetProfileUserIdQuery({ variables: { user_id: userId.current } });
   const { data: profileData, fetching: profileFetching, error: profileError } = profileResult;
+
+  // Conditionally render the skeleton loading effects
+  const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
   // User profile
   const { userProfile, setUserProfile } = useContext(UserContext)
@@ -88,6 +93,10 @@ const NextAuth: React.FC<{}> = ({ }) => {
 
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {
+    if (profileFetching === true) {
+      setLoadingProfile(true);
+    }
+
     if (profileFetching === false && userId.current !== 0) {
       const profile = profileData?.findProfileUserId;
       if (profile) {
@@ -95,7 +104,9 @@ const NextAuth: React.FC<{}> = ({ }) => {
         const newVals = { user_id: userId.current, email: email };
         const newProfile = { ...profile, ...newVals };
         setUserProfile(newProfile);
+        setLoadingProfile(false);
       } else if ((profile === undefined || profile === null) && profileFetching === false) {
+        setLoadingProfile(false);
         const values = {
           id: 1,
           user_id: userId.current,
@@ -111,28 +122,39 @@ const NextAuth: React.FC<{}> = ({ }) => {
           .then(() => refetch());
       }
     }
-  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setUserProfile])
+  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setLoadingProfile, setUserProfile])
 
   return (
-    <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
+    <PopoverContent margin-top='0.72rem' marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
       <Fragment>
         <PopoverHeader>
           {session ?
             <Flex justifyContent={'space-between'} alignItems={'center'}>
-              {/* {console.log(session)} */}
-              <Box justifyContent="flex-start">
-                <p><small>Signed in as</small></p>
-                <p><strong>{ userProfile.username }</strong></p>
-              </Box>
+              {loadingProfile ?
+                <Box justifyContent="flex-start">
+                  <p><small>Signed in as</small></p>
+                  <Skeleton height="16px" />
+                </Box>
+                :
+                <Box justifyContent="flex-start" width="100%">
+                  <p><small>Signed in as</small></p>
+                  <p><strong>{userProfile.username}</strong></p>
+                </Box>
+              }
               <Box justifyContent="flex-end">
-                {userProfile.image ?
-                  <Avatar
-                    name={userProfile.name}
-                    size={'md'}
-                    src={userProfile.image}
-                  />
+                {loadingProfile ?
+                  <SkeletonCircle size="3rem" />
                   :
-                  <Icon as={loggedOutIcon} />}
+                  userProfile.image ?
+                    <Avatar
+                      name={userProfile.name}
+                      size={'md'}
+                      src={userProfile.image}
+                    />
+                    :
+                    <Icon as={loggedOutIcon} />
+                }
+
               </Box>
             </Flex>
             :
@@ -149,9 +171,13 @@ const NextAuth: React.FC<{}> = ({ }) => {
         <PopoverBody>
           {session ?
             <Fragment>
-              {UserLinks.map((link) => (
-                PopoverLink(link)
-              ))}
+              {UserLinks.map((link) => {
+                if (loadingProfile) {
+                  return <Skeleton height='30px' />
+                } else {
+                  return PopoverLink(link)
+                }
+              })}
             </Fragment>
             :
             null
