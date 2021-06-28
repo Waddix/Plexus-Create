@@ -34,7 +34,7 @@ export default function SplitScreen() {
             </Text>
             <br />{' '}
             <Text color={'blue.400'} as={'span'}>
-              Let's Create Some Shit
+              Let's Create
             </Text>{' '}
           </Heading>
           <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.500'}>
