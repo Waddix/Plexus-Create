@@ -7,13 +7,13 @@ import { useProjectsQuery } from "../../generated/graphql";
 
 
 const ProjectsView: React.FC<unknown> = (): JSX.Element => {
-  const [{data}] = useProjectsQuery();
+  const [{ data }] = useProjectsQuery();
   return (
     <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
-    { data?.projects?.map((p, i) => { 
-      return <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
-    })}
-  </SimpleGrid>
+      {data?.projects?.map((p, i) => {
+        return <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
+      })}
+    </SimpleGrid>
   )
 };
 
