@@ -16,12 +16,10 @@ export class Sessions extends NABase {
   @Column('timestamptz')
   expires!: Date;
 
-  @Field(() => String)
   @Index()
   @Column({})
   session_token!: string;
 
-  @Field(() => String)
   @Index()
   @Column({})
   access_token!: string;

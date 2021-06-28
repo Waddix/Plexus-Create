@@ -1,0 +1,13 @@
+query Profiles {
+  getAllProfiles {
+    id
+    user_id
+    name
+    username
+    email
+    image
+    title
+    bio
+    website
+  }
+}

@@ -1,0 +1,8 @@
+query GetUserName($name: String!) {
+  findUserName(name: $name) {
+    id
+    name
+    email
+    image
+  }
+}
