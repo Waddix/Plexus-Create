@@ -3,9 +3,9 @@ import { Fragment } from 'react';
 import Head from 'next/head';
 import Nav from './nav';
 interface LayoutProps {
-  // react props in typescript 
+  // react props in typescript
   // ? === optional
-children?: React.ReactNode
+  children?: React.ReactNode
 }
 
 interface Props {

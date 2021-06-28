@@ -13,4 +13,3 @@ query Projects{
     updatedAt
   }
 }
-

@@ -1,12 +1,12 @@
 import {
   Resolver, Query, Arg, Mutation, Int
 } from 'type-graphql';
-import {Post} from '../db/entities/Post';
+import { Post } from '../db/entities/Post';
 
 @Resolver()
 // eslint-disable-next-line import/prefer-default-export
 export class PostResolver {
-// ** BASIC CRUD OPERATIONS ** \\
+  // ** BASIC CRUD OPERATIONS ** \\
 
   @Query(() => [Post])
   posts(): Promise<Post[]> {
@@ -15,7 +15,7 @@ export class PostResolver {
 
   @Query(() => Post, { nullable: true })
   post(
-    @Arg('id', () => Int) id: number ,
+    @Arg('id', () => Int) id: number,
   ): Promise<Post | undefined> {
     return Post.findOne(id);
   }
@@ -25,7 +25,7 @@ export class PostResolver {
     @Arg('text', () => String) text: string,
     @Arg('type', () => String) type: string,
   ): Promise<Post> {
-    return Post.create({text, type}).save();
+    return Post.create({ text, type }).save();
   }
 
   @Mutation(() => Post, { nullable: true })
@@ -40,7 +40,7 @@ export class PostResolver {
     }
     // if the text isnt blank
     if (typeof text !== 'undefined' && typeof type !== 'undefined') {
-     Post.update({id}, {text, type})
+      Post.update({ id }, { text, type })
     }
     return post;
   }

@@ -1,8 +1,8 @@
-query Project($id: Int!){
-  project(id: $id){
+query Project($id: Int!) {
+  project(id: $id) {
     id
     title
-    owner{
+    owner {
       username
       email
     }
