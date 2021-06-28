@@ -62,7 +62,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, crea
                   :
                   <Icon as={loggedOutIcon} />}
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>{username || 'not logged in'}</Text>
+            <Text fontWeight={600}>{username}</Text>
             <Text color={'gray.500'}> {postedAt}</Text> 
           </Stack>
           </Stack>
