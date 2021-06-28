@@ -12,6 +12,8 @@ interface ProjectDetailsProps {
   description?: string,
   createdAt?: string,
   updatedAt?: string,
+  username?: string,
+  email?: string
 }
 
 interface DescriptionProps {
@@ -41,7 +43,7 @@ const Description  = ({description} : DescriptionProps): JSX.Element => {
  )
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, createdAt, updatedAt, title,}) => {
+export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, createdAt, updatedAt, title, username}) => {
   const [ session ] = useSession();
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt)) 
@@ -60,7 +62,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, crea
                   :
                   <Icon as={loggedOutIcon} />}
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>{session?.user?.name || 'not logged in'}</Text>
+            <Text fontWeight={600}>{username || 'not logged in'}</Text>
             <Text color={'gray.500'}> {postedAt}</Text> 
           </Stack>
           </Stack>

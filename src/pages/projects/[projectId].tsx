@@ -64,7 +64,7 @@ const ProjectView: React.FC<unknown> = ({}) => {
    }
   });
 
-
+console.log(data);
   if(fetching){
     return(
       <div>loading</div>
@@ -89,7 +89,7 @@ const ProjectView: React.FC<unknown> = ({}) => {
           </Box>
           <Box>
             <Flex h="100%" flexDirection="column" justifyContent="center">
-            <ProjectDetails description={data?.project?.description} title={data?.project?.title} updatedAt={data?.project?.updatedAt} createdAt={data?.project?.createdAt}></ProjectDetails>
+            <ProjectDetails description={data?.project?.description} title={data?.project?.title} updatedAt={data?.project?.updatedAt} createdAt={data?.project?.createdAt} email={data?.project?.owner?.email} username={data?.project?.owner?.username}></ProjectDetails>
             </Flex>
           </Box>
         </Box>
