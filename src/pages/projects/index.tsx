@@ -1,10 +1,10 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react"
-import { ProjectCard } from "../../components/ProjectCard";
+import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useProjectsQuery } from "../../generated/graphql";
 
-const ProjectView: React.FC<unknown> = (): JSX.Element => {
+const ProjectsView: React.FC<unknown> = (): JSX.Element => {
   const [{data}] = useProjectsQuery();
   // onClick to push to projects/projectID
   return (
@@ -19,4 +19,4 @@ const ProjectView: React.FC<unknown> = (): JSX.Element => {
 export default withUrqlClient(() => ({
   // ...add your Client options here
   url: 'http://localhost:8080/graphql',
-}))(ProjectView);
+}))(ProjectsView);
