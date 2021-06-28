@@ -1,8 +1,6 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 
-import HandleLogin from "../../../components/auth/handleLogin";
-
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
@@ -52,15 +50,14 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    signIn(user, account, profile): boolean {
-      // User is from the accounts DB
-      // Account is from the oAuth
-      // Profile is the trimmed down version of the oAuth response
-      HandleLogin(user);
+    // signIn(user, account, profile): boolean {
+    //   // User is from the accounts DB
+    //   // Account is from the oAuth
+    //   // Profile is the trimmed down version of the oAuth response
 
-      // Need to lookup the user from the Users table and send it to the handleLogin function.
-      return true;
-    },
+    //   // Need to lookup the user from the Users table and send it to the handleLogin function.
+    //   return true;
+    // },
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
