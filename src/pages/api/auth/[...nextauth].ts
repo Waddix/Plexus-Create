@@ -55,7 +55,6 @@ export default NextAuth({
     //   // Account is from the oAuth
     //   // Profile is the trimmed down version of the oAuth response
 
-    //   // Need to lookup the user from the Users table and send it to the handleLogin function.
     //   return true;
     // },
     // async redirect(url, baseUrl) { return baseUrl },

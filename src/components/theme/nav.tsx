@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Box,
   Flex,
@@ -21,6 +21,7 @@ import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { UserContext } from '../../context/userContext';
 
 const Links = ['Home', 'Projects'];
 
@@ -47,6 +48,7 @@ const loggedOutIcon = (): JSX.Element => {
 export default function Nav(): JSX.Element {
   const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { userProfile } = useContext(UserContext)
 
   return (
     <nav>
@@ -103,11 +105,11 @@ export default function Nav(): JSX.Element {
                   cursor={'pointer'}>
                   {
                     session ?
-                      session.user.image ?
+                    userProfile.image ?
                         <Avatar
-                          name={session.user.name}
+                          name={userProfile.name}
                           size={'sm'}
-                          src={session.user.image}
+                          src={userProfile.image}
                         />
                         :
                         <Icon as={loggedOutIcon} />

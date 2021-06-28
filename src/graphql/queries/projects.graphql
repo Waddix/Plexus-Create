@@ -1,12 +1,10 @@
-query Projects{
-    projects{
+query Projects {
+  projects {
     title
     description
     ownerId
-    owner{
+    owner {
       username
-      email
-      id
     }
     id
     createdAt

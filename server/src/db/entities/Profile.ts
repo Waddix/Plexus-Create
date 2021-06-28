@@ -11,8 +11,8 @@ import { Project } from "./Project";
 @Entity()
 export class Profile extends Base {
   @Field(() => Int)
-  @OneToOne(() => Users)
-  @JoinColumn({ name: "user_id" })
+  @OneToOne(() => Users, (user) => user.id)
+  @JoinColumn({ name: "user_id", referencedColumnName: "id" })
   user_id: number;
 
   @Field(() => String)
@@ -24,7 +24,7 @@ export class Profile extends Base {
   username!: string;
 
   @Field(() => String)
-  @OneToOne(() => Users)
+  @OneToOne(() => Users, (user) => user.email)
   @JoinColumn({ name: "email", referencedColumnName: "email" })
   email: string;
 
@@ -58,10 +58,6 @@ export class Profile extends Base {
     nullable: true,
   })
   website: string;
-
-  // @OneToOne(() => Users)
-  // @JoinColumn()
-  // user: Users;
 
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];

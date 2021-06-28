@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, ReactElement, ReactNode } from "react";
 import Project from '../models/project';
 import User from '../models/user';
 
@@ -11,19 +11,20 @@ import User from '../models/user';
 const UserContext = React.createContext({});
 
 //Todo create context to manage projects in state and provide that data to rest of the app
-function UserContextProvider({children}: { children: React.ReactNode }): React.ReactElement | null {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  // const [userInfo, setUserInfo] = React.useState<User>({});
-  const [userProjects, setUserProjects] = React.useState<Project[]>([]);
-  const [projectsFollowing, setProjectsFollowing] = React.useState<Project[]>([]);
-  const [tagsFollowing, setTagsFollowing] = React.useState([])
+function UserContextProvider({ children }: { children: ReactNode }): ReactElement | null {
+  const [userProjects, setUserProjects] = useState<Project[]>([]);
+  const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
+  const [tagsFollowing, setTagsFollowing] = useState([])
+  const [userProfile, setUserProfile] = useState<unknown>({});
 
 
   const userProps = {
     // userInfo,
     userProjects,
     projectsFollowing,
-    tagsFollowing
+    tagsFollowing,
+    userProfile,
+    setUserProfile,
   }
 
   // const sum = (x: number, y: number): number => x + y;
@@ -35,4 +36,4 @@ function UserContextProvider({children}: { children: React.ReactNode }): React.R
   )
 }
 
-export {UserContextProvider, UserContext};
+export { UserContextProvider, UserContext };
