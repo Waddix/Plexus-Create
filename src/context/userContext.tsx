@@ -19,6 +19,7 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
 
 
   const userProps = {
+    // userInfo,
     userProjects,
     projectsFollowing,
     tagsFollowing,

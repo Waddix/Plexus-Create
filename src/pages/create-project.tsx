@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { Wrapper } from "../components/forms/Wrapper";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import router from "next/dist/client/router";
 import { InputField } from "../components/forms/InputField";
 import { TextArea } from "../components/forms/TextArea";
@@ -9,8 +9,14 @@ import { Box, Button } from "@chakra-ui/react";
 import { useCreateProjectMutation } from "../generated/graphql";
 import { withUrqlClient } from "next-urql";
 
+import { UserContext } from '../context/userContext';
+
 const CreateProject: React.FC<{}> = ({ }) => {
   const [, createProject] = useCreateProjectMutation();
+  const { userProfile } = useContext(UserContext);
+
+  console.log(parseInt(userProfile.id))
+
   return (
     <Wrapper variant="small">
       <Formik
@@ -19,7 +25,7 @@ const CreateProject: React.FC<{}> = ({ }) => {
           // test userId
           // need to add error handling in resolver
           // this isnt effective
-          const response = await createProject({ input: values, ownerId: 1 });
+          const response = await createProject({ input: values, ownerId: parseInt(userProfile.id) });
           if (response.error) {
             setErrors({ title: 'error in title', description: 'error in description' })
           } else if (response.data) {

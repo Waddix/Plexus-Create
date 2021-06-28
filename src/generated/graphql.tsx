@@ -268,7 +268,7 @@ export type GetAllUsersQuery = (
   { __typename?: 'Query' }
   & { getAllUsers?: Maybe<Array<(
     { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
+    & Pick<Users, 'id' | 'name' | 'image'>
   )>> }
 );
 
@@ -362,17 +362,6 @@ export type PostsQuery = (
   )> }
 );
 
-export type ProfilesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ProfilesQuery = (
-  { __typename?: 'Query' }
-  & { getAllProfiles?: Maybe<Array<(
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
-  )>> }
-);
-
 export type ProjectQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -385,7 +374,7 @@ export type ProjectQuery = (
     & Pick<Project, 'id' | 'title' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
-      & Pick<Profile, 'username' | 'email'>
+      & Pick<Profile, 'username'>
     ) }
   )> }
 );
@@ -400,20 +389,9 @@ export type ProjectsQuery = (
     & Pick<Project, 'title' | 'description' | 'ownerId' | 'id' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
-      & Pick<Profile, 'username' | 'email' | 'id'>
+      & Pick<Profile, 'username'>
     ) }
   )> }
-);
-
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UsersQuery = (
-  { __typename?: 'Query' }
-  & { getAllUsers?: Maybe<Array<(
-    { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
-  )>> }
 );
 
 
@@ -489,7 +467,6 @@ export const GetAllUsersDocument = gql`
   getAllUsers {
     id
     name
-    email
     image
   }
 }
@@ -606,25 +583,6 @@ export const PostsDocument = gql`
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 }
-export const ProfilesDocument = gql`
-    query Profiles {
-  getAllProfiles {
-    id
-    user_id
-    name
-    username
-    email
-    image
-    title
-    bio
-    website
-  }
-}
-    `;
-
-export function useProfilesQuery(options: Omit<Urql.UseQueryArgs<ProfilesQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ProfilesQuery>({ query: ProfilesDocument, ...options });
-}
 export const ProjectDocument = gql`
     query Project($id: Int!) {
   project(id: $id) {
@@ -632,7 +590,6 @@ export const ProjectDocument = gql`
     title
     owner {
       username
-      email
     }
     ownerId
     description
@@ -653,8 +610,6 @@ export const ProjectsDocument = gql`
     ownerId
     owner {
       username
-      email
-      id
     }
     id
     createdAt
@@ -665,18 +620,4 @@ export const ProjectsDocument = gql`
 
 export function useProjectsQuery(options: Omit<Urql.UseQueryArgs<ProjectsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProjectsQuery>({ query: ProjectsDocument, ...options });
-}
-export const UsersDocument = gql`
-    query Users {
-  getAllUsers {
-    id
-    name
-    email
-    image
-  }
-}
-    `;
-
-export function useUsersQuery(options: Omit<Urql.UseQueryArgs<UsersQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<UsersQuery>({ query: UsersDocument, ...options });
 }

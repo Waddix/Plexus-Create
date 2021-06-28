@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useSession } from 'next-auth/client';
 import { UserContext } from '../context/userContext'
 import {
   Heading,
@@ -16,6 +17,7 @@ import {
 export const UserCard: React.FC<{}> = ({}) => {
   // may use userContext for this later
   // const { userInfo } = useContext(UserContext);
+  const [session] = useSession();
 
   return (
     <Center py={6}>
@@ -48,7 +50,7 @@ export const UserCard: React.FC<{}> = ({}) => {
           }}
         />
         <Heading fontSize={'2xl'} fontFamily={'body'}>
-          Horizontaljames
+          {session?.user?.name}
         </Heading>
         {/* <Text fontWeight={600} color={'gray.500'} mb={4}>
           @Hank
