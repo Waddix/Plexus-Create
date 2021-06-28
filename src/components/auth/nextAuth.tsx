@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext, useEffect, useRef } from 'react'
 import {
   Box,
   Flex,
@@ -16,6 +16,9 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
+import { withUrqlClient } from 'next-urql';
+import { UserContext } from '../../context/userContext';
 
 const UserLinks = ['Profile'];
 
@@ -39,12 +42,76 @@ export const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='3x' />
 }
 
-// The approach used in this component shows how to built a sign in and sign out
-// component that works on pages which support both client and server side
-// rendering, and avoids any flash incorrect content on initial page load.
-export default function NextAuth(): JSX.Element {
+const NextAuth: React.FC<{}> = ({ }) => {
+  // Next auth session
   const [session] = useSession();
+  // User from next auth session
+  const user = session ? session.user : { name: "", email: "", image: "" };
+
+  // Grab props from user in the session or use empty strings
+  const name = user?.name || "";
+  const email = user?.email || "";
+  const image = user?.image || "";
+
+  // Color mode
   const { colorMode, toggleColorMode } = useColorMode();
+
+  // Get users
+  const [userResult] = useGetUserQuery({ variables: { name: name, email: email } });
+  const { data: userData, fetching: userFetching, error: userError } = userResult;
+
+  // User id from the queried user
+  const userId = useRef(0)
+
+// Get user's profile
+  const [profileResult, refetch] = useGetProfileUserIdQuery({ variables: { user_id: userId.current } });
+  const { data: profileData, fetching: profileFetching, error: profileError } = profileResult;
+
+  // User profile
+  const { userProfile, setUserProfile } = useContext(UserContext)
+
+  // Create profile mutation
+  const [, createProfile] = useCreateProfileForUserMutation();
+
+  // Getting userId from database and setting it to a useRef
+  useEffect(() => {
+    if (session) {
+      if (userFetching === false) {
+        const user = userData?.findUser;
+        if (user) {
+          userId.current = Number(user.id);
+          refetch();
+        }
+      }
+    }
+  }, [refetch, session, userData?.findUser, userFetching])
+
+  // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
+  useEffect(() => {
+    if (profileFetching === false && userId.current !== 0) {
+      const profile = profileData?.findProfileUserId;
+      if (profile) {
+        // There is a bug with join tables in GraphQL. Using the user id and email from the sessions for now.
+        const newVals = { user_id: userId.current, email: email };
+        const newProfile = { ...profile, ...newVals };
+        setUserProfile(newProfile);
+      } else if ((profile === undefined || profile === null) && profileFetching === false) {
+        const values = {
+          id: 1,
+          user_id: userId.current,
+          name: name,
+          username: '@' + email.split('@')[0],
+          email: email,
+          image: image,
+          title: `${name}'s awesome title`,
+          bio: `${name}'s awesome bio`,
+          website: 'http://example.com/'
+        }
+        createProfile({ input: values })
+          .then(() => refetch());
+      }
+    }
+  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setUserProfile])
 
   return (
     <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
@@ -55,14 +122,14 @@ export default function NextAuth(): JSX.Element {
               {/* {console.log(session)} */}
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
-                <p><strong>{session.user.email || session.user.name}</strong></p>
+                <p><strong>{userProfile.username || userProfile.name || userProfile.email}</strong></p>
               </Box>
               <Box justifyContent="flex-end">
-                {session.user.image ?
+                {userProfile.image ?
                   <Avatar
-                    name={session.user.name}
+                    name={userProfile.name}
                     size={'md'}
-                    src={session.user.image}
+                    src={userProfile.image}
                   />
                   :
                   <Icon as={loggedOutIcon} />}
@@ -151,3 +218,8 @@ export default function NextAuth(): JSX.Element {
     </PopoverContent>
   )
 }
+
+export default withUrqlClient(() => ({
+  // ...add your Client options here
+  url: 'http://localhost:8080/graphql',
+}))(NextAuth);

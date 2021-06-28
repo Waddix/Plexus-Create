@@ -1,0 +1,11 @@
+query GetProfileID($id: Int!) {
+  findProfileID(id: $id) {
+    id
+    name
+    username
+    image
+    title
+    bio
+    website
+  }
+}

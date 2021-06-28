@@ -1,0 +1,11 @@
+query GetProfileUsername($username: String!) {
+  findProfileUsername(username: $username) {
+    id
+    name
+    username
+    image
+    title
+    bio
+    website
+  }
+}

@@ -31,7 +31,7 @@ interface ProjectCardProps {
   // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt,}) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt, }) => {
   const [session] = useSession();
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
@@ -92,23 +92,23 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 <Avatar
                   size={'md'}
                   src={session.user.image}
-                  />
-                  :
-                  <Icon as={loggedOutIcon} />}
-          <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>{session?.user?.name || ''}</Text>
-            <Text color={'gray.500'}> {postedAt}</Text> {/* change to use project created at */}
-          </Stack>
-          <Flex>
-            <Spacer>
-        <FcNext onClick={()=> router.push(`/projects/${id}`)}></FcNext> 
-            </Spacer>
-          </Flex>
-        </Stack>
-      </Box>
-    </Center>
-   </Spacer>
-  </Flex>
+                />
+                :
+                <Icon as={loggedOutIcon} />}
+              <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                <Text fontWeight={600}>{session?.user?.name || ''}</Text>
+                <Text color={'gray.500'}> {postedAt}</Text> {/* change to use project created at */}
+              </Stack>
+              <Flex>
+                <Spacer>
+                  <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
+                </Spacer>
+              </Flex>
+            </Stack>
+          </Box>
+        </Center>
+      </Spacer>
+    </Flex>
   );
 }
 

@@ -87,7 +87,7 @@ export const UserCard: React.FC<{}> = ({}) => {
         </Stack>
 
         <Stack mt={8} direction={'row'} spacing={4}>
-          <Button
+          {/* <Button
             flex={1}
             fontSize={'sm'}
             rounded={'full'}
@@ -95,7 +95,7 @@ export const UserCard: React.FC<{}> = ({}) => {
               bg: 'gray.200',
             }}>
             Message
-          </Button>
+          </Button> */}
           <Button
             flex={1}
             fontSize={'sm'}
