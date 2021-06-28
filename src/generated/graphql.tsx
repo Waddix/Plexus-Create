@@ -257,7 +257,7 @@ export type GetAllProfilesQuery = (
   { __typename?: 'Query' }
   & { getAllProfiles?: Maybe<Array<(
     { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   )>> }
 );
 
@@ -281,7 +281,7 @@ export type GetProfileIdQuery = (
   { __typename?: 'Query' }
   & { findProfileID: (
     { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   ) }
 );
 
@@ -294,7 +294,7 @@ export type GetProfileUserIdQuery = (
   { __typename?: 'Query' }
   & { findProfileUserId: (
     { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   ) }
 );
 
@@ -307,7 +307,7 @@ export type GetProfileUsernameQuery = (
   { __typename?: 'Query' }
   & { findProfileUsername: (
     { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website'>
+    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   ) }
 );
 
@@ -445,10 +445,8 @@ export const GetAllProfilesDocument = gql`
     query GetAllProfiles {
   getAllProfiles {
     id
-    user_id
     name
     username
-    email
     image
     title
     bio
@@ -478,10 +476,8 @@ export const GetProfileIdDocument = gql`
     query GetProfileID($id: Int!) {
   findProfileID(id: $id) {
     id
-    user_id
     name
     username
-    email
     image
     title
     bio
@@ -497,10 +493,8 @@ export const GetProfileUserIdDocument = gql`
     query GetProfileUserID($user_id: Int!) {
   findProfileUserId(user_id: $user_id) {
     id
-    user_id
     name
     username
-    email
     image
     title
     bio
@@ -516,10 +510,8 @@ export const GetProfileUsernameDocument = gql`
     query GetProfileUsername($username: String!) {
   findProfileUsername(username: $username) {
     id
-    user_id
     name
     username
-    email
     image
     title
     bio

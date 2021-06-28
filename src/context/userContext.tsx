@@ -14,12 +14,15 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState([])
+  const [userProfile, setUserProfile] = useState<unknown>({});
 
 
   const userProps = {
     userProjects,
     projectsFollowing,
     tagsFollowing,
+    userProfile,
+    setUserProfile,
   }
 
   // const sum = (x: number, y: number): number => x + y;

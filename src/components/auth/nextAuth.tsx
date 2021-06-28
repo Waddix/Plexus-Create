@@ -16,8 +16,9 @@ import {
 import { signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
-import { useGetUserQuery, useGetProfileUserIdQuery } from '../../generated/graphql';
+import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
+import { UserContext } from '../../context/userContext';
 
 const UserLinks = ['Profile'];
 
@@ -59,22 +60,21 @@ const NextAuth: React.FC<{}> = ({ }) => {
 
   const userId = useRef(0)
 
-  const [profileResult] = useGetProfileUserIdQuery({ variables: { user_id: userId.current } });
+  const [profileResult, refetch] = useGetProfileUserIdQuery({ variables: { user_id: userId.current } });
   const { data: profileData, fetching: profileFetching, error: profileError } = profileResult;
 
-  // console.log(result);
+  const { userProfile, setUserProfile } = useContext(UserContext)
 
+  const [, createProfile] = useCreateProfileForUserMutation();
+
+  // Getting userId from database and setting it ot a useRef
   useEffect(() => {
     if (session) {
       if (userFetching === false) {
         const user = userData?.findUser;
-        console.log(user);
         if (user) {
           userId.current = Number(user.id);
-          console.log('USER ID FROM DB: ', userId.current)
-          if (profileFetching === false) {
-            console.log('USER PROFILE RESULTS: ', profileResult);
-          }
+          refetch();
         }
       }
       // Check if this user has a profile linked to the db
@@ -90,7 +90,32 @@ const NextAuth: React.FC<{}> = ({ }) => {
 
       // If there is a conflict finding or creating the profile return false.
     }
-  }, [profileData, profileFetching, session, userData?.findUser, userFetching])
+  }, [refetch, session, userData?.findUser, userFetching])
+
+  useEffect(() => {
+    if (profileFetching === false && userId.current !== 0) {
+      const profile = profileData?.findProfileUserId;
+      if (profile) {
+        const newVals = { user_id: userId.current, email: email };
+        const newProfile = { ...profile, ...newVals };
+        setUserProfile(newProfile);
+      } else if ((profile === undefined || profile === null) && profileFetching === false) {
+        const values = {
+          id: 1,
+          user_id: userId.current,
+          name: name,
+          username: '@' + email.split('@')[0],
+          email: email,
+          image: image,
+          title: `${name}'s awesome title`,
+          bio: `${name}'s awesome bio`,
+          website: 'http://example.com/'
+        }
+        createProfile({ input: values })
+          .then(() => refetch());
+      }
+    }
+  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setUserProfile])
 
   return (
     <PopoverContent marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
@@ -101,14 +126,14 @@ const NextAuth: React.FC<{}> = ({ }) => {
               {/* {console.log(session)} */}
               <Box justifyContent="flex-start">
                 <p><small>Signed in as</small></p>
-                <p><strong>{session.user.email || session.user.name}</strong></p>
+                <p><strong>{userProfile.username || userProfile.name || userProfile.email}</strong></p>
               </Box>
               <Box justifyContent="flex-end">
-                {session.user.image ?
+                {userProfile.image ?
                   <Avatar
-                    name={session.user.name}
+                    name={userProfile.name}
                     size={'md'}
-                    src={session.user.image}
+                    src={userProfile.image}
                   />
                   :
                   <Icon as={loggedOutIcon} />}

@@ -1,14 +1,8 @@
 query GetProfileUsername($username: String!) {
   findProfileUsername(username: $username) {
     id
-    user_id {
-      id
-    }
     name
     username
-    email {
-      email
-    }
     image
     title
     bio

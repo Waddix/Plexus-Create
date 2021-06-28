@@ -1,14 +1,8 @@
 query GetProfileUserID($user_id: Int!) {
   findProfileUserId(user_id: $user_id) {
     id
-    user_id {
-      id
-    }
     name
     username
-    email {
-      email
-    }
     image
     title
     bio
