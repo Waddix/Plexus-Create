@@ -1,5 +1,4 @@
-import { Avatar, Box, Button, Collapse, Divider, Flex, Heading, HStack, Icon, Spacer, Stack, Text } from '@chakra-ui/react';
-import { VscBookmark } from "react-icons/vsc";
+import { Avatar, Box, Button, Collapse, Divider, Heading, HStack, Icon, Spacer, Stack, Text } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
 import React, { useState } from 'react'
 import { loggedOutIcon } from '../auth/nextAuth';
