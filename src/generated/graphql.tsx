@@ -374,7 +374,7 @@ export type ProjectQuery = (
     & Pick<Project, 'id' | 'title' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
-      & Pick<Profile, 'username'>
+      & Pick<Profile, 'username' | 'image'>
     ) }
   )> }
 );
@@ -389,7 +389,7 @@ export type ProjectsQuery = (
     & Pick<Project, 'title' | 'description' | 'ownerId' | 'id' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
-      & Pick<Profile, 'username'>
+      & Pick<Profile, 'username' | 'image'>
     ) }
   )> }
 );
@@ -590,6 +590,7 @@ export const ProjectDocument = gql`
     title
     owner {
       username
+      image
     }
     ownerId
     description
@@ -610,6 +611,7 @@ export const ProjectsDocument = gql`
     ownerId
     owner {
       username
+      image
     }
     id
     createdAt

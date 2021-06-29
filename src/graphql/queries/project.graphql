@@ -4,6 +4,7 @@ query Project($id: Int!) {
     title
     owner {
       username
+      image
     }
     ownerId
     description

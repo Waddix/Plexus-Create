@@ -5,6 +5,7 @@ query Projects {
     ownerId
     owner {
       username
+      image
     }
     id
     createdAt
