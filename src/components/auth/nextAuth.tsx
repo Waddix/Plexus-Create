@@ -20,8 +20,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
-import { UserContext } from '../../context/userContext';import RegisterFlow from './RegisterFlow';
-;
+import { UserContext } from '../../context/userContext';
+import RegisterFlow from './RegisterFlow';
+
 
 const UserLinks = ['Profile'];
 
@@ -93,7 +94,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
   }, [refetch, session, userData?.findUser, userFetching])
 
   // User registration
-  const {setNewUser} = useContext(UserContext);
+  const { setNewUser } = useContext(UserContext);
 
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {
@@ -119,15 +120,15 @@ const NextAuth: React.FC<{}> = ({ }) => {
           username: '@' + email.split('@')[0],
           email: email,
           image: image,
-          title: `${name}'s awesome title`,
-          bio: `${name}'s awesome bio`,
-          website: 'http://example.com/'
+          title: "",
+          bio: "",
+          website: "",
         }
         createProfile({ input: values })
           .then(() => refetch());
       }
     }
-  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setLoadingProfile, setUserProfile])
+  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setLoadingProfile, setNewUser, setUserProfile])
 
   return (
     <Fragment>
@@ -251,7 +252,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
         </Fragment>
       </PopoverContent>
 
-      <RegisterFlow />
+      <RegisterFlow refetch={refetch} />
     </Fragment>
   )
 }
