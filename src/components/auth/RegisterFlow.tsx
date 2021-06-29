@@ -8,7 +8,13 @@ import {
   AlertDialogFooter,
   useColorModeValue,
   Flex,
-  Spacer
+  Spacer,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  CloseButton,
+  Box
 } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from '../../context/userContext';
@@ -42,10 +48,14 @@ const RegisterFlow: React.FC<{}> = ({ refetch }) => {
   const [tags, setTags] = useState([]);
   const [social, setSocail] = useState({});
 
+  // Set fields when a session is created
   useEffect(() => {
     if (session) {
       setName(userProfile.name)
       setUsername(userProfile.username.split('@')[1])
+      if (userProfile.image) {
+        setImage(userProfile.image)
+      }
     }
   }, [userProfile])
 
@@ -114,7 +124,11 @@ const RegisterFlow: React.FC<{}> = ({ refetch }) => {
   // Create profile mutation
   const [, createProfile] = useCreateProfileForUserMutation();
 
+  // Is form submitting
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Was there an error submitting the form
+  const [errorSubmitting, setErrorSubmitting] = useState(false);
 
   const handleSubmit = () => {
     const values = {
@@ -133,11 +147,21 @@ const RegisterFlow: React.FC<{}> = ({ refetch }) => {
         setIsSubmitting(false)
         closeRegisterFlowDialog()
         refetch()
-      });
+      })
   }
 
   return (
     <Fragment>
+      {errorSubmitting &&
+        <Box width='100vw' position='absolute' left='0' top='0'>
+          <Alert status="error" variant="solid" height="5rem" >
+            <AlertIcon />
+            <AlertTitle mr={2}>There was an error submitting your profile data</AlertTitle>
+            <AlertDescription>Please try again later</AlertDescription>
+            <CloseButton onClick={setErrorSubmitting(false)} position="absolute" right="8px" top="8px" />
+          </Alert>
+        </Box>
+      }
       <AlertDialog
         motionPreset="scale"
         isOpen={newUser}

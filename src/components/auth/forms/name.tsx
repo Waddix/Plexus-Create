@@ -11,7 +11,7 @@ export default function Name({ name, updateName, username, updateUsername, updat
     <Fragment>
       <Box>
         <FormLabel htmlFor="name">Display Name</FormLabel>
-        <Input value={name} onChange={(e) => updateName(e.target.value)} id="name" placeholder={userProfile.name || "Display Name"} />
+        <Input required value={name} onChange={(e) => updateName(e.target.value)} id="name" placeholder={userProfile.name || "Display Name"} />
       </Box>
       <Box mt={7}>
         <FormLabel htmlFor="username">Username</FormLabel>
@@ -22,7 +22,7 @@ export default function Name({ name, updateName, username, updateUsername, updat
             color={useColorModeValue("gray.500", "gay.50")}
             rounded="md"
           />
-          <Input value={username} onChange={(e) => updateUsername(e.target.value)} id="username" placeholder={username || "Display Name"} />
+          <Input required value={username} onChange={(e) => updateUsername(e.target.value)} id="username" placeholder={username || "Display Name"} />
         </InputGroup>
       </Box>
       <Box mt={7}>
