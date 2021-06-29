@@ -17,7 +17,7 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
   const [tagsFollowing, setTagsFollowing] = useState([])
   const [userProfile, setUserProfile] = useState<unknown>({});
   const [loadingProfile, setLoadingProfile] = useState(false);
-  const [userSigningIn, setUserSigningIn] = useState(false);
+  const [newUser, setNewUser] = useState(false);
 
 
   const userProps = {
@@ -29,8 +29,8 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
     setUserProfile,
     loadingProfile,
     setLoadingProfile,
-    userSigningIn,
-    setUserSigningIn
+    newUser,
+    setNewUser
   }
 
   // const sum = (x: number, y: number): number => x + y;
