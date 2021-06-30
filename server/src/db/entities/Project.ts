@@ -24,7 +24,7 @@ export class Project extends Base {
   owner!: Profile;
 
   @Field(() => Tag)
-  @ManyToMany(() => Tag, (t) => t.name)
+  @ManyToMany(() => Tag, (t) => t.name, {cascade: true})
   @JoinTable()
   tags: Tag[];
 
