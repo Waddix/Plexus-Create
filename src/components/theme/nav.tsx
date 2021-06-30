@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
   Spacer,
   Text,
+  SkeletonCircle,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
@@ -46,9 +47,14 @@ const loggedOutIcon = (): JSX.Element => {
 }
 
 export default function Nav(): JSX.Element {
+  // Session
   const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // User Profile Context
   const { userProfile } = useContext(UserContext)
+  // Conditionally render the skeleton loading effects
+  const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
   return (
     <nav>
@@ -105,14 +111,17 @@ export default function Nav(): JSX.Element {
                   cursor={'pointer'}>
                   {
                     session ?
-                    userProfile.image ?
-                        <Avatar
-                          name={userProfile.name}
-                          size={'sm'}
-                          src={userProfile.image}
-                        />
+                      loadingProfile ?
+                        <SkeletonCircle size="2rem" />
                         :
-                        <Icon as={loggedOutIcon} />
+                        userProfile.image ?
+                          <Avatar
+                            name={userProfile.name}
+                            size={'sm'}
+                            src={userProfile.image}
+                          />
+                          :
+                          <Icon as={loggedOutIcon} />
                       :
                       <Icon as={loggedOutIcon} />
                   }

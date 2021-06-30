@@ -11,6 +11,8 @@ client/dist/bundle.js
 
 # next.js build output
 .next
+/.next/
+/out/
 
 # Logs
 npm-debug.log*
@@ -23,3 +25,24 @@ dist
 # ENV
 .env.local
 pg-hba.conf
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# vercel
+.vercel
+
+# misc
+*.pem
+
+# production
+/build
+
+# testing
+/coverage
+
+# dependencies
+/.pnp
+.pnp.js
