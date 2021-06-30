@@ -21,17 +21,24 @@ export class FollowProjectResolver {
     return true;
   }
 
-  @Query(() => [Project], {nullable: true})
-  async getFollowedProjects(
-    @Arg('profileId', () => Int) profileId: number,
-    // @Arg('projectId', () => Int) projectId: number,
-  ): Promise<Project[]> {
-    const projects = await getConnection()
-    .createQueryBuilder()
-    .relation(Project, 'follower')
-    .of(profileId)
-    .loadMany();
-    return projects;
+
+  @Query(() => FollowProject, { nullable: true})
+  getFollowedProjects(
+    @Arg("id", () => Int) id: number): Promise<Project[]> {
+      return Project.find({ relations: "follower"});
+    }
+  )
+  // @Query(() => [Project], {nullable: true})
+  // async getFollowedProjects(
+  //   @Arg('profileId', () => Int) profileId: number,
+  //   // @Arg('projectId', () => Int) projectId: number,
+  // ): Promise<Project[]> {
+  //   const projects = await getConnection()
+  //   .createQueryBuilder()
+  //   .relation(Project, 'follower')
+  //   .of(profileId)
+  //   .loadMany();
+  //   return projects;
   }
 
 }
