@@ -17,7 +17,7 @@ const main = async () => {
     database: process.env.DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    // logging: true,
+    logging: true,
     synchronize: true,
     // dropSchema: true,
     entities: [
@@ -46,7 +46,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({ app });
 
-  app.listen(PORT, (): void => {
+  app.listen(PORT, () => {
     console.info(`server started on ${PORT}`);
   });
 };
