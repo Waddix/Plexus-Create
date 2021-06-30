@@ -1,0 +1,3 @@
+mutation assignProjectTag($projectId: Int!, $tagId: Int!){
+  assignTag(projectId: $projectId, tagId: $tagId)
+}
