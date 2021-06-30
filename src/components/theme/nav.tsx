@@ -27,7 +27,6 @@ import { UserContext } from '../../context/userContext';
 const Links = ['Home', 'Projects', 'Search'];
 
 const NavLink = (link: string | JSX.Element): JSX.Element => (
-  typeof link === 'string' ?
   <Link
     key={link}
     px={2}
@@ -41,20 +40,6 @@ const NavLink = (link: string | JSX.Element): JSX.Element => (
   >
     {link}
   </Link>
-  :
-  <Link
-  key="search"
-  px={2}
-  py={1}
-  rounded={'md'}
-  _hover={{
-    textDecoration: 'none',
-    bg: useColorModeValue('orange.200', 'orange.700'),
-  }}
-  href="search"
->
-  {link}
-</Link>
 );
 
 const loggedOutIcon = (): JSX.Element => {
@@ -112,17 +97,27 @@ export default function Nav(): JSX.Element {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => {
-                console.log(link);
-                if (link === 'Search') {
-                  console.log('found search')
-                  return NavLink(searchIcon())
-                }
-                return NavLink(link)
-              })}
+              {Links.map((link) => (
+                NavLink(link)
+              ))}
             </HStack>
           </HStack>
-          <Box marginLeft='2rem' alignItems={'center'}>
+          <Box marginLeft='0.5rem'>
+            <Link
+              key="search"
+              px={2}
+              py={1}
+              rounded={'md'}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
+              href="search"
+            >
+              {searchIcon()}
+            </Link>
+          </Box>
+          <Box marginLeft='0.5rem' alignItems={'center'}>
             <Popover
               placement="bottom"
               closeOnBlur={false}
