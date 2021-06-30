@@ -7,6 +7,10 @@ query Projects {
       username
       image
     }
+    tags{
+      name
+    }
+    id
     id
     createdAt
     updatedAt

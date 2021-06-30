@@ -139,7 +139,7 @@ export type Project = {
   description: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
-  tags: Tag;
+  tags: Array<Tag>;
 };
 
 export type ProjectInput = {
@@ -463,7 +463,10 @@ export type ProjectQuery = (
     & { owner: (
       { __typename?: 'Profile' }
       & Pick<Profile, 'username' | 'image'>
-    ) }
+    ), tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name'>
+    )> }
   )> }
 );
 
@@ -491,7 +494,10 @@ export type ProjectsQuery = (
     & { owner: (
       { __typename?: 'Profile' }
       & Pick<Profile, 'username' | 'image'>
-    ) }
+    ), tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name'>
+    )> }
   )> }
 );
 
@@ -742,6 +748,9 @@ export const ProjectDocument = gql`
       username
       image
     }
+    tags {
+      name
+    }
     ownerId
     description
     createdAt
@@ -774,6 +783,10 @@ export const ProjectsDocument = gql`
       username
       image
     }
+    tags {
+      name
+    }
+    id
     id
     createdAt
     updatedAt

@@ -6,6 +6,9 @@ query Project($id: Int!) {
       username
       image
     }
+    tags{
+      name
+    }
     ownerId
     description
     createdAt
