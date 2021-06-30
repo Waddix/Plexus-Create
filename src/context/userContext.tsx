@@ -1,9 +1,9 @@
 import React, { useState, ReactElement, ReactNode } from "react";
-import Project from '../models/project';
+
 import Profile from '../models/profile';
 import { useFollowProjectMutation } from "../generated/graphql";
 
-
+import { Project } from "../models/project"
 
 //* work in progress. Still a little unclear on how contexts are defined in typescript
 //* May need to use define interface, but not sure what properties it would take on.
@@ -19,11 +19,14 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState([])
   const [userProfile, setUserProfile] = useState<Profile>({});
-  
+
   const [, followP] = useFollowProjectMutation();
 
   const followProject = async (project: Project) => {
-   const follow = followP();
+   await followP({profileId: userProfile.id, projectId: project.id});
+   setProjectsFollowing((prevProjects) => {
+     return [...prevProjects, project];
+   })
 
   };
 

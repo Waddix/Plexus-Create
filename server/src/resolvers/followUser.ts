@@ -8,10 +8,7 @@ import { getConnection } from 'typeorm';
 @Resolver()
 
 export class FollowUserResolver {
-  // @Query(() => [Profile])
-  // tags(): Promise<Profile[]> {
-  //   return Profile.find();
-  // }
+
   @Query(() => Profile, { nullable: true })
   user(
     @Arg('id', () => Int) id: number,
@@ -29,12 +26,7 @@ export class FollowUserResolver {
     .loadMany();
     return followers;
   }
-  // @Mutation(() => Profile)
-  // async createTag(
-  //   @Arg('name', () => String) name: string,
-  // ): Promise<Tag> {
-  //   return Tag.create({ name }).save();
-  // }
+
   @Mutation(() => Boolean)
   async followUser(
     @Arg('profileId_1', () => Int) profileId_1: number,
