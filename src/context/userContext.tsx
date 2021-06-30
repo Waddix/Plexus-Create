@@ -19,7 +19,8 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState([])
   const [userProfile, setUserProfile] = useState<Profile>({});
-
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [newUser, setNewUser] = useState(false);
   const [, followP] = useFollowProjectMutation();
 
   const followProject = async (project: Project) => {
@@ -27,6 +28,8 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
    setProjectsFollowing((prevProjects) => {
      return [...prevProjects, project];
    })
+  
+  
 
   };
 
@@ -36,7 +39,11 @@ function UserContextProvider({ children }: { children: ReactNode }): ReactElemen
     tagsFollowing,
     userProfile,
     setUserProfile,
-    followProject
+    followProject,
+    loadingProfile,
+    setLoadingProfile,
+    newUser,
+    setNewUser
   }
 
   // const sum = (x: number, y: number): number => x + y;

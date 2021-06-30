@@ -10,16 +10,16 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
 }
 // need size as part of input type def
-export const InputField: React.FC<InputFieldProps> = ({label, size, ...props}) => {
-  const [field, {error}] = useField(props);
-    return (
-      // !! converts error message to boolean 
-      // '' => false
-      // 'error message' => true
-      <FormControl isInvalid={!!error}>
+export const InputField: React.FC<InputFieldProps> = ({ label, size, ...props }) => {
+  const [field, { error }] = useField(props);
+  return (
+    // !! converts error message to boolean 
+    // '' => false
+    // 'error message' => true
+    <FormControl isInvalid={!!error}>
       <FormLabel htmlFor={field.name}>{label}</FormLabel>
-      <Input {...field} {...props} id={field.name}/>
+      <Input {...field} {...props} id={field.name} />
       {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
     </FormControl>
-    );
+  );
 }
