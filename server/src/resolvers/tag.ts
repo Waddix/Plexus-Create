@@ -1,10 +1,28 @@
 import { Project } from '../db/entities/Project';
 import {
-  Resolver, Query, Arg, Mutation, Int
+  Resolver, Query, Arg, Mutation, Int, Field, ObjectType
 } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import { Tag } from '../db/entities/Tag';
 
+
+@ObjectType() 
+class FieldError {
+  @Field()
+  field: string;
+
+  @Field()
+  message: string;
+}
+
+@ObjectType()
+class TagResponse {
+  @Field(() => [FieldError], {nullable: true})
+  errors?: FieldError[];
+
+  @Field(() => Tag, {nullable: true})
+  tag?: Tag;
+}
 @Resolver()
 export class TagResolver {
   @Query(() => [Tag])
@@ -33,11 +51,23 @@ export class TagResolver {
     return tags;
   }
 
-  @Mutation(() => Tag)
+  @Mutation(() => TagResponse)
   async createTag(
     @Arg('name', () => String) name: string,
-  ): Promise<Tag> {
-    return Tag.create({ name }).save();
+  ): Promise<TagResponse> {
+    let tag;
+    try {
+      tag = await Tag.create({ name }).save()
+    } catch (error) {
+
+      return {
+        errors:[{
+          field: 'name',
+          message: 'Tag already exists'
+        }]
+      }
+    }
+    return {tag};
   }
 
   @Mutation(() => Boolean)
