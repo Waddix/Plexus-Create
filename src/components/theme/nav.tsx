@@ -21,12 +21,13 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { UserContext } from '../../context/userContext';
 
-const Links = ['Home', 'Projects'];
+const Links = ['Home', 'Projects', 'Search'];
 
-const NavLink = (link: string): JSX.Element => (
+const NavLink = (link: string | JSX.Element): JSX.Element => (
+  typeof link === 'string' ?
   <Link
     key={link}
     px={2}
@@ -40,10 +41,28 @@ const NavLink = (link: string): JSX.Element => (
   >
     {link}
   </Link>
+  :
+  <Link
+  key="search"
+  px={2}
+  py={1}
+  rounded={'md'}
+  _hover={{
+    textDecoration: 'none',
+    bg: useColorModeValue('orange.200', 'orange.700'),
+  }}
+  href="search"
+>
+  {link}
+</Link>
 );
 
 const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='2x' />
+}
+
+const searchIcon = (): JSX.Element => {
+  return <FontAwesomeIcon icon={faSearch} size='1x' />
 }
 
 export default function Nav(): JSX.Element {
@@ -93,9 +112,14 @@ export default function Nav(): JSX.Element {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                NavLink(link)
-              ))}
+              {Links.map((link) => {
+                console.log(link);
+                if (link === 'Search') {
+                  console.log('found search')
+                  return NavLink(searchIcon())
+                }
+                return NavLink(link)
+              })}
             </HStack>
           </HStack>
           <Box marginLeft='2rem' alignItems={'center'}>
