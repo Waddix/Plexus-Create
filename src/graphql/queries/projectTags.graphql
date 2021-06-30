@@ -1,0 +1,5 @@
+query projectTags($projectId: Int!){
+  projectTags(projectId:$projectId){
+   ...tagFragment
+  }
+}

@@ -1,0 +1,6 @@
+fragment tagFragment on Tag {
+  id
+  name
+  createdAt
+  updatedAt
+}
