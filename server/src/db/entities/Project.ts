@@ -1,18 +1,19 @@
 import { Base } from "./Base"
 import { Field, ObjectType } from "type-graphql";
 import { Profile } from "./Profile";
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { Tag } from "./Tag";
 
 @ObjectType()
 @Entity()
 export class Project extends Base {
   @Field()
   @Column()
-  title!: string
+  title!: string;
 
   @Field()
   @Column()
-  description!: string
+  description!: string;
 
   @Field()
   @Column()
@@ -20,7 +21,11 @@ export class Project extends Base {
 
   @Field(() => Profile)
   @ManyToOne(() => Profile, (p) => p.projects)
-  owner!: Profile
+  owner!: Profile;
 
+  @Field(() => Tag)
+  @ManyToMany(() => Tag, (t) => t.name)
+  @JoinTable()
+  tags: Tag[];
 
 }
