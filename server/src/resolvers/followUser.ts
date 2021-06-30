@@ -16,15 +16,15 @@ export class FollowUserResolver {
     return Profile.findOne(id);
   }
   @Query(() => [Profile], {nullable: true})
-  async followers(
+  async getFollowedUsers(
     @Arg('profileId', () => Int) profileId: number
   ): Promise<Profile[]> {
-    const followers = await getConnection()
+    const following = await getConnection()
     .createQueryBuilder()
     .relation(Profile, "followers")
     .of(profileId)
     .loadMany();
-    return followers;
+    return following;
   }
 
   @Mutation(() => Boolean)

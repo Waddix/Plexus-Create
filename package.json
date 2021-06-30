@@ -12,7 +12,7 @@
     "test": "yarn lint",
     "create:migration": "mikro-orm migration:create",
     "next:start": "next start",
-    "gen": "graphql-codegen --config codegen.yml"
+    "gen": "graphql-codegen --config codegen.yml --w"
   },
   "keywords": [],
   "author": "Waddix",

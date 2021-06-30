@@ -28,6 +28,12 @@ export type Accounts = {
 };
 
 
+export type FieldError = {
+  __typename?: 'FieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
+};
+
 export type FollowProject = {
   __typename?: 'FollowProject';
   id: Scalars['ID'];
@@ -48,12 +54,14 @@ export type Mutation = {
   createProject: Project;
   updateProject?: Maybe<Project>;
   deleteProject: Scalars['Boolean'];
+  createTag: TagResponse;
+  assignTag: Scalars['Boolean'];
 };
 
 
 export type MutationFollowProjectArgs = {
-  profileId: Scalars['Int'];
   projectId: Scalars['Int'];
+  profileId: Scalars['Int'];
 };
 
 
@@ -104,6 +112,17 @@ export type MutationDeleteProjectArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationCreateTagArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationAssignTagArgs = {
+  projectId: Scalars['Int'];
+  tagId: Scalars['Int'];
+};
+
 export type Post = {
   __typename?: 'Post';
   id: Scalars['ID'];
@@ -149,6 +168,7 @@ export type Project = {
   description: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
+  tags: Array<Tag>;
 };
 
 export type ProjectInput = {
@@ -158,7 +178,7 @@ export type ProjectInput = {
 
 export type Query = {
   __typename?: 'Query';
-  tags: Array<Profile>;
+  getFollowedProjects?: Maybe<Array<Project>>;
   user?: Maybe<Profile>;
   followers?: Maybe<Array<Profile>>;
   posts: Array<Post>;
@@ -169,10 +189,18 @@ export type Query = {
   findProfileUsername: Profile;
   projects: Array<Project>;
   project?: Maybe<Project>;
+  tags: Array<Tag>;
+  tag?: Maybe<Tag>;
+  projectTags?: Maybe<Array<Tag>>;
   getAllUsers?: Maybe<Array<Users>>;
   findUserName?: Maybe<Users>;
   findUserEmail: Users;
   findUser: Users;
+};
+
+
+export type QueryGetFollowedProjectsArgs = {
+  profileId: Scalars['Int'];
 };
 
 
@@ -211,6 +239,16 @@ export type QueryProjectArgs = {
 };
 
 
+export type QueryTagArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryProjectTagsArgs = {
+  projectId: Scalars['Int'];
+};
+
+
 export type QueryFindUserNameArgs = {
   name: Scalars['String'];
 };
@@ -235,6 +273,20 @@ export type Sessions = {
   expires: Scalars['DateTime'];
 };
 
+export type Tag = {
+  __typename?: 'Tag';
+  id: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+};
+
+export type TagResponse = {
+  __typename?: 'TagResponse';
+  errors?: Maybe<Array<FieldError>>;
+  tag?: Maybe<Tag>;
+};
+
 export type Users = {
   __typename?: 'Users';
   id: Scalars['ID'];
@@ -244,6 +296,22 @@ export type Users = {
   email?: Maybe<Scalars['String']>;
   image: Scalars['String'];
 };
+
+export type TagFragmentFragment = (
+  { __typename?: 'Tag' }
+  & Pick<Tag, 'id' | 'name' | 'createdAt' | 'updatedAt'>
+);
+
+export type AssignProjectTagMutationVariables = Exact<{
+  projectId: Scalars['Int'];
+  tagId: Scalars['Int'];
+}>;
+
+
+export type AssignProjectTagMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'assignTag'>
+);
 
 export type CreatePostMutationVariables = Exact<{
   type: Scalars['String'];
@@ -286,6 +354,25 @@ export type CreateProjectMutation = (
   ) }
 );
 
+export type CreateTagMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreateTagMutation = (
+  { __typename?: 'Mutation' }
+  & { createTag: (
+    { __typename?: 'TagResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>>, tag?: Maybe<(
+      { __typename?: 'Tag' }
+      & TagFragmentFragment
+    )> }
+  ) }
+);
+
 export type FollowProjectMutationVariables = Exact<{
   profileId: Scalars['Int'];
   projectId: Scalars['Int'];
@@ -295,6 +382,41 @@ export type FollowProjectMutationVariables = Exact<{
 export type FollowProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'followProject'>
+);
+
+export type FollowUserMutationVariables = Exact<{
+  profileId_2: Scalars['Int'];
+  profileId_1: Scalars['Int'];
+}>;
+
+
+export type FollowUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'followUser'>
+);
+
+export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllTagsQuery = (
+  { __typename?: 'Query' }
+  & { tags: Array<(
+    { __typename?: 'Tag' }
+    & TagFragmentFragment
+  )> }
+);
+
+export type FindTagByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type FindTagByIdQuery = (
+  { __typename?: 'Query' }
+  & { tag?: Maybe<(
+    { __typename?: 'Tag' }
+    & TagFragmentFragment
+  )> }
 );
 
 export type GetAllProfilesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -421,9 +543,25 @@ export type ProjectQuery = (
     & Pick<Project, 'id' | 'title' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
-      & Pick<Profile, 'username' | 'email'>
-    ) }
+      & Pick<Profile, 'username' | 'image'>
+    ), tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name'>
+    )> }
   )> }
+);
+
+export type ProjectTagsQueryVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type ProjectTagsQuery = (
+  { __typename?: 'Query' }
+  & { projectTags?: Maybe<Array<(
+    { __typename?: 'Tag' }
+    & TagFragmentFragment
+  )>> }
 );
 
 export type ProjectsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -436,12 +574,31 @@ export type ProjectsQuery = (
     & Pick<Project, 'title' | 'description' | 'ownerId' | 'id' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
-      & Pick<Profile, 'username'>
-    ) }
+      & Pick<Profile, 'username' | 'image'>
+    ), tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name'>
+    )> }
   )> }
 );
 
+export const TagFragmentFragmentDoc = gql`
+    fragment tagFragment on Tag {
+  id
+  name
+  createdAt
+  updatedAt
+}
+    `;
+export const AssignProjectTagDocument = gql`
+    mutation assignProjectTag($projectId: Int!, $tagId: Int!) {
+  assignTag(projectId: $projectId, tagId: $tagId)
+}
+    `;
 
+export function useAssignProjectTagMutation() {
+  return Urql.useMutation<AssignProjectTagMutation, AssignProjectTagMutationVariables>(AssignProjectTagDocument);
+};
 export const CreatePostDocument = gql`
     mutation CreatePost($type: String!, $text: String!) {
   createPost(type: $type, text: $text) {
@@ -492,6 +649,23 @@ export const CreateProjectDocument = gql`
 export function useCreateProjectMutation() {
   return Urql.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument);
 };
+export const CreateTagDocument = gql`
+    mutation CreateTag($name: String!) {
+  createTag(name: $name) {
+    errors {
+      field
+      message
+    }
+    tag {
+      ...tagFragment
+    }
+  }
+}
+    ${TagFragmentFragmentDoc}`;
+
+export function useCreateTagMutation() {
+  return Urql.useMutation<CreateTagMutation, CreateTagMutationVariables>(CreateTagDocument);
+};
 export const FollowProjectDocument = gql`
     mutation followProject($profileId: Int!, $projectId: Int!) {
   followProject(profileId: $profileId, projectId: $projectId)
@@ -500,6 +674,37 @@ export const FollowProjectDocument = gql`
 
 export function useFollowProjectMutation() {
   return Urql.useMutation<FollowProjectMutation, FollowProjectMutationVariables>(FollowProjectDocument);
+};
+export const FollowUserDocument = gql`
+    mutation followUser($profileId_2: Int!, $profileId_1: Int!) {
+  followUser(profileId_2: $profileId_2, profileId_1: $profileId_1)
+}
+    `;
+
+export function useFollowUserMutation() {
+  return Urql.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument);
+};
+export const AllTagsDocument = gql`
+    query allTags {
+  tags {
+    ...tagFragment
+  }
+}
+    ${TagFragmentFragmentDoc}`;
+
+export function useAllTagsQuery(options: Omit<Urql.UseQueryArgs<AllTagsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllTagsQuery>({ query: AllTagsDocument, ...options });
+};
+export const FindTagByIdDocument = gql`
+    query findTagById($id: Int!) {
+  tag(id: $id) {
+    ...tagFragment
+  }
+}
+    ${TagFragmentFragmentDoc}`;
+
+export function useFindTagByIdQuery(options: Omit<Urql.UseQueryArgs<FindTagByIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<FindTagByIdQuery>({ query: FindTagByIdDocument, ...options });
 };
 export const GetAllProfilesDocument = gql`
     query GetAllProfiles {
@@ -646,7 +851,10 @@ export const ProjectDocument = gql`
     title
     owner {
       username
-      email
+      image
+    }
+    tags {
+      name
     }
     ownerId
     description
@@ -659,6 +867,17 @@ export const ProjectDocument = gql`
 export function useProjectQuery(options: Omit<Urql.UseQueryArgs<ProjectQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProjectQuery>({ query: ProjectDocument, ...options });
 };
+export const ProjectTagsDocument = gql`
+    query projectTags($projectId: Int!) {
+  projectTags(projectId: $projectId) {
+    ...tagFragment
+  }
+}
+    ${TagFragmentFragmentDoc}`;
+
+export function useProjectTagsQuery(options: Omit<Urql.UseQueryArgs<ProjectTagsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProjectTagsQuery>({ query: ProjectTagsDocument, ...options });
+};
 export const ProjectsDocument = gql`
     query Projects {
   projects {
@@ -667,7 +886,12 @@ export const ProjectsDocument = gql`
     ownerId
     owner {
       username
+      image
     }
+    tags {
+      name
+    }
+    id
     id
     createdAt
     updatedAt

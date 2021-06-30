@@ -29,16 +29,16 @@ interface ProjectCardProps {
   description: string,
   createdAt: string,
   updatedAt: string,
-  // username?: string | undefined
+  username?: string | undefined
+  image?: string | undefined
   // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt, }) => {
-  const [session] = useSession();
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt, username, image }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
-  const { followProject } = useContext(UserContext);
-  // need hook for query to get user by id
+  updatedAt = dayjs().to(dayjs(updatedAt));
+  // const { followProject } = useContext(UserContext);
   // need hook for query to get user image
   return (
     <Flex>
@@ -92,26 +92,23 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               </Text>
             </Stack>
             <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-              {session?.user?.image ?
                 <Avatar
                   size={'md'}
-                  src={session.user.image}
+                  src={image}
                 />
-                :
-                <Icon as={loggedOutIcon} />}
               <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                <Text fontWeight={600}>{session?.user?.name || ''}</Text>
-                <Text color={'gray.500'}> {postedAt}</Text> {/* change to use project created at */}
+                <Text fontWeight={600}>{username}</Text>
+                <Text color={'gray.500'}> {postedAt}</Text> 
               </Stack>
               <Flex>
                 <Spacer>
                   <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                 </Spacer>
-                <Button
+                {/* <Button
                   onClick={() => followProject(id, session.user.id)}
                 >
                 Follow
-              </Button>
+              </Button> */}
               </Flex>
             </Stack>
           </Box>

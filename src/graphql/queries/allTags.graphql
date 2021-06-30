@@ -1,0 +1,5 @@
+query allTags{
+  tags{
+  ...tagFragment
+  }
+}
