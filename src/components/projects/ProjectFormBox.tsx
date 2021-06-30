@@ -6,7 +6,6 @@ import { UserContext } from '../../context/userContext';
 import { useCreateProjectMutation } from '../../generated/graphql';
 import { InputField } from '../forms/InputField';
 import { TextArea } from '../forms/TextArea';
-import { ProjectTags } from './ProjectTags';
 
 // interface ProjectFormBoxProps {
 
@@ -40,7 +39,6 @@ export const ProjectFormBox: React.FC<unknown> = ({}) => {
             />
           </Box>
           <Flex mt={2}>
-          <ProjectTags/>
           </Flex>
           <Button
             mt={4}
