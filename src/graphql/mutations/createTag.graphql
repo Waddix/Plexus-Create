@@ -1,5 +1,11 @@
 mutation CreateTag($name: String!) {
   createTag(name:$name){
+    errors{
+      field
+      message
+    }
+    tag{
    ...tagFragment
+    }
   }
 }

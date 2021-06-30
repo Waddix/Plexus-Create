@@ -28,6 +28,12 @@ export type Accounts = {
 };
 
 
+export type FieldError = {
+  __typename?: 'FieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
@@ -37,7 +43,7 @@ export type Mutation = {
   createProject: Project;
   updateProject?: Maybe<Project>;
   deleteProject: Scalars['Boolean'];
-  createTag: Tag;
+  createTag: TagResponse;
   assignTag: Scalars['Boolean'];
 };
 
@@ -234,6 +240,12 @@ export type Tag = {
   name: Scalars['String'];
 };
 
+export type TagResponse = {
+  __typename?: 'TagResponse';
+  errors?: Maybe<Array<FieldError>>;
+  tag?: Maybe<Tag>;
+};
+
 export type Users = {
   __typename?: 'Users';
   id: Scalars['ID'];
@@ -309,8 +321,14 @@ export type CreateTagMutationVariables = Exact<{
 export type CreateTagMutation = (
   { __typename?: 'Mutation' }
   & { createTag: (
-    { __typename?: 'Tag' }
-    & TagFragmentFragment
+    { __typename?: 'TagResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>>, tag?: Maybe<(
+      { __typename?: 'Tag' }
+      & TagFragmentFragment
+    )> }
   ) }
 );
 
@@ -571,7 +589,13 @@ export function useCreateProjectMutation() {
 export const CreateTagDocument = gql`
     mutation CreateTag($name: String!) {
   createTag(name: $name) {
-    ...tagFragment
+    errors {
+      field
+      message
+    }
+    tag {
+      ...tagFragment
+    }
   }
 }
     ${TagFragmentFragmentDoc}`;
