@@ -1,7 +1,5 @@
-import { Avatar, Box, Button, Collapse, Divider, Heading, HStack, Icon, Spacer, Stack, Text } from '@chakra-ui/react';
-import { useSession } from 'next-auth/client';
+import { Avatar, Box, Button, Collapse, Divider, Heading, HStack, Spacer, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react'
-import { loggedOutIcon } from '../auth/nextAuth';
 import {SocialIcon} from 'react-social-icons';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -12,7 +10,8 @@ interface ProjectDetailsProps {
   createdAt?: string,
   updatedAt?: string,
   username?: string,
-  email?: string
+  // email?: string,
+  image?: string
 }
 
 interface DescriptionProps {
@@ -42,8 +41,7 @@ const Description  = ({description} : DescriptionProps): JSX.Element => {
  )
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, createdAt, updatedAt, title, username}) => {
-  const [ session ] = useSession();
+export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, createdAt, updatedAt, title, username, image}) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt)) 
     return (
@@ -53,13 +51,10 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, crea
             {title}</Heading>
             <Box>
             <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-        {session?.user?.image ?
                   <Avatar
                   size={'md'}
-                  src={session.user.image}
-                  />
-                  :
-                  <Icon as={loggedOutIcon} />}
+                  src={image}
+                  />   
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
             <Text fontWeight={600}>{username}</Text>
             <Text color={'gray.500'}> {postedAt}</Text> 
