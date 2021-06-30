@@ -26,7 +26,7 @@ import { session, useSession } from "next-auth/client";
 import { useCreateProfileForUserMutation } from '../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 
-const RegisterFlow: React.FC<{}> = ({ refetch }) => {
+const RegisterFlow: React.FC<{}> = ({ }) => {
   // Ability to close dialog
   const { newUser, setNewUser } = useContext(UserContext);
   const closeRegisterFlowDialog = () => setNewUser(false)
@@ -145,8 +145,8 @@ const RegisterFlow: React.FC<{}> = ({ refetch }) => {
     createProfile({ input: values })
       .then(() => {
         setIsSubmitting(false)
+        setUserProfile(values);
         closeRegisterFlowDialog()
-        refetch()
       })
   }
 
@@ -158,7 +158,7 @@ const RegisterFlow: React.FC<{}> = ({ refetch }) => {
             <AlertIcon />
             <AlertTitle mr={2}>There was an error submitting your profile data</AlertTitle>
             <AlertDescription>Please try again later</AlertDescription>
-            <CloseButton onClick={setErrorSubmitting(false)} position="absolute" right="8px" top="8px" />
+            <CloseButton onClick={() => setErrorSubmitting(false)} position="absolute" right="8px" top="8px" />
           </Alert>
         </Box>
       }

@@ -94,7 +94,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
   }, [refetch, session, userData?.findUser, userFetching])
 
   // User registration
-  const { setNewUser } = useContext(UserContext);
+  const { newUser, setNewUser } = useContext(UserContext);
 
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {
@@ -114,7 +114,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
         setLoadingProfile(false);
         setNewUser(true);
         const values = {
-          id: 1,
+          id: userId.current,
           user_id: userId.current,
           name: name,
           username: '@' + email.split('@')[0],
@@ -129,6 +129,12 @@ const NextAuth: React.FC<{}> = ({ }) => {
       }
     }
   }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setLoadingProfile, setNewUser, setUserProfile])
+
+  useEffect(() => {
+    if (newUser || !newUser) {
+      refetch()
+    }
+  }, [newUser, refetch])
 
   return (
     <Fragment>
@@ -252,7 +258,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
         </Fragment>
       </PopoverContent>
 
-      <RegisterFlow refetch={refetch} />
+      <RegisterFlow />
     </Fragment>
   )
 }
