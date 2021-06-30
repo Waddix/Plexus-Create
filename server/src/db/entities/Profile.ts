@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { Base } from './Base';
 import { Field, Int, ObjectType } from "type-graphql";
-import { Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
-import { Entity } from "typeorm/decorator/entity/Entity";
+import { Column, OneToMany, OneToOne, JoinColumn, Entity, JoinTable, ManyToMany } from "typeorm";
+
 import { Base } from "./Base";
+import { FollowProject } from "./FollowProject";
+// import { FollowUser } from "./FollowUser";
 import { Users } from "./nextauth/Users";
 import { Project } from "./Project";
 
@@ -61,4 +63,25 @@ export class Profile extends Base {
 
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
+
+  //* self referencing many to many table for creating follow relationship
+  @ManyToMany(() => Profile, user => user.following)
+  @JoinTable()
+  followers: Profile[];
+
+  @ManyToMany(() => Profile, user => user.followers)
+  following: Profile[];
+
+
+  //* FollowProject m to m relationship
+  @OneToMany(() => FollowProject, (followProject: any) => followProject.profile)
+  followProject: Promise<FollowProject[]>
+
+
+  // //* FollowUser m to m self referential 
+  // @OneToMany(() => FollowUser, (followUser: any) => followUser.follower)
+  // follows: Promise<FollowUser[]>
+
+  // @OneToMany(() => FollowUser, (followUser: any) => followUser.followed)
+  // followers: Promise<FollowUser[]>
 }

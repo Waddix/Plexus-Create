@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Image from 'next/image';
 import {
   Box,
@@ -12,6 +12,7 @@ import {
   Flex,
   Spacer,
   Badge,
+  Button
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/client';
 import { loggedOutIcon } from '../auth/nextAuth';
@@ -19,6 +20,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
 import { FcNext } from 'react-icons/fc'
+import { UserContext } from '../../context/userContext';
 
 
 interface ProjectCardProps {
@@ -35,6 +37,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   const [session] = useSession();
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
+  const { followProject } = useContext(UserContext);
   // need hook for query to get user by id
   // need hook for query to get user image
   return (
@@ -83,6 +86,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 fontFamily={'body'}>
                 {title}
               </Heading>
+
               <Text color={'gray.500'}>
                 {description}
               </Text>
@@ -103,6 +107,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 <Spacer>
                   <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                 </Spacer>
+                <Button
+                  onClick={() => followProject(id, session.user.id)}
+                >
+                Follow
+              </Button>
               </Flex>
             </Stack>
           </Box>
