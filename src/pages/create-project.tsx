@@ -11,6 +11,7 @@ const CreateProject: React.FC<{}> = ({ }) => {
     <Wrapper variant="regular"> 
       <ProjectForm></ProjectForm>
      </Wrapper>
+     
   );
 };
 
