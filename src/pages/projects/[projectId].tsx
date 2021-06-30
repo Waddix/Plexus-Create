@@ -89,7 +89,7 @@ console.log(data);
           </Box>
           <Box>
             <Flex h="100%" flexDirection="column" justifyContent="center">
-            <ProjectDetails description={data?.project?.description} title={data?.project?.title} updatedAt={data?.project?.updatedAt} createdAt={data?.project?.createdAt} email={data?.project?.owner?.email} username={data?.project?.owner.username}></ProjectDetails>
+            <ProjectDetails description={data?.project?.description} title={data?.project?.title} updatedAt={data?.project?.updatedAt} createdAt={data?.project?.createdAt} image={data?.project?.owner?.image} username={data?.project?.owner.username}></ProjectDetails>
             </Flex>
           </Box>
         </Box>
