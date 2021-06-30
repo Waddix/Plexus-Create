@@ -20,11 +20,11 @@ export class Project extends Base {
   ownerId!: number;
 
   @Field(() => Profile)
-  @ManyToOne(() => Profile, (p) => p.projects)
+  @ManyToOne(() => Profile, (p: Profile) => p.projects)
   owner!: Profile;
 
-  @Field(() => Tag)
-  @ManyToMany(() => Tag, (t) => t.name, {cascade: true})
+  @Field(() => [Tag])
+  @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true})
   @JoinTable()
   tags: Tag[];
 
