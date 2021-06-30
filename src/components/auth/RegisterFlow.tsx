@@ -153,7 +153,7 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
   return (
     <Fragment>
       {errorSubmitting &&
-        <Box width='100vw' position='absolute' left='0' top='0'>
+        <Box w='100vw' pos='absolute' left='0' top='0'>
           <Alert status="error" variant="solid" height="5rem" >
             <AlertIcon />
             <AlertTitle mr={2}>There was an error submitting your profile data</AlertTitle>
@@ -169,7 +169,7 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
         onClose={closeRegisterFlowDialog}
         isCentered
       >
-        <AlertDialogOverlay margin='auto'>
+        <AlertDialogOverlay m='auto'>
           <AlertDialogContent>
             <AlertDialogHeader textAlign='center' fontSize="lg" fontWeight="bold">
               {pages[page].header}
@@ -182,7 +182,7 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Flex mt={2} justifyContent='space-between' width='100%' >
+              <Flex mt={2} justifyContent='space-between' w='100%' >
                 {pages[page].buttons === 'skip' &&
                   <Fragment>
                     <Button

@@ -65,9 +65,9 @@ export default function Nav(): JSX.Element {
       <Text // Logo/App Name
         width='12rem'
         top='2'
-        left='0'
+        left={['0', '0', '3rem', '0' ]}
         right='0'
-        marginLeft='auto'
+        marginLeft={['auto', 'auto', '0', 'auto']}
         marginRight='auto'
         position='absolute'
         d='flex'
@@ -96,13 +96,14 @@ export default function Nav(): JSX.Element {
             <HStack
               as={'nav'}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
+              display={{ base: 'none', md: 'flex' }}
+              >
               {Links.map((link) => (
                 NavLink(link)
               ))}
             </HStack>
           </HStack>
-          <Box marginLeft='0.5rem'>
+          <Box display={{ base: 'none', md: 'flex' }} marginLeft='0.5rem'>
             <Link
               key="search"
               px={2}
