@@ -59,6 +59,7 @@ export default function Search() {
       >
         <InputGroup>
           <Input
+            id='search-field'
             bg={useColorModeValue('gray.100', 'gray.900')}
             borderColor={useColorModeValue('orange.200', 'orange.700')}
             type="text"
@@ -70,6 +71,7 @@ export default function Search() {
           <InputRightElement w="3rem" mr='1rem'>
             <Button
               display={{ base: 'none', lg: 'flex' }}
+              id='filter'
               h="1.75rem"
               size="sm"
               pl={2}
@@ -86,27 +88,13 @@ export default function Search() {
               {caretDownIcon()}
             </Button>
             <Button
-              display={{ base: 'flex', lg: 'none' }}
-              h="1.75rem"
-              size="sm"
-              pl={7}
-              pr={7}
-              rounded={'md'}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('orange.200', 'orange.700'),
-              }}
-              onClick={() => toggleShowFilter()}
-              variant="ghost"
-            >
-              Filters
-            </Button>
-            <Button
+              id='search-button'
               display={{ base: 'flex', lg: 'none' }}
               h="1.75rem"
               size="sm"
               pl={8}
               pr={8}
+              mr='6rem'
               rounded={'md'}
               _hover={{
                 textDecoration: 'none',
@@ -114,9 +102,26 @@ export default function Search() {
               }}
               onClick={() => alert('search triggered!')}
             >
-              {Search}
+              Search
             </Button>
           </InputRightElement>
+          <Button
+            display={{ base: 'flex', lg: 'none' }}
+            id="filters"
+            size="md"
+            px={2}
+            py={2}
+            ml='0.5rem'
+            rounded={'md'}
+            _hover={{
+              textDecoration: 'none',
+              bg: useColorModeValue('orange.200', 'orange.700'),
+            }}
+            onClick={() => toggleShowFilter()}
+            variant="ghost"
+          >
+            {caretDownIcon()}
+          </Button>
         </InputGroup>
         <Collapse
           in={showFilterSelect}
