@@ -51,4 +51,4 @@ yarn-error.log*
 ./src/generated/graphql.tsx
 
 # My notes
-./NOTES.md
+NOTES.js
