@@ -7,7 +7,8 @@ import {
   InputRightElement,
   HStack,
   Checkbox,
-  Collapse
+  Collapse,
+  Tooltip
 } from "@chakra-ui/react";
 import React, { Fragment, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -82,24 +83,31 @@ export default function Search() {
             onKeyPress={(e) => e.key === 'Enter' && handleSearch(query)}
           />
           <InputRightElement w="3rem" mr='1rem'>
-            <Button
-              display={{ base: 'none', lg: 'flex' }}
-              id='filter'
-              h="1.75rem"
-              size="sm"
-              pl={2}
-              pr={2}
-              mr={-8}
-              rounded={'md'}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('orange.200', 'orange.700'),
-              }}
-              onClick={() => toggleShowFilter()}
-              variant="ghost"
+            <Tooltip
+              label="Filters"
+              aria-label="Filters button"
+              fontSize='md'
+              openDelay={400}
             >
-              {caretDownIcon()}
-            </Button>
+              <Button
+                display={{ base: 'none', lg: 'inline-flex' }}
+                id='filter'
+                h="1.75rem"
+                size="sm"
+                pl={2}
+                pr={2}
+                mr={-8}
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('orange.200', 'orange.700'),
+                }}
+                onClick={() => toggleShowFilter()}
+                variant="ghost"
+              >
+                {caretDownIcon()}
+              </Button>
+            </Tooltip>
             <Button
               id='search-button'
               display={{ base: 'flex', lg: 'none' }}
@@ -118,30 +126,37 @@ export default function Search() {
               Search
             </Button>
           </InputRightElement>
-          <Button
-            display={{ base: 'flex', lg: 'none' }}
-            id="filters"
-            size="md"
-            px={2}
-            py={2}
-            ml='0.5rem'
-            rounded={'md'}
-            _hover={{
-              textDecoration: 'none',
-              bg: useColorModeValue('orange.200', 'orange.700'),
-            }}
-            onClick={() => toggleShowFilter()}
-            variant="ghost"
+          <Tooltip
+            label="Filters"
+            aria-label="Filters button"
+            fontSize='md'
+            openDelay={100}
           >
-            {caretDownIcon()}
-          </Button>
+            <Button
+              display={{ base: 'inline-flex', lg: 'none' }}
+              id="filters"
+              size="md"
+              px={2}
+              py={2}
+              ml='0.5rem'
+              rounded={'md'}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
+              onClick={() => toggleShowFilter()}
+              variant="ghost"
+              zIndex='10'
+            >
+              {caretDownIcon()}
+            </Button>
+          </Tooltip>
         </InputGroup>
         <Collapse
           in={showFilterSelect}
           animateOpacity
         >
           <HStack
-            // display={{ base: 'none', lg: 'flex' }}
             justifyContent={['center', 'center', 'center', 'end']}
             mt={2}
             mr={5}
