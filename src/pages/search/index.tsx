@@ -14,6 +14,8 @@ export default function Search() {
       >
         <InputGroup>
           <Input
+            bg={useColorModeValue('gray.100', 'gray.900')}
+            borderColor={useColorModeValue('orange.200', 'orange.700')}
             type="text"
             placeholder="Connect, Collaborate, Contribute"
             value={query}
@@ -30,7 +32,7 @@ export default function Search() {
               bg: useColorModeValue('orange.200', 'orange.700'),
             }}
             onClick={() => alert('search triggered!')}
-            >
+          >
             Search
           </Button>
         </InputGroup>
