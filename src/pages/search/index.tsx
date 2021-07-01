@@ -6,23 +6,25 @@ import {
   useColorModeValue,
   InputRightElement,
   HStack,
-  Flex,
   Checkbox,
   Collapse
 } from "@chakra-ui/react";
 import React, { Fragment, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import SearchResults from "./searchResults";
 
 export default function Search() {
+  // Search query
   const [query, setQuery] = useState("");
 
+  // Toggle filter checkboxes
   const [showFilterSelect, setShowFilterSelect] = useState(false);
-
   const toggleShowFilter = (): void => {
     setShowFilterSelect(!showFilterSelect);
   }
 
+  // Filters
   const filters = {
     Profiles: true,
     Tags: true,
@@ -31,6 +33,7 @@ export default function Search() {
     Teams: true,
   }
 
+  // Render the checkboxes
   const checkBoxes = (filter: 'Profiles' | 'Tags' | 'Projects' | 'Campaigns' | 'Teams'): JSX.Element => {
     return (
       <Checkbox
@@ -45,8 +48,18 @@ export default function Search() {
     )
   }
 
+  // Caret down icon
   const caretDownIcon = (): JSX.Element => {
     return <FontAwesomeIcon icon={faCaretDown} size='2x' />
+  }
+
+  // Results of the search
+  const [results, setResults] = useState([]);
+
+  // Handle Search
+  const handleSearch = (query: string): void => {
+    setResults([...results, query])
+    setQuery("");
   }
 
   return (
@@ -66,7 +79,7 @@ export default function Search() {
             placeholder="Connect, Collaborate, Contribute"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && alert('search triggered!')}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch(query)}
           />
           <InputRightElement w="3rem" mr='1rem'>
             <Button
@@ -100,7 +113,7 @@ export default function Search() {
                 textDecoration: 'none',
                 bg: useColorModeValue('orange.200', 'orange.700'),
               }}
-              onClick={() => alert('search triggered!')}
+              onClick={() => handleSearch(query)}
             >
               Search
             </Button>
@@ -141,6 +154,7 @@ export default function Search() {
           </HStack>
         </Collapse>
       </Box>
+      <SearchResults results={results} />
     </Fragment>
   )
 }
