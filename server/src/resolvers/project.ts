@@ -33,7 +33,7 @@ export class ProjectResolver {
   }
 
   //! This doesn't quite work
-  @Query(() => Project, { nullable: true })
+  @Query(() => [Project], { nullable: true })
     getProjectsByUser(@Arg("ownerId", () => Int) ownerId: number):
     Promise<Project[]> {
       return Project.find({where: { ownerId }})
