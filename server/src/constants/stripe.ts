@@ -9,7 +9,7 @@ declare let process : {
   }
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET, {
+export const stripe = new Stripe("sk_test_f4tt8qBUFUPjT2FMDSzsESoL00HR7MO6rc", {
   apiVersion: '2020-08-27',
   typescript: true
 });
