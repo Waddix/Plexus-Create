@@ -1,7 +1,9 @@
 import { Base } from "./Base"
 import { Field, ObjectType } from "type-graphql";
 import { Profile } from "./Profile";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, JoinTable, ManyToMany } from "typeorm";
+// import { FollowProject } from "./FollowProject";
+// import { Follow } from "./Follow";
 import { Tag } from "./Tag";
 
 @ObjectType()
@@ -23,9 +25,18 @@ export class Project extends Base {
   @ManyToOne(() => Profile, (p: Profile) => p.projects)
   owner!: Profile;
 
+  // // //* Allow users to follow the project by establishing jointable with Profile via Follow entity
+  // @OneToMany(() => FollowProject, (followProject: any) => followProject.project)
+  // follower: Promise<FollowProject[]>;
+
   @Field(() => [Tag])
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true})
   @JoinTable()
   tags: Tag[];
 
+
+  // @Field(() => [Profile])
+  // @ManyToMany(() => Profile)
+  // @JoinTable()
+  // followers: Profile[];
 }

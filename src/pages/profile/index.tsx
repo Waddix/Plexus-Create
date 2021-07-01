@@ -10,8 +10,6 @@ function ProfileView() {
       <UserCard />
     </Flex>
 
-
-
   )
 }
 

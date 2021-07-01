@@ -32,6 +32,14 @@ export class ProjectResolver {
     return Project.findOne(id, { relations: ["owner", "tags"] });
   }
 
+  //! This doesn't quite work
+  @Query(() => Project, { nullable: true })
+    getProjectsByUser(@Arg("ownerId", () => Int) ownerId: number):
+    Promise<Project[]> {
+      return Project.find({where: { ownerId }})
+    }
+
+
   @Mutation(() => Project)
   // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
   // remove ownerId from args after session implementation

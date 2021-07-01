@@ -1,0 +1,3 @@
+mutation followUser($profileId_2: Int!, $profileId_1: Int!){
+	followUser(profileId_2: $profileId_2, profileId_1: $profileId_1)
+}
