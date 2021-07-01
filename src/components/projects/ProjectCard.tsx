@@ -20,7 +20,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
 import { FcNext } from 'react-icons/fc'
-import { UserContext } from '../../context/userContext';
+// import { UserContext } from '../../context/userContext';
 
 
 interface ProjectCardProps {
@@ -38,6 +38,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
   updatedAt = dayjs().to(dayjs(updatedAt));
+  //* use this once userContext is fixed
   // const { followProject } = useContext(UserContext);
   // need hook for query to get user image
   return (

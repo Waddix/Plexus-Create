@@ -34,15 +34,6 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
-export type FollowProject = {
-  __typename?: 'FollowProject';
-  id: Scalars['ID'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  profileId: Scalars['Float'];
-  projectId: Scalars['Float'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   followProject: Scalars['Boolean'];
@@ -180,7 +171,7 @@ export type Query = {
   __typename?: 'Query';
   getFollowedProjects?: Maybe<Array<Project>>;
   user?: Maybe<Profile>;
-  followers?: Maybe<Array<Profile>>;
+  getFollowedUsers?: Maybe<Array<Profile>>;
   posts: Array<Post>;
   post?: Maybe<Post>;
   getAllProfiles?: Maybe<Array<Profile>>;
@@ -189,6 +180,7 @@ export type Query = {
   findProfileUsername: Profile;
   projects: Array<Project>;
   project?: Maybe<Project>;
+  getProjectsByUser?: Maybe<Project>;
   tags: Array<Tag>;
   tag?: Maybe<Tag>;
   projectTags?: Maybe<Array<Tag>>;
@@ -209,7 +201,7 @@ export type QueryUserArgs = {
 };
 
 
-export type QueryFollowersArgs = {
+export type QueryGetFollowedUsersArgs = {
   profileId: Scalars['Int'];
 };
 
@@ -236,6 +228,11 @@ export type QueryFindProfileUsernameArgs = {
 
 export type QueryProjectArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryGetProjectsByUserArgs = {
+  ownerId: Scalars['Int'];
 };
 
 
@@ -438,6 +435,32 @@ export type GetAllUsersQuery = (
   & { getAllUsers?: Maybe<Array<(
     { __typename?: 'Users' }
     & Pick<Users, 'id' | 'name' | 'image'>
+  )>> }
+);
+
+export type GetFollowedProjectsQueryVariables = Exact<{
+  profileId: Scalars['Int'];
+}>;
+
+
+export type GetFollowedProjectsQuery = (
+  { __typename?: 'Query' }
+  & { getFollowedProjects?: Maybe<Array<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'id'>
+  )>> }
+);
+
+export type GetFollowedUsersQueryVariables = Exact<{
+  profileId: Scalars['Int'];
+}>;
+
+
+export type GetFollowedUsersQuery = (
+  { __typename?: 'Query' }
+  & { getFollowedUsers?: Maybe<Array<(
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'id'>
   )>> }
 );
 
@@ -735,6 +758,28 @@ export const GetAllUsersDocument = gql`
 
 export function useGetAllUsersQuery(options: Omit<Urql.UseQueryArgs<GetAllUsersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetAllUsersQuery>({ query: GetAllUsersDocument, ...options });
+};
+export const GetFollowedProjectsDocument = gql`
+    query getFollowedProjects($profileId: Int!) {
+  getFollowedProjects(profileId: $profileId) {
+    id
+  }
+}
+    `;
+
+export function useGetFollowedProjectsQuery(options: Omit<Urql.UseQueryArgs<GetFollowedProjectsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetFollowedProjectsQuery>({ query: GetFollowedProjectsDocument, ...options });
+};
+export const GetFollowedUsersDocument = gql`
+    query getFollowedUsers($profileId: Int!) {
+  getFollowedUsers(profileId: $profileId) {
+    id
+  }
+}
+    `;
+
+export function useGetFollowedUsersQuery(options: Omit<Urql.UseQueryArgs<GetFollowedUsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetFollowedUsersQuery>({ query: GetFollowedUsersDocument, ...options });
 };
 export const GetProfileIdDocument = gql`
     query GetProfileID($id: Int!) {

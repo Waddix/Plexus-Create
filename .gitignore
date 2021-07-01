@@ -49,3 +49,6 @@ yarn-error.log*
 
 # graphql generator
 ./src/generated/graphql.tsx
+
+# My notes
+./NOTES.md

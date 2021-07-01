@@ -4,7 +4,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 import { Column, OneToMany, OneToOne, JoinColumn, Entity, JoinTable, ManyToMany } from "typeorm";
 
 import { Base } from "./Base";
-import { FollowProject } from "./FollowProject";
+// import { FollowProject } from "./FollowProject";
 // import { FollowUser } from "./FollowUser";
 import { Users } from "./nextauth/Users";
 import { Project } from "./Project";
@@ -72,10 +72,13 @@ export class Profile extends Base {
   @ManyToMany(() => Profile, user => user.followers)
   following: Profile[];
 
+  @ManyToMany(() => Project)
+  @JoinTable()
+  followedProjects: Project[];
 
-  //* FollowProject m to m relationship
-  @OneToMany(() => FollowProject, (followProject: any) => followProject.profile)
-  followProject: Promise<FollowProject[]>
+  // //* FollowProject m to m relationship
+  // @OneToMany(() => FollowProject, (followProject: any) => followProject.profile)
+  // followProject: Promise<FollowProject[]>
 
 
   // //* FollowUser m to m self referential 
