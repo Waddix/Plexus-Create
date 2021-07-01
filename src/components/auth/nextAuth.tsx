@@ -153,34 +153,29 @@ const NextAuth: React.FC<{}> = ({ }) => {
 
   return (
     <Fragment>
-      <ScaleFade
-        in={failAlert}
-        animateOpacity
-      >
-        <HStack>
-          <Alert
-            h={['6rem', '4rem', '4rem', '4rem']}
-            position='absolute'
-            d='flex'
-            top='0'
-            left='0'
-            w='100vw'
-            status="error"
-            variant="solid"
-            zIndex='100'
-          >
-            <AlertIcon />
-            <AlertTitle mr={2}>Failed to fetch your profile</AlertTitle>
-            <AlertDescription>Please refresh the page or try logging in again.</AlertDescription>
-            <CloseButton
-              position={['unset', "absolute", "absolute", "absolute"]}
-              right="2rem"
-              my='auto'
-              onClick={() => setFailAlert(false)}
-            />
-          </Alert>
-        </HStack>
-      </ScaleFade>
+      <HStack>
+        <Alert
+          h={['6rem', '4rem', '4rem', '4rem']}
+          position='absolute'
+          d='flex'
+          top='0'
+          left='0'
+          w='100vw'
+          status="error"
+          variant="solid"
+          zIndex='100'
+        >
+          <AlertIcon />
+          <AlertTitle mr={2}>Failed to fetch your profile</AlertTitle>
+          <AlertDescription>Please refresh the page or try logging in again.</AlertDescription>
+          <CloseButton
+            position={['unset', "absolute", "absolute", "absolute"]}
+            right="2rem"
+            my='auto'
+            onClick={() => setFailAlert(false)}
+          />
+        </Alert>
+      </HStack>
       {/** POPOVER BOX */}
       <PopoverContent margin-top='0.72rem' marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
         <Fragment>
