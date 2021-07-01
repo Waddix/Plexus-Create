@@ -59,6 +59,10 @@ export class Profile extends Base {
   })
   website: string;
 
+  @Field(() => String)
+  @Column({type: "text", nullable: true})
+  stripeId: string;
+
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
 }
