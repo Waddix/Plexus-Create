@@ -21,8 +21,8 @@ export class Project extends Base {
   @Column()
   ownerId!: number;
 
-  @Field(() => Profile)
-  @ManyToOne(() => Profile, (p: Profile) => p.projects)
+  @Field(() => [Profile])
+  @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true})
   owner!: Profile;
 
   // // //* Allow users to follow the project by establishing jointable with Profile via Follow entity
