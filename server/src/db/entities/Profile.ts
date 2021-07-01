@@ -65,6 +65,7 @@ export class Profile extends Base {
   @Column({type: "text", nullable: true})
   stripeId: string;
 
+  @Field(() => [Project])
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
 
