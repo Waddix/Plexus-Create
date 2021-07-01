@@ -20,6 +20,7 @@ import {
   AlertTitle,
   CloseButton,
   HStack,
+  ScaleFade,
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -137,9 +138,8 @@ const NextAuth: React.FC<{}> = ({ }) => {
       }
     }
 
-    if (profileError && profileError.name !== "CombinedError") {
+    if (profileError && !profileError.message.split(" ").includes('null')) {
       console.warn('Error loading profile!');
-      console.info(profileError);
       setFailAlert(true);
       setLoadingProfile(false);
     }
@@ -153,7 +153,10 @@ const NextAuth: React.FC<{}> = ({ }) => {
 
   return (
     <Fragment>
-      {failAlert &&
+      <ScaleFade
+        in={failAlert}
+        animateOpacity
+      >
         <HStack>
           <Alert
             h={['6rem', '4rem', '4rem', '4rem']}
@@ -164,6 +167,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
             w='100vw'
             status="error"
             variant="solid"
+            zIndex='100'
           >
             <AlertIcon />
             <AlertTitle mr={2}>Failed to fetch your profile</AlertTitle>
@@ -176,8 +180,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
             />
           </Alert>
         </HStack>
-
-      }
+      </ScaleFade>
       {/** POPOVER BOX */}
       <PopoverContent margin-top='0.72rem' marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
         <Fragment>
@@ -192,7 +195,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                   :
                   <Box justifyContent="flex-start" width="100%">
                     <p><small>Signed in as</small></p>
-                    <p><strong>{userProfile.username}</strong></p>
+                    <p><strong>{userProfile.username || "Failed getting profile"}</strong></p>
                   </Box>
                 }
                 <Box justifyContent="flex-end">
