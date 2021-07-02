@@ -21,7 +21,7 @@ export class Project extends Base {
   @Column()
   ownerId!: number;
 
-  @Field(() => [Profile])
+  @Field(() => Profile)
   @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true})
   owner!: Profile;
 
