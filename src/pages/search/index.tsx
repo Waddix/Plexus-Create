@@ -10,12 +10,16 @@ import {
   Collapse,
   Tooltip
 } from "@chakra-ui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import SearchResults from "./searchResults";
+import { useGetAllProfilesQuery, useProjectsQuery } from "../../generated/graphql";
+import { withUrqlClient } from "next-urql";
+import { Profile } from '../../../server/src/db/entities/Profile'
+import { Project } from '../../../server/src/db/entities/Project'
 
-export default function Search() {
+function Search(): JSX.Element {
   // Search query
   const [query, setQuery] = useState("");
 
@@ -25,24 +29,32 @@ export default function Search() {
     setShowFilterSelect(!showFilterSelect);
   }
 
-  // Filters
-  const filters = {
-    Profiles: true,
-    Tags: true,
-    Projects: true,
-    Campaigns: true,
-    Teams: true,
-  }
 
+  const [filters, setFilters] = useState({
+    Profiles: true,
+    // Tags: true,
+    Projects: true,
+    // Campaigns: true,
+    // Teams: true,
+  })
+
+
+  // All expected types: 'Profiles' | 'Tags' | 'Projects' | 'Campaigns' | 'Teams'
   // Render the checkboxes
-  const checkBoxes = (filter: 'Profiles' | 'Tags' | 'Projects' | 'Campaigns' | 'Teams'): JSX.Element => {
+  const checkBoxes = (filter: 'Profiles' | 'Projects'): JSX.Element => {
     return (
       <Checkbox
         key={filter}
         size="md"
         colorScheme="green"
         defaultIsChecked
-        onChange={() => filters[filter] = !filters[filter]}
+        onChange={() => {
+          const newFilters = filters
+
+          newFilters[filter] = !filters[filter]
+          setFilters(newFilters)
+        }}
+        isChecked={filters[filter]}
       >
         {filter}
       </Checkbox>
@@ -55,12 +67,88 @@ export default function Search() {
   }
 
   // Results of the search
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState({
+    profiles: [],
+    projects: [],
+  });
+
+  // Get all profile
+  const [profilesResult, refetchProfiles] = useGetAllProfilesQuery();
+  const { data: profilesData, fetching: profilesFetching, error: profilesError } = profilesResult;
+
+  useEffect(() => {
+    if (!profilesFetching && profilesData && !profilesError) {
+      setResults(Object.assign(results, {
+        profiles: [profilesData.getAllProfiles],
+      }))
+    }
+  }, [profilesData, profilesError, profilesFetching])
+
+  // Get all projects
+  const [projectsResult, refetchProjects] = useProjectsQuery();
+  const { data: projectsData, fetching: projectsFetching, error: projectsError } = projectsResult;
+
+  useEffect(() => {
+    if (!projectsFetching && projectsData && !projectsError) {
+      setResults(Object.assign(results, {
+        projects: [projectsData.projects],
+      }))
+    }
+  }, [projectsData, projectsError, projectsFetching])
+
+
+  // Filter the results
+  const filterResults = (filters: Filters) => {
+    let filtered: [[string, Profile] | [string, Project]];
+
+    const filterToResults = {
+      Profiles: results.profiles,
+      Projects: results.projects,
+      // Tags: null,
+    }
+
+    for (let filter in filters) {
+      if (filters[filter]) {
+        console.info(filterToResults[filter]);
+        // filterToResults[filter].map(results => {
+        //   if (!filtered) {
+        //     filtered = [[filter, results]]
+        //   } else {
+        //     filtered.push([filter, results])
+        //   }
+        // })
+      }
+    }
+
+    // return filtered;
+  }
 
   // Handle Search
-  const handleSearch = (query: string): void => {
-    setResults([...results, query])
-    setQuery("");
+  const handleSearch = async (query: string): void => {
+    // Refetch data
+    await refetchProfiles();
+    await refetchProjects();
+
+    // Get the filtered results
+    const filtered = filterResults(filters);
+
+    console.log(filtered)
+
+    // const results = [];
+
+    // const searchProfile = (profile, query): void => {
+    //   const targets = query.split(" ");
+
+    //   const nameResults = targets.map(target => name.split(" ").includes(target));
+
+    //   console.log('Name Results', nameResults);
+    // }
+
+    // for (let i = 0; i < filtered.length; i++) {
+    //   if (filtered[i][0] === 'profile') {
+    //     searchProfile(filtered[i][1], query)
+    //   }
+    // }
   }
 
   return (
@@ -173,3 +261,8 @@ export default function Search() {
     </Fragment>
   )
 }
+
+export default withUrqlClient(() => ({
+  // ...add your Client options here
+  url: 'http://localhost:8080/graphql',
+}))(Search);

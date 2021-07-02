@@ -26,7 +26,7 @@ export default function SearchResults({ results }): JSX.Element {
           :
           <Box m='auto'>
             <Heading>
-              Make a search
+              Find the next big thing.
             </Heading>
           </Box>
         }
