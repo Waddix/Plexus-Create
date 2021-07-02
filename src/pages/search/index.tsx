@@ -48,11 +48,12 @@ function Search(): JSX.Element {
         size="md"
         colorScheme="green"
         defaultIsChecked
-        onChange={() => {
+        onChange={(e) => {
+          const newValue = e.target.checked
           const newFilters = filters
 
-          newFilters[filter] = !filters[filter]
-          setFilters(newFilters)
+          newFilters[filter] = newValue
+          setFilters({...newFilters})
         }}
         isChecked={filters[filter]}
       >
@@ -82,7 +83,7 @@ function Search(): JSX.Element {
         profiles: [profilesData.getAllProfiles],
       }))
     }
-  }, [profilesData, profilesError, profilesFetching])
+  }, [profilesData, profilesError, profilesFetching, results])
 
   // Get all projects
   const [projectsResult, refetchProjects] = useProjectsQuery();
@@ -94,7 +95,7 @@ function Search(): JSX.Element {
         projects: [projectsData.projects],
       }))
     }
-  }, [projectsData, projectsError, projectsFetching])
+  }, [projectsData, projectsError, projectsFetching, results])
 
 
   // Filter the results
@@ -109,18 +110,18 @@ function Search(): JSX.Element {
 
     for (let filter in filters) {
       if (filters[filter]) {
-        console.info(filterToResults[filter]);
-        // filterToResults[filter].map(results => {
-        //   if (!filtered) {
-        //     filtered = [[filter, results]]
-        //   } else {
-        //     filtered.push([filter, results])
-        //   }
-        // })
+        // console.info(filterToResults[filter]);
+        filterToResults[filter].map(results => {
+          if (!filtered) {
+            filtered = [[filter, results]]
+          } else {
+            filtered.push([filter, results])
+          }
+        })
       }
     }
 
-    // return filtered;
+    console.info(filtered);
   }
 
   // Handle Search
