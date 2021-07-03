@@ -116,7 +116,7 @@ export type MutationAssignTagArgs = {
 
 export type Post = {
   __typename?: 'Post';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   text: Scalars['String'];
@@ -125,7 +125,7 @@ export type Post = {
 
 export type Profile = {
   __typename?: 'Profile';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
@@ -136,6 +136,7 @@ export type Profile = {
   title: Scalars['String'];
   bio: Scalars['String'];
   website: Scalars['String'];
+  projects: Array<Project>;
 };
 
 export type ProfileInput = {
@@ -152,7 +153,7 @@ export type ProfileInput = {
 
 export type Project = {
   __typename?: 'Project';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
@@ -180,7 +181,7 @@ export type Query = {
   findProfileUsername: Profile;
   projects: Array<Project>;
   project?: Maybe<Project>;
-  getProjectsByUser?: Maybe<Project>;
+  getProjectsByUser?: Maybe<Array<Project>>;
   tags: Array<Tag>;
   tag?: Maybe<Tag>;
   projectTags?: Maybe<Array<Tag>>;
@@ -272,7 +273,7 @@ export type Sessions = {
 
 export type Tag = {
   __typename?: 'Tag';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
@@ -447,7 +448,7 @@ export type GetFollowedProjectsQuery = (
   { __typename?: 'Query' }
   & { getFollowedProjects?: Maybe<Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id'>
+    & Pick<Project, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'description' | 'ownerId'>
   )>> }
 );
 
@@ -460,7 +461,7 @@ export type GetFollowedUsersQuery = (
   { __typename?: 'Query' }
   & { getFollowedUsers?: Maybe<Array<(
     { __typename?: 'Profile' }
-    & Pick<Profile, 'id'>
+    & Pick<Profile, 'id' | 'name' | 'username'>
   )>> }
 );
 
@@ -763,6 +764,11 @@ export const GetFollowedProjectsDocument = gql`
     query getFollowedProjects($profileId: Int!) {
   getFollowedProjects(profileId: $profileId) {
     id
+    title
+    createdAt
+    updatedAt
+    description
+    ownerId
   }
 }
     `;
@@ -774,6 +780,8 @@ export const GetFollowedUsersDocument = gql`
     query getFollowedUsers($profileId: Int!) {
   getFollowedUsers(profileId: $profileId) {
     id
+    name
+    username
   }
 }
     `;

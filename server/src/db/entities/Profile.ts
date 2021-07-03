@@ -61,6 +61,8 @@ export class Profile extends Base {
   })
   website: string;
 
+
+  @Field(() => [Project])
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
 

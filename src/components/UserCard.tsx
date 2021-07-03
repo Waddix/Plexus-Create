@@ -13,11 +13,15 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { Profile } from '../generated/graphql';
 
-export const UserCard: React.FC<{}> = ({}) => {
+
+
+export const UserCard: React.FC<Profile> = () => {
   // may use userContext for this later
   // const { userInfo } = useContext(UserContext);
   const [session] = useSession();
+  const {userProfile, followUser } = useContext(UserContext);
 
   return (
     <Center py={6}>
@@ -89,6 +93,8 @@ export const UserCard: React.FC<{}> = ({}) => {
         </Stack>
 
         <Stack mt={8} direction={'row'} spacing={4}>
+          {/* Follow Button goes here, will need signedin user's id (from userProfile) and the id of
+          user being viewed */}
           {/* <Button
             flex={1}
             fontSize={'sm'}
@@ -96,7 +102,7 @@ export const UserCard: React.FC<{}> = ({}) => {
             _focus={{
               bg: 'gray.200',
             }}>
-            Message
+            Follow
           </Button> */}
           <Button
             flex={1}

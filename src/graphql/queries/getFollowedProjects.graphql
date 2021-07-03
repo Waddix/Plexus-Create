@@ -1,5 +1,10 @@
 query getFollowedProjects($profileId: Int!) {
   getFollowedProjects(profileId: $profileId) {
     id
+    title
+    createdAt
+    updatedAt
+    description
+    ownerId
   }
 }
