@@ -18,9 +18,8 @@ class ProjectInput {
   description: string;
 }
 @Resolver()
-// eslint-disable-next-line import/prefer-default-export
+
 export class ProjectResolver {
-  // ** BASIC CRUD OPERATIONS ** \\
 
   @Query(() => [Project])
   projects(): Promise<Project[]> {
@@ -32,7 +31,6 @@ export class ProjectResolver {
     return Project.findOne(id, { relations: ["owner", "tags"] });
   }
 
-
   @Query(() => [Project], { nullable: true })
     getProjectsByUser(@Arg("ownerId", () => Int) ownerId: number):
     Promise<Project[]> {
@@ -42,7 +40,6 @@ export class ProjectResolver {
 
   @Mutation(() => Project)
   // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
-  // remove ownerId from args after session implementation
   async createProject(
     @Arg("input") input: ProjectInput,
     @Arg("ownerId", () => Int) ownerId: number
@@ -52,23 +49,12 @@ export class ProjectResolver {
 
   @Mutation(() => Project, { nullable: true })
   // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
-  // remove ownerId from args after session implementation
   async updateProject(
     @Arg("id", () => Int) id: number,
     @Arg("title", () => String) title: string,
     @Arg("description", () => String) description: string,
     @Arg("ownerId", () => Int) ownerId: number
   ): Promise<Project | null> {
-    // const project = await Project.findOne(id);
-    // if (!project) {
-    //   return null;
-    // }
-    // // if the text isnt blank
-    // if (typeof title !== 'undefined' && typeof description !== 'undefined') {
-    //   Project.update({id}, {title, description})
-    // }
-    // return project;
-    // using the query builder
     const project = await getConnection()
       .createQueryBuilder()
       .update(Project)

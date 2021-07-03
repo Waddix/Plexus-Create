@@ -45,6 +45,9 @@ export type Mutation = {
   createProject: Project;
   updateProject?: Maybe<Project>;
   deleteProject: Scalars['Boolean'];
+  createPaymentIntent: Scalars['String'];
+  createStripeLink: Scalars['String'];
+  createStripeAccount: Scalars['String'];
   createTag: TagResponse;
   assignTag: Scalars['Boolean'];
 };
@@ -104,6 +107,16 @@ export type MutationDeleteProjectArgs = {
 };
 
 
+export type MutationCreatePaymentIntentArgs = {
+  stripeId: Scalars['String'];
+};
+
+
+export type MutationCreateStripeLinkArgs = {
+  stripeId: Scalars['String'];
+};
+
+
 export type MutationCreateTagArgs = {
   name: Scalars['String'];
 };
@@ -136,7 +149,8 @@ export type Profile = {
   title: Scalars['String'];
   bio: Scalars['String'];
   website: Scalars['String'];
-  projects: Project;
+  stripeId: Scalars['String'];
+  projects: Array<Project>;
   followedProjects: Profile;
 };
 
@@ -183,6 +197,7 @@ export type Query = {
   projects: Array<Project>;
   project?: Maybe<Project>;
   getProjectsByUser?: Maybe<Array<Project>>;
+  createCheckoutSession: Scalars['String'];
   tags: Array<Tag>;
   tag?: Maybe<Tag>;
   projectTags?: Maybe<Array<Tag>>;
@@ -235,6 +250,12 @@ export type QueryProjectArgs = {
 
 export type QueryGetProjectsByUserArgs = {
   ownerId: Scalars['Int'];
+};
+
+
+export type QueryCreateCheckoutSessionArgs = {
+  id: Scalars['Int'];
+  amount: Scalars['Int'];
 };
 
 
@@ -403,6 +424,17 @@ export type AllTagsQuery = (
     { __typename?: 'Tag' }
     & TagFragmentFragment
   )> }
+);
+
+export type CreateCheckoutSessionQueryVariables = Exact<{
+  id: Scalars['Int'];
+  amount: Scalars['Int'];
+}>;
+
+
+export type CreateCheckoutSessionQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'createCheckoutSession'>
 );
 
 export type FindTagByIdQueryVariables = Exact<{
@@ -719,6 +751,15 @@ export const AllTagsDocument = gql`
 
 export function useAllTagsQuery(options: Omit<Urql.UseQueryArgs<AllTagsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllTagsQuery>({ query: AllTagsDocument, ...options });
+};
+export const CreateCheckoutSessionDocument = gql`
+    query createCheckoutSession($id: Int!, $amount: Int!) {
+  createCheckoutSession(id: $id, amount: $amount)
+}
+    `;
+
+export function useCreateCheckoutSessionQuery(options: Omit<Urql.UseQueryArgs<CreateCheckoutSessionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CreateCheckoutSessionQuery>({ query: CreateCheckoutSessionDocument, ...options });
 };
 export const FindTagByIdDocument = gql`
     query findTagById($id: Int!) {
