@@ -16,27 +16,6 @@ interface ProjectTags {
   marginTop?: SpaceProps['marginTop'];
 }
 
-interface BlogAuthorProps {
-  date: Date;
-  name: string;
-}
-
-export const BlogAuthor: React.FC<BlogAuthorProps> = (props) => {
-  return (
-    <HStack marginTop="2" spacing="2" display="flex" alignItems="center">
-      <Image
-        borderRadius="full"
-        boxSize="40px"
-        src="https://100k-faces.glitch.me/random-image"
-        alt={`Avatar of ${props.name}`}
-      />
-      <Text fontWeight="medium">{props.name}</Text>
-      <Text>—</Text>
-      <Text>{props.date.toLocaleDateString()}</Text>
-    </HStack>
-  );
-};
-
 const ProjectTags: React.FC<ProjectTags> = (props) => {
   return (
     <HStack spacing={2} marginTop={props.marginTop}>
@@ -51,10 +30,10 @@ const ProjectTags: React.FC<ProjectTags> = (props) => {
   );
 };
 
-const ProjectView: React.FC<unknown> = ({}) => {
+const ProjectView: React.FC<unknown> = () => {
   const router = useRouter();
   const { projectId } = router.query
-  const idToInt = typeof projectId === 'string' ? parseInt(projectId) : 0
+  const idToInt = typeof projectId === 'string' ? parseInt(projectId) : 1
 
   const [{data, error, fetching}] = useProjectQuery({
     pause: idToInt === 0, // this pauses the query on project id 0 bc ik we dont have a project id 0 but it is unneccessary
@@ -73,7 +52,7 @@ console.log(data);
   if(error){
     console.log(error.message)
     return(<div>{error.message}</div>)
-  }
+  } else {
     return (
       <Container>
       <Head>
@@ -89,13 +68,14 @@ console.log(data);
           </Box>
           <Box>
             <Flex h="100%" flexDirection="column" justifyContent="center">
-            <ProjectDetails description={data?.project?.description} title={data?.project?.title} updatedAt={data?.project?.updatedAt} createdAt={data?.project?.createdAt} image={data?.project?.owner?.image} username={data?.project?.owner.username}></ProjectDetails>
+            <ProjectDetails description={data?.project?.description} title={data?.project?.title} updatedAt={data?.project?.updatedAt} createdAt={data?.project?.createdAt} image={data?.project?.owner?.image} username={data?.project?.owner.username} id={projectId}></ProjectDetails>
             </Flex>
           </Box>
         </Box>
       </Wrapper>
       </Container>
     );
+  }
 }
 
 export default withUrqlClient(() => ({
