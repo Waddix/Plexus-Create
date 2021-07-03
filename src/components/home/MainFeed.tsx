@@ -36,19 +36,13 @@ export const MainFeed: React.FC = () => {
   useEffect(() => {
     isMounted.current = true;
   }, [data])
-  // const [{ data: usersData, error: usersErr }] = useGetFollowedUsersQuery(id);
-  // console.log(usersData);
-  // if (usersErr) {
-  //   console.error(usersErr);
-  // }
+ 
 
   // need to add onClick that routes to 'projects/[projectId]'
   const projectsFeed = data?.getFollowedProjects?.map((p, i) => (
     <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
   ));
-
-  const fetchingFeed = <h3>Fetching Feed</h3>
-  // console.log(projectsFollowing)
+  
   return (
     <div>
       {   isMounted ?
