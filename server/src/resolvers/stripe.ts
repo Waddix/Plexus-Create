@@ -19,7 +19,7 @@ export class StripeResolver {
     const project = await Project.findOne(id);
     const params: Stripe.Checkout.SessionCreateParams = {
       submit_type: 'donate',
-      payment_method_types: ['card', "afterpay_clearpay"],
+      payment_method_types: ['card'],
       billing_address_collection: 'auto',
       shipping_address_collection: {
         allowed_countries: ['US', 'CA'],
