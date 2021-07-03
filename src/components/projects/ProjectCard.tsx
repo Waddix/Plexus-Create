@@ -43,8 +43,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   //* use this once userContext is fixed
   const { userProfile } = useContext(UserContext);
 
-  const [, followProject ] = useFollowProjectMutation();
-  
+  const [, followProject] = useFollowProjectMutation();
+
   // console.log("here's the project id: ", id);
   // need hook for query to get user image
   return (
@@ -112,7 +112,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                   <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                 </Spacer>
                 <Button
-                  onClick={() => followProject({ profileId: userProfile.id, projectId: parseInt(id)})}
+                  onClick={() => followProject({ profileId: userProfile.id, projectId: parseInt(id) })}
                 >
                   Follow
                 </Button>

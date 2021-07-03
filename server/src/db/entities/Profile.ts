@@ -62,7 +62,7 @@ export class Profile extends Base {
   website: string;
 
 
-  @Field(() => [Project])
+  @Field(() => Project)
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
 
@@ -74,6 +74,7 @@ export class Profile extends Base {
   @ManyToMany(() => Profile, user => user.followers)
   following: Profile[];
 
+  @Field(() => [Project])
   @ManyToMany(() => Project)
   @JoinTable()
   followedProjects: Project[];

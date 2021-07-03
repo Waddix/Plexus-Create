@@ -2,12 +2,12 @@ import React, { ReactElement, useContext, useEffect } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
 import { useGetFollowedProjectsQuery, useGetFollowedUsersQuery } from '../../generated/graphql';
-import Project from '../../models/project';
-import { withUrqlClient } from "next-urql";
+
+// import { withUrqlClient } from "next-urql";
 import { SimpleGrid } from '@chakra-ui/react';
 import { ProjectCard } from '../projects/ProjectCard';
 
-const MainFeed = (): JSX.Element => {
+export const MainFeed: React.FC = () => {
   // const { projectsFollowing } = useContext(UserContext);
 
   const { userProfile } = useContext(UserContext);
@@ -40,20 +40,14 @@ const MainFeed = (): JSX.Element => {
   // console.log(projectsFollowing)
   return (
     <div>
-      {
-        fetching ?
-          fetchingFeed :
+      { !data?.getFollowedProjects ?
           <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
             {projectsFeed}
           </SimpleGrid>
+          : 
+          <h1>Well Fuck</h1>
       }
     </div>
 
-
-
   )
 }
-export default withUrqlClient(() => ({
-  // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
-}))(MainFeed);

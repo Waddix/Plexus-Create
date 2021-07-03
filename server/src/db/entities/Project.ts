@@ -26,7 +26,8 @@ export class Project extends Base {
   owner!: Profile;
 
   // // //* Allow users to follow the project by establishing jointable with Profile via Follow entity
-  // @OneToMany(() => FollowProject, (followProject: any) => followProject.project)
+  // @Field()
+  // @ManyToMany(() => FollowProject, (followProject: any) => followProject.project)
   // follower: Promise<FollowProject[]>;
 
   @Field(() => [Tag])

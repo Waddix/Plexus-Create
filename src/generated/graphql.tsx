@@ -448,7 +448,14 @@ export type GetFollowedProjectsQuery = (
   { __typename?: 'Query' }
   & { getFollowedProjects?: Maybe<Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'description' | 'ownerId'>
+    & Pick<Project, 'id' | 'title' | 'description' | 'ownerId' | 'createdAt' | 'updatedAt'>
+    & { owner: (
+      { __typename?: 'Profile' }
+      & Pick<Profile, 'username' | 'image'>
+    ), tags: Array<(
+      { __typename?: 'Tag' }
+      & Pick<Tag, 'name'>
+    )> }
   )>> }
 );
 
@@ -765,10 +772,17 @@ export const GetFollowedProjectsDocument = gql`
   getFollowedProjects(profileId: $profileId) {
     id
     title
-    createdAt
-    updatedAt
     description
     ownerId
+    owner {
+      username
+      image
+    }
+    tags {
+      name
+    }
+    createdAt
+    updatedAt
   }
 }
     `;
@@ -944,7 +958,6 @@ export const ProjectsDocument = gql`
     tags {
       name
     }
-    id
     id
     createdAt
     updatedAt
