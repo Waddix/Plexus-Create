@@ -21,12 +21,12 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { UserContext } from '../../context/userContext';
 
-const Links = ['Home', 'Projects'];
+const Links = ['Home', 'Projects', 'Search'];
 
-const NavLink = (link: string): JSX.Element => (
+const NavLink = (link: string | JSX.Element): JSX.Element => (
   <Link
     key={link}
     px={2}
@@ -46,6 +46,10 @@ const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='2x' />
 }
 
+const searchIcon = (): JSX.Element => {
+  return <FontAwesomeIcon icon={faSearch} size='1x' />
+}
+
 export default function Nav(): JSX.Element {
   // Session
   const [session] = useSession();
@@ -61,9 +65,9 @@ export default function Nav(): JSX.Element {
       <Text // Logo/App Name
         width='12rem'
         top='2'
-        left='0'
+        left={['0', '0', '3rem', '0']}
         right='0'
-        marginLeft='auto'
+        marginLeft={['auto', 'auto', '0', 'auto']}
         marginRight='auto'
         position='absolute'
         d='flex'
@@ -92,13 +96,31 @@ export default function Nav(): JSX.Element {
             <HStack
               as={'nav'}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                NavLink(link)
-              ))}
+              display={{ base: 'none', md: 'flex' }}
+            >
+              {Links.map((link) => {
+                if (link !== 'Search') {
+                  return NavLink(link)
+                }
+              })}
             </HStack>
           </HStack>
-          <Box marginLeft='2rem' alignItems={'center'}>
+          <Box display={{ base: 'none', md: 'flex' }} marginLeft='0.5rem'>
+            <Link
+              key="search"
+              px={2}
+              py={1}
+              rounded={'md'}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
+              href="search"
+            >
+              {searchIcon()}
+            </Link>
+          </Box>
+          <Box marginLeft='0.5rem' alignItems={'center'}>
             <Popover
               placement="bottom"
               closeOnBlur={false}

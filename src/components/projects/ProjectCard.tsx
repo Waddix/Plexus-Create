@@ -24,11 +24,11 @@ import { FcNext } from 'react-icons/fc'
 
 
 interface ProjectCardProps {
-  id: string,
+  id: number,
   title: string,
   description: string,
-  createdAt: string,
-  updatedAt: string,
+  createdAt: Date,
+  updatedAt: Date,
   username?: string | undefined
   image?: string | undefined
   // progress: number,
@@ -41,6 +41,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   //* use this once userContext is fixed
   // const { followProject } = useContext(UserContext);
   // need hook for query to get user image
+  console.log('project card')
   return (
     <Flex>
       <Spacer>
@@ -93,13 +94,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               </Text>
             </Stack>
             <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                <Avatar
-                  size={'md'}
-                  src={image}
-                />
+              <Avatar
+                size={'md'}
+                src={image}
+              />
               <Stack direction={'column'} spacing={0} fontSize={'sm'}>
                 <Text fontWeight={600}>{username}</Text>
-                <Text color={'gray.500'}> {postedAt}</Text> 
+                <Text color={'gray.500'}> {postedAt}</Text>
               </Stack>
               <Flex>
                 <Spacer>
