@@ -1,0 +1,3 @@
+query createCheckoutSession($id: Int!, $amount: Int!){
+  createCheckoutSession(id: $id, amount:$amount)
+}

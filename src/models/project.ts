@@ -1,9 +1,13 @@
-import User from './user';
+import Profile from './profile';
 
 interface Project {
+  id: number,
+  createdAt: Date,
+  updatedAt: Date,
   title: string,
   description: string,
-  owner: User
+  ownerId: number,
+  owner: Profile
 }
 
 export default Project;
