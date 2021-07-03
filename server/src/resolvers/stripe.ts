@@ -1,7 +1,7 @@
 import { Project } from '../db/entities/Project';
 import {Stripe} from 'stripe';
 import {
-  Resolver, Mutation, Arg, Int,
+  Resolver, Mutation, Arg, Int, Query
 } from 'type-graphql';
 import { stripe } from '../constants/stripe';
 
@@ -11,7 +11,7 @@ import { stripe } from '../constants/stripe';
 
 export class StripeResolver {
 
-  @Mutation(() => String)
+  @Query(() => String)
   async createCheckoutSession(
     @Arg('amount', () => Int) amount : number,
     @Arg('id', () => Int) id: number
