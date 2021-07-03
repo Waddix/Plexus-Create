@@ -208,6 +208,58 @@ function Search(): JSX.Element {
     }
   }
 
+  const searchProjects = (projects: Project[], query: string) => {
+    // Getting results of the query when trying to match it against the profile name.
+    const titleResults = projects.map((project: Project) => {
+      // Converting the query to regex expressions
+      const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
+        if (queryTerm === "") {
+          return null
+        } else {
+          const exp = RegExp(`\\b${queryTerm}\\b`, 'i');
+          return exp;
+        }
+      });
+
+      // Title based search is strict. Doing an every check and using each filter on the name.
+      const queryResult: boolean = targets.every((targetExp: RegExp | null): boolean => {
+        if (targetExp === null) {
+          return false;
+        } else {
+          return targetExp.test(project.title);
+        }
+      })
+
+      // If the results is true then return the profile.
+      if (queryResult) {
+        return project;
+      }
+    })
+
+    let results: Project[];
+
+    // If every query returned undefined then return null
+    if (titleResults.every(result => result === undefined)) {
+      return null;
+    } else {
+      // Otherwise add each unique profile into the results array.
+      rawResults.map(result => {
+        if (results === undefined && result) {
+          results = [result];
+        } else if (result && !results.includes(result)) {
+          results.push(result);
+        }
+      })
+
+      // Output object
+      const output = {
+        projectResults: results,
+      };
+
+      return output;
+    }
+  };
+
   // Handle Search
   const handleSearch = async (query: string): Promise<void> => {
     // Refetch data
@@ -242,7 +294,7 @@ function Search(): JSX.Element {
         const projects = searchProjects(filtered[i][1], query);
 
         if (projects) {
-          results.Projects = projects;
+          results.Projects = projects.projectResults;
         }
       }
     }
