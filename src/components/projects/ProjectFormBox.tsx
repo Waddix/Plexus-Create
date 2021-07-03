@@ -7,18 +7,14 @@ import { useCreateProjectMutation } from '../../generated/graphql';
 import { InputField } from '../forms/InputField';
 import { TextArea } from '../forms/TextArea';
 
-// interface ProjectFormBoxProps {
-
-// }
-
-export const ProjectFormBox: React.FC<unknown> = ({}) => {
+export const ProjectFormBox: React.FC<unknown> = () => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
     return (
       <Formik
       initialValues={{ title: "", description: "" }}
       onSubmit={async (values, { setErrors }) => {
-        const response = await createProject({ input: values, ownerId: parseInt(userProfile.id) });
+        const response = await createProject({ input: values, ownerId: userProfile.id });
         if (response.error) {
           console.log(response.error?.message)
           setErrors({ title: 'error in title', description: 'error in description' })
