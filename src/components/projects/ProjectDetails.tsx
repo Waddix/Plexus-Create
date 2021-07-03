@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { CustomDonationInput } from './DonationInput';
 
 interface ProjectDetailsProps {
+  id: string,
   title?: string,
   description?: string,
   createdAt?: string,
@@ -42,7 +43,7 @@ const Description  = ({description} : DescriptionProps): JSX.Element => {
  )
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, createdAt, updatedAt, title, username, image}) => {
+export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ id, description, createdAt, updatedAt, title, username, image}) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt)) 
     return (
@@ -70,7 +71,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, crea
        <Heading fontSize="lg" mt={3} mb={4}>
            Donate to this Project!
           </Heading>
-          <CustomDonationInput></CustomDonationInput>
+          <CustomDonationInput id={id}></CustomDonationInput>
         <Divider orientation="horizontal" mt={4} />
         <Box>
           <Heading fontSize="lg" mt={3} mb={4}>
