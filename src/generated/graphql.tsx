@@ -136,7 +136,8 @@ export type Profile = {
   title: Scalars['String'];
   bio: Scalars['String'];
   website: Scalars['String'];
-  projects: Array<Project>;
+  projects: Project;
+  followedProjects: Profile;
 };
 
 export type ProfileInput = {
@@ -448,14 +449,7 @@ export type GetFollowedProjectsQuery = (
   { __typename?: 'Query' }
   & { getFollowedProjects?: Maybe<Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description' | 'ownerId' | 'createdAt' | 'updatedAt'>
-    & { owner: (
-      { __typename?: 'Profile' }
-      & Pick<Profile, 'username' | 'image'>
-    ), tags: Array<(
-      { __typename?: 'Tag' }
-      & Pick<Tag, 'name'>
-    )> }
+    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
   )>> }
 );
 
@@ -773,14 +767,6 @@ export const GetFollowedProjectsDocument = gql`
     id
     title
     description
-    ownerId
-    owner {
-      username
-      image
-    }
-    tags {
-      name
-    }
     createdAt
     updatedAt
   }

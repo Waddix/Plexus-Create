@@ -3,14 +3,6 @@ query getFollowedProjects($profileId: Int!) {
     id
     title
     description
-    ownerId
-    owner {
-      username
-      image
-    }
-    tags{
-      name
-    }
     createdAt
     updatedAt
   }
