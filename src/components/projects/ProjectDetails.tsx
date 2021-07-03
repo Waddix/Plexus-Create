@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import {SocialIcon} from 'react-social-icons';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { CustomDonationInput } from './DonationInput';
 
 interface ProjectDetailsProps {
   title?: string,
@@ -65,6 +66,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({description, crea
        <Box mt={4}>
         {description ? <Description description={description}></Description> : <Text>Project Not Found</Text>}
        </Box>
+       <Divider orientation="horizontal" mt={4} />
+       <Heading fontSize="lg" mt={3} mb={4}>
+           Donate to this Project!
+          </Heading>
+          <CustomDonationInput></CustomDonationInput>
         <Divider orientation="horizontal" mt={4} />
         <Box>
           <Heading fontSize="lg" mt={3} mb={4}>
