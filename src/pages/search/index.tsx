@@ -8,7 +8,7 @@ import {
   HStack,
   Checkbox,
   Collapse,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/react";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -329,6 +329,29 @@ function Search(): JSX.Element {
     )
   }
 
+  // Show loading animation and disable input when fetching data
+  const [fetching, setFetching] = useState(true);
+  useEffect(() => {
+    if (projectsFetching || projectsFetching) {
+      setFetching(true);
+    } else {
+      setFetching(false);
+    }
+  }, [profilesFetching, projectsFetching])
+
+
+  // Disables search if fetching data, empty searchbar, or error with any data fetches
+  const [searchDisabled, setSearchDisabled] = useState(true);
+  useEffect(() => {
+    if ((profilesError || projectsError) && !fetching) {
+      setSearchDisabled(true);
+      setFetching(false);
+    } else {
+      setSearchDisabled(false);
+    }
+  }, [profilesError, projectsError, fetching])
+
+
   return (
     <Fragment>
       <Box
@@ -352,6 +375,7 @@ function Search(): JSX.Element {
                 handleSearch(query.current)
               }
             }}
+            isDisabled={searchDisabled || fetching}
           />
           <InputRightElement w="3rem" mr='1rem'>
             <Tooltip
@@ -396,6 +420,8 @@ function Search(): JSX.Element {
                 query.current = searchBar
                 handleSearch(query.current)
               }}
+              isDisabled={searchDisabled}
+              isLoading={fetching}
             >
               Search
             </Button>
