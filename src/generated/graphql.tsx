@@ -45,6 +45,9 @@ export type Mutation = {
   createProject: Project;
   updateProject?: Maybe<Project>;
   deleteProject: Scalars['Boolean'];
+  createPaymentIntent: Scalars['String'];
+  createStripeLink: Scalars['String'];
+  createStripeAccount: Scalars['String'];
   createTag: TagResponse;
   assignTag: Scalars['Boolean'];
 };
@@ -104,6 +107,16 @@ export type MutationDeleteProjectArgs = {
 };
 
 
+export type MutationCreatePaymentIntentArgs = {
+  stripeId: Scalars['String'];
+};
+
+
+export type MutationCreateStripeLinkArgs = {
+  stripeId: Scalars['String'];
+};
+
+
 export type MutationCreateTagArgs = {
   name: Scalars['String'];
 };
@@ -116,7 +129,7 @@ export type MutationAssignTagArgs = {
 
 export type Post = {
   __typename?: 'Post';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   text: Scalars['String'];
@@ -125,7 +138,7 @@ export type Post = {
 
 export type Profile = {
   __typename?: 'Profile';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   user_id: Scalars['Int'];
@@ -136,6 +149,8 @@ export type Profile = {
   title: Scalars['String'];
   bio: Scalars['String'];
   website: Scalars['String'];
+  stripeId: Scalars['String'];
+  projects: Array<Project>;
 };
 
 export type ProfileInput = {
@@ -152,7 +167,7 @@ export type ProfileInput = {
 
 export type Project = {
   __typename?: 'Project';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
@@ -180,7 +195,8 @@ export type Query = {
   findProfileUsername: Profile;
   projects: Array<Project>;
   project?: Maybe<Project>;
-  getProjectsByUser?: Maybe<Project>;
+  getProjectsByUser?: Maybe<Array<Project>>;
+  createCheckoutSession: Scalars['String'];
   tags: Array<Tag>;
   tag?: Maybe<Tag>;
   projectTags?: Maybe<Array<Tag>>;
@@ -236,6 +252,12 @@ export type QueryGetProjectsByUserArgs = {
 };
 
 
+export type QueryCreateCheckoutSessionArgs = {
+  id: Scalars['Int'];
+  amount: Scalars['Int'];
+};
+
+
 export type QueryTagArgs = {
   id: Scalars['Int'];
 };
@@ -272,7 +294,7 @@ export type Sessions = {
 
 export type Tag = {
   __typename?: 'Tag';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
@@ -401,6 +423,17 @@ export type AllTagsQuery = (
     { __typename?: 'Tag' }
     & TagFragmentFragment
   )> }
+);
+
+export type CreateCheckoutSessionQueryVariables = Exact<{
+  id: Scalars['Int'];
+  amount: Scalars['Int'];
+}>;
+
+
+export type CreateCheckoutSessionQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'createCheckoutSession'>
 );
 
 export type FindTagByIdQueryVariables = Exact<{
@@ -717,6 +750,15 @@ export const AllTagsDocument = gql`
 
 export function useAllTagsQuery(options: Omit<Urql.UseQueryArgs<AllTagsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllTagsQuery>({ query: AllTagsDocument, ...options });
+};
+export const CreateCheckoutSessionDocument = gql`
+    query createCheckoutSession($id: Int!, $amount: Int!) {
+  createCheckoutSession(id: $id, amount: $amount)
+}
+    `;
+
+export function useCreateCheckoutSessionQuery(options: Omit<Urql.UseQueryArgs<CreateCheckoutSessionQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CreateCheckoutSessionQuery>({ query: CreateCheckoutSessionDocument, ...options });
 };
 export const FindTagByIdDocument = gql`
     query findTagById($id: Int!) {
