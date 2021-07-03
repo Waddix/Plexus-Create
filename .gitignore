@@ -46,3 +46,9 @@ yarn-error.log*
 # dependencies
 /.pnp
 .pnp.js
+
+# graphql generator
+./src/generated/graphql.tsx
+
+# My notes
+NOTES.js

@@ -1,0 +1,3 @@
+mutation followProject($profileId: Int!, $projectId: Int!){
+	followProject(profileId: $profileId, projectId: $projectId)
+}

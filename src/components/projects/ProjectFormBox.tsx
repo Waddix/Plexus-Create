@@ -1,30 +1,32 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
-import router from 'next/dist/client/router';
-import React, { useContext,} from 'react'
-import { UserContext } from '../../context/userContext';
-import { useCreateProjectMutation } from '../../generated/graphql';
-import { InputField } from '../forms/InputField';
-import { TextArea } from '../forms/TextArea';
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { Formik, Form } from "formik";
+import router from "next/dist/client/router";
+import React, { useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import { useCreateProjectMutation } from "../../generated/graphql";
+import { InputField } from "../forms/InputField";
+import { TextArea } from "../forms/TextArea";
 
-// interface ProjectFormBoxProps {
-
-// }
-
-export const ProjectFormBox: React.FC<unknown> = ({}) => {
+export const ProjectFormBox: React.FC<unknown> = () => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
-    return (
-      <Formik
+  return (
+    <Formik
       initialValues={{ title: "", description: "" }}
       onSubmit={async (values, { setErrors }) => {
-        const response = await createProject({ input: values, ownerId: parseInt(userProfile.id) });
+        const response = await createProject({
+          input: values,
+          ownerId: userProfile.id,
+        });
         if (response.error) {
-          console.log(response.error?.message)
-          setErrors({ title: 'error in title', description: 'error in description' })
+          console.log(response.error?.message);
+          setErrors({
+            title: "error in title",
+            description: "error in description",
+          });
         } else if (response.data) {
-          console.log(response.data)
-          router.push("/projects")
+          console.log(response.data);
+          router.push("/projects");
         }
       }}
     >
@@ -38,8 +40,7 @@ export const ProjectFormBox: React.FC<unknown> = ({}) => {
               label="Description"
             />
           </Box>
-          <Flex mt={2}>
-          </Flex>
+          <Flex mt={2}></Flex>
           <Button
             mt={4}
             type="submit"
@@ -51,5 +52,5 @@ export const ProjectFormBox: React.FC<unknown> = ({}) => {
         </Form>
       )}
     </Formik>
-    );
-}
+  );
+};

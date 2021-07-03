@@ -1,0 +1,5 @@
+query getFollowedUsers($profileId: Int!) {
+  getFollowedUsers(profileId: $profileId) {
+    id
+  }
+}
