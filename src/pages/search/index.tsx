@@ -18,7 +18,6 @@ import { useGetAllProfilesQuery, useProjectsQuery } from "../../generated/graphq
 import { withUrqlClient } from "next-urql";
 import { Profile } from '../../../server/src/db/entities/Profile'
 import { Project } from '../../../server/src/db/entities/Project'
-import e from "express";
 
 function Search(): JSX.Element {
   // Search query
@@ -30,7 +29,6 @@ function Search(): JSX.Element {
     setShowFilterSelect(!showFilterSelect);
   }
 
-
   const [filters, setFilters] = useState({
     Profiles: true,
     // Tags: true,
@@ -39,8 +37,7 @@ function Search(): JSX.Element {
     // Teams: true,
   })
 
-
-  // All expected types: 'Profiles' | 'Tags' | 'Projects' | 'Campaigns' | 'Teams'
+  // All expected types: 'Profiles' | 'Tags' | 'Projects' | 'Campaigns' | 'Teams' | 'Posts'
   // Render the checkboxes
   const checkBoxes = (filter: 'Profiles' | 'Projects'): JSX.Element => {
     return (
@@ -70,11 +67,12 @@ function Search(): JSX.Element {
 
   // Results of the search
   const [results, setResults] = useState({
-    profiles: [],
-    projects: [],
+    Profiles: [],
+    Projects: [],
   });
 
-  // Get all profile
+  // Fetch initial content //
+  // Get all profiles
   const [profilesResult, refetchProfiles] = useGetAllProfilesQuery();
   const { data: profilesData, fetching: profilesFetching, error: profilesError } = profilesResult;
 
@@ -125,6 +123,91 @@ function Search(): JSX.Element {
     return filtered;
   }
 
+  // Search profile for the query string.
+  const searchProfile = (profiles: Profile[], query: string): ({ profileResults: Profile[] } | null) => {
+
+    // Getting results of the query when trying to match it against the profile name.
+    const nameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
+      // Converting the query to regex expressions
+      const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
+        if (queryTerm === "") {
+          return null
+        } else {
+          const exp = RegExp(`\\b${queryTerm}\\b`, 'i');
+          return exp;
+        }
+      });
+
+      // Name based search is strict. Doing an every check and using each filter on the name.
+      const queryResult: boolean = targets.every((targetExp: RegExp | null): boolean => {
+        if (targetExp === null) {
+          return false;
+        } else {
+          return targetExp.test(profile.name);
+        }
+      })
+
+      // If the results is true then return the profile.
+      if (queryResult) {
+        return profile;
+      }
+    })
+
+    // Getting results of the query when trying to match it against the profile username.
+    const userNameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
+      // Converting the query to regex expressions
+      const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
+        if (queryTerm === "") {
+          return null
+        } else {
+          const exp = RegExp(`(${queryTerm})`, 'i');
+          return exp;
+        }
+      });
+
+      // Username based search is lax. Doing a some check and using each filter on the username.
+      const queryResult: boolean = targets.some((targetExp: RegExp | null): boolean => {
+        if (targetExp == null) {
+          return false
+        } else {
+          return targetExp.test(profile.username);
+        }
+      })
+
+      // If the results is true then return the profile.
+      if (queryResult) {
+        return profile;
+      }
+    })
+
+    // Concatenating both results
+    const rawResults: (Profile | undefined)[] = nameResults.concat(userNameResults);
+
+    // Unique results
+    let results: Profile[];
+
+    // If every query returned undefined then return null
+    if (rawResults.every(result => result === undefined)) {
+      return null;
+    } else {
+      // Otherwise add each unique profile into the results array.
+      rawResults.map(result => {
+        if (results === undefined && result) {
+          results = [result];
+        } else if (result && !results.includes(result)) {
+          results.push(result);
+        }
+      })
+
+      // Output object
+      const output = {
+        profileResults: results,
+      };
+
+      return output;
+    }
+  }
+
   // Handle Search
   const handleSearch = async (query: string): Promise<void> => {
     // Refetch data
@@ -134,84 +217,33 @@ function Search(): JSX.Element {
     // Get the filtered results
     const filtered = filterResults(filters);
 
-    const results = [];
-
-    // Search profile for the query string.
-    const searchProfile = (profiles: Profile[], query: string): (string | Profile[])[] | null => {
-
-      // Getting results of the query when trying to match it against the profile name.
-      const nameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
-        // Converting the query to regex expressions
-        const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
-          if (queryTerm === "") {
-            return null
-          } else {
-            const exp = RegExp(`\\b${queryTerm}\\b`, 'i');
-            return exp;
-          }
-        });
-
-        const queryResult: boolean = targets.every((targetExp: RegExp | null): boolean => {
-          if (targetExp === null) {
-            return false;
-          } else {
-            return targetExp.test(profile.name);
-          }
-        })
-
-        if (queryResult) {
-          return profile;
-        }
-      })
-
-      const userNameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
-        // Converting the query to regex expressions
-        const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
-          if (queryTerm === "") {
-            return null
-          } else {
-            const exp = RegExp(`(${queryTerm})`, 'i');
-            return exp;
-          }
-        });
-
-        const queryResult: boolean = targets.some((targetExp: RegExp | null): boolean => {
-          if (targetExp == null) {
-            return false
-          } else {
-            return targetExp.test(profile.username);
-          }
-        })
-
-        if (queryResult) {
-          return profile;
-        }
-      })
-
-      const rawResults: (Profile | undefined)[] = nameResults.concat(userNameResults);
-
-      let results: Profile[];
-
-      if (rawResults.every(result => result === undefined)) {
-        return null;
-      } else {
-        rawResults.map(result => {
-          if (results === undefined && result) {
-            results = [result];
-          } else if (result && !results.includes(result)) {
-            results.push(result);
-          }
-        })
-
-        return ['Profiles', results];
-      }
+    interface Results {
+      Projects: Project[] | null,
+      Profiles: Profile[] | null,
+      // Posts
+      // Teams:
+      // Campaigns
     }
+
+    const results: Results = {
+      Projects: null,
+      Profiles: null,
+    };
 
     for (let i = 0; i < filtered.length; i++) {
       // console.warn(filtered[i][0]);
-      if (filtered[i][0] === 'Profiles') {
-        // Take output and put in a queried results state.
-        console.info(searchProfile(filtered[i][1], query))
+      if (filtered[i][0] === 'Profiles' && filtered[i][0].length > 0) {
+        const profiles = searchProfile(filtered[i][1], query);
+
+        if (profiles) {
+          results.Profiles = profiles.profileResults;
+        }
+      } else if (filtered[i][0] === 'Projects' && filtered[i][0].length > 0) {
+        const projects = searchProjects(filtered[i][1], query);
+
+        if (projects) {
+          results.Projects = projects;
+        }
       }
     }
 
