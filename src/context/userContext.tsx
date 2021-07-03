@@ -58,11 +58,11 @@ function UserContextProvider({ children }: { children: any }): any {
     });
   }
 
-  //   // setProjectsFollowing((prevProjects) => {
+    // setProjectsFollowing((prevProjects) => {
 
-  //   //   return [...prevProjects, project];
-  //   // })
-  // };
+    //   return [...prevProjects, project];
+    // })
+
 
   const followUser = async (user: Profile) => {
     await followU({ profileId_1: parseInt(userProfile.id), profileId_2: parseInt(user.id) })
@@ -80,8 +80,12 @@ function UserContextProvider({ children }: { children: any }): any {
 
   //! And this
   const getUsersFollowing = async () => {
-    getFollowUsers({ profileId: userProfile.id });
-    setUsersFollowing(followedUsers);
+    const users = await getFollowUsers({
+      variables: {
+        profileId: userProfile.id
+      }
+    });
+    setUsersFollowing(users);
   }
 
   const userProps = {
