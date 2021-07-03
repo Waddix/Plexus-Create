@@ -13,7 +13,7 @@ const PORT = 8080;
 const main = async () => {
   const app = express();
   await createConnection({
-    type: 'postgres',
+    type: "postgres",
     database: process.env.DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
