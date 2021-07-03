@@ -311,24 +311,6 @@ function Search(): JSX.Element {
     handleSearch(query.current)
   };
 
-  // Render the checkboxes
-  const checkBoxes = (filter: string): JSX.Element => {
-    return (
-      <Checkbox
-        key={filter}
-        size="md"
-        colorScheme="green"
-        defaultIsChecked
-        onChange={(e) => {
-          handleFilterChange(filter, e.target.checked);
-        }}
-        isChecked={filters[filter]}
-      >
-        {filter}
-      </Checkbox>
-    )
-  }
-
   // Show loading animation and disable input when fetching data
   const [fetching, setFetching] = useState(true);
   useEffect(() => {
@@ -351,6 +333,25 @@ function Search(): JSX.Element {
     }
   }, [profilesError, projectsError, fetching])
 
+  // Render the checkboxes
+  const checkBoxes = (filter: string): JSX.Element => {
+    return (
+      <Checkbox
+        key={filter}
+        size="md"
+        colorScheme="green"
+        defaultIsChecked
+        onChange={(e) => {
+          handleFilterChange(filter, e.target.checked);
+        }}
+        isChecked={filters[filter]}
+        isDisabled={searchDisabled || fetching}
+      >
+        {filter}
+      </Checkbox>
+    )
+  }
+
 
   return (
     <Fragment>
@@ -371,8 +372,10 @@ function Search(): JSX.Element {
             onChange={(e) => setSearchBar(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
-                query.current = searchBar
-                handleSearch(query.current)
+                if (searchBar.length > 0) {
+                  query.current = searchBar
+                  handleSearch(query.current)
+                }
               }
             }}
             isDisabled={searchDisabled || fetching}
@@ -417,8 +420,10 @@ function Search(): JSX.Element {
                 bg: useColorModeValue('orange.200', 'orange.700'),
               }}
               onClick={() => {
-                query.current = searchBar
-                handleSearch(query.current)
+                if (searchBar.length > 0) {
+                  query.current = searchBar
+                  handleSearch(query.current)
+                }
               }}
               isDisabled={searchDisabled}
               isLoading={fetching}
