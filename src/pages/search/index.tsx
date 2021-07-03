@@ -21,6 +21,7 @@ import { Project } from '../../../server/src/db/entities/Project'
 
 function Search(): JSX.Element {
   // Search query
+  const [searchBar, setSearchBar] = useState("");
   const [query, setQuery] = useState("");
 
   // Toggle filter checkboxes
@@ -79,7 +80,7 @@ function Search(): JSX.Element {
   useEffect(() => {
     if (!profilesFetching && profilesData && !profilesError) {
       setResults(Object.assign(results, {
-        profiles: [profilesData.getAllProfiles],
+        Profiles: [profilesData.getAllProfiles],
       }))
     }
   }, [profilesData, profilesError, profilesFetching, results])
@@ -91,7 +92,7 @@ function Search(): JSX.Element {
   useEffect(() => {
     if (!projectsFetching && projectsData && !projectsError) {
       setResults(Object.assign(results, {
-        projects: [projectsData.projects],
+        Projects: [projectsData.projects],
       }))
     }
   }, [projectsData, projectsError, projectsFetching, results])
@@ -99,24 +100,34 @@ function Search(): JSX.Element {
 
   // Filter the results
   const filterResults = (filters: Filters) => {
-    let filtered: [[string, Profile] | [string, Project]];
+    let filtered: [[string, Profile | null] | [string, Project | null]];
 
-    const filterToResults = {
-      Profiles: results.profiles,
-      Projects: results.projects,
+    interface Filtered {
+      Profiles: Profile[] | null,
+      Projects: Project[] | null,
+    }
+
+    const filterToResults: Filtered = {
+      Profiles: results.Profiles,
+      Projects: results.Projects,
       // Tags: null,
     }
 
     for (let filter in filters) {
       if (filters[filter]) {
-        // console.info(filterToResults[filter]);
-        filterToResults[filter].map(results => {
+        filterToResults[filter].map((results) => {
           if (!filtered) {
             filtered = [[filter, results]]
           } else {
             filtered.push([filter, results])
           }
         })
+      } else if (!filters[filter]) {
+        if (!filtered) {
+          filtered = [[filter, null]]
+        } else {
+          filtered.push([filter, null])
+        }
       }
     }
 
@@ -124,7 +135,20 @@ function Search(): JSX.Element {
   }
 
   // Search profile for the query string.
-  const searchProfile = (profiles: Profile[], query: string): ({ profileResults: Profile[] } | null) => {
+  const searchProfile = (profiles: Profile[] | null, query: string): { profileResults: Profile[] | null, } => {
+
+    interface Output {
+      profileResults: Profile[] | null,
+    }
+
+    // Output object
+    const output: Output = {
+      profileResults: null,
+    };
+
+    if (!profiles) {
+      return output;
+    }
 
     // Getting results of the query when trying to match it against the profile name.
     const nameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
@@ -188,7 +212,7 @@ function Search(): JSX.Element {
 
     // If every query returned undefined then return null
     if (rawResults.every(result => result === undefined)) {
-      return null;
+      return output;
     } else {
       // Otherwise add each unique profile into the results array.
       rawResults.map(result => {
@@ -199,12 +223,9 @@ function Search(): JSX.Element {
         }
       })
 
-      // Output object
-      const output = {
-        profileResults: results,
-      };
+      output.profileResults = results;
 
-      return output;
+      return output
     }
   }
 
@@ -230,7 +251,7 @@ function Search(): JSX.Element {
         }
       })
 
-      // If the results is true then return the profile.
+      // If the results is true then return the project.
       if (queryResult) {
         return project;
       }
@@ -242,8 +263,8 @@ function Search(): JSX.Element {
     if (titleResults.every(result => result === undefined)) {
       return null;
     } else {
-      // Otherwise add each unique profile into the results array.
-      rawResults.map(result => {
+      // Otherwise add each unique project into the results array.
+      titleResults.map(result => {
         if (results === undefined && result) {
           results = [result];
         } else if (result && !results.includes(result)) {
@@ -299,6 +320,10 @@ function Search(): JSX.Element {
       }
     }
 
+    setResults(results);
+
+    // console.info(results);
+
     // setQuery("");
   }
 
@@ -317,9 +342,9 @@ function Search(): JSX.Element {
             borderColor={useColorModeValue('orange.200', 'orange.700')}
             type="text"
             placeholder="Connect, Collaborate, Contribute"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch(query)}
+            value={searchBar}
+            onChange={(e) => setSearchBar(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && setQuery(searchBar) && handleSearch(query)}
           />
           <InputRightElement w="3rem" mr='1rem'>
             <Tooltip
@@ -360,7 +385,10 @@ function Search(): JSX.Element {
                 textDecoration: 'none',
                 bg: useColorModeValue('orange.200', 'orange.700'),
               }}
-              onClick={() => handleSearch(query)}
+              onClick={() => {
+                setQuery(searchBar);
+                handleSearch(query)
+              }}
             >
               Search
             </Button>

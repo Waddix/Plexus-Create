@@ -8,6 +8,7 @@ export default function SearchResults({ results }): JSX.Element {
       w={['auto', 'auto', 'auto', '90vw']}
       mx={['2rem', '2rem', '2rem', 'auto']}
     >
+      {/* {console.log(results)} */}
       <VStack
         spacing={4}
         align="stretch"
