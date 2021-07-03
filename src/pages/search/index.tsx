@@ -10,7 +10,7 @@ import {
   Collapse,
   Tooltip
 } from "@chakra-ui/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import SearchResults from "./searchResults";
@@ -22,7 +22,7 @@ import { Project } from '../../../server/src/db/entities/Project'
 function Search(): JSX.Element {
   // Search query
   const [searchBar, setSearchBar] = useState("");
-  const [query, setQuery] = useState("");
+  const query = useRef("")
 
   // Toggle filter checkboxes
   const [showFilterSelect, setShowFilterSelect] = useState(false);
@@ -136,7 +136,6 @@ function Search(): JSX.Element {
 
   // Search profile for the query string.
   const searchProfile = (profiles: Profile[] | null, query: string): { profileResults: Profile[] | null, } => {
-
     interface Output {
       profileResults: Profile[] | null,
     }
@@ -153,6 +152,7 @@ function Search(): JSX.Element {
     // Getting results of the query when trying to match it against the profile name.
     const nameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
       // Converting the query to regex expressions
+      console.log(query);
       const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
         if (queryTerm === "") {
           return null
@@ -229,7 +229,19 @@ function Search(): JSX.Element {
     }
   }
 
-  const searchProjects = (projects: Project[], query: string) => {
+  const searchProjects = (projects: Project[] | null, query: string): { projectResults: Project[] | null, } => {
+    interface Output {
+      projectResults: Project[] | null,
+    }
+
+    // Output object
+    const output: Output = {
+      projectResults: null,
+    };
+
+    if (!projects) {
+      return output;
+    }
     // Getting results of the query when trying to match it against the profile name.
     const titleResults = projects.map((project: Project) => {
       // Converting the query to regex expressions
@@ -261,7 +273,7 @@ function Search(): JSX.Element {
 
     // If every query returned undefined then return null
     if (titleResults.every(result => result === undefined)) {
-      return null;
+      return output;
     } else {
       // Otherwise add each unique project into the results array.
       titleResults.map(result => {
@@ -272,10 +284,7 @@ function Search(): JSX.Element {
         }
       })
 
-      // Output object
-      const output = {
-        projectResults: results,
-      };
+      output.projectResults = results;
 
       return output;
     }
@@ -324,8 +333,16 @@ function Search(): JSX.Element {
 
     // console.info(results);
 
-    // setQuery("");
+    // query.current = ""
   }
+
+  // Re-query when the filters change
+  useEffect(() => {
+    if (query !== "") {
+      handleSearch()
+      console.log(results)
+    }
+  }, [filters])
 
   return (
     <Fragment>
@@ -344,7 +361,12 @@ function Search(): JSX.Element {
             placeholder="Connect, Collaborate, Contribute"
             value={searchBar}
             onChange={(e) => setSearchBar(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && setQuery(searchBar) && handleSearch(query)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                query.current = searchBar
+                handleSearch(query.current)
+              }
+            }}
           />
           <InputRightElement w="3rem" mr='1rem'>
             <Tooltip
@@ -386,8 +408,8 @@ function Search(): JSX.Element {
                 bg: useColorModeValue('orange.200', 'orange.700'),
               }}
               onClick={() => {
-                setQuery(searchBar);
-                handleSearch(query)
+                query.current = searchBar
+                handleSearch(query.current)
               }}
             >
               Search
