@@ -38,29 +38,6 @@ function Search(): JSX.Element {
     // Teams: true,
   })
 
-  // All expected types: 'Profiles' | 'Tags' | 'Projects' | 'Campaigns' | 'Teams' | 'Posts'
-  // Render the checkboxes
-  const checkBoxes = (filter: 'Profiles' | 'Projects'): JSX.Element => {
-    return (
-      <Checkbox
-        key={filter}
-        size="md"
-        colorScheme="green"
-        defaultIsChecked
-        onChange={(e) => {
-          const newValue = e.target.checked
-          const newFilters = filters
-
-          newFilters[filter] = newValue
-          setFilters({ ...newFilters })
-        }}
-        isChecked={filters[filter]}
-      >
-        {filter}
-      </Checkbox>
-    )
-  }
-
   // Caret down icon
   const caretDownIcon = (): JSX.Element => {
     return <FontAwesomeIcon icon={faCaretDown} size='2x' />
@@ -72,6 +49,11 @@ function Search(): JSX.Element {
     Projects: [],
   });
 
+  const [initialData, setInitialData] = useState({
+    Profiles: [],
+    Projects: [],
+  });
+
   // Fetch initial content //
   // Get all profiles
   const [profilesResult, refetchProfiles] = useGetAllProfilesQuery();
@@ -79,11 +61,11 @@ function Search(): JSX.Element {
 
   useEffect(() => {
     if (!profilesFetching && profilesData && !profilesError) {
-      setResults(Object.assign(results, {
+      setInitialData(Object.assign(initialData, {
         Profiles: [profilesData.getAllProfiles],
       }))
     }
-  }, [profilesData, profilesError, profilesFetching, results])
+  }, [profilesData, profilesError, profilesFetching])
 
   // Get all projects
   const [projectsResult, refetchProjects] = useProjectsQuery();
@@ -91,11 +73,11 @@ function Search(): JSX.Element {
 
   useEffect(() => {
     if (!projectsFetching && projectsData && !projectsError) {
-      setResults(Object.assign(results, {
+      setInitialData(Object.assign(initialData, {
         Projects: [projectsData.projects],
       }))
     }
-  }, [projectsData, projectsError, projectsFetching, results])
+  }, [projectsData, projectsError, projectsFetching])
 
 
   // Filter the results
@@ -107,15 +89,15 @@ function Search(): JSX.Element {
       Projects: Project[] | null,
     }
 
-    const filterToResults: Filtered = {
-      Profiles: results.Profiles,
-      Projects: results.Projects,
+    const filterToData: Filtered = {
+      Profiles: initialData.Profiles,
+      Projects: initialData.Projects,
       // Tags: null,
     }
 
     for (let filter in filters) {
       if (filters[filter]) {
-        filterToResults[filter].map((results) => {
+        filterToData[filter].map((results) => {
           if (!filtered) {
             filtered = [[filter, results]]
           } else {
@@ -152,7 +134,6 @@ function Search(): JSX.Element {
     // Getting results of the query when trying to match it against the profile name.
     const nameResults: (Profile | undefined)[] = profiles.map((profile: Profile): Profile | undefined => {
       // Converting the query to regex expressions
-      console.log(query);
       const targets: (RegExp | null)[] = query.split(' ').map((queryTerm: string) => {
         if (queryTerm === "") {
           return null
@@ -291,14 +272,9 @@ function Search(): JSX.Element {
   };
 
   // Handle Search
-  const handleSearch = async (query: string): Promise<void> => {
-    // Refetch data
-    await refetchProfiles();
-    await refetchProjects();
-
+  const handleSearch = (query: string): void => {
     // Get the filtered results
     const filtered = filterResults(filters);
-
     interface Results {
       Projects: Project[] | null,
       Profiles: Profile[] | null,
@@ -307,42 +283,51 @@ function Search(): JSX.Element {
       // Campaigns
     }
 
-    const results: Results = {
+    const searchResults = {
       Projects: null,
       Profiles: null,
     };
 
     for (let i = 0; i < filtered.length; i++) {
-      // console.warn(filtered[i][0]);
-      if (filtered[i][0] === 'Profiles' && filtered[i][0].length > 0) {
+      if (filtered[i][0] === 'Profiles') {
         const profiles = searchProfile(filtered[i][1], query);
-
-        if (profiles) {
-          results.Profiles = profiles.profileResults;
-        }
-      } else if (filtered[i][0] === 'Projects' && filtered[i][0].length > 0) {
+        searchResults.Profiles = profiles.profileResults;
+      } else if (filtered[i][0] === 'Projects') {
         const projects = searchProjects(filtered[i][1], query);
-
-        if (projects) {
-          results.Projects = projects.projectResults;
-        }
+        searchResults.Projects = projects.projectResults;
       }
     }
 
-    setResults(results);
-
-    // console.info(results);
-
-    // query.current = ""
+    setResults(searchResults);
   }
 
-  // Re-query when the filters change
-  useEffect(() => {
-    if (query !== "") {
-      handleSearch()
-      console.log(results)
-    }
-  }, [filters])
+  const handleFilterChange = (filter: string, bool: boolean): void => {
+    const newFilters = filters;
+
+    newFilters[filter] = bool;
+
+    setFilters({ ...newFilters })
+    // Reset the state here with the filters that are enabled.
+    handleSearch(query.current)
+  };
+
+  // Render the checkboxes
+  const checkBoxes = (filter: string): JSX.Element => {
+    return (
+      <Checkbox
+        key={filter}
+        size="md"
+        colorScheme="green"
+        defaultIsChecked
+        onChange={(e) => {
+          handleFilterChange(filter, e.target.checked);
+        }}
+        isChecked={filters[filter]}
+      >
+        {filter}
+      </Checkbox>
+    )
+  }
 
   return (
     <Fragment>
