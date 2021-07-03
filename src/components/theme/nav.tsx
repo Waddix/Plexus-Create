@@ -115,7 +115,7 @@ export default function Nav(): JSX.Element {
                 textDecoration: 'none',
                 bg: useColorModeValue('orange.200', 'orange.700'),
               }}
-              href="search"
+              href="/search"
             >
               {searchIcon()}
             </Link>
