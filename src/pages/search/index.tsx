@@ -45,8 +45,8 @@ function Search(): JSX.Element {
 
   // Results of the search
   const [results, setResults] = useState({
-    Profiles: [],
-    Projects: [],
+    Profiles: null,
+    Projects: null,
   });
 
   const [initialData, setInitialData] = useState({
@@ -283,7 +283,7 @@ function Search(): JSX.Element {
       // Campaigns
     }
 
-    const searchResults = {
+    const searchResults: Results = {
       Projects: null,
       Profiles: null,
     };

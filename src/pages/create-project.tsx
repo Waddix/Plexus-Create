@@ -8,10 +8,10 @@ const ProjectForm = dynamic(() => import('../components/projects/CreateProjectFo
 
 const CreateProject: React.FC<{}> = ({ }) => {
   return (
-    <Wrapper variant="regular"> 
+    <Wrapper variant="regular">
       <ProjectForm></ProjectForm>
-     </Wrapper>
-     
+    </Wrapper>
+
   );
 };
 

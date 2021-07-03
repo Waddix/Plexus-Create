@@ -1,5 +1,7 @@
 import { Box, VStack, Heading } from "@chakra-ui/react";
 import React from "react";
+import { Project } from "../../../server/src/db/entities/Project";
+import { ProjectCard } from "../../components/projects/ProjectCard";
 
 export default function SearchResults({ results }): JSX.Element {
   return (
@@ -8,21 +10,28 @@ export default function SearchResults({ results }): JSX.Element {
       w={['auto', 'auto', 'auto', '90vw']}
       mx={['2rem', '2rem', '2rem', 'auto']}
     >
-      {/* {console.log(results)} */}
       <VStack
         spacing={4}
         align="stretch"
         mx={['0', '0', '0', '2rem']}
       >
-        {results.length > 0 ?
-          results.map(result => {
-            return (
-              <Box
-                key={result}
-              >
-                {result}
-              </Box>
-            )
+        {Object.values(results).some(results => results !== null) ?
+          Object.keys(results).map(resultKey => {
+            if (resultKey === 'Projects') {
+              const projects = results.Projects
+              return projects.map((project: Project) =>
+                <ProjectCard
+                  key={project.id + '-' + project.title.replace(' ', '-')}
+                  title={project.title}
+                  description={project.description}
+                  id={project.id}
+                  createdAt={project.createdAt}
+                  updatedAt={project.updatedAt}
+                  username={project.owner.username}
+                  image={project.owner.image}
+                />
+              )
+            }
           })
           :
           <Box m='auto'>
