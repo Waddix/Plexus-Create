@@ -64,29 +64,31 @@ function UserContextProvider({ children }: { children: any }): any {
     // })
 
 
-  const followUser = async (user: Profile) => {
-    await followU({ profileId_1: parseInt(userProfile.id), profileId_2: parseInt(user.id) })
+  const followUser = async (userId: number) => {
+    await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
   }
 
-  //! Fix this
-  const getProjectsFollowing = async () => {
-    const projects = await getFollowProj({
-      variables: {
-        profileId: userProfile.id
-      }
-    });
-    setProjectsFollowing(projects);
-  }
+ //** Having issues getting the following functions to work. */
+ //** May refactor to use these later so we can manage state and api calls from here */
+ //** For now, just calling graphql hooks from components  */
+  // const getProjectsFollowing = async () => {
+  //   const projects = await getFollowProj({
+  //     variables: {
+  //       profileId: userProfile.id
+  //     }
+  //   });
+  //   setProjectsFollowing(projects);
+  // }
 
-  //! And this
-  const getUsersFollowing = async () => {
-    const users = await getFollowUsers({
-      variables: {
-        profileId: userProfile.id
-      }
-    });
-    setUsersFollowing(users);
-  }
+
+  // const getUsersFollowing = async () => {
+  //   const users = await getFollowUsers({
+  //     variables: {
+  //       profileId: userProfile.id
+  //     }
+  //   });
+  //   setUsersFollowing(users);
+  // }
 
   const userProps = {
     userProjects,
@@ -100,8 +102,6 @@ function UserContextProvider({ children }: { children: any }): any {
     newUser,
     setNewUser,
     followUser,
-    getProjectsFollowing,
-    getUsersFollowing
   }
 
   // const sum = (x: number, y: number): number => x + y;

@@ -77,7 +77,7 @@ export class Profile extends Base {
   @ManyToMany(() => Profile, user => user.followers)
   following: Profile[];
 
-  @Field(() => Profile)
+  // @Field(() => [Project])
   @ManyToMany(() => Project)
   @JoinTable()
   followedProjects: Promise<Project[]>;

@@ -3,5 +3,9 @@ query getFollowedUsers($profileId: Int!) {
     id
     name
     username
+    image
+    title
+    bio
+    website
   }
 }
