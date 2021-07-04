@@ -1,0 +1,9 @@
+query getProjectsByUser($ownerId: Int!){
+  getProjectsByUser(ownerId: $ownerId) {
+    id
+    createdAt
+    updatedAt
+    title
+    description
+  }
+}
