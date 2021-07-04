@@ -19,18 +19,20 @@ export default function SearchResults({ results }): JSX.Element {
           Object.keys(results).map(resultKey => {
             if (resultKey === 'Projects') {
               const projects = results.Projects
-              return projects.map((project: Project) =>
-                <ProjectCard
-                  key={project.id + '-' + project.title.replace(' ', '-')}
-                  title={project.title}
-                  description={project.description}
-                  id={project.id}
-                  createdAt={project.createdAt}
-                  updatedAt={project.updatedAt}
-                  username={project.owner.username}
-                  image={project.owner.image}
-                />
-              )
+              if (projects) {
+                return projects.map((project: Project) =>
+                  <ProjectCard
+                    key={project.id + '-' + project.title.replace(' ', '-')}
+                    title={project.title}
+                    description={project.description}
+                    id={project.id}
+                    createdAt={project.createdAt}
+                    updatedAt={project.updatedAt}
+                    username={project.owner.username}
+                    image={project.owner.image}
+                  />
+                )
+              }
             }
           })
           :
