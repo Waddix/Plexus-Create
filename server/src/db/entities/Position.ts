@@ -1,5 +1,5 @@
 import { ObjectType, Field } from "type-graphql";
-import { Entity, Column, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { Entity, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 import { Base } from "./Base";
 import { Project } from "./Project";
 import { Tag } from "./Tag";
@@ -16,11 +16,11 @@ export class Position extends Base {
   type!: string;
 
   @Field(() => [Project])
-  @OneToMany(() => Project, project => project.title)
+  @ManyToOne(() => Project, project => project.title)
   project: Project[];
 
   @Field(() => [Tag])
-  @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true})
+  @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
   @JoinTable()
   tags: Tag[];
 }
