@@ -23,7 +23,7 @@ export const FollowingFeed: React.FC = () => {
     console.log("data in FollowingFeed", data);
     const followedUsersCards = data?.getFollowedUsers?.map(user => (
       // console.log("user in map ===>", user);
-      <UserCard profile={user} currId={id} />
+      <UserCard key={user.id} profile={user} currId={id} />
     ))
 
     return (
