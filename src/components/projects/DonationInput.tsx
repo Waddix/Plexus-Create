@@ -18,7 +18,7 @@ import { FcDonate } from "react-icons/fc";
 import { GiPayMoney } from "react-icons/gi";
 import { useCreateCheckoutSessionQuery } from "../../generated/graphql";
 interface DonationProps {
-  id: string | string[] | undefined;
+  id: number;
 }
 export const CustomDonationInput = ({ id }: DonationProps): JSX.Element => {
   const [value, setValue] = React.useState(0);
