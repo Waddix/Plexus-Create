@@ -14,10 +14,10 @@ const Home = () => {
   return (
     <div>
       {session ?
-        <Flex>
+        <div>
           <MainFeed />
           <FollowingFeed />
-        </Flex>
+        </div>
         :
         <Landing />
       }
