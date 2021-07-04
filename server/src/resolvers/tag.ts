@@ -37,11 +37,10 @@ export class TagResolver {
     return Tag.findOne(id);
   }
 
-  @Query(() => [Tag], {nullable: true})
+  @Query(() => [Tag])
   async projectTags(
     @Arg('projectId', () => Int) projectId: number
   ): Promise<Tag[]> {
-    
     const tags = await getConnection()
     .createQueryBuilder()
     .relation(Project, "tags")
