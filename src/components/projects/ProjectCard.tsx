@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import Image from 'next/image';
 import {
   Box,
@@ -20,7 +20,8 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
 import { FcNext } from 'react-icons/fc'
-// import { UserContext } from '../../context/userContext';
+import { UserContext } from '../../context/userContext';
+import { useFollowProjectMutation } from '../../generated/graphql';
 
 
 interface ProjectCardProps {
@@ -38,8 +39,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
   updatedAt = dayjs().to(dayjs(updatedAt));
+
   //* use this once userContext is fixed
-  // const { followProject } = useContext(UserContext);
+  const { userProfile } = useContext(UserContext);
+
+  const [, followProject] = useFollowProjectMutation();
+
+  // console.log("here's the project id: ", id);
   // need hook for query to get user image
   console.log('project card')
   return (
@@ -93,26 +99,30 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 {description}
               </Text>
             </Stack>
-            <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-              <Avatar
-                size={'md'}
-                src={image}
-              />
-              <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                <Text fontWeight={600}>{username}</Text>
-                <Text color={'gray.500'}> {postedAt}</Text>
+            {username ?
+              <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+                <Avatar
+                  size={'md'}
+                  src={image}
+                />
+                <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                  <Text fontWeight={600}>{username}</Text>
+                  <Text color={'gray.500'}> {postedAt}</Text>
+                </Stack>
+                <Flex>
+                  <Spacer>
+                    <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
+                  </Spacer>
+                </Flex>
               </Stack>
-              <Flex>
-                <Spacer>
-                  <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
-                </Spacer>
-                {/* <Button
-                  onClick={() => followProject(id, session.user.id)}
-                >
-                Follow
-              </Button> */}
-              </Flex>
-            </Stack>
+              :
+              <div></div>
+            }
+            <Button
+              onClick={() => followProject({ profileId: userProfile.id, projectId: parseInt(id) })}
+            >
+              Follow
+            </Button>
           </Box>
         </Center>
       </Spacer>

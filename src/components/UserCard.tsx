@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { useSession } from 'next-auth/client';
+import React, { useContext, useState, useEffect, useRef } from 'react';
+
 import { UserContext } from '../context/userContext'
 import {
   Heading,
@@ -13,12 +13,17 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLookupQuery } from '../generated/graphql';
 
-export const UserCard: React.FC<{}> = ({}) => {
-  // may use userContext for this later
-  // const { userInfo } = useContext(UserContext);
-  const [session] = useSession();
+// interface profileProps {
+//   currId: number,
+//   profile: Profile
+// }
 
+export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
+  const { id, name, username, bio, website, image } = profile;
+  console.log("user in UserCard ===>", profile)
+  const [, followUser] = useFollowUserMutation();
   return (
     <Center py={6}>
       <Box
@@ -32,7 +37,7 @@ export const UserCard: React.FC<{}> = ({}) => {
         <Avatar
           size={'xl'}
           src={
-            'https://images.unsplash.com/photo-1578763988364-e543a70b2cc3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
+            image
           }
           alt={'Avatar Alt'}
           mb={4}
@@ -50,18 +55,19 @@ export const UserCard: React.FC<{}> = ({}) => {
           }}
         />
         <Heading fontSize={'2xl'} fontFamily={'body'}>
-          {session?.user?.name}
+          { }
         </Heading>
-        {/* <Text fontWeight={600} color={'gray.500'} mb={4}>
-          @Hank
-        </Text> */}
+        <Text fontWeight={600} color={'gray.500'} mb={4}>
+          {username}
+        </Text>
         <Text
           textAlign={'center'}
           color={useColorModeValue('gray.700', 'gray.400')}
           px={3}>
-          You know what it is.{' '}
+          {bio}
+          {/* You know what it is.{' '}
           Don't @ me
-          {' '}
+          {' '} */}
         </Text>
 
         <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
@@ -89,32 +95,32 @@ export const UserCard: React.FC<{}> = ({}) => {
         </Stack>
 
         <Stack mt={8} direction={'row'} spacing={4}>
-          {/* <Button
-            flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
-            _focus={{
-              bg: 'gray.200',
-            }}>
-            Message
-          </Button> */}
-          <Button
-            flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
-            bg={'blue.400'}
-            color={'white'}
-            boxShadow={
-              '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-            }
-            _hover={{
-              bg: 'blue.500',
-            }}
-            _focus={{
-              bg: 'blue.500',
-            }}>
-            Follow
-          </Button>
+          {currId != id ?
+            <Button
+              flex={1}
+              fontSize={'sm'}
+              rounded={'full'}
+              bg={'blue.400'}
+              color={'white'}
+              boxShadow={
+                '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+              }
+              _hover={{
+                bg: 'blue.500',
+              }}
+              _focus={{
+                bg: 'blue.500',
+              }}
+              onClick={async () => {
+                console.log("currId: ", currId, "profileId: ", id);
+                await followUser({ profileId_2: currId, profileId_1: id }) 
+              }}
+            >
+              Follow
+            </Button>
+            :
+            <></>
+          }
         </Stack>
       </Box>
     </Center>

@@ -1,0 +1,18 @@
+query profileLookup($id: Int!) {
+  profileLookup(id: $id) {
+    id
+    name
+    username
+    title
+    bio
+    website
+    image
+    projects {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}

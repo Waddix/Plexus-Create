@@ -49,6 +49,13 @@ export class ProfileResolver {
   }
 
   @Query(() => Profile)
+  profileLookup(
+    @Arg("id", () => Int) id: number
+  ): Promise<Profile | undefined> {
+    return Profile.findOne(id, {relations: ["email", "projects"]})
+  }
+
+  @Query(() => Profile)
   findProfileID(
     @Arg("id", () => Int) id: number
   ): Promise<Profile | undefined> {
