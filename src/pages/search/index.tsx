@@ -462,7 +462,7 @@ function Search(): JSX.Element {
           animateOpacity
         >
           <HStack
-            justifyContent={['center', 'center', 'center', 'end']}
+            justifyContent={['center', 'center', 'center', 'center']}
             mt={2}
             mr={5}
             spacing={8}
@@ -474,7 +474,7 @@ function Search(): JSX.Element {
           </HStack>
         </Collapse>
       </Box>
-      <SearchResults results={results} />
+      <SearchResults fetching={fetching} results={results} />
     </Fragment>
   )
 }

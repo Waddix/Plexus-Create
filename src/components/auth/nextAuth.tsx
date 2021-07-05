@@ -20,7 +20,6 @@ import {
   AlertTitle,
   CloseButton,
   HStack,
-  ScaleFade,
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

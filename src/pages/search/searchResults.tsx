@@ -5,7 +5,7 @@ import { ProjectCard } from "../../components/projects/ProjectCard";
 import { UserCard } from "../../components/UserCard"
 import Profile from "../../models/profile";
 
-export default function SearchResults({ results }): JSX.Element {
+export default function SearchResults({ results, fetching }): JSX.Element {
   return (
     <Box
       mt={['1rem', '1em', '1rem', '2rem']}
@@ -37,22 +37,35 @@ export default function SearchResults({ results }): JSX.Element {
               }
             } if (resultKey === "Profiles") {
               const profiles = results.Profiles;
-              return profiles.map((profile: Profile) => {
-                return (
-                  <UserCard
-                    key={profile.id + '-' + profile.username}
-                    profile={profile}
-                  />
-                )
-              })
+              if (profiles) {
+                return profiles.map((profile: Profile) => {
+                  return (
+                    <UserCard
+                      key={profile.id + '-' + profile.username}
+                      profile={profile}
+                    />
+                  )
+                })
+              }
             }
           })
           :
-          <Box m='auto'>
-            <Heading>
-              Find the next big thing.
-            </Heading>
-          </Box>
+          fetching ?
+            (
+              <Box m='auto'>
+                <Heading>
+                  Fetching data, please wait.
+                </Heading>
+              </Box>
+            )
+            :
+            (
+              <Box m='auto'>
+                <Heading>
+                  Find the next big thing.
+                </Heading>
+              </Box>
+            )
         }
       </VStack>
     </Box>
