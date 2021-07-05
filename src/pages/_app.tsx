@@ -32,7 +32,7 @@ const Plexus = ({ Component, pageProps }: AppProps): JSX.Element => {
       session={pageProps.session} >
 
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <UserContextProvider>
           <Layout>
 

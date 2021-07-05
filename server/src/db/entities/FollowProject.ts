@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 // import { Field, ObjectType } from "type-graphql";
 // import { JoinColumn, ManyToOne, Column } from "typeorm";
 // import { Entity } from "typeorm/decorator/entity/Entity";
@@ -30,3 +31,4 @@
 
 // }
 
+export default {}

@@ -39,11 +39,11 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
   const { userProfile, setUserProfile } = useContext(UserContext)
 
   // Form Fields
-  const [name, setName] = useState(userProfile.name || "");
-  const [username, setUsername] = useState(userProfile.username || "");
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [bio, setBio] = useState("");
+  const [name, setName] = useState<string>(userProfile ? userProfile.name : "");
+  const [username, setUsername] = useState<string>(userProfile ? userProfile.username : "");
+  const [title, setTitle] = useState<string>(userProfile ? userProfile.title : "");
+  const [image, setImage] = useState<string>(userProfile ? userProfile.image : "");
+  const [bio, setBio] = useState<string>(userProfile ? userProfile.bio : "");
   const [website, setWebsite] = useState("");
   const [tags, setTags] = useState([]);
   const [social, setSocail] = useState({});

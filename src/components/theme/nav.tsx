@@ -14,8 +14,8 @@ import {
   Popover,
   PopoverTrigger,
   Spacer,
-  Text,
   SkeletonCircle,
+  Heading,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
@@ -62,7 +62,7 @@ export default function Nav(): JSX.Element {
 
   return (
     <nav>
-      <Text // Logo/App Name
+      <Heading // Logo/App Name
         width='12rem'
         top='2'
         left={['0', '0', '3rem', '0']}
@@ -80,7 +80,7 @@ export default function Nav(): JSX.Element {
         }}
       >
         Plexus Create
-      </Text>
+      </Heading>
 
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
