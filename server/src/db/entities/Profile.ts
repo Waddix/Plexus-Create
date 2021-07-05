@@ -77,13 +77,16 @@ export class Profile extends Base {
   @ManyToMany(() => Profile, user => user.followers)
   following: Profile[];
 
+  // @Field(() => [Project])
   @ManyToMany(() => Project)
   @JoinTable()
-  followedProjects: Project[];
+  followedProjects: Promise<Project[]>;
 
-  // //* FollowProject m to m relationship
-  // @OneToMany(() => FollowProject, (followProject: any) => followProject.profile)
-  // followProject: Promise<FollowProject[]>
+
+  // //* FollowProject m to m relationship method 2
+  // @Field(() => [Project])
+  // @ManyToMany(() => Project, project => project.followers)
+  // followedProjects: Promise<Project[]>
 
 
   // //* FollowUser m to m self referential 

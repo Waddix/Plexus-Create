@@ -1,0 +1,8 @@
+query projectTagsById($projectId: Int!){
+  projectTags(projectId:$projectId){
+    id
+    name
+		createdAt
+    updatedAt
+  }
+}

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useRef } from 'react'
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import {
   Box,
   Flex,
@@ -14,6 +14,13 @@ import {
   useColorMode,
   Skeleton,
   SkeletonCircle,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  CloseButton,
+  HStack,
+  ScaleFade,
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -96,6 +103,8 @@ const NextAuth: React.FC<{}> = ({ }) => {
   // User registration
   const { newUser, setNewUser } = useContext(UserContext);
 
+  const [failAlert, setFailAlert] = useState(false);
+
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {
     if (profileFetching === true) {
@@ -128,7 +137,13 @@ const NextAuth: React.FC<{}> = ({ }) => {
           .then(() => refetch());
       }
     }
-  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileFetching, refetch, setLoadingProfile, setNewUser, setUserProfile])
+
+    if (profileError && !profileError.message.split(" ").includes('null')) {
+      console.warn('Error loading profile!');
+      setFailAlert(true);
+      setLoadingProfile(false);
+    }
+  }, [createProfile, email, image, name, profileData?.findProfileUserId, profileError, profileFetching, refetch, setLoadingProfile, setNewUser, setUserProfile])
 
   useEffect(() => {
     if (newUser || !newUser) {
@@ -138,6 +153,31 @@ const NextAuth: React.FC<{}> = ({ }) => {
 
   return (
     <Fragment>
+      {failAlert &&
+        <HStack>
+          <Alert
+            h={['6rem', '4rem', '4rem', '4rem']}
+            position='absolute'
+            d='flex'
+            top='0'
+            left='0'
+            w='100vw'
+            status="error"
+            variant="solid"
+            zIndex='100'
+          >
+            <AlertIcon />
+            <AlertTitle mr={2}>Failed to fetch your profile</AlertTitle>
+            <AlertDescription>Please refresh the page or try logging in again.</AlertDescription>
+            <CloseButton
+              position={['unset', "absolute", "absolute", "absolute"]}
+              right="2rem"
+              my='auto'
+              onClick={() => setFailAlert(false)}
+            />
+          </Alert>
+        </HStack>
+      }
       {/** POPOVER BOX */}
       <PopoverContent margin-top='0.72rem' marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
         <Fragment>
@@ -152,7 +192,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                   :
                   <Box justifyContent="flex-start" width="100%">
                     <p><small>Signed in as</small></p>
-                    <p><strong>{userProfile.username}</strong></p>
+                    <p><strong>{userProfile.username || "Failed getting profile"}</strong></p>
                   </Box>
                 }
                 <Box justifyContent="flex-end">

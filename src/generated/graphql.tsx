@@ -127,6 +127,17 @@ export type MutationAssignTagArgs = {
   tagId: Scalars['Int'];
 };
 
+export type Position = {
+  __typename?: 'Position';
+  id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  type: Scalars['String'];
+  project: Array<Project>;
+  tags: Array<Tag>;
+};
+
 export type Post = {
   __typename?: 'Post';
   id: Scalars['Int'];
@@ -134,6 +145,7 @@ export type Post = {
   updatedAt: Scalars['DateTime'];
   text: Scalars['String'];
   type: Scalars['String'];
+  tags: Array<Tag>;
 };
 
 export type Profile = {
@@ -175,6 +187,7 @@ export type Project = {
   ownerId: Scalars['Float'];
   owner: Profile;
   tags: Array<Tag>;
+  positions: Array<Position>;
 };
 
 export type ProjectInput = {
@@ -190,6 +203,7 @@ export type Query = {
   posts: Array<Post>;
   post?: Maybe<Post>;
   getAllProfiles?: Maybe<Array<Profile>>;
+  profileLookup: Profile;
   findProfileID: Profile;
   findProfileUserId: Profile;
   findProfileUsername: Profile;
@@ -199,7 +213,7 @@ export type Query = {
   createCheckoutSession: Scalars['String'];
   tags: Array<Tag>;
   tag?: Maybe<Tag>;
-  projectTags?: Maybe<Array<Tag>>;
+  projectTags: Array<Tag>;
   getAllUsers?: Maybe<Array<Users>>;
   findUserName?: Maybe<Users>;
   findUserEmail: Users;
@@ -223,6 +237,11 @@ export type QueryGetFollowedUsersArgs = {
 
 
 export type QueryPostArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryProfileLookupArgs = {
   id: Scalars['Int'];
 };
 
@@ -480,7 +499,7 @@ export type GetFollowedProjectsQuery = (
   { __typename?: 'Query' }
   & { getFollowedProjects?: Maybe<Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id'>
+    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
   )>> }
 );
 
@@ -493,7 +512,7 @@ export type GetFollowedUsersQuery = (
   { __typename?: 'Query' }
   & { getFollowedUsers?: Maybe<Array<(
     { __typename?: 'Profile' }
-    & Pick<Profile, 'id'>
+    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   )>> }
 );
 
@@ -534,6 +553,32 @@ export type GetProfileUsernameQuery = (
     { __typename?: 'Profile' }
     & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   ) }
+);
+
+export type ProjectTagsByIdQueryVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type ProjectTagsByIdQuery = (
+  { __typename?: 'Query' }
+  & { projectTags: Array<(
+    { __typename?: 'Tag' }
+    & Pick<Tag, 'id' | 'name' | 'createdAt' | 'updatedAt'>
+  )> }
+);
+
+export type GetProjectsByUserQueryVariables = Exact<{
+  ownerId: Scalars['Int'];
+}>;
+
+
+export type GetProjectsByUserQuery = (
+  { __typename?: 'Query' }
+  & { getProjectsByUser?: Maybe<Array<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description'>
+  )>> }
 );
 
 export type GetUserQueryVariables = Exact<{
@@ -587,6 +632,23 @@ export type PostsQuery = (
   )> }
 );
 
+export type ProfileLookupQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ProfileLookupQuery = (
+  { __typename?: 'Query' }
+  & { profileLookup: (
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'website' | 'image'>
+    & { projects: Array<(
+      { __typename?: 'Project' }
+      & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
+    )> }
+  ) }
+);
+
 export type ProjectQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -614,10 +676,10 @@ export type ProjectTagsQueryVariables = Exact<{
 
 export type ProjectTagsQuery = (
   { __typename?: 'Query' }
-  & { projectTags?: Maybe<Array<(
+  & { projectTags: Array<(
     { __typename?: 'Tag' }
     & TagFragmentFragment
-  )>> }
+  )> }
 );
 
 export type ProjectsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -805,6 +867,10 @@ export const GetFollowedProjectsDocument = gql`
     query getFollowedProjects($profileId: Int!) {
   getFollowedProjects(profileId: $profileId) {
     id
+    title
+    description
+    createdAt
+    updatedAt
   }
 }
     `;
@@ -816,6 +882,12 @@ export const GetFollowedUsersDocument = gql`
     query getFollowedUsers($profileId: Int!) {
   getFollowedUsers(profileId: $profileId) {
     id
+    name
+    username
+    image
+    title
+    bio
+    website
   }
 }
     `;
@@ -874,6 +946,35 @@ export const GetProfileUsernameDocument = gql`
 export function useGetProfileUsernameQuery(options: Omit<Urql.UseQueryArgs<GetProfileUsernameQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetProfileUsernameQuery>({ query: GetProfileUsernameDocument, ...options });
 };
+export const ProjectTagsByIdDocument = gql`
+    query projectTagsById($projectId: Int!) {
+  projectTags(projectId: $projectId) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useProjectTagsByIdQuery(options: Omit<Urql.UseQueryArgs<ProjectTagsByIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProjectTagsByIdQuery>({ query: ProjectTagsByIdDocument, ...options });
+};
+export const GetProjectsByUserDocument = gql`
+    query getProjectsByUser($ownerId: Int!) {
+  getProjectsByUser(ownerId: $ownerId) {
+    id
+    createdAt
+    updatedAt
+    title
+    description
+  }
+}
+    `;
+
+export function useGetProjectsByUserQuery(options: Omit<Urql.UseQueryArgs<GetProjectsByUserQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetProjectsByUserQuery>({ query: GetProjectsByUserDocument, ...options });
+};
 export const GetUserDocument = gql`
     query GetUser($name: String!, $email: String!) {
   findUser(name: $name, email: $email) {
@@ -931,6 +1032,30 @@ export const PostsDocument = gql`
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
 };
+export const ProfileLookupDocument = gql`
+    query profileLookup($id: Int!) {
+  profileLookup(id: $id) {
+    id
+    name
+    username
+    title
+    bio
+    website
+    image
+    projects {
+      id
+      title
+      description
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `;
+
+export function useProfileLookupQuery(options: Omit<Urql.UseQueryArgs<ProfileLookupQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProfileLookupQuery>({ query: ProfileLookupDocument, ...options });
+};
 export const ProjectDocument = gql`
     query Project($id: Int!) {
   project(id: $id) {
@@ -978,7 +1103,6 @@ export const ProjectsDocument = gql`
     tags {
       name
     }
-    id
     id
     createdAt
     updatedAt

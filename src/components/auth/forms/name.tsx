@@ -29,7 +29,7 @@ export default function Name({ name, updateName, username, updateUsername, updat
             isInvalid={name.length > 0 ? false : true}
             value={name}
             onChange={(e) => updateName(e.target.value)}
-            d="name"
+            id="name"
             placeholder={userProfile.name || "Display Name"}
             errorBorderColor="red.300"
           />

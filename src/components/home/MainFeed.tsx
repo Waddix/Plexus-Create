@@ -1,21 +1,58 @@
-import React, { ReactElement, useContext } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
-import Project from '../../models/project';
+import { useGetFollowedProjectsQuery} from '../../generated/graphql';
 
-function MainFeed(): React.ReactElement {
-  const { projectsFollowing } = useContext(UserContext);
+// import { withUrqlClient } from "next-urql";
+import { SimpleGrid } from '@chakra-ui/react';
+import { ProjectCard } from '../projects/ProjectCard';
+
+export const MainFeed: React.FC = () => {
+  // const { projectsFollowing } = useContext(UserContext);
+  const isMounted = useRef(true)
+  // const [projects, useProjects] = useState([])
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, [])
+
+  const { userProfile } = useContext(UserContext);
+  const { id } = userProfile;
+  console.log("here is the profile id: ", id)
+
+  const [{ data, error }] = useGetFollowedProjectsQuery({
+    variables: {
+      profileId: id
+    }
+  });
+  console.log(data?.getFollowedProjects);
+  // const { getFollowedProjects } = data;
+  if (error) {
+    console.error(error);
+  }
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, [data])
+
 
   // need to add onClick that routes to 'projects/[projectId]'
-  const projectsFeed = projectsFollowing.map((project: Project, i: number) => (
-    <div className="projectFeedItem" key={i}>{project.title}: {project.owner}</div>
-  ))
-  // console.log(projectsFollowing)
+  const projectsFeed = data?.getFollowedProjects?.map((p, i) => (
+    <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
+  ));
+
   return (
-    <>
-      {projectsFeed.length ? projectsFeed : 'no projects following'}
-    </>
+    <div>
+      {isMounted ?
+        <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
+          {projectsFeed}
+        </SimpleGrid>
+        :
+        <h1>Well Fuck</h1>
+      }
+    </div>
+
   )
 }
-
-export default MainFeed;
