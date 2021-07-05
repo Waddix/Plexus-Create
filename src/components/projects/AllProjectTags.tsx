@@ -1,12 +1,12 @@
-import { Stack, Tag, TagLabel, TagCloseButton } from '@chakra-ui/react';
+import { Stack, Tag, TagLabel,} from '@chakra-ui/react';
 import React from 'react'
 import { useAllTagsQuery, useAssignProjectTagMutation } from '../../generated/graphql';
 
-// interface ProjectTagProps {
-//   project: Project;
-// }
+interface ProjectTagProps {
+  id: number;
+}
 
-export const ProjectTags: React.FC<unknown> = () => {
+export const ProjectTags: React.FC<ProjectTagProps> = ({id}) => {
   const [{ data }] = useAllTagsQuery();
   const [{ fetching, error }, assignTag] = useAssignProjectTagMutation();
   if (error) {
@@ -20,15 +20,16 @@ export const ProjectTags: React.FC<unknown> = () => {
         rounded="full"
         variant="solid"
         variantColor="cyan"
-      >
-        <TagLabel>{tag.name}</TagLabel>
-        <TagCloseButton onClick={() => {
+        cursor="grabbing"
+        onClick={() => {
           console.log("click")
           assignTag({
-            projectId: 2,
-            tagId: parseInt(tag.id)
+            projectId: id,
+            tagId: tag.id
           })
-        }} />
+        }}
+      >
+        <TagLabel>{tag.name}</TagLabel>
       </Tag>
     ))}
   </Stack>);

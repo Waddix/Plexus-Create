@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Container, Flex } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import router from "next/dist/client/router";
 import React, { useContext } from "react";
@@ -7,10 +7,11 @@ import { useCreateProjectMutation } from "../../generated/graphql";
 import { InputField } from "../forms/InputField";
 import { TextArea } from "../forms/TextArea";
 
-export const ProjectFormBox: React.FC<unknown> = () => {
+export const ProjectFormBox = () : JSX.Element => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
   return (
+    <Container>
     <Formik
       initialValues={{ title: "", description: "" }}
       onSubmit={async (values, { setErrors }) => {
@@ -29,7 +30,7 @@ export const ProjectFormBox: React.FC<unknown> = () => {
           router.push("/projects");
         }
       }}
-    >
+      >
       {({ isSubmitting }) => (
         <Form>
           <InputField name="title" placeholder="Project Title" label="Title" />
@@ -38,19 +39,19 @@ export const ProjectFormBox: React.FC<unknown> = () => {
               name="description"
               placeholder="Project Description"
               label="Description"
-            />
+              />
           </Box>
-          <Flex mt={2}></Flex>
           <Button
             mt={4}
             type="submit"
             colorScheme="orange"
             isLoading={isSubmitting}
-          >
+            >
             Create Project
           </Button>
         </Form>
       )}
     </Formik>
+      </Container>
   );
 };

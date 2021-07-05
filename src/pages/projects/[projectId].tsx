@@ -86,7 +86,7 @@ const ProjectView: React.FC<unknown> = () => {
                   createdAt={data?.project?.createdAt}
                   image={data?.project?.owner?.image}
                   username={data?.project?.owner.username}
-                  id={projectId}
+                  id={parseInt(projectId)}
                 ></ProjectDetails>
               </Flex>
             </Box>

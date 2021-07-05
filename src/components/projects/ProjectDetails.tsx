@@ -15,9 +15,10 @@ import { SocialIcon } from "react-social-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { CustomDonationInput } from "./DonationInput";
+import { ProjectTagsByID } from "./ProjectTagsByID";
 
 interface ProjectDetailsProps {
-  id: string;
+  id: number;
   title?: string;
   description?: string;
   createdAt?: string;
@@ -55,7 +56,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   id,
   description,
   createdAt,
-  updatedAt,
   title,
   username,
   image,
@@ -72,6 +72,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
               <Text fontWeight={600}>{username}</Text>
               <Text color={"gray.500"}> {postedAt}</Text>
+                <ProjectTagsByID id={id}></ProjectTagsByID>
             </Stack>
           </Stack>
         </Box>
