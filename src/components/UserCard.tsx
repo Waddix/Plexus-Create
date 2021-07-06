@@ -20,7 +20,7 @@ import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLoo
 //   profile: Profile
 // }
 
-export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
+export const UserCard: React.FC = ({ profile, currId }): JSX.Element => {
   const { id, name, username, bio, website, image } = profile;
   console.log("user in UserCard ===>", profile)
   const [, followUser] = useFollowUserMutation();
@@ -34,32 +34,36 @@ export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
         rounded={'lg'}
         p={6}
         textAlign={'center'}>
-        <Avatar
-          size={'xl'}
-          src={
-            image
-          }
-          alt={'Avatar Alt'}
-          mb={4}
-          pos={'relative'}
-          _after={{
-            content: '""',
-            w: 4,
-            h: 4,
-            bg: 'green.300',
-            border: '2px solid white',
-            rounded: 'full',
-            pos: 'absolute',
-            bottom: 0,
-            right: 3,
-          }}
-        />
-        <Heading fontSize={'2xl'} fontFamily={'body'}>
-          { }
-        </Heading>
-        <Text fontWeight={600} color={'gray.500'} mb={4}>
-          {username}
-        </Text>
+        <Link href={`/profile/${id}`}>
+          <Avatar
+            size={'xl'}
+            src={
+              image
+            }
+            alt={'Avatar Alt'}
+            mb={4}
+            pos={'relative'}
+            _after={{
+              content: '""',
+              w: 4,
+              h: 4,
+              bg: 'green.300',
+              border: '2px solid white',
+              rounded: 'full',
+              pos: 'absolute',
+              bottom: 0,
+              right: 3,
+            }}
+          />
+          <Heading fontSize={'2xl'} fontFamily={'body'}>
+            { }
+          </Heading>
+          <Text fontWeight={600} color={'gray.500'} mb={4}>
+            {username}
+          </Text>
+
+        </Link>
+
         <Text
           textAlign={'center'}
           color={useColorModeValue('gray.700', 'gray.400')}
@@ -113,7 +117,7 @@ export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
               }}
               onClick={async () => {
                 console.log("currId: ", currId, "profileId: ", id);
-                await followUser({ profileId_2: currId, profileId_1: id }) 
+                await followUser({ profileId_2: currId, profileId_1: id })
               }}
             >
               Follow
