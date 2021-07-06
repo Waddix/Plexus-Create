@@ -311,6 +311,17 @@ export type Sessions = {
   expires: Scalars['DateTime'];
 };
 
+export type Settings = {
+  __typename?: 'Settings';
+  id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  profile_id: Scalars['Int'];
+  dyslexic_font: Scalars['Boolean'];
+  darkMode: Scalars['Boolean'];
+  colorScheme: Scalars['String'];
+};
+
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['Int'];

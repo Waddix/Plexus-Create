@@ -1,13 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { Base } from './Base';
 import { Field, Int, ObjectType } from "type-graphql";
-import { Column, OneToMany, OneToOne, JoinColumn, Entity, JoinTable, ManyToMany } from "typeorm";
+import {
+  Column,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+} from "typeorm";
 
 import { Base } from "./Base";
 // import { FollowProject } from "./FollowProject";
 // import { FollowUser } from "./FollowUser";
 import { Users } from "./nextauth/Users";
 import { Project } from "./Project";
+// import { Settings } from "./Settings";
 
 @ObjectType()
 @Entity()
@@ -16,6 +23,11 @@ export class Profile extends Base {
   @OneToOne(() => Users, (user) => user.id)
   @JoinColumn({ name: "user_id", referencedColumnName: "id" })
   user_id: number;
+
+  // @Field(() => Settings)
+  // @OneToOne(() => Settings, (settings) => settings)
+  // // @JoinColumn({ name: "setting_id", referencedColumnName: "id" })
+  // settings: Settings;
 
   @Field(() => String)
   @Column({})
@@ -62,7 +74,7 @@ export class Profile extends Base {
   website: string;
 
   @Field(() => String)
-  @Column({type: "text", nullable: true})
+  @Column({ type: "text", nullable: true })
   stripeId: string;
 
   @Field(() => [Project])
@@ -70,11 +82,11 @@ export class Profile extends Base {
   projects: Project[];
 
   //* self referencing many to many table for creating follow relationship
-  @ManyToMany(() => Profile, user => user.following)
+  @ManyToMany(() => Profile, (user) => user.following)
   @JoinTable()
   followers: Profile[];
 
-  @ManyToMany(() => Profile, user => user.followers)
+  @ManyToMany(() => Profile, (user) => user.followers)
   following: Profile[];
 
   // @Field(() => [Project])
@@ -82,14 +94,12 @@ export class Profile extends Base {
   @JoinTable()
   followedProjects: Promise<Project[]>;
 
-
   // //* FollowProject m to m relationship method 2
   // @Field(() => [Project])
   // @ManyToMany(() => Project, project => project.followers)
   // followedProjects: Promise<Project[]>
 
-
-  // //* FollowUser m to m self referential 
+  // //* FollowUser m to m self referential
   // @OneToMany(() => FollowUser, (followUser: any) => followUser.follower)
   // follows: Promise<FollowUser[]>
 
