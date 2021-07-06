@@ -20,10 +20,13 @@ import {
   AlertTitle,
   CloseButton,
   HStack,
+  VStack,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faUserCircle, faCog } from '@fortawesome/free-solid-svg-icons'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
@@ -35,14 +38,15 @@ const UserLinks = ['Profile'];
 const PopoverLink = (link: string): JSX.Element => (
   <Link
     key={link}
-    px={2}
-    py={1}
     rounded={'md'}
+    py={1}
     _hover={{
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
     href={`/${link.toLowerCase()}`}
+    w="100%"
+    textAlign="center"
   >
     {link}
   </Link>
@@ -50,6 +54,10 @@ const PopoverLink = (link: string): JSX.Element => (
 
 export const loggedOutIcon = (): JSX.Element => {
   return <FontAwesomeIcon icon={faUserCircle} size='3x' />
+}
+
+export const cogIcon = (): JSX.Element => {
+  return <FontAwesomeIcon icon={faCog} />
 }
 
 const NextAuth: React.FC<{}> = ({ }) => {
@@ -221,9 +229,11 @@ const NextAuth: React.FC<{}> = ({ }) => {
             }
           </PopoverHeader>
 
-          <PopoverBody>
-            {session ?
-              <Fragment>
+          {session &&
+            <PopoverBody>
+              <VStack
+                mx={2}
+              >
                 {UserLinks.map((link) => {
                   if (loadingProfile) {
                     return <Skeleton height='30px' />
@@ -231,67 +241,104 @@ const NextAuth: React.FC<{}> = ({ }) => {
                     return PopoverLink(link)
                   }
                 })}
-              </Fragment>
-              :
-              null
-            }
-            <Button
-              size="sm"
-              rounded={'md'}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('orange.200', 'orange.700'),
-              }}
-              onClick={toggleColorMode}
-            >
-              {colorMode === "light" ? "Dark Mode" : "Light Mode"}
-            </Button>
-          </PopoverBody>
+              </VStack>
+            </PopoverBody>
+          }
 
           <PopoverFooter>
-            {session ?
-              <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
-                }}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
+            <Flex
+              justifyContent="space-between"
+
+            >
+              <VStack
+                w="100%"
+                alignItems="stretch"
+                mx={2}
               >
-                Sign Out
-              </Button>
-              :
-              <Link
-                px={2}
-                py={1}
-                rounded={'md'}
-                href={`/api/auth/signin`}
+                {session ?
+                  <Fragment>
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        signOut()
+                      }}
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                    >
+                      Sign Out
+                    </Button>
+                    <Link
+                      rounded={'md'}
+                      href={`/create-project`}
+                    >
+                      <Button
+                        _hover={{
+                          textDecoration: 'none',
+                          bg: useColorModeValue('orange.200', 'orange.700'),
+                        }}
+                      >
+                        Create Project
+                      </Button>
+                    </Link>
+                  </Fragment>
+                  :
+                  <Link
+                    rounded={'md'}
+                    href={`/api/auth/signin`}
+                  >
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                }
+              </VStack>
+
+              <VStack
+                w="100%"
+                alignItems="stretch"
+                mx={2}
               >
                 <Button
+                  size="md"
+                  rounded={'md'}
                   _hover={{
                     textDecoration: 'none',
                     bg: useColorModeValue('orange.200', 'orange.700'),
                   }}
+                  onClick={toggleColorMode}
                 >
-                  Sign In
+                  {colorMode === "light" ? "Dark Mode" : "Light Mode"}
                 </Button>
-              </Link>
-            }
-            <Flex>
-              <Link
-                px={2}
-                py={1}
-                rounded={'md'}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-                href={`/create-project`}
-              >
-                New Project
-              </Link>
+                <Box
+                  d="inline-flex"
+                  justifyContent="end"
+                >
+                  {session &&
+                    <Link
+                      rounded={'md'}
+                      href={`/settings`}
+                    >
+                      <Button
+                        _hover={{
+                          textDecoration: 'none',
+                          bg: useColorModeValue('orange.200', 'orange.700'),
+                        }}
+                        variant="ghost"
+                        fontSize={'1.5rem'}
+                      >
+                        {cogIcon()}
+                      </Button>
+                    </Link>
+                  }
+                </Box>
+              </VStack>
             </Flex>
           </PopoverFooter>
         </Fragment>

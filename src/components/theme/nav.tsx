@@ -63,7 +63,7 @@ export default function Nav(): JSX.Element {
   return (
     <nav>
       <Heading // Logo/App Name
-        width='12rem'
+        width='max-content'
         top='2'
         left={['0', '0', '3rem', '0']}
         right='0'

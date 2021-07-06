@@ -17,9 +17,9 @@ const main = async () => {
     database: process.env.DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    logging: true,
+    // logging: true,
     synchronize: true,
-    dropSchema: true,
+    // dropSchema: true,
     entities: [
       __dirname + "/db/entities/*.ts",
       __dirname + "/db/entities/**/*.ts",

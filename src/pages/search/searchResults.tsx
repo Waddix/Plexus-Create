@@ -5,7 +5,7 @@ import { ProjectCard } from "../../components/projects/ProjectCard";
 import { UserCard } from "../../components/UserCard"
 import Profile from "../../models/profile";
 
-export default function SearchResults({ results, fetching }): JSX.Element {
+function SearchResults({ results, fetching }): JSX.Element {
   return (
     <Box
       mt={['1rem', '1em', '1rem', '2rem']}
@@ -71,3 +71,5 @@ export default function SearchResults({ results, fetching }): JSX.Element {
     </Box>
   )
 }
+
+export default SearchResults;
