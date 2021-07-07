@@ -7,7 +7,7 @@ import { Tag } from '../db/entities/Tag';
 
 
 @ObjectType() 
-class FieldError {
+export class FieldError {
   @Field()
   field: string;
 
