@@ -77,12 +77,11 @@ export class PositionResolver {
     @Arg('positionId', () => Int) positionId: number,
     @Arg('projectId', () => Int) projectId: number,
   ): Promise<Position | boolean> {
-
       await getConnection()
       .createQueryBuilder()
       .relation(Project, "positions")
       .of(projectId)
-      .add(positionId);
+      .set(positionId);
 
       return true;
     
