@@ -37,7 +37,7 @@ export class Project extends Base {
   tags: Tag[];
 
   @Field(() => [Position])
-  @OneToMany(() => Position, (p: Position) => p.project, {cascade: true, nullable:true})
+  @OneToMany(() => Position, (p: Position) => p.project, {nullable:true})
   position: Position[];
 
 
