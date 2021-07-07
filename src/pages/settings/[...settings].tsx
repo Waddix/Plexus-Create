@@ -74,8 +74,8 @@ const Settings = (): JSX.Element => {
       as="nav"
       pos="fixed"
       left="0"
-      zIndex="sticky"
-      h="93vh"
+      zIndex="0"
+      h="100vh"
       bottom="0"
       pb="10"
       overflowX="hidden"
@@ -122,7 +122,7 @@ const Settings = (): JSX.Element => {
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.700")}
-      minH="93vh"
+      minH="93.1vh"
     >
       <SidebarContent display={{ base: "none", md: "unset" }} />
       <Drawer

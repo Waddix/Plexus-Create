@@ -21,6 +21,8 @@ import {
   CloseButton,
   HStack,
   VStack,
+  Heading,
+  Text
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
@@ -175,20 +177,26 @@ const NextAuth: React.FC<{}> = ({ }) => {
         </HStack>
       }
       {/** POPOVER BOX */}
-      <PopoverContent margin-top='0.72rem' marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
+      <PopoverContent
+        zIndex="popover"
+        mt='0.87rem'
+        mr='0.3rem'
+        bg={useColorModeValue('gray.100', 'gray.900')}
+        borderColor={useColorModeValue('orange.200', 'orange.700')}
+      >
         <Fragment>
           <PopoverHeader>
             {session ?
               <Flex justifyContent={'space-between'} alignItems={'center'}>
                 {loadingProfile ?
                   <Box justifyContent="flex-start">
-                    <p><small>Signed in as</small></p>
+                    <Text fontSize="sm">Signed in as</Text>
                     <Skeleton height="16px" />
                   </Box>
                   :
                   <Box justifyContent="flex-start" width="100%">
-                    <p><small>Signed in as</small></p>
-                    <p><strong>{userProfile.username || "Failed getting profile"}</strong></p>
+                    <Text fontSize="sm">Signed in as</Text>
+                    <Heading size="md">{userProfile.username || "Failed getting profile"}</Heading>
                   </Box>
                 }
                 <Box justifyContent="flex-end">
@@ -209,7 +217,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
               :
               <Flex alignItems={'center'} justifyContent={'space-between'} >
                 <Box>
-                  <p><strong>{"You're not signed in"}</strong></p>
+                <Heading size="md">You're not signed in</Heading>
                 </Box>
                 <Box>
                   <Icon boxSize={10} as={FaUserCircle} />
@@ -278,7 +286,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                     href={`/api/auth/signin`}
                   >
                     <Button
-                    w="100%"
+                      w="100%"
                       _hover={{
                         textDecoration: 'none',
                         bg: useColorModeValue('orange.200', 'orange.700'),

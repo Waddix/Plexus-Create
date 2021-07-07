@@ -52,7 +52,14 @@ function Nav(): JSX.Element {
   const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
   return (
-    <Box w="100 vw" position="sticky" top='0' alignItems={'center'}>
+    <Box
+      zIndex="sticky"
+      as="nav"
+      w="100 vw"
+      position="sticky"
+      top='0'
+      alignItems={'center'}
+    >
       <Heading // Logo/App Name
         width='max-content'
         top='0.7rem'
