@@ -9,11 +9,19 @@ import { Tag } from "./Tag";
 export class Position extends Base {
   @Field(() => String)
   @Column()
+  title!: string;
+
+  @Field(() => String)
+  @Column()
   description!: string;
 
   @Field(() => String)
   @Column()
   type!: string;
+
+  @Field()
+  @Column()
+  projectId!: number;
 
   @Field(() => Project)
   @ManyToOne(() => Project, (project: Project) => project.position)
