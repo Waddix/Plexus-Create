@@ -21,8 +21,6 @@ import {
   CloseButton,
   HStack,
   VStack,
-  Grid,
-  GridItem,
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
@@ -280,6 +278,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                     href={`/api/auth/signin`}
                   >
                     <Button
+                    w="100%"
                       _hover={{
                         textDecoration: 'none',
                         bg: useColorModeValue('orange.200', 'orange.700'),

@@ -41,7 +41,7 @@ const NavLink = (link: string | JSX.Element): JSX.Element => (
   </Link>
 );
 
-export default function Nav(): JSX.Element {
+function Nav(): JSX.Element {
   // Session
   const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -159,3 +159,5 @@ export default function Nav(): JSX.Element {
     </nav>
   );
 }
+
+export default Nav;

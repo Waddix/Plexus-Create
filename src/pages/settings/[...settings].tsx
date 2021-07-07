@@ -19,6 +19,11 @@ import {
   FaUniversalAccess,
   FaSwatchbook,
 } from "react-icons/fa";
+import Profile from "./setting/profile";
+import Following from './setting/following'
+import Notifications from "./setting/notifications";
+import Accessibility from "./setting/Accessibility";
+import Theme from "./setting/theme";
 
 const Settings = (): JSX.Element => {
   const router = useRouter();
@@ -126,8 +131,28 @@ const Settings = (): JSX.Element => {
         </DrawerContent>
       </Drawer>
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
-        <Box as="main" p="4"></Box>
-        <Heading>{settings}</Heading>
+        <Box as="main" p="4">
+          {(settings && settings.length > 0) &&
+            settings[0] === 'profile' &&
+            <Profile />
+          }
+          {(settings && settings.length > 0) &&
+            settings[0] === 'following' &&
+            <Following />
+          }
+          {(settings && settings.length > 0) &&
+            settings[0] === 'notifications' &&
+            <Notifications />
+          }
+          {(settings && settings.length > 0) &&
+            settings[0] === 'accessibility' &&
+            <Accessibility />
+          }
+          {(settings && settings.length > 0) &&
+            settings[0] === 'theme' &&
+            <Theme />
+          }
+        </Box>
       </Box>
     </Box>
   );
