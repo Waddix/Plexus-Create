@@ -26,7 +26,7 @@ import { session, useSession } from "next-auth/client";
 import { useCreateProfileForUserMutation } from '../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 
-const RegisterFlow: React.FC<{}> = ({ }) => {
+const RegisterFlow: React.FC<unknown> = ({ }) => {
   // Ability to close dialog
   const { newUser, setNewUser } = useContext(UserContext);
   const closeRegisterFlowDialog = () => setNewUser(false)

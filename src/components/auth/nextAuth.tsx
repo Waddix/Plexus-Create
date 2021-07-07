@@ -321,7 +321,6 @@ const NextAuth: React.FC<{}> = ({ }) => {
                           bg: useColorModeValue('orange.200', 'orange.700'),
                         }}
                         variant="ghost"
-                        fontSize={'1.5rem'}
                       >
                         <Icon size={8} as={FaCog} />
                       </Button>
