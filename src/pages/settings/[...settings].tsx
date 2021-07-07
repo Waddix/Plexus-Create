@@ -87,6 +87,7 @@ const Settings = (): JSX.Element => {
       {...props}
     >
       <Flex
+        mt="64px"
         direction="column"
         as="nav"
         fontSize="sm"
@@ -122,19 +123,12 @@ const Settings = (): JSX.Element => {
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.700")}
-      minH="93.1vh"
+      // minH="93.1vh"
     >
-      <SidebarContent display={{ base: "none", md: "unset" }} />
-      <Drawer
-        isOpen={sidebar.isOpen}
-        onClose={sidebar.onClose}
-        placement="left"
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <SidebarContent w="full" borderRight="none" />
-        </DrawerContent>
-      </Drawer>
+      <SidebarContent
+        display={{ base: "none", md: "unset" }}
+      />
+
       <HStack
         display={{ base: "unset", md: "none" }}
         position="sticky"
@@ -172,6 +166,7 @@ const Settings = (): JSX.Element => {
           </Link>
         </Flex>
       </HStack>
+
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
         <Box as="main" p="4">
           {(settings && settings.length > 0) &&

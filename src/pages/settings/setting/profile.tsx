@@ -19,7 +19,7 @@ import {
 import React, { Fragment, useContext } from "react"
 import { JsxEmit } from "typescript"
 import { UserContext } from "../../../context/userContext"
-import { FaUserEdit } from "react-icons/fa";
+import { FaUserEdit, FaEdit } from "react-icons/fa";
 
 const Profile = (): JSX.Element => {
   // User Profile Context
@@ -189,6 +189,57 @@ const Profile = (): JSX.Element => {
         </Flex>
       </Flex>
       <Divider orientation="horizontal" />
+      <VStack
+        w="100%"
+        alignContent="center"
+        align={["stretch", "center"]}
+      >
+        <Flex
+          alignItems="center"
+          flexDirection="column"
+        >
+          <Heading>Bio</Heading>
+          <Box
+            my={4}
+            width="100%"
+          >
+            <Box
+              width="max-content"
+            >
+              {userProfile.bio ?
+                userProfile.bio.map((line: string) => {
+                  return (
+                    <Text
+                      key={line.replace(" ", "-")}
+                    >
+                      {line}
+                    </Text>
+                  )
+                })
+                :
+                (
+                  <Text>No bio set</Text>
+                )
+              }
+            </Box>
+          </Box>
+          <Button
+            _hover={{
+              textDecoration: 'none',
+              bg: useColorModeValue('orange.200', 'orange.700'),
+            }}
+            variant="ghost"
+            px={2}
+            py={2}
+            size="md"
+            fontSize='1.5rem'
+          >
+            <Icon
+              as={FaEdit}
+            />
+          </Button>
+        </Flex>
+      </VStack>
     </VStack>
   )
 }
