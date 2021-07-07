@@ -20,9 +20,8 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { UserContext } from '../../context/userContext';
+import { FaUserCircle, FaSearch } from "react-icons/fa";
 
 const Links = ['Home', 'Projects', 'Search'];
 
@@ -41,14 +40,6 @@ const NavLink = (link: string | JSX.Element): JSX.Element => (
     {link}
   </Link>
 );
-
-const loggedOutIcon = (): JSX.Element => {
-  return <FontAwesomeIcon icon={faUserCircle} size='2x' />
-}
-
-const searchIcon = (): JSX.Element => {
-  return <FontAwesomeIcon icon={faSearch} size='1x' />
-}
 
 export default function Nav(): JSX.Element {
   // Session
@@ -117,7 +108,7 @@ export default function Nav(): JSX.Element {
               }}
               href="/search"
             >
-              {searchIcon()}
+              <Icon as={FaSearch} />
             </Link>
           </Box>
           <Box marginLeft='0.5rem' alignItems={'center'}>
@@ -130,7 +121,8 @@ export default function Nav(): JSX.Element {
                   as={Button}
                   rounded={'full'}
                   variant={'link'}
-                  cursor={'pointer'}>
+                  cursor={'pointer'}
+                >
                   {
                     session ?
                       loadingProfile ?
@@ -143,9 +135,9 @@ export default function Nav(): JSX.Element {
                             src={userProfile.image}
                           />
                           :
-                          <Icon as={loggedOutIcon} />
+                          <Icon boxSize={8} as={FaUserCircle} />
                       :
-                      <Icon as={loggedOutIcon} />
+                      <Icon boxSize={8} as={FaUserCircle} />
                   }
                 </Button>
               </PopoverTrigger>

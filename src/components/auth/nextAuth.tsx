@@ -25,12 +25,11 @@ import {
   GridItem,
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faCog } from '@fortawesome/free-solid-svg-icons'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
 import RegisterFlow from './RegisterFlow';
+import { FaUserCircle, FaCog } from "react-icons/fa";
 
 
 const UserLinks = ['Profile'];
@@ -51,14 +50,6 @@ const PopoverLink = (link: string): JSX.Element => (
     {link}
   </Link>
 );
-
-export const loggedOutIcon = (): JSX.Element => {
-  return <FontAwesomeIcon icon={faUserCircle} size='3x' />
-}
-
-export const cogIcon = (): JSX.Element => {
-  return <FontAwesomeIcon icon={faCog} />
-}
 
 const NextAuth: React.FC<{}> = ({ }) => {
   // Next auth session
@@ -213,7 +204,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                         src={userProfile.image}
                       />
                       :
-                      <Icon as={loggedOutIcon} />
+                      <Icon boxSize={10} as={FaUserCircle} />
                   }
                 </Box>
               </Flex>
@@ -223,7 +214,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                   <p><strong>{"You're not signed in"}</strong></p>
                 </Box>
                 <Box>
-                  <Icon as={loggedOutIcon} />
+                  <Icon boxSize={10} as={FaUserCircle} />
                 </Box>
               </Flex>
             }
@@ -323,7 +314,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                   {session &&
                     <Link
                       rounded={'md'}
-                      href={`/settings`}
+                      href={`/settings/profile`}
                     >
                       <Button
                         _hover={{
@@ -333,7 +324,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
                         variant="ghost"
                         fontSize={'1.5rem'}
                       >
-                        {cogIcon()}
+                        <Icon size={8} as={FaCog} />
                       </Button>
                     </Link>
                   }
