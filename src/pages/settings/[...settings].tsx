@@ -1,12 +1,16 @@
 import {
+  As,
   Box,
+  ChakraProps,
   Drawer,
   DrawerContent,
   DrawerOverlay,
   Flex,
   Heading,
+  HStack,
   Icon,
   Link,
+  OmitCommonProps,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -65,7 +69,7 @@ const Settings = (): JSX.Element => {
     );
   };
 
-  const SidebarContent = (props) => (
+  const SidebarContent = (props: JSX.IntrinsicAttributes & OmitCommonProps<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, keyof ChakraProps> & ChakraProps & OmitCommonProps<unknown, keyof ChakraProps> & { as?: As<unknown> | undefined; }) => (
     <Box
       as="nav"
       pos="fixed"
@@ -113,6 +117,7 @@ const Settings = (): JSX.Element => {
       </Flex>
     </Box>
   );
+
   return (
     <Box
       as="section"
@@ -130,6 +135,43 @@ const Settings = (): JSX.Element => {
           <SidebarContent w="full" borderRight="none" />
         </DrawerContent>
       </Drawer>
+      <HStack
+        display={{ base: "unset", md: "none" }}
+        position="sticky"
+        top='4rem'
+      >
+        <Flex
+          direction="row"
+          as="nav"
+          fontSize="sm"
+          color="gray.600"
+          aria-label="Settings Navigation"
+          overflowX="auto"
+          bg={useColorModeValue("gray.50", "gray.700")}
+        >
+          <Link
+            href='/settings/profile'
+          >
+            <NavItem icon={FaUser}>Profile</NavItem>
+          </Link>
+          <Link
+            href='/settings/following'
+          >
+            <NavItem icon={FaUsers}>Following</NavItem>
+          </Link>
+          <Link
+            href='/settings/notifications'
+          >
+            <NavItem icon={FaBell}>Notifications</NavItem>
+          </Link>
+          <Link href='/settings/accessibility'>
+            <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
+          </Link>
+          <Link href='/settings/theme'>
+            <NavItem icon={FaSwatchbook}>Theme</NavItem>
+          </Link>
+        </Flex>
+      </HStack>
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
         <Box as="main" p="4">
           {(settings && settings.length > 0) &&

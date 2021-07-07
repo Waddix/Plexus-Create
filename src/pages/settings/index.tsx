@@ -6,7 +6,7 @@ const Settings = () => {
 
   // Redirects user to the profile page when trying to access the base settings page.
 
-  useEffect(() => {
+  useEffect((): JSX.Element => {
     router.push('/settings/profile')
   }, [])
 
