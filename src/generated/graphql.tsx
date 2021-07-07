@@ -730,6 +730,19 @@ export type ProjectQuery = (
   )> }
 );
 
+export type ProjectPositionsQueryVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type ProjectPositionsQuery = (
+  { __typename?: 'Query' }
+  & { projectPositions: Array<(
+    { __typename?: 'Position' }
+    & Pick<Position, 'id' | 'type' | 'title' | 'description' | 'projectId'>
+  )> }
+);
+
 export type ProjectTagsQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
@@ -1159,6 +1172,21 @@ export const ProjectDocument = gql`
 
 export function useProjectQuery(options: Omit<Urql.UseQueryArgs<ProjectQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProjectQuery>({ query: ProjectDocument, ...options });
+};
+export const ProjectPositionsDocument = gql`
+    query projectPositions($projectId: Int!) {
+  projectPositions(projectId: $projectId) {
+    id
+    type
+    title
+    description
+    projectId
+  }
+}
+    `;
+
+export function useProjectPositionsQuery(options: Omit<Urql.UseQueryArgs<ProjectPositionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProjectPositionsQuery>({ query: ProjectPositionsDocument, ...options });
 };
 export const ProjectTagsDocument = gql`
     query projectTags($projectId: Int!) {
