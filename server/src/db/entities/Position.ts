@@ -15,9 +15,9 @@ export class Position extends Base {
   @Column()
   type!: string;
 
-  @Field(() => [Project])
-  @ManyToOne(() => Project, project => project.title)
-  project: Project[];
+  @Field(() => Project)
+  @ManyToOne(() => Project, (project: Project) => project.position)
+  project: Project;
 
   @Field(() => [Tag])
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
