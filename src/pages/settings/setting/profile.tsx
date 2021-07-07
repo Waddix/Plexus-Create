@@ -9,7 +9,7 @@ const Profile = () => {
   const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
   return (
-    <Box>
+    <Box h="100vh">
       <Heading>{userProfile.name}'s Profile Settings</Heading>
     </Box>
   )

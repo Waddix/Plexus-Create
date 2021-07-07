@@ -52,11 +52,11 @@ function Nav(): JSX.Element {
   const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
   return (
-    <nav>
+    <Box w="100 vw" position="sticky" top='0' alignItems={'center'}>
       <Heading // Logo/App Name
         width='max-content'
-        top='2'
-        left={['0', '0', '3rem', '0']}
+        top='0.7rem'
+        left={['0', '0', '1.5rem', '0']}
         right='0'
         marginLeft={['auto', 'auto', '0', 'auto']}
         marginRight='auto'
@@ -156,7 +156,7 @@ function Nav(): JSX.Element {
           </Box>
         ) : null}
       </Box>
-    </nav>
+    </Box>
   );
 }
 

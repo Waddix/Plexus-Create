@@ -117,7 +117,7 @@ const Settings = (): JSX.Element => {
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.700")}
-      minH="100vh"
+      minH="93vh"
     >
       <SidebarContent display={{ base: "none", md: "unset" }} />
       <Drawer
