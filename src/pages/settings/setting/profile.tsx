@@ -13,13 +13,13 @@ import {
   VStack,
   Button,
   Icon,
-  HStack,
-  Divider
+  Divider,
+  HStack
 } from "@chakra-ui/react"
-import React, { Fragment, useContext } from "react"
-import { JsxEmit } from "typescript"
+import React, { Fragment, useContext, useState } from "react"
 import { UserContext } from "../../../context/userContext"
-import { FaUserEdit, FaEdit } from "react-icons/fa";
+import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle } from "react-icons/fa";
+import { stringify } from "querystring";
 
 const Profile = (): JSX.Element => {
   // User Profile Context
@@ -27,9 +27,35 @@ const Profile = (): JSX.Element => {
   // Conditionally render the skeleton loading effects
   const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
+  const { image, name, username, title, bio } = userProfile
+
+  // Handle uploading images
   const handleImageUpload = () => {
     return;
   }
+
+  // Which fields are being edited
+  const [nameEdit, setNameEdit] = useState<boolean>(false);
+  const [userNameEdit, setUsernameEdit] = useState<boolean>(false);
+  const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  const [bioEdit, setBioEdit] = useState<boolean>(false);
+
+  // Updated user before submitting
+  interface UpdatedUser {
+    name: string,
+    username: string,
+    title: string,
+    bio: string,
+    image: string,
+  }
+
+  const [updatedUser, setUpdatedUser] = useState<UpdatedUser>({
+    name: name,
+    username: username,
+    title: title,
+    bio: bio,
+    image: image,
+  });
 
   return (
     <VStack
@@ -50,7 +76,7 @@ const Profile = (): JSX.Element => {
         >
           <Avatar
             name="userProfile.name"
-            src={userProfile.image}
+            src={image}
             size="xl"
           />
           <form onSubmit={handleImageUpload}>
@@ -99,22 +125,72 @@ const Profile = (): JSX.Element => {
               justifyContent="start"
               alignContent="center"
             >
-              <Button
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-                variant="ghost"
-                px={2}
-                py={2}
-                mr={2}
-                size="sm"
-                fontSize='1rem'
-              >
-                <Icon
-                  as={FaUserEdit}
-                />
-              </Button>
+              {!nameEdit &&
+                (
+                  <Button
+                    _hover={{
+                      textDecoration: 'none',
+                      bg: useColorModeValue('orange.200', 'orange.700'),
+                    }}
+                    variant="ghost"
+                    px={2}
+                    py={2}
+                    mr={2}
+                    size="sm"
+                    fontSize='1rem'
+                    onClick={() => setNameEdit(true)}
+                  >
+                    <Icon
+                      as={FaUserEdit}
+                    />
+                  </Button>
+                )
+              }
+              {nameEdit &&
+                (
+                  <Fragment>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setNameEdit(false)
+                      }}
+                    >
+                      <Icon
+                        as={FaCheckCircle}
+                      />
+                    </Button>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setNameEdit(false)
+                      }
+                      }
+                    >
+                      <Icon
+                        as={FaTimesCircle}
+                      />
+                    </Button>
+                  </Fragment>
+                )
+              }
               <Heading size="md">
                 Name:
               </Heading>
@@ -124,22 +200,72 @@ const Profile = (): JSX.Element => {
               justifyContent="start"
               alignContent="center"
             >
-              <Button
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-                variant="ghost"
-                px={2}
-                py={2}
-                mr={2}
-                size="sm"
-                fontSize='1rem'
-              >
-                <Icon
-                  as={FaUserEdit}
-                />
-              </Button>
+              {!userNameEdit &&
+                (
+                  <Button
+                    _hover={{
+                      textDecoration: 'none',
+                      bg: useColorModeValue('orange.200', 'orange.700'),
+                    }}
+                    variant="ghost"
+                    px={2}
+                    py={2}
+                    mr={2}
+                    size="sm"
+                    fontSize='1rem'
+                    onClick={() => setUsernameEdit(true)}
+                  >
+                    <Icon
+                      as={FaUserEdit}
+                    />
+                  </Button>
+                )
+              }
+              {userNameEdit &&
+                (
+                  <Fragment>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setUsernameEdit(false)
+                      }}
+                    >
+                      <Icon
+                        as={FaCheckCircle}
+                      />
+                    </Button>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setUsernameEdit(false)
+                      }
+                      }
+                    >
+                      <Icon
+                        as={FaTimesCircle}
+                      />
+                    </Button>
+                  </Fragment>
+                )
+              }
               <Heading size="md">
                 Username:
               </Heading>
@@ -149,22 +275,72 @@ const Profile = (): JSX.Element => {
               justifyContent="start"
               alignContent="center"
             >
-              <Button
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-                variant="ghost"
-                px={2}
-                py={2}
-                mr={2}
-                size="sm"
-                fontSize='1rem'
-              >
-                <Icon
-                  as={FaUserEdit}
-                />
-              </Button>
+              {!titleEdit &&
+                (
+                  <Button
+                    _hover={{
+                      textDecoration: 'none',
+                      bg: useColorModeValue('orange.200', 'orange.700'),
+                    }}
+                    variant="ghost"
+                    px={2}
+                    py={2}
+                    mr={2}
+                    size="sm"
+                    fontSize='1rem'
+                    onClick={() => setTitleEdit(true)}
+                  >
+                    <Icon
+                      as={FaUserEdit}
+                    />
+                  </Button>
+                )
+              }
+              {titleEdit &&
+                (
+                  <Fragment>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setTitleEdit(false)
+                      }}
+                    >
+                      <Icon
+                        as={FaCheckCircle}
+                      />
+                    </Button>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setTitleEdit(false)
+                      }
+                      }
+                    >
+                      <Icon
+                        as={FaTimesCircle}
+                      />
+                    </Button>
+                  </Fragment>
+                )
+              }
               <Heading size="md">
                 Title:
               </Heading>
@@ -177,17 +353,17 @@ const Profile = (): JSX.Element => {
             spacing={8}
           >
             <Text>
-              {userProfile.name}
+              {name}
             </Text>
             <Text>
-              {userProfile.username}
+              {username}
             </Text>
             <Text>
-              {userProfile.title || "No title set"}
+              {title || "No title set"}
             </Text>
           </VStack>
-        </Flex>
-      </Flex>
+        </Flex >
+      </Flex >
       <Divider orientation="horizontal" />
       <VStack
         w="100%"
@@ -197,6 +373,7 @@ const Profile = (): JSX.Element => {
         <Flex
           alignItems="center"
           flexDirection="column"
+          w="max-content"
         >
           <Heading>Bio</Heading>
           <Box
@@ -204,13 +381,15 @@ const Profile = (): JSX.Element => {
             width="100%"
           >
             <Box
-              width="max-content"
+              w="100%"
             >
-              {userProfile.bio ?
-                userProfile.bio.map((line: string) => {
+              {bio ?
+                bio.map((line: string) => {
                   return (
                     <Text
                       key={line.replace(" ", "-")}
+                      textAlign="center"
+                      w="100%"
                     >
                       {line}
                     </Text>
@@ -218,29 +397,79 @@ const Profile = (): JSX.Element => {
                 })
                 :
                 (
-                  <Text>No bio set</Text>
+                  <Text
+                    textAlign="center"
+                    w="100%"
+                  >
+                    No bio set
+                  </Text>
                 )
               }
             </Box>
           </Box>
-          <Button
-            _hover={{
-              textDecoration: 'none',
-              bg: useColorModeValue('orange.200', 'orange.700'),
-            }}
-            variant="ghost"
-            px={2}
-            py={2}
-            size="md"
-            fontSize='1.5rem'
-          >
-            <Icon
-              as={FaEdit}
-            />
-          </Button>
+          {!bioEdit &&
+            (
+              <Button
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('orange.200', 'orange.700'),
+                }}
+                variant="ghost"
+                px={2}
+                py={2}
+                size="md"
+                fontSize='1.5rem'
+                onClick={() => setBioEdit(true)}
+              >
+                <Icon
+                  as={FaEdit}
+                />
+              </Button>
+            )
+          }
+          {bioEdit &&
+            (
+              <HStack>
+                <Button
+                  _hover={{
+                    textDecoration: 'none',
+                    bg: useColorModeValue('orange.200', 'orange.700'),
+                  }}
+                  variant="ghost"
+                  px={2}
+                  py={2}
+                  size="md"
+                  fontSize='1.5rem'
+                  onClick={() => setBioEdit(false)}
+                >
+                  <Icon
+                    as={FaCheckCircle}
+                  />
+                </Button>
+                <Button
+                  _hover={{
+                    textDecoration: 'none',
+                    bg: useColorModeValue('orange.200', 'orange.700'),
+                  }}
+                  variant="ghost"
+                  px={2}
+                  py={2}
+                  size="md"
+                  fontSize='1.5rem'
+                  onClick={() => {
+                    setBioEdit(false)
+                  }}
+                >
+                  <Icon
+                    as={FaTimesCircle}
+                  />
+                </Button>
+              </HStack>
+            )
+          }
         </Flex>
       </VStack>
-    </VStack>
+    </VStack >
   )
 }
 

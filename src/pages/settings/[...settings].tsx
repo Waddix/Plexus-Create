@@ -10,7 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useState } from "react";
 import {
   FaUser,
   FaUsers,
@@ -25,9 +25,11 @@ import Accessibility from "./setting/Accessibility";
 import Theme from "./setting/theme";
 
 const Settings = (): JSX.Element => {
+  // Be able to tell which settings is being accessed
   const router = useRouter();
   const { settings } = router.query;
 
+  // Nav items
   const NavItem = ({ children, icon }) => {
     return (
       <Flex
@@ -60,6 +62,7 @@ const Settings = (): JSX.Element => {
     );
   };
 
+  // Sidebar
   const SidebarContent = (props: JSX.IntrinsicAttributes & OmitCommonProps<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, keyof ChakraProps> & ChakraProps & OmitCommonProps<unknown, keyof ChakraProps> & { as?: As<unknown> | undefined; }) => (
     <Box
       as="nav"
