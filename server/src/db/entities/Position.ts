@@ -23,11 +23,11 @@ export class Position extends Base {
   @Column()
   projectId!: number;
 
-  @Field(() => Project)
+  @Field(() => Project, {nullable: true})
   @ManyToOne(() => Project, (project: Project) => project.position, {cascade: true, nullable: true, eager: true})
   project: Project;
 
-  @Field(() => [Tag])
+  @Field(() => [Tag], {nullable: true})
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
   @JoinTable()
   tags: Tag[];

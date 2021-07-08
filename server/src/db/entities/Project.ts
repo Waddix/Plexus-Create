@@ -31,12 +31,12 @@ export class Project extends Base {
   // @ManyToMany(() => Profile, (profile: Profile) => profile.followedProjects)
   // followers: Promise<Profile[]>;
 
-  @Field(() => [Tag])
+  @Field(() => [Tag], {nullable: true})
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
   @JoinTable()
   tags: Tag[];
 
-  @Field(() => [Position])
+  @Field(() => [Position], {nullable: true})
   @OneToMany(() => Position, (p: Position) => p.project, {nullable:true})
   position: Position[];
 
