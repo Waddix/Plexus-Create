@@ -42,6 +42,7 @@ export type Mutation = {
   updatePost?: Maybe<Post>;
   deletePost: Scalars['Boolean'];
   createProfile: Profile;
+  updateProfile: Profile;
   createProject: Project;
   updateProject?: Maybe<Project>;
   deleteProject: Scalars['Boolean'];
@@ -85,6 +86,11 @@ export type MutationDeletePostArgs = {
 
 export type MutationCreateProfileArgs = {
   input: ProfileInput;
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input: UpdateProfileInput;
 };
 
 
@@ -336,6 +342,16 @@ export type TagResponse = {
   tag?: Maybe<Tag>;
 };
 
+export type UpdateProfileInput = {
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  username: Scalars['String'];
+  image: Scalars['String'];
+  title: Scalars['String'];
+  bio: Scalars['String'];
+  website: Scalars['String'];
+};
+
 export type Users = {
   __typename?: 'Users';
   id: Scalars['ID'];
@@ -442,6 +458,19 @@ export type FollowUserMutationVariables = Exact<{
 export type FollowUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'followUser'>
+);
+
+export type UpdateProfileMutationVariables = Exact<{
+  input: UpdateProfileInput;
+}>;
+
+
+export type UpdateProfileMutation = (
+  { __typename?: 'Mutation' }
+  & { updateProfile: (
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'image' | 'website'>
+  ) }
 );
 
 export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -812,6 +841,23 @@ export const FollowUserDocument = gql`
 
 export function useFollowUserMutation() {
   return Urql.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument);
+};
+export const UpdateProfileDocument = gql`
+    mutation UpdateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input) {
+    id
+    name
+    username
+    title
+    bio
+    image
+    website
+  }
+}
+    `;
+
+export function useUpdateProfileMutation() {
+  return Urql.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument);
 };
 export const AllTagsDocument = gql`
     query allTags {

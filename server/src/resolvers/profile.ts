@@ -43,6 +43,30 @@ class ProfileInput {
   website: string;
 }
 
+@InputType()
+class UpdateProfileInput {
+  @Field(() => Int)
+  id: number;
+
+  @Field(() => String)
+  name: string;
+
+  @Field(() => String)
+  username: string;
+
+  @Field(() => String)
+  image: string;
+
+  @Field(() => String)
+  title: string;
+
+  @Field(() => String)
+  bio: string;
+
+  @Field(() => String)
+  website: string;
+}
+
 // @InputType()
 // class LinkSettingInput {
 //   @Field(() => Int)
@@ -102,6 +126,26 @@ export class ProfileResolver {
   @Mutation(() => Profile)
   async createProfile(@Arg("input") input: ProfileInput): Promise<Profile> {
     return await Profile.create({ ...input }).save();
+  }
+
+  @Mutation(() => Profile)
+  async updateProfile( @Arg("input") input: UpdateProfileInput ): Promise<Profile | undefined> {
+    const profile = await Profile.findOne({
+      where: {
+        id: input.id,
+      },
+    });
+
+    if (profile) {
+      profile.name = input.name;
+      profile.username = input.username;
+      profile.title = input.title;
+      profile.bio = input.bio;
+      profile.image = input.image;
+      profile.website = input.website;
+    }
+
+    return await profile?.save();
   }
 
   // @Mutation(() => Profile)

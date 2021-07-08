@@ -26,15 +26,16 @@ import {
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../context/userContext"
 import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
-import { stringify } from "querystring";
+import { useUpdateProfileMutation } from '../../../generated/graphql'
+import { withUrqlClient } from 'next-urql';
 
-const Profile = (): JSX.Element => {
+const Profile: React.FC<unknown> = () => {
   // User Profile Context
-  const { userProfile } = useContext(UserContext)
+  const { userProfile, setUserProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
   const { loadingProfile } = useContext(UserContext)
 
-  const { image, name, username, title, bio } = userProfile
+  const { id, image, name, username, title, bio, website } = userProfile
 
   // Handle uploading images
   const handleImageUpload = () => {
@@ -51,32 +52,60 @@ const Profile = (): JSX.Element => {
 
   // Updated user before submitting
   interface UpdatedUser {
+    id: number,
     name: string,
     username: string,
     title: string,
     bio: string,
     image: string,
+    website: string
   }
 
   const [updatedUser, setUpdatedUser] = useState<UpdatedUser>({
+    id: id,
     name: name,
     username: username,
     title: title,
     bio: bio,
     image: image,
+    website: website,
   });
 
+  // Add current user's details to the updateUser state since it is used as the initial form values and placeholders.
   useEffect(() => {
     if (userProfile && !loadingProfile) {
       setUpdatedUser({
+        id: id,
         name: name,
         username: username.split("@")[1],
         title: title,
         bio: bio,
         image: image,
+        website: website,
       })
     }
   }, [userProfile, loadingProfile])
+
+  // Render loading icons when submitting
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  // Update Profile Mutation
+  const [, updateProfile] = useUpdateProfileMutation()
+
+  const handleSubmit = () => {
+    const newProfile = Object.assign({...updatedUser});
+    newProfile.username = "@" + updatedUser.username;
+
+    updateProfile({ input: newProfile })
+      .then(() => {
+        setIsSubmitting(false);
+        setUserProfile(Object.assign({ ...newProfile, ...userProfile }))
+        setNameEdit(false);
+        setUsernameEdit(false);
+        setBioEdit(false);
+        setTitleEdit(false);
+      })
+  }
 
   return (
     <VStack
@@ -196,13 +225,15 @@ const Profile = (): JSX.Element => {
                       size="sm"
                       fontSize='1rem'
                       onClick={() => {
-                        setNameEdit(false)
+                        setIsSubmitting(true);
+                        handleSubmit()
                       }}
                       isDisabled={
                         updatedUser.name.length === 0
                         ||
                         updatedUser.name === name
                       }
+                      isLoading={isSubmitting}
                     >
                       <Icon
                         as={FaCheckCircle}
@@ -222,6 +253,7 @@ const Profile = (): JSX.Element => {
                       onClick={() => {
                         setNameEdit(false)
                       }}
+                      isDisabled={isSubmitting}
                     >
                       <Icon
                         as={FaTimesCircle}
@@ -276,7 +308,8 @@ const Profile = (): JSX.Element => {
                       size="sm"
                       fontSize='1rem'
                       onClick={() => {
-                        setUsernameEdit(false)
+                        setIsSubmitting(true);
+                        handleSubmit()
                       }}
                       isDisabled={
                         usernameInvalid
@@ -284,7 +317,10 @@ const Profile = (): JSX.Element => {
                         updatedUser.username.length === 0
                         ||
                         updatedUser.username === username.split("@")[1]
+                        ||
+                        updatedUser.username.split(" ").length > 1
                       }
+                      isLoading={isSubmitting}
                     >
                       <Icon
                         as={FaCheckCircle}
@@ -304,6 +340,7 @@ const Profile = (): JSX.Element => {
                       onClick={() => {
                         setUsernameEdit(false)
                       }}
+                      isDisabled={isSubmitting}
                     >
                       <Icon
                         as={FaTimesCircle}
@@ -358,13 +395,15 @@ const Profile = (): JSX.Element => {
                       size="sm"
                       fontSize='1rem'
                       onClick={() => {
-                        setTitleEdit(false)
+                        setIsSubmitting(true);
+                        handleSubmit()
                       }}
                       isDisabled={
                         updatedUser.title.length === 0
                         ||
                         updatedUser.title === title
                       }
+                      isLoading={isSubmitting}
                     >
                       <Icon
                         as={FaCheckCircle}
@@ -384,6 +423,7 @@ const Profile = (): JSX.Element => {
                       onClick={() => {
                         setTitleEdit(false)
                       }}
+                      isDisabled={isSubmitting}
                     >
                       <Icon
                         as={FaTimesCircle}
@@ -466,6 +506,9 @@ const Profile = (): JSX.Element => {
                       </InputGroup>
                       {usernameInvalid &&
                         <FormHelperText color="red.300">Should not start with @</FormHelperText>
+                      }
+                      {updatedUser.username.split(" ").length > 1 &&
+                        <FormHelperText color="red.300">Usernames cannot contain spaces</FormHelperText>
                       }
                     </FormControl>
                     :
@@ -573,7 +616,7 @@ const Profile = (): JSX.Element => {
                   />
                   :
                   bio ?
-                    bio.map((line: string) => {
+                    bio.split('\n').map((line: string) => {
                       return (
                         <Text
                           key={line.replace(" ", "-")}
@@ -630,12 +673,16 @@ const Profile = (): JSX.Element => {
                   py={2}
                   size="md"
                   fontSize='1.5rem'
-                  onClick={() => setBioEdit(false)}
+                  onClick={() => {
+                    setIsSubmitting(true);
+                    handleSubmit()
+                  }}
                   isDisabled={
                     updatedUser.bio.length === 0
                     ||
                     updatedUser.bio === bio
                   }
+                  isLoading={isSubmitting}
                 >
                   <Icon
                     as={FaCheckCircle}
@@ -654,6 +701,7 @@ const Profile = (): JSX.Element => {
                   onClick={() => {
                     setBioEdit(false)
                   }}
+                  isDisabled={isSubmitting}
                 >
                   <Icon
                     as={FaTimesCircle}
@@ -668,4 +716,7 @@ const Profile = (): JSX.Element => {
   )
 }
 
-export default Profile;
+export default withUrqlClient(() => ({
+  // ...add your Client options here
+  url: 'http://localhost:8080/graphql',
+}))(Profile);

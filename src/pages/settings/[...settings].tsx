@@ -21,7 +21,7 @@ import {
 import Profile from "./setting/profile";
 import Following from './setting/following'
 import Notifications from "./setting/notifications";
-import Accessibility from "./setting/Accessibility";
+import Accessibility from "./setting/accessibility";
 import Theme from "./setting/theme";
 
 const Settings = (): JSX.Element => {
