@@ -12,12 +12,34 @@ import {
 } from '@chakra-ui/react';
 import { UserContext } from "../../../context/userContext";
 
-export default function Name({ name, updateName, username, updateUsername, updateTitle, updateBio }): JSX.Element {
+interface NameProps {
+  name: string,
+  updateName: React.Dispatch<React.SetStateAction<string>>,
+  username:string,
+  updateUsername: React.Dispatch<React.SetStateAction<string>>,
+  updateTitle: React.Dispatch<React.SetStateAction<string>>,
+  updateBio: React.Dispatch<React.SetStateAction<string>>,
+  space: boolean,
+  updateSpace: React.Dispatch<React.SetStateAction<boolean>>,
+  at: boolean
+  updateAt: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+function Name({
+  name,
+  updateName,
+  username,
+  updateUsername,
+  updateTitle,
+  updateBio,
+  space,
+  updateSpace,
+  at,
+  updateAt,
+}: NameProps): JSX.Element {
 
   // User Profile
-  const { userProfile, setUserProfile } = useContext(UserContext)
-
-  const [userNameInvalid, setUsernameInvalid] = useState(false);
+  const { userProfile } = useContext(UserContext)
 
   return (
     <Fragment>
@@ -48,15 +70,21 @@ export default function Name({ name, updateName, username, updateUsername, updat
             <Input
               required
               validationMessage="Should not start with @"
-              isInvalid={userNameInvalid}
+              isInvalid={at || space}
               value={username}
               onChange={(e) => {
                 updateUsername(e.target.value)
 
                 if (e.target.value[0] === '@') {
-                  setUsernameInvalid(true);
+                  updateAt(true);
                 } else if (e.target.value[0] !== '@') {
-                  setUsernameInvalid(false);
+                  updateAt(false);
+                }
+
+                if (e.target.value.split(" ").length > 1) {
+                  updateSpace(true);
+                } else if (e.target.value.split(" ").length === 1) {
+                  updateSpace(false);
                 }
               }}
               id="username"
@@ -64,8 +92,11 @@ export default function Name({ name, updateName, username, updateUsername, updat
               errorBorderColor="red.300"
             />
           </InputGroup>
-          {userNameInvalid &&
+          {at &&
             <FormHelperText color="red.300">Should not start with @</FormHelperText>
+          }
+          {space &&
+            <FormHelperText color="red.300">Usernames cannot contain spaces</FormHelperText>
           }
         </FormControl>
       </Box>
@@ -80,3 +111,5 @@ export default function Name({ name, updateName, username, updateUsername, updat
     </Fragment >
   )
 }
+
+export default Name;

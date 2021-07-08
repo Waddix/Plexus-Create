@@ -44,9 +44,9 @@ const RegisterFlow: React.FC<unknown> = () => {
   const [title, setTitle] = useState<string>(userProfile ? userProfile.title : "");
   const [image, setImage] = useState<string>(userProfile ? userProfile.image : "");
   const [bio, setBio] = useState<string>(userProfile ? userProfile.bio : "");
-  const [website, setWebsite] = useState("");
-  const [tags, setTags] = useState([]);
-  const [social, setSocail] = useState({});
+  const [website, setWebsite] = useState<string>("");
+  // const [tags, setTags] = useState([]);
+  // const [social, setSocail] = useState({});
 
   // Set fields when a session is created
   useEffect(() => {
@@ -76,6 +76,9 @@ const RegisterFlow: React.FC<unknown> = () => {
     </Fragment>
   )
 
+  const [containsAt, setContainsAt] = useState<boolean>(false);
+  const [containsSpace, setContainsSpace] = useState<boolean>(false);
+
   const pages: Pages = {
     0: {
       header: "Let's create your account",
@@ -91,6 +94,10 @@ const RegisterFlow: React.FC<unknown> = () => {
         updateUsername={setUsername}
         updateTitle={setTitle}
         updateBio={setBio}
+        space={containsSpace}
+        updateSpace={setContainsSpace}
+        at={containsAt}
+        updateAt={setContainsAt}
       />,
       buttons: 'normal',
     },
@@ -202,6 +209,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
+                      isDisabled={containsAt || containsSpace}
                     >
                       Next
                     </Button>
@@ -225,6 +233,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
+                      isDisabled={containsAt || containsSpace}
                     >
                       Next
                     </Button>
@@ -254,6 +263,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         handleSubmit();
                         setIsSubmitting(true);
                       }}
+                      isDisabled={containsAt || containsSpace}
                     >
                       Submit
                     </Button>
