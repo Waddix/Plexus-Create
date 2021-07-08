@@ -739,7 +739,7 @@ export type ProjectPositionsQuery = (
   { __typename?: 'Query' }
   & { projectPositions: Array<(
     { __typename?: 'Position' }
-    & Pick<Position, 'id' | 'type' | 'title' | 'description' | 'projectId'>
+    & Pick<Position, 'id' | 'type' | 'title' | 'description' | 'projectId' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -1181,6 +1181,8 @@ export const ProjectPositionsDocument = gql`
     title
     description
     projectId
+    createdAt
+    updatedAt
   }
 }
     `;

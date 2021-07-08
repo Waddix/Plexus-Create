@@ -5,5 +5,7 @@ query projectPositions($projectId: Int!){
     title
     description
     projectId
+    createdAt
+    updatedAt
   }
 }
