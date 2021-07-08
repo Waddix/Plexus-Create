@@ -7,6 +7,7 @@ import { Base } from "./Base";
 // import { FollowProject } from "./FollowProject";
 // import { FollowUser } from "./FollowUser";
 import { Users } from "./nextauth/Users";
+import { Post } from "./Post";
 import { Project } from "./Project";
 
 @ObjectType()
@@ -68,6 +69,10 @@ export class Profile extends Base {
   @Field(() => [Project])
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
+
+  @Field(() => [Post])
+  @OneToMany(() => Post, (post: Post) => post.owner)
+  posts: Post[];
 
   //* self referencing many to many table for creating follow relationship
   @ManyToMany(() => Profile, user => user.following)

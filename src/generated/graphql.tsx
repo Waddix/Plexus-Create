@@ -66,13 +66,13 @@ export type MutationFollowUserArgs = {
 
 
 export type MutationCreatePostArgs = {
-  type: Scalars['String'];
+  projectId: Scalars['Int'];
+  ownerId: Scalars['Int'];
   text: Scalars['String'];
 };
 
 
 export type MutationUpdatePostArgs = {
-  type: Scalars['String'];
   text?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
 };
@@ -144,7 +144,9 @@ export type Post = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   text: Scalars['String'];
-  type: Scalars['String'];
+  ownerId: Scalars['Float'];
+  owner: Profile;
+  project: Project;
   tags: Array<Tag>;
 };
 
@@ -163,6 +165,7 @@ export type Profile = {
   website: Scalars['String'];
   stripeId: Scalars['String'];
   projects: Array<Project>;
+  posts: Array<Post>;
 };
 
 export type ProfileInput = {
@@ -186,6 +189,7 @@ export type Project = {
   description: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
+  posts: Array<Post>;
   tags: Array<Tag>;
   positions: Array<Position>;
 };
@@ -352,7 +356,8 @@ export type AssignProjectTagMutation = (
 );
 
 export type CreatePostMutationVariables = Exact<{
-  type: Scalars['String'];
+  projectId: Scalars['Int'];
+  ownerId: Scalars['Int'];
   text: Scalars['String'];
 }>;
 
@@ -361,7 +366,7 @@ export type CreatePostMutation = (
   { __typename?: 'Mutation' }
   & { createPost: (
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'text' | 'type' | 'updatedAt' | 'createdAt'>
+    & Pick<Post, 'id' | 'text'>
   ) }
 );
 
@@ -628,7 +633,7 @@ export type PostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'text' | 'type' | 'createdAt' | 'updatedAt'>
+    & Pick<Post, 'id' | 'text' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -718,13 +723,10 @@ export function useAssignProjectTagMutation() {
   return Urql.useMutation<AssignProjectTagMutation, AssignProjectTagMutationVariables>(AssignProjectTagDocument);
 };
 export const CreatePostDocument = gql`
-    mutation CreatePost($type: String!, $text: String!) {
-  createPost(type: $type, text: $text) {
+    mutation CreatePost($projectId: Int!, $ownerId: Int!, $text: String!) {
+  createPost(projectId: $projectId, ownerId: $ownerId, text: $text) {
     id
     text
-    type
-    updatedAt
-    createdAt
   }
 }
     `;
@@ -1022,7 +1024,6 @@ export const PostsDocument = gql`
   posts {
     id
     text
-    type
     createdAt
     updatedAt
   }

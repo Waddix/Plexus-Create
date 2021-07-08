@@ -25,8 +25,10 @@ function UserProfile(): JSX.Element {
     console.error(error);
     return <div>{error.message}</div>
   } else {
+
     if (data) {
       const { username, image } = data.profileLookup
+      // const source = "profile"
       return (
         <div>
           <Flex justify={'center'}>

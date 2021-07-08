@@ -2,7 +2,6 @@ query Posts {
   posts {
     id
     text
-    type
     createdAt
     updatedAt
   }

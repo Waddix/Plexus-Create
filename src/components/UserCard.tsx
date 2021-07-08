@@ -22,7 +22,6 @@ import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLoo
 
 export const UserCard: React.FC = ({ profile, currId }): JSX.Element => {
   const { id, name, username, bio, website, image } = profile;
-  console.log("user in UserCard ===>", profile)
   const [, followUser] = useFollowUserMutation();
   return (
     <Center py={6}>

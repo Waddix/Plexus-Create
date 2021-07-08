@@ -29,9 +29,11 @@ interface ProjectCardProps {
   description: string,
   createdAt: Date,
   updatedAt: Date,
-  username?: string | undefined
-  image?: string | undefined
-  ownerId: number
+  username?: string | undefined,
+  image?: string | undefined,
+  ownerId: number,
+  // source: string | undefined
+
   // progress: number,
 }
 
@@ -43,6 +45,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   const { userProfile } = useContext(UserContext);
 
   const [, followProject] = useFollowProjectMutation();
+  // console.log("source?", source)
 
   return (
     <Flex>
@@ -125,6 +128,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 >
                   Follow
                 </Button>
+                {/* { source === "profile" ?
+                   <Button
+                   onClick={() => console.log("let's update")}
+                 >
+                   Update
+                 </Button> :
+                 <></>
+              } */}
               </Stack>
               :
               <div></div>

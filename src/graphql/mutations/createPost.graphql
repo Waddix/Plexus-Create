@@ -1,9 +1,6 @@
-mutation CreatePost($type: String!, $text: String!) {
-  createPost(type: $type, text: $text) {
+mutation CreatePost($projectId: Int!, $ownerId: Int!, $text: String!) {
+  createPost(projectId: $projectId, ownerId: $ownerId, text: $text) {
     id
     text
-    type
-    updatedAt
-    createdAt
   }
 }

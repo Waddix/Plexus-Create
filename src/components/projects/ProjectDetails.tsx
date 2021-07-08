@@ -10,12 +10,14 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { CustomDonationInput } from "./DonationInput";
 import { ProjectTagsByID } from "./ProjectTagsByID";
+import { UserContext } from "../../context/userContext";
+import { PostFormBox } from "../posts/PostForm";
 
 interface ProjectDetailsProps {
   id: number;
@@ -26,6 +28,7 @@ interface ProjectDetailsProps {
   username?: string;
   // email?: string,
   image?: string;
+  ownerId: number | undefined;
 }
 
 interface DescriptionProps {
@@ -59,9 +62,12 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   title,
   username,
   image,
+  ownerId
 }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
+  const { userProfile } = useContext(UserContext);
+  console.log("projectId, profileId: ", id, userProfile.id)
   return (
     <Box p={8} rounded="xl">
       <Box>
@@ -72,7 +78,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
               <Text fontWeight={600}>{username}</Text>
               <Text color={"gray.500"}> {postedAt}</Text>
-                <ProjectTagsByID id={id}></ProjectTagsByID>
+              <ProjectTagsByID id={id}></ProjectTagsByID>
             </Stack>
           </Stack>
         </Box>
@@ -85,10 +91,21 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         )}
       </Box>
       <Divider orientation="horizontal" mt={4} />
-      <Heading fontSize="lg" mt={3} mb={4}>
-        Donate to this Project!
-      </Heading>
-      <CustomDonationInput id={id}></CustomDonationInput>
+      {userProfile.id === ownerId ?
+        // <Button
+        //   onClick={() => console.log("let's update")}
+        // >
+        //   Update
+        // </Button>
+        <PostFormBox projectId={id} ownerId={userProfile.id}/>
+        :
+        <div>
+          <Heading fontSize="lg" mt={3} mb={4}>
+            Donate to this Project!
+          </Heading>
+          <CustomDonationInput id={id}></CustomDonationInput>
+        </div>
+      }
       <Divider orientation="horizontal" mt={4} />
       <Box>
         <Heading fontSize="lg" mt={3} mb={4}>
