@@ -1,10 +1,10 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
-import { userSettings } from "../../../context/userContext";
+// import { userSettings } from "../../../context/userContext";
 
 // 2. Add your color mode config
 const config: ThemeConfig = {
-  initialColorMode: userSettings ? userSettings.mode : "dark",
-  useSystemColorMode: true,
+  initialColorMode: "dark",
+  // useSystemColorMode: true,
 };
 
 // 3. extend the theme

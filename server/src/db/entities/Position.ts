@@ -9,17 +9,25 @@ import { Tag } from "./Tag";
 export class Position extends Base {
   @Field(() => String)
   @Column()
+  title!: string;
+
+  @Field(() => String)
+  @Column()
   description!: string;
 
   @Field(() => String)
   @Column()
   type!: string;
 
-  @Field(() => [Project])
-  @ManyToOne(() => Project, project => project.title)
-  project: Project[];
+  @Field()
+  @Column()
+  projectId!: number;
 
-  @Field(() => [Tag])
+  @Field(() => Project, {nullable: true})
+  @ManyToOne(() => Project, (project: Project) => project.position, {cascade: true, nullable: true, eager: true})
+  project: Project;
+
+  @Field(() => [Tag], {nullable: true})
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
   @JoinTable()
   tags: Tag[];

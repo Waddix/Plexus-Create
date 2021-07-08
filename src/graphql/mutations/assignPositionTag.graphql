@@ -1,0 +1,3 @@
+mutation assignPositionTag($positionId: Int!, $tagId: Int!){
+  assignPositionTag(positionId: $positionId, tagId: $tagId)
+}

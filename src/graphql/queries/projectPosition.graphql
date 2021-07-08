@@ -1,0 +1,11 @@
+query projectPositions($projectId: Int!){
+  projectPositions(projectId:$projectId){
+    id
+    type
+    title
+    description
+    projectId
+    createdAt
+    updatedAt
+  }
+}

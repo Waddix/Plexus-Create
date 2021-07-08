@@ -6,14 +6,16 @@ import {
   Tag,
   Container,
   Flex,
+  Divider,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import React from "react";
-import { Wrapper } from "../../components/forms/Wrapper";
-import { ProjectDetails } from "../../components/projects/ProjectDetails";
-import { useProjectQuery } from "../../generated/graphql";
+import { Wrapper } from "../../../components/forms/Wrapper";
+import { PositionForm } from "../../../components/projects/PositionForm";
+import { ProjectDetails } from "../../../components/projects/ProjectDetails";
+import { useProjectQuery } from "../../../generated/graphql";
 
 interface ProjectTags {
   tags: Array<string>;
@@ -46,8 +48,6 @@ const ProjectView: React.FC<unknown> = () => {
       id: idToInt, /// this is only because i am using the route as id otherwise pass in variables like so
     },
   });
-
-  console.log(data);
   if (fetching) {
     return <div>loading</div>;
   }
@@ -88,6 +88,8 @@ const ProjectView: React.FC<unknown> = () => {
                   username={data?.project?.owner.username}
                   id={parseInt(projectId)}
                 ></ProjectDetails>
+                <Divider orientation="horizontal" mt={4} />
+                <PositionForm id={data?.project?.id}></PositionForm>
               </Flex>
             </Box>
           </Box>

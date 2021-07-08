@@ -1,0 +1,5 @@
+query positionTags($positionId: Int!){
+  positionTags(positionId:$positionId){
+   ...tagFragment
+  }
+}
