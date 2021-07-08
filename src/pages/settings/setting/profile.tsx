@@ -14,18 +14,20 @@ import {
   Button,
   Icon,
   Divider,
-  HStack
+  HStack,
+  Skeleton,
+  SkeletonCircle
 } from "@chakra-ui/react"
-import React, { Fragment, useContext, useState } from "react"
+import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../context/userContext"
-import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle } from "react-icons/fa";
+import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
 import { stringify } from "querystring";
 
 const Profile = (): JSX.Element => {
   // User Profile Context
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
-  const { loadingProfile, setLoadingProfile } = useContext(UserContext)
+  const { loadingProfile } = useContext(UserContext)
 
   const { image, name, username, title, bio } = userProfile
 
@@ -57,6 +59,18 @@ const Profile = (): JSX.Element => {
     image: image,
   });
 
+  useEffect(() => {
+    if (userProfile && !loadingProfile) {
+      setUpdatedUser({
+        name: name,
+        username: username,
+        title: title,
+        bio: bio,
+        image: image,
+      })
+    }
+  }, [userProfile, loadingProfile])
+
   return (
     <VStack
       w="100%"
@@ -74,11 +88,19 @@ const Profile = (): JSX.Element => {
           alignItems="center"
           flexDirection="column"
         >
-          <Avatar
-            name="userProfile.name"
-            src={image}
-            size="xl"
-          />
+          {loadingProfile ?
+            <SkeletonCircle size="6rem" />
+            :
+            image.length > 0 ?
+              < Avatar
+                name="userProfile.name"
+                src={image}
+                size="xl"
+              />
+              :
+              <Icon boxSize={10} as={FaUserCircle} />
+          }
+
           <form onSubmit={handleImageUpload}>
             <chakra.label
               for="image"
@@ -101,7 +123,12 @@ const Profile = (): JSX.Element => {
                   _hover={{
                     bg: useColorModeValue("orange.200", "orange.700"),
                   }}
-                >Upload a custom image
+                >
+                  <Skeleton
+                    isLoaded={!loadingProfile}
+                  >
+                    Upload a custom image
+                  </Skeleton>
                 </FormLabel>
                 <VisuallyHidden>
                   <Input type="file" id="image" />
@@ -139,6 +166,7 @@ const Profile = (): JSX.Element => {
                     size="sm"
                     fontSize='1rem'
                     onClick={() => setNameEdit(true)}
+                    isLoading={loadingProfile}
                   >
                     <Icon
                       as={FaUserEdit}
@@ -214,6 +242,7 @@ const Profile = (): JSX.Element => {
                     size="sm"
                     fontSize='1rem'
                     onClick={() => setUsernameEdit(true)}
+                    isLoading={loadingProfile}
                   >
                     <Icon
                       as={FaUserEdit}
@@ -289,6 +318,7 @@ const Profile = (): JSX.Element => {
                     size="sm"
                     fontSize='1rem'
                     onClick={() => setTitleEdit(true)}
+                    isLoading={loadingProfile}
                   >
                     <Icon
                       as={FaUserEdit}
@@ -352,15 +382,54 @@ const Profile = (): JSX.Element => {
             // width='max-content'
             spacing={8}
           >
-            <Text>
-              {name}
-            </Text>
-            <Text>
-              {username}
-            </Text>
-            <Text>
-              {title || "No title set"}
-            </Text>
+            <Skeleton
+              isLoaded={!loadingProfile}
+            >
+              <Text>
+                {loadingProfile ?
+                  "Loading Profile..."
+                  :
+                  nameEdit ?
+                    <Input
+                      value={updatedUser.name}
+                      placeholder={updatedUser.name}
+                      onChange={(e) => {
+                        const newName = e.target.value;
+                        const newUser = updatedUser;
+                        newUser.name = newName
+                        setUpdatedUser(Object.assign({ ...newUser }))
+                      }}
+                    />
+                    :
+                    name
+                }
+              </Text>
+            </Skeleton>
+            <Skeleton
+              isLoaded={!loadingProfile}
+            >
+              <Text>
+                {loadingProfile ?
+                  "Loading Profile..."
+                  :
+                  username
+                }
+              </Text>
+            </Skeleton>
+            <Skeleton
+              isLoaded={!loadingProfile}
+            >
+              <Text>
+                {loadingProfile ?
+                  "Loading Profile..."
+                  :
+                  title ?
+                    title
+                    :
+                    "No Title Set"
+                }
+              </Text>
+            </Skeleton>
           </VStack>
         </Flex >
       </Flex >
@@ -383,27 +452,64 @@ const Profile = (): JSX.Element => {
             <Box
               w="100%"
             >
-              {bio ?
-                bio.map((line: string) => {
-                  return (
+              {loadingProfile ?
+                <Fragment>
+                  <Skeleton
+                    isLoaded={!loadingProfile}
+                  >
                     <Text
-                      key={line.replace(" ", "-")}
+                      textAlign="center"
+                      w="100%"
+                      my={2}
+                    >
+                      Loading Profile..
+                    </Text>
+                  </Skeleton>
+                  <Skeleton
+                    isLoaded={!loadingProfile}
+                  >
+                    <Text
+                      textAlign="center"
+                      w="100%"
+                      my={2}
+                    >
+                      Loading Profile..
+                    </Text>
+                  </Skeleton>
+                  <Skeleton
+                    isLoaded={!loadingProfile}
+                  >
+                    <Text
+                      textAlign="center"
+                      w="100%"
+                      my={2}
+                    >
+                      Loading Profile..
+                    </Text>
+                  </Skeleton>
+                </Fragment>
+                :
+                bio ?
+                  bio.map((line: string) => {
+                    return (
+                      <Text
+                        key={line.replace(" ", "-")}
+                        textAlign="center"
+                        w="100%"
+                      >
+                        {line}
+                      </Text>
+                    )
+                  })
+                  :
+                  (
+                    <Text
                       textAlign="center"
                       w="100%"
                     >
-                      {line}
+                      No bio set
                     </Text>
                   )
-                })
-                :
-                (
-                  <Text
-                    textAlign="center"
-                    w="100%"
-                  >
-                    No bio set
-                  </Text>
-                )
               }
             </Box>
           </Box>
@@ -420,6 +526,7 @@ const Profile = (): JSX.Element => {
                 size="md"
                 fontSize='1.5rem'
                 onClick={() => setBioEdit(true)}
+                isLoading={loadingProfile}
               >
                 <Icon
                   as={FaEdit}
