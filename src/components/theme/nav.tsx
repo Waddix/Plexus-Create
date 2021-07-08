@@ -22,6 +22,7 @@ import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { UserContext } from '../../context/userContext';
 import { FaUserCircle, FaSearch } from "react-icons/fa";
+import type { AppProps } from 'next/app'
 
 const Links = ['Home', 'Projects', 'Search'];
 
@@ -41,7 +42,7 @@ const NavLink = (link: string | JSX.Element): JSX.Element => (
   </Link>
 );
 
-function Nav(): JSX.Element {
+function Nav({ pageProps }: AppProps): JSX.Element {
   // Session
   const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -148,7 +149,7 @@ function Nav(): JSX.Element {
                   }
                 </Button>
               </PopoverTrigger>
-              <NextAuth />
+              <NextAuth pageProps={pageProps} />
             </Popover>
           </Box>
         </Flex>

@@ -20,7 +20,7 @@ import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLoo
 //   profile: Profile
 // }
 
-export const UserCard: React.FC = ({ profile, currId }): JSX.Element => {
+const UserCard = (profile: Profile, currId: number): JSX.Element => {
   const { id, name, username, bio, website, image } = profile;
   console.log("user in UserCard ===>", profile)
   const [, followUser] = useFollowUserMutation();
@@ -126,3 +126,5 @@ export const UserCard: React.FC = ({ profile, currId }): JSX.Element => {
     </Center>
   );
 }
+
+export default UserCard;

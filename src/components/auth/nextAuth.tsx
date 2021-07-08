@@ -30,6 +30,7 @@ import { withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
 import RegisterFlow from './RegisterFlow';
 import { FaUserCircle, FaCog } from "react-icons/fa";
+import type { AppProps } from 'next/app'
 
 
 const UserLinks = ['Profile'];
@@ -51,7 +52,7 @@ const PopoverLink = (link: string): JSX.Element => (
   </Link>
 );
 
-const NextAuth: React.FC<{}> = ({ }) => {
+const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
   // Next auth session
   const [session] = useSession();
   // User from next auth session
@@ -341,7 +342,7 @@ const NextAuth: React.FC<{}> = ({ }) => {
         </Fragment>
       </PopoverContent>
 
-      <RegisterFlow />
+      <RegisterFlow pageProps={pageProps} />
     </Fragment>
   )
 }
