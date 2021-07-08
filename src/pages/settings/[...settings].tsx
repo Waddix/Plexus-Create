@@ -2,17 +2,12 @@ import {
   As,
   Box,
   ChakraProps,
-  Drawer,
-  DrawerContent,
-  DrawerOverlay,
   Flex,
-  Heading,
   HStack,
   Icon,
   Link,
   OmitCommonProps,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -33,10 +28,7 @@ const Settings = (): JSX.Element => {
   const router = useRouter();
   const { settings } = router.query;
 
-  const sidebar = useDisclosure();
-
-  const NavItem = (props) => {
-    const { icon, children, ...rest } = props;
+  const NavItem = ({ children, icon }) => {
     return (
       <Flex
         align="center"
@@ -52,7 +44,6 @@ const Settings = (): JSX.Element => {
         role="group"
         fontWeight="semibold"
         transition=".15s ease"
-        {...rest}
       >
         {icon && (
           <Icon
@@ -96,23 +87,42 @@ const Settings = (): JSX.Element => {
       >
         <Link
           href='/settings/profile'
+          _hover={{
+            textDecoration: 'none',
+          }}
         >
           <NavItem icon={FaUser}>Profile</NavItem>
         </Link>
         <Link
           href='/settings/following'
+          _hover={{
+            textDecoration: 'none',
+          }}
         >
           <NavItem icon={FaUsers}>Following</NavItem>
         </Link>
         <Link
           href='/settings/notifications'
+          _hover={{
+            textDecoration: 'none',
+          }}
         >
           <NavItem icon={FaBell}>Notifications</NavItem>
         </Link>
-        <Link href='/settings/accessibility'>
+        <Link
+          href='/settings/accessibility'
+          _hover={{
+            textDecoration: 'none',
+          }}
+        >
           <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
         </Link>
-        <Link href='/settings/theme'>
+        <Link
+          href='/settings/theme'
+          _hover={{
+            textDecoration: 'none',
+          }}
+        >
           <NavItem icon={FaSwatchbook}>Theme</NavItem>
         </Link>
       </Flex>
@@ -123,7 +133,7 @@ const Settings = (): JSX.Element => {
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.700")}
-      // minH="93.1vh"
+    // minH="93.1vh"
     >
       <SidebarContent
         display={{ base: "none", md: "unset" }}
@@ -145,23 +155,42 @@ const Settings = (): JSX.Element => {
         >
           <Link
             href='/settings/profile'
+            _hover={{
+              textDecoration: 'none',
+            }}
           >
             <NavItem icon={FaUser}>Profile</NavItem>
           </Link>
           <Link
             href='/settings/following'
+            _hover={{
+              textDecoration: 'none',
+            }}
           >
             <NavItem icon={FaUsers}>Following</NavItem>
           </Link>
           <Link
             href='/settings/notifications'
+            _hover={{
+              textDecoration: 'none',
+            }}
           >
             <NavItem icon={FaBell}>Notifications</NavItem>
           </Link>
-          <Link href='/settings/accessibility'>
+          <Link
+            href='/settings/accessibility'
+            _hover={{
+              textDecoration: 'none',
+            }}
+          >
             <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
           </Link>
-          <Link href='/settings/theme'>
+          <Link
+            href='/settings/theme'
+            _hover={{
+              textDecoration: 'none',
+            }}
+          >
             <NavItem icon={FaSwatchbook}>Theme</NavItem>
           </Link>
         </Flex>
