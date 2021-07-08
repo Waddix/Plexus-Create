@@ -22,14 +22,19 @@ import {
   InputGroup,
   InputLeftAddon,
   Textarea,
+  Link,
 } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../context/userContext"
 import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
 import { useUpdateProfileMutation } from '../../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
+import { useSession } from 'next-auth/client'
 
 const Profile: React.FC<unknown> = () => {
+  // Next auth session
+  const [session] = useSession();
+
   // User Profile Context
   const { userProfile, setUserProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
@@ -93,7 +98,7 @@ const Profile: React.FC<unknown> = () => {
   const [, updateProfile] = useUpdateProfileMutation()
 
   const handleSubmit = () => {
-    const newProfile = Object.assign({...updatedUser});
+    const newProfile = Object.assign({ ...updatedUser });
     newProfile.username = "@" + updatedUser.username;
 
     updateProfile({ input: newProfile })
@@ -107,7 +112,7 @@ const Profile: React.FC<unknown> = () => {
       })
   }
 
-  return (
+  return session ? (
     <VStack
       w="100%"
       alignContent="center"
@@ -714,6 +719,37 @@ const Profile: React.FC<unknown> = () => {
       </VStack>
     </VStack >
   )
+    :
+    (
+      <Box
+        w="100%"
+        textAlign="center"
+      >
+        <Heading
+          color="red.200"
+          my={150}
+        >
+          Not Authorized
+        </Heading>
+        <Box
+          mb={100}
+        >
+          <Link
+            href="/api/auth/signin"
+          >
+            <Button
+              w="max-content"
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
+            >
+              Please sigin or register first
+            </Button>
+          </Link>
+        </Box>
+      </Box>
+    )
 }
 
 export default withUrqlClient(() => ({
