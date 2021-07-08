@@ -9,10 +9,10 @@ import {
   Checkbox,
   Collapse,
   Tooltip,
+  Icon,
 } from "@chakra-ui/react";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { FaCaretDown } from "react-icons/fa";
 import SearchResults from "./searchResults";
 import { useGetAllProfilesQuery, useProjectsQuery } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
@@ -37,11 +37,6 @@ function Search(): JSX.Element {
     // Campaigns: true,
     // Teams: true,
   })
-
-  // Caret down icon
-  const caretDownIcon = (): JSX.Element => {
-    return <FontAwesomeIcon icon={faCaretDown} size='2x' />
-  }
 
   // Results of the search
   const [results, setResults] = useState({
@@ -392,8 +387,7 @@ function Search(): JSX.Element {
                 id='filter'
                 h="1.75rem"
                 size="sm"
-                pl={2}
-                pr={2}
+                px={1}
                 mr={-8}
                 rounded={'md'}
                 _hover={{
@@ -402,8 +396,9 @@ function Search(): JSX.Element {
                 }}
                 onClick={() => toggleShowFilter()}
                 variant="ghost"
+                fontSize={"1.5rem"}
               >
-                {caretDownIcon()}
+                <Icon as={FaCaretDown} />
               </Button>
             </Tooltip>
             <Button
@@ -441,8 +436,7 @@ function Search(): JSX.Element {
               display={{ base: 'inline-flex', lg: 'none' }}
               id="filters"
               size="md"
-              px={2}
-              py={2}
+              px={1}
               ml='0.5rem'
               rounded={'md'}
               _hover={{
@@ -452,8 +446,9 @@ function Search(): JSX.Element {
               onClick={() => toggleShowFilter()}
               variant="ghost"
               zIndex='10'
+              fontSize="1.5rem"
             >
-              {caretDownIcon()}
+              <Icon as={FaCaretDown} />
             </Button>
           </Tooltip>
         </InputGroup>

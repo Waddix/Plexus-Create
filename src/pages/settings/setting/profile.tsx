@@ -31,7 +31,7 @@ import { useUpdateProfileMutation } from '../../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 import { useSession } from 'next-auth/client'
 
-const Profile: React.FC<unknown> = () => {
+const Profile: React.FC<unknown> = ():JSX.Element => {
   // Next auth session
   const [session] = useSession();
 
