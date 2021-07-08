@@ -60,7 +60,7 @@ export default function Name({ name, updateName, username, updateUsername, updat
                 }
               }}
               id="username"
-              placeholder={username || "Display Name"}
+              placeholder={username || "Username"}
               errorBorderColor="red.300"
             />
           </InputGroup>

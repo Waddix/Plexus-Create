@@ -16,7 +16,12 @@ import {
   Divider,
   HStack,
   Skeleton,
-  SkeletonCircle
+  SkeletonCircle,
+  FormControl,
+  FormHelperText,
+  InputGroup,
+  InputLeftAddon,
+  Textarea,
 } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../context/userContext"
@@ -42,6 +47,8 @@ const Profile = (): JSX.Element => {
   const [titleEdit, setTitleEdit] = useState<boolean>(false);
   const [bioEdit, setBioEdit] = useState<boolean>(false);
 
+  const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
+
   // Updated user before submitting
   interface UpdatedUser {
     name: string,
@@ -63,7 +70,7 @@ const Profile = (): JSX.Element => {
     if (userProfile && !loadingProfile) {
       setUpdatedUser({
         name: name,
-        username: username,
+        username: username.split("@")[1],
         title: title,
         bio: bio,
         image: image,
@@ -191,6 +198,11 @@ const Profile = (): JSX.Element => {
                       onClick={() => {
                         setNameEdit(false)
                       }}
+                      isDisabled={
+                        updatedUser.name.length === 0
+                        ||
+                        updatedUser.name === name
+                      }
                     >
                       <Icon
                         as={FaCheckCircle}
@@ -209,8 +221,7 @@ const Profile = (): JSX.Element => {
                       fontSize='1rem'
                       onClick={() => {
                         setNameEdit(false)
-                      }
-                      }
+                      }}
                     >
                       <Icon
                         as={FaTimesCircle}
@@ -267,6 +278,13 @@ const Profile = (): JSX.Element => {
                       onClick={() => {
                         setUsernameEdit(false)
                       }}
+                      isDisabled={
+                        usernameInvalid
+                        ||
+                        updatedUser.username.length === 0
+                        ||
+                        updatedUser.username === username.split("@")[1]
+                      }
                     >
                       <Icon
                         as={FaCheckCircle}
@@ -285,8 +303,7 @@ const Profile = (): JSX.Element => {
                       fontSize='1rem'
                       onClick={() => {
                         setUsernameEdit(false)
-                      }
-                      }
+                      }}
                     >
                       <Icon
                         as={FaTimesCircle}
@@ -343,6 +360,11 @@ const Profile = (): JSX.Element => {
                       onClick={() => {
                         setTitleEdit(false)
                       }}
+                      isDisabled={
+                        updatedUser.title.length === 0
+                        ||
+                        updatedUser.title === title
+                      }
                     >
                       <Icon
                         as={FaCheckCircle}
@@ -361,8 +383,7 @@ const Profile = (): JSX.Element => {
                       fontSize='1rem'
                       onClick={() => {
                         setTitleEdit(false)
-                      }
-                      }
+                      }}
                     >
                       <Icon
                         as={FaTimesCircle}
@@ -396,7 +417,7 @@ const Profile = (): JSX.Element => {
                       onChange={(e) => {
                         const newName = e.target.value;
                         const newUser = updatedUser;
-                        newUser.name = newName
+                        newUser.name = newName;
                         setUpdatedUser(Object.assign({ ...newUser }))
                       }}
                     />
@@ -412,7 +433,43 @@ const Profile = (): JSX.Element => {
                 {loadingProfile ?
                   "Loading Profile..."
                   :
-                  username
+                  userNameEdit ?
+                    <FormControl id="username">
+                      <InputGroup>
+                        <InputLeftAddon
+                          children="@"
+                          bg={useColorModeValue("gray.50", "gray.800")}
+                          color={useColorModeValue("gray.500", "gay.50")}
+                          rounded="md"
+                        />
+                        <Input
+                          required
+                          validationMessage="Should not start with @"
+                          isInvalid={usernameInvalid}
+                          value={updatedUser.username}
+                          onChange={(e) => {
+                            const newUsername = e.target.value;
+                            const newUser = updatedUser;
+                            newUser.username = newUsername;
+                            setUpdatedUser(Object.assign({ ...newUser }))
+
+                            if (e.target.value[0] === '@') {
+                              setUsernameInvalid(true);
+                            } else if (e.target.value[0] !== '@') {
+                              setUsernameInvalid(false);
+                            }
+                          }}
+                          id="username"
+                          placeholder={updatedUser.username || "Username"}
+                          errorBorderColor="red.300"
+                        />
+                      </InputGroup>
+                      {usernameInvalid &&
+                        <FormHelperText color="red.300">Should not start with @</FormHelperText>
+                      }
+                    </FormControl>
+                    :
+                    username
                 }
               </Text>
             </Skeleton>
@@ -423,10 +480,22 @@ const Profile = (): JSX.Element => {
                 {loadingProfile ?
                   "Loading Profile..."
                   :
-                  title ?
-                    title
+                  titleEdit ?
+                    <Input
+                      value={updatedUser.title}
+                      placeholder={updatedUser.title}
+                      onChange={(e) => {
+                        const newTitle = e.target.value;
+                        const newUser = updatedUser;
+                        newUser.title = newTitle;
+                        setUpdatedUser(Object.assign({ ...newUser }))
+                      }}
+                    />
                     :
-                    "No Title Set"
+                    title ?
+                      title
+                      :
+                      "No Title Set"
                 }
               </Text>
             </Skeleton>
@@ -442,7 +511,7 @@ const Profile = (): JSX.Element => {
         <Flex
           alignItems="center"
           flexDirection="column"
-          w="max-content"
+          width="100%"
         >
           <Heading>Bio</Heading>
           <Box
@@ -451,6 +520,7 @@ const Profile = (): JSX.Element => {
           >
             <Box
               w="100%"
+              textAlign="center"
             >
               {loadingProfile ?
                 <Fragment>
@@ -489,27 +559,40 @@ const Profile = (): JSX.Element => {
                   </Skeleton>
                 </Fragment>
                 :
-                bio ?
-                  bio.map((line: string) => {
-                    return (
+                bioEdit ?
+
+                  <Textarea
+                    onChange={(e) => {
+                      const newBio = e.target.value;
+                      const newUser = updatedUser;
+                      newUser.bio = newBio;
+                      setUpdatedUser(Object.assign({ ...newUser }))
+                    }}
+                    placeholder={bio ? bio : "Write something about yourself"}
+                    width={["100%", "100%", "100%", "500px"]}
+                  />
+                  :
+                  bio ?
+                    bio.map((line: string) => {
+                      return (
+                        <Text
+                          key={line.replace(" ", "-")}
+                          textAlign="center"
+                          w="100%"
+                        >
+                          {line}
+                        </Text>
+                      )
+                    })
+                    :
+                    (
                       <Text
-                        key={line.replace(" ", "-")}
                         textAlign="center"
                         w="100%"
                       >
-                        {line}
+                        No bio set
                       </Text>
                     )
-                  })
-                  :
-                  (
-                    <Text
-                      textAlign="center"
-                      w="100%"
-                    >
-                      No bio set
-                    </Text>
-                  )
               }
             </Box>
           </Box>
@@ -548,6 +631,11 @@ const Profile = (): JSX.Element => {
                   size="md"
                   fontSize='1.5rem'
                   onClick={() => setBioEdit(false)}
+                  isDisabled={
+                    updatedUser.bio.length === 0
+                    ||
+                    updatedUser.bio === bio
+                  }
                 >
                   <Icon
                     as={FaCheckCircle}
