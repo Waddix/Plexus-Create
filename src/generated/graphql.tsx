@@ -40,6 +40,7 @@ export type Mutation = {
   followUser: Scalars['Boolean'];
   createTag: TagResponse;
   assignTag: Scalars['Boolean'];
+  assignPositionTag: Scalars['Boolean'];
   createPosition: PositionResponse;
   assignPosition: Scalars['Boolean'];
   createPost: Post;
@@ -74,6 +75,12 @@ export type MutationCreateTagArgs = {
 
 export type MutationAssignTagArgs = {
   projectId: Scalars['Int'];
+  tagId: Scalars['Int'];
+};
+
+
+export type MutationAssignPositionTagArgs = {
+  positionId: Scalars['Int'];
   tagId: Scalars['Int'];
 };
 
@@ -231,6 +238,7 @@ export type Query = {
   tags: Array<Tag>;
   tag?: Maybe<Tag>;
   projectTags: Array<Tag>;
+  positionTags: Array<Tag>;
   positions: Array<Position>;
   position?: Maybe<Position>;
   projectPositions: Array<Position>;
@@ -274,6 +282,11 @@ export type QueryTagArgs = {
 
 export type QueryProjectTagsArgs = {
   projectId: Scalars['Int'];
+};
+
+
+export type QueryPositionTagsArgs = {
+  positionId: Scalars['Int'];
 };
 
 
@@ -379,6 +392,17 @@ export type Users = {
 export type TagFragmentFragment = (
   { __typename?: 'Tag' }
   & Pick<Tag, 'id' | 'name' | 'createdAt' | 'updatedAt'>
+);
+
+export type AssignPositionTagMutationVariables = Exact<{
+  positionId: Scalars['Int'];
+  tagId: Scalars['Int'];
+}>;
+
+
+export type AssignPositionTagMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'assignPositionTag'>
 );
 
 export type AssignProjectTagMutationVariables = Exact<{
@@ -682,6 +706,19 @@ export type GetUserNameQuery = (
   )> }
 );
 
+export type PositionTagsQueryVariables = Exact<{
+  positionId: Scalars['Int'];
+}>;
+
+
+export type PositionTagsQuery = (
+  { __typename?: 'Query' }
+  & { positionTags: Array<(
+    { __typename?: 'Tag' }
+    & TagFragmentFragment
+  )> }
+);
+
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -782,6 +819,15 @@ export const TagFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
+export const AssignPositionTagDocument = gql`
+    mutation assignPositionTag($positionId: Int!, $tagId: Int!) {
+  assignPositionTag(positionId: $positionId, tagId: $tagId)
+}
+    `;
+
+export function useAssignPositionTagMutation() {
+  return Urql.useMutation<AssignPositionTagMutation, AssignPositionTagMutationVariables>(AssignPositionTagDocument);
+};
 export const AssignProjectTagDocument = gql`
     mutation assignProjectTag($projectId: Int!, $tagId: Int!) {
   assignTag(projectId: $projectId, tagId: $tagId)
@@ -1110,6 +1156,17 @@ export const GetUserNameDocument = gql`
 
 export function useGetUserNameQuery(options: Omit<Urql.UseQueryArgs<GetUserNameQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetUserNameQuery>({ query: GetUserNameDocument, ...options });
+};
+export const PositionTagsDocument = gql`
+    query positionTags($positionId: Int!) {
+  positionTags(positionId: $positionId) {
+    ...tagFragment
+  }
+}
+    ${TagFragmentFragmentDoc}`;
+
+export function usePositionTagsQuery(options: Omit<Urql.UseQueryArgs<PositionTagsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PositionTagsQuery>({ query: PositionTagsDocument, ...options });
 };
 export const PostsDocument = gql`
     query Posts {
