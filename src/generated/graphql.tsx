@@ -38,6 +38,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   followProject: Scalars['Boolean'];
   followUser: Scalars['Boolean'];
+  createTag: TagResponse;
+  assignTag: Scalars['Boolean'];
+  assignPositionTag: Scalars['Boolean'];
+  createPosition: PositionResponse;
+  assignPosition: Scalars['Boolean'];
   createPost: Post;
   updatePost?: Maybe<Post>;
   deletePost: Scalars['Boolean'];
@@ -48,8 +53,6 @@ export type Mutation = {
   createPaymentIntent: Scalars['String'];
   createStripeLink: Scalars['String'];
   createStripeAccount: Scalars['String'];
-  createTag: TagResponse;
-  assignTag: Scalars['Boolean'];
 };
 
 
@@ -62,6 +65,35 @@ export type MutationFollowProjectArgs = {
 export type MutationFollowUserArgs = {
   profileId_2: Scalars['Int'];
   profileId_1: Scalars['Int'];
+};
+
+
+export type MutationCreateTagArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationAssignTagArgs = {
+  projectId: Scalars['Int'];
+  tagId: Scalars['Int'];
+};
+
+
+export type MutationAssignPositionTagArgs = {
+  positionId: Scalars['Int'];
+  tagId: Scalars['Int'];
+};
+
+
+export type MutationCreatePositionArgs = {
+  projectId: Scalars['Int'];
+  input: PositionInput;
+};
+
+
+export type MutationAssignPositionArgs = {
+  projectId: Scalars['Int'];
+  positionId: Scalars['Int'];
 };
 
 
@@ -116,26 +148,29 @@ export type MutationCreateStripeLinkArgs = {
   stripeId: Scalars['String'];
 };
 
-
-export type MutationCreateTagArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationAssignTagArgs = {
-  projectId: Scalars['Int'];
-  tagId: Scalars['Int'];
-};
-
 export type Position = {
   __typename?: 'Position';
   id: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  title: Scalars['String'];
   description: Scalars['String'];
   type: Scalars['String'];
-  project: Array<Project>;
+  projectId: Scalars['Float'];
+  project: Project;
   tags: Array<Tag>;
+};
+
+export type PositionInput = {
+  title: Scalars['String'];
+  type: Scalars['String'];
+  description: Scalars['String'];
+};
+
+export type PositionResponse = {
+  __typename?: 'PositionResponse';
+  errors?: Maybe<Array<FieldError>>;
+  position?: Maybe<Position>;
 };
 
 export type Post = {
@@ -187,7 +222,7 @@ export type Project = {
   ownerId: Scalars['Float'];
   owner: Profile;
   tags: Array<Tag>;
-  positions: Array<Position>;
+  position: Array<Position>;
 };
 
 export type ProjectInput = {
@@ -200,6 +235,13 @@ export type Query = {
   getFollowedProjects?: Maybe<Array<Project>>;
   user?: Maybe<Profile>;
   getFollowedUsers?: Maybe<Array<Profile>>;
+  tags: Array<Tag>;
+  tag?: Maybe<Tag>;
+  projectTags: Array<Tag>;
+  positionTags: Array<Tag>;
+  positions: Array<Position>;
+  position?: Maybe<Position>;
+  projectPositions: Array<Position>;
   posts: Array<Post>;
   post?: Maybe<Post>;
   getAllProfiles?: Maybe<Array<Profile>>;
@@ -211,9 +253,6 @@ export type Query = {
   project?: Maybe<Project>;
   getProjectsByUser?: Maybe<Array<Project>>;
   createCheckoutSession: Scalars['String'];
-  tags: Array<Tag>;
-  tag?: Maybe<Tag>;
-  projectTags: Array<Tag>;
   getAllUsers?: Maybe<Array<Users>>;
   findUserName?: Maybe<Users>;
   findUserEmail: Users;
@@ -233,6 +272,31 @@ export type QueryUserArgs = {
 
 export type QueryGetFollowedUsersArgs = {
   profileId: Scalars['Int'];
+};
+
+
+export type QueryTagArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryProjectTagsArgs = {
+  projectId: Scalars['Int'];
+};
+
+
+export type QueryPositionTagsArgs = {
+  positionId: Scalars['Int'];
+};
+
+
+export type QueryPositionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryProjectPositionsArgs = {
+  projectId: Scalars['Int'];
 };
 
 
@@ -274,16 +338,6 @@ export type QueryGetProjectsByUserArgs = {
 export type QueryCreateCheckoutSessionArgs = {
   id: Scalars['Int'];
   amount: Scalars['Int'];
-};
-
-
-export type QueryTagArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type QueryProjectTagsArgs = {
-  projectId: Scalars['Int'];
 };
 
 
@@ -340,6 +394,17 @@ export type TagFragmentFragment = (
   & Pick<Tag, 'id' | 'name' | 'createdAt' | 'updatedAt'>
 );
 
+export type AssignPositionTagMutationVariables = Exact<{
+  positionId: Scalars['Int'];
+  tagId: Scalars['Int'];
+}>;
+
+
+export type AssignPositionTagMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'assignPositionTag'>
+);
+
 export type AssignProjectTagMutationVariables = Exact<{
   projectId: Scalars['Int'];
   tagId: Scalars['Int'];
@@ -349,6 +414,26 @@ export type AssignProjectTagMutationVariables = Exact<{
 export type AssignProjectTagMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'assignTag'>
+);
+
+export type CreatePositionMutationVariables = Exact<{
+  input: PositionInput;
+  projectId: Scalars['Int'];
+}>;
+
+
+export type CreatePositionMutation = (
+  { __typename?: 'Mutation' }
+  & { createPosition: (
+    { __typename?: 'PositionResponse' }
+    & { position?: Maybe<(
+      { __typename?: 'Position' }
+      & Pick<Position, 'id' | 'type' | 'title' | 'description'>
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  ) }
 );
 
 export type CreatePostMutationVariables = Exact<{
@@ -621,6 +706,19 @@ export type GetUserNameQuery = (
   )> }
 );
 
+export type PositionTagsQueryVariables = Exact<{
+  positionId: Scalars['Int'];
+}>;
+
+
+export type PositionTagsQuery = (
+  { __typename?: 'Query' }
+  & { positionTags: Array<(
+    { __typename?: 'Tag' }
+    & TagFragmentFragment
+  )> }
+);
+
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -669,6 +767,19 @@ export type ProjectQuery = (
   )> }
 );
 
+export type ProjectPositionsQueryVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+
+export type ProjectPositionsQuery = (
+  { __typename?: 'Query' }
+  & { projectPositions: Array<(
+    { __typename?: 'Position' }
+    & Pick<Position, 'id' | 'type' | 'title' | 'description' | 'projectId' | 'createdAt' | 'updatedAt'>
+  )> }
+);
+
 export type ProjectTagsQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
@@ -708,6 +819,15 @@ export const TagFragmentFragmentDoc = gql`
   updatedAt
 }
     `;
+export const AssignPositionTagDocument = gql`
+    mutation assignPositionTag($positionId: Int!, $tagId: Int!) {
+  assignPositionTag(positionId: $positionId, tagId: $tagId)
+}
+    `;
+
+export function useAssignPositionTagMutation() {
+  return Urql.useMutation<AssignPositionTagMutation, AssignPositionTagMutationVariables>(AssignPositionTagDocument);
+};
 export const AssignProjectTagDocument = gql`
     mutation assignProjectTag($projectId: Int!, $tagId: Int!) {
   assignTag(projectId: $projectId, tagId: $tagId)
@@ -716,6 +836,26 @@ export const AssignProjectTagDocument = gql`
 
 export function useAssignProjectTagMutation() {
   return Urql.useMutation<AssignProjectTagMutation, AssignProjectTagMutationVariables>(AssignProjectTagDocument);
+};
+export const CreatePositionDocument = gql`
+    mutation createPosition($input: PositionInput!, $projectId: Int!) {
+  createPosition(input: $input, projectId: $projectId) {
+    position {
+      id
+      type
+      title
+      description
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useCreatePositionMutation() {
+  return Urql.useMutation<CreatePositionMutation, CreatePositionMutationVariables>(CreatePositionDocument);
 };
 export const CreatePostDocument = gql`
     mutation CreatePost($type: String!, $text: String!) {
@@ -1017,6 +1157,17 @@ export const GetUserNameDocument = gql`
 export function useGetUserNameQuery(options: Omit<Urql.UseQueryArgs<GetUserNameQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetUserNameQuery>({ query: GetUserNameDocument, ...options });
 };
+export const PositionTagsDocument = gql`
+    query positionTags($positionId: Int!) {
+  positionTags(positionId: $positionId) {
+    ...tagFragment
+  }
+}
+    ${TagFragmentFragmentDoc}`;
+
+export function usePositionTagsQuery(options: Omit<Urql.UseQueryArgs<PositionTagsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PositionTagsQuery>({ query: PositionTagsDocument, ...options });
+};
 export const PostsDocument = gql`
     query Posts {
   posts {
@@ -1078,6 +1229,23 @@ export const ProjectDocument = gql`
 
 export function useProjectQuery(options: Omit<Urql.UseQueryArgs<ProjectQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ProjectQuery>({ query: ProjectDocument, ...options });
+};
+export const ProjectPositionsDocument = gql`
+    query projectPositions($projectId: Int!) {
+  projectPositions(projectId: $projectId) {
+    id
+    type
+    title
+    description
+    projectId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useProjectPositionsQuery(options: Omit<Urql.UseQueryArgs<ProjectPositionsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ProjectPositionsQuery>({ query: ProjectPositionsDocument, ...options });
 };
 export const ProjectTagsDocument = gql`
     query projectTags($projectId: Int!) {

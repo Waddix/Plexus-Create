@@ -24,14 +24,15 @@ export const CustomDonationInput = ({ id }: DonationProps): JSX.Element => {
   const [value, setValue] = React.useState(0);
   const handleChange = (value: SetStateAction<number | string>) =>
     setValue(value);
-  const idToInt = typeof id === "string" ? parseInt(id) : 0;
   const [{ data, fetching, error }] = useCreateCheckoutSessionQuery({
-    pause: idToInt === 0,
     variables: {
       amount: value,
-      id: idToInt,
+      id: id,
     },
   });
+  if(error){
+    console.log(error, id);
+  }
   return (
     <Container>
       <Box>

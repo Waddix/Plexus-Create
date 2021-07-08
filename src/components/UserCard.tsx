@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect, useRef, Fragment } from 'react';
 
 import { UserContext } from '../context/userContext'
 import {
@@ -20,7 +20,7 @@ import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLoo
 //   profile: Profile
 // }
 
-export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
+export const UserCard: React.FC = ({ profile, currId }): JSX.Element => {
   const { id, name, username, bio, website, image } = profile;
   console.log("user in UserCard ===>", profile)
   const [, followUser] = useFollowUserMutation();
@@ -55,7 +55,7 @@ export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
           }}
         />
         <Heading fontSize={'2xl'} fontFamily={'body'}>
-          { }
+          {name}
         </Heading>
         <Text fontWeight={600} color={'gray.500'} mb={4}>
           {username}
@@ -113,13 +113,13 @@ export const UserCard: React.FC = ({profile, currId}): JSX.Element => {
               }}
               onClick={async () => {
                 console.log("currId: ", currId, "profileId: ", id);
-                await followUser({ profileId_2: currId, profileId_1: id }) 
+                await followUser({ profileId_2: currId, profileId_1: id })
               }}
             >
               Follow
             </Button>
             :
-            <></>
+            <Fragment></Fragment>
           }
         </Stack>
       </Box>
