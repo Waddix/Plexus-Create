@@ -46,15 +46,15 @@ function UserContextProvider({ children }: { children: any }): any {
   const [userProfile, setUserProfile] = useState<Profile | Record<string, never>>({});
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
-  const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
+  // const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState<Tag[]>([])
   const [loadingProfile, setLoadingProfile] = useState<boolean>(false);
   const [newUser, setNewUser] = useState<boolean>(false);
   const [, followP] = useFollowProjectMutation();
-  const [, followU] = useFollowUserMutation();
-  const [, getFollowProj] = useGetFollowedProjectsQuery();
-  const [, getFollowUsers] = useGetFollowedUsersQuery();
-  const [userSettings, setUserSettings] = useState<userSettings | null>(null)
+  // const [, followU] = useFollowUserMutation();
+  // const [, getFollowProj] = useGetFollowedProjectsQuery();
+  // const [, getFollowUsers] = useGetFollowedUsersQuery();
+  // const [userSettings, setUserSettings] = useState<userSettings | null>(null)
 
   // const [{ data: allProjects, error }] = useProjectsQuery();
 
@@ -74,9 +74,9 @@ function UserContextProvider({ children }: { children: any }): any {
     // })
 
 
-  const followUser = async (userId: number) => {
-    await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
-  }
+  // const followUser = async (userId: number) => {
+  //   await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
+  // }
 
  //** Having issues getting the following functions to work. */
  //** May refactor to use these later so we can manage state and api calls from here */
@@ -111,7 +111,7 @@ function UserContextProvider({ children }: { children: any }): any {
     setLoadingProfile,
     newUser,
     setNewUser,
-    followUser,
+    // followUser,
     // getProjectsFollowing,
     // getUsersFollowing
   }
