@@ -23,7 +23,6 @@ import {
   InputLeftAddon,
   Textarea,
   Link,
-  Image,
 } from "@chakra-ui/react"
 import React, { Fragment, SetStateAction, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../context/userContext"
@@ -108,13 +107,21 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
       })
   }
 
+
+  // Handle images input to display a preview of the file
   const [file, setFile] = useState<SetStateAction<string> | File | null>(null)
 
-  // Handle uploading images
-  const handleImageInput = (files: FileList | SetStateAction<string>[] | null) => {
+  const handleImageInput = (files: FileList | SetStateAction<string>[] | null): void => {
     if (files) {
       console.info(files[0])
       setFile(files[0]);
+    }
+  }
+
+  // Handle file upload to cloudinary
+  const handleUpload = (file: React.SetStateAction<string> | File): void => {
+    if (file) {
+
     }
   }
 
@@ -180,7 +187,13 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   </Skeleton>
                 </FormLabel>
                 <VisuallyHidden>
-                  <Input isDisabled={loadingProfile} type="file" id="image" onChange={(e) => handleImageInput(e.target.files)} />
+                  <Input
+                    isDisabled={loadingProfile}
+                    type="file"
+                    accept="image/*"
+                    id="image"
+                    onChange={(e) => handleImageInput(e.target.files)}
+                  />
                 </VisuallyHidden>
               </chakra.label>
               {file &&
@@ -209,6 +222,9 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       onClick={(e) => {
                         e.preventDefault();
                         setIsSubmitting(true);
+                        if (file) {
+                          handleUpload(file);
+                        }
                       }}
                       isLoading={isSubmitting}
                     >
