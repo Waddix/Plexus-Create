@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/client';
 import { MainFeed } from '../components/home/MainFeed';
 import { FollowingFeed } from '../components/home/FollowingFeed';
 import Landing from '../components/home/Landing';
+import { Feed } from '../components/home/Feed';
 
 
 const Home = () => {
@@ -14,10 +15,11 @@ const Home = () => {
   return (
     <div>
       {session ?
-        <div>
-          <MainFeed />
-          <FollowingFeed />
-        </div>
+      <Feed />
+        // <div>
+        //   <MainFeed />
+        //   <FollowingFeed />
+        // </div>
         :
         <Landing />
       }
