@@ -181,7 +181,55 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   <Input isDisabled={loadingProfile} type="file" id="image" onChange={(e) => handleImageInput(e.target.files)} />
                 </VisuallyHidden>
                 {file &&
-                  <Text mb={4} color="gray.300">{file}</Text>
+                  <Fragment>
+                    <Text color="gray.300">{file}</Text>
+                    <HStack my={2} alignContent="center" justifyContent="center">
+                      <Button
+                        _hover={{
+                          textDecoration: 'none',
+                          bg: useColorModeValue('orange.200', 'orange.700'),
+                        }}
+                        variant="ghost"
+                        px={2}
+                        py={2}
+                        mr={2}
+                        size="sm"
+                        fontSize='1rem'
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsSubmitting(true);
+                        }}
+                        isLoading={isSubmitting}
+                      >
+                        <Icon
+                          as={FaCheckCircle}
+                        />
+                      </Button>
+                      <Button
+                        _hover={{
+                          textDecoration: 'none',
+                          bg: useColorModeValue('orange.200', 'orange.700'),
+                        }}
+                        variant="ghost"
+                        px={2}
+                        py={2}
+                        mr={2}
+                        size="sm"
+                        fontSize='1rem'
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFile("")
+                        }}
+                        isDisabled={isSubmitting}
+                      >
+                        <Icon
+                          as={FaTimesCircle}
+                        />
+                      </Button>
+                    </HStack>
+                  </Fragment>
                 }
               </Fragment>
             </chakra.label>
