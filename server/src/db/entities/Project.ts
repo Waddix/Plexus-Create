@@ -29,7 +29,7 @@ export class Project extends Base {
 
   @Field(() => [Post], {nullable: true})
   @OneToMany(() => Post, (post: Post) => post.project)
-  posts: Post[];
+  posts: Promise<Post[]>;
 
   // // //* Allow users to follow the project by establishing jointable with Profile via Follow entity
   // @Field()

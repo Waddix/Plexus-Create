@@ -16,11 +16,15 @@ export class Post extends Base {
   @Column()
   ownerId!: number;
 
+  @Field()
+  @Column()
+  projectId!: number;
+
   @Field(() => Profile)
   @ManyToOne(() => Profile, (profile: Profile) => profile.posts, {cascade:true})
   owner!: Profile;
 
-  @Field(() => Project)
+  @Field(() => [Project])
   @ManyToOne(() => Project, (project: Project) => project.posts, {cascade:true})
   project!: Project;
 

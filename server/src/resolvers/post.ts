@@ -19,12 +19,14 @@ export class PostResolver {
     return Post.findOne(id);
   }
 
-  // @Query(() => [Post], {nullable: true})
-  // async postsByUser(
-  //   @Arg("ownerId", () => Int) ownerId: number
-  // ): Promise<Post[]> {
-  //   const following =
-  // }
+  @Query(() => Profile, { nullable: true })
+  async getFeed(
+    @Arg('profileId', () => Int) profileId: number,
+    // @Arg('projectId', () => Int) projectId: number,
+  ): Promise<Profile| void> {
+    const user = Profile.findOne({id: profileId}, { relations: ["followedProjects", "following"] });
+    return user;
+  }
 
   @Query(() => Post)
 
