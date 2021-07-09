@@ -136,3 +136,5 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
     </Center>
   );
 }
+
+export default UserCard;

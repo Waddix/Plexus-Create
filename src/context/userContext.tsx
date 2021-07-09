@@ -32,19 +32,29 @@ import {
 //! what to pass pass in here for type????
 const UserContext = React.createContext<any | null>(null);
 
+interface userSettings {
+  theme: string,
+  mode: 'light' | 'dark',
+  accessability: {
+    underlineLinks: boolean,
+    dyslexicFont: boolean,
+  }
+}
+
 //Todo create context to manage projects in state and provide that data to rest of the app
 function UserContextProvider({ children }: { children: any }): any {
-  const [userProfile, setUserProfile] = useState<any>({});
+  const [userProfile, setUserProfile] = useState<Profile | Record<string, never>>({});
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
   const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState<Tag[]>([])
-  const [loadingProfile, setLoadingProfile] = useState(false);
-  const [newUser, setNewUser] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState<boolean>(false);
+  const [newUser, setNewUser] = useState<boolean>(false);
   const [, followP] = useFollowProjectMutation();
   const [, followU] = useFollowUserMutation();
   const [, getFollowProj] = useGetFollowedProjectsQuery();
   const [, getFollowUsers] = useGetFollowedUsersQuery();
+  const [userSettings, setUserSettings] = useState<userSettings | null>(null)
 
   // const [{ data: allProjects, error }] = useProjectsQuery();
 
