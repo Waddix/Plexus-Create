@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React from 'react';
 
-import { UserContext } from '../context/userContext'
+// import { UserContext } from '../context/userContext'
 import {
   Heading,
   Avatar,
@@ -13,15 +13,21 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLookupQuery } from '../generated/graphql';
+import { Profile, useFollowUserMutation} from '../generated/graphql';
 
-// interface profileProps {
-//   currId: number,
-//   profile: Profile
-// }
+interface profileProps {
+  id: number,
+  username: string,
+  bio: string,
+  image: string
+}
+interface userCardProps {
+  currId: number,
+  profile: profileProps
+}
 
-export const UserCard: React.FC = ({ profile, currId }): JSX.Element => {
-  const { id, name, username, bio, website, image } = profile;
+export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
+  const { id, username, bio, image } = profile;
   const [, followUser] = useFollowUserMutation();
   return (
     <Center py={6}>

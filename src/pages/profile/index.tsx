@@ -6,7 +6,7 @@ import { withUrqlClient } from "next-urql";
 import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useGetProjectsByUserQuery } from "../../generated/graphql";
 
-function ProfileView() {
+const ProfileView: React.FC = (): JSX.Element => {
   // const { projectsFollowing } = useContext(UserContext);
   const { userProfile } = useContext(UserContext);
   const { id, username, image } = userProfile;
@@ -35,6 +35,9 @@ function ProfileView() {
       )
     }
   }
+  return (
+    <></>
+  )
 }
 
   export default withUrqlClient(() => ({

@@ -31,7 +31,7 @@ interface ProjectCardProps {
   updatedAt: Date,
   username?: string | undefined,
   image?: string | undefined,
-  ownerId: number,
+  ownerId?: number,
   // source: string | undefined
 
   // progress: number,

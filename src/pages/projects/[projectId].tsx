@@ -6,15 +6,13 @@ import {
   Tag,
   Container,
   Flex,
-  Button,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
-import React, { useContext } from "react";
+import React from "react";
 import { Wrapper } from "../../components/forms/Wrapper";
 import { ProjectDetails } from "../../components/projects/ProjectDetails";
-import { UserContext } from "../../context/userContext";
 import { useProjectQuery } from "../../generated/graphql";
 
 interface ProjectTags {
@@ -40,10 +38,10 @@ const ProjectView: React.FC<unknown> = () => {
   const router = useRouter();
   const { projectId } = router.query;
   const idToInt = typeof projectId === "string" ? parseInt(projectId) : 1;
-  const { userProfile } = useContext(UserContext);
+  // const { userProfile } = useContext(UserContext);
 
   const [{ data, error, fetching }] = useProjectQuery({
-    pause: idToInt === 0, // this pauses the query on project id 0 bc ik we dont have a project id 0 but it is unneccessary
+    pause: idToInt === 0, // this pauses the query on project id 0 bc ik we dont have a project id 0 but it is unnecessary
 
     variables: {
       id: idToInt, /// this is only because i am using the route as id otherwise pass in variables like so
@@ -89,7 +87,7 @@ const ProjectView: React.FC<unknown> = () => {
                   createdAt={data?.project?.createdAt}
                   image={data?.project?.owner?.image}
                   username={data?.project?.owner.username}
-                  id={parseInt(projectId)}
+                  id={idToInt}
                   ownerId={data?.project?.ownerId}
                 ></ProjectDetails>
                 {/* {userProfile.id === projectId ?

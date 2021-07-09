@@ -2,6 +2,7 @@ import { Project } from "../db/entities/Project";
 import { Profile } from "../db/entities/Profile";
 import { Arg, Int, Mutation, Resolver, Query } from "type-graphql";
 import { getConnection } from "typeorm";
+// import { Post } from "src/db/entities/Post";
 
 @Resolver()
 export class FollowProjectResolver {
@@ -28,7 +29,7 @@ export class FollowProjectResolver {
       .relation(Profile, "followedProjects")
       .of(profileId)
       .loadMany();
-    return projects;
+    return projects
   }
 
   //? trying to fetch posts associated with project.
@@ -36,12 +37,10 @@ export class FollowProjectResolver {
   // async followedProjPosts(
   //   @Arg("profileId", () => Int) profileId: number
   //   // @Arg('projectId', () => Int) projectId: number,
-  // ): Promise<Project[]> {
-  //   const projects = await getConnection()
+  // ): Promise<Post[]> {
+  //   const posts = await getConnection()
   //     .createQueryBuilder()
-
-  //     .relation(Profile, "followedProjects")
-  //     .of(profileId);
+  //     .leftJoinAndSelect()
 
   //   // .loadMany()
 
