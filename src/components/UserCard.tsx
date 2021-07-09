@@ -128,7 +128,7 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
               Follow
             </Button>
             :
-            <></>
+            <Fragment></Fragment>
           }
         </Stack>
       </Box>

@@ -2,6 +2,8 @@ import { Box, VStack, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Project } from "../../../server/src/db/entities/Project";
 import { ProjectCard } from "../../components/projects/ProjectCard";
+import { UserCard } from "../../components/UserCard"
+import Profile from "../../models/profile";
 
 export default function SearchResults({ results }): JSX.Element {
   return (
@@ -18,7 +20,7 @@ export default function SearchResults({ results }): JSX.Element {
         {Object.values(results).some(results => results !== null) ?
           Object.keys(results).map(resultKey => {
             if (resultKey === 'Projects') {
-              const projects = results.Projects
+              const projects = results.Projects;
               if (projects) {
                 return projects.map((project: Project) =>
                   <ProjectCard
@@ -33,6 +35,16 @@ export default function SearchResults({ results }): JSX.Element {
                   />
                 )
               }
+            } if (resultKey === "Profiles") {
+              const profiles = results.Profiles;
+              return profiles.map((profile: Profile) => {
+                return (
+                  <UserCard
+                    key={profile.id + '-' + profile.username}
+                    profile={profile}
+                  />
+                )
+              })
             }
           })
           :

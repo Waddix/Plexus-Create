@@ -19,7 +19,6 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { ProjectFormBox } from "./ProjectFormBox";
-import { Wrapper } from "../forms/Wrapper";
 
 export default function Component(): JSX.Element {
   // Then inside the component body

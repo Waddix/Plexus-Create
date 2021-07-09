@@ -4,10 +4,11 @@ import {
 } from 'type-graphql';
 import { getConnection } from 'typeorm';
 import { Tag } from '../db/entities/Tag';
+import { Position } from '../db/entities/Position';
 
 
 @ObjectType() 
-class FieldError {
+export class FieldError {
   @Field()
   field: string;
 
@@ -46,7 +47,18 @@ export class TagResolver {
     .relation(Project, "tags")
     .of(projectId)
     .loadMany();
+    return tags;
+  }
 
+  @Query(() => [Tag])
+  async positionTags(
+    @Arg('positionId', () => Int) positionId: number
+  ): Promise<Tag[]> {
+    const tags = await getConnection()
+    .createQueryBuilder()
+    .relation(Position, "tags")
+    .of(positionId)
+    .loadMany();
     return tags;
   }
 
@@ -74,14 +86,24 @@ export class TagResolver {
     @Arg('tagId', () => Int) tagId: number,
     @Arg('projectId', () => Int) projectId: number,
   ): Promise<Tag | boolean> {
-
       await getConnection()
       .createQueryBuilder()
       .relation(Project, "tags")
       .of(projectId)
       .add(tagId);
-
       return true;
-    
+  }
+
+  @Mutation(() => Boolean)
+  async assignPositionTag(
+    @Arg('tagId', () => Int) tagId: number,
+    @Arg('positionId', () => Int) positionId: number,
+  ): Promise<Tag | boolean> {
+      await getConnection()
+      .createQueryBuilder()
+      .relation(Position, "tags")
+      .of(positionId)
+      .add(tagId);
+      return true;
   }
 }

@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Collapse,
+  Container,
   Divider,
   Heading,
   HStack,
@@ -18,6 +19,7 @@ import { CustomDonationInput } from "./DonationInput";
 import { ProjectTagsByID } from "./ProjectTagsByID";
 import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
+import { PositionCard } from "./Position";
 
 interface ProjectDetailsProps {
   id: number;
@@ -26,7 +28,7 @@ interface ProjectDetailsProps {
   createdAt?: string;
   updatedAt?: string;
   username?: string;
-  // email?: string,
+  email?: string;
   image?: string;
   ownerId: number | undefined;
 }
@@ -106,6 +108,18 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           <CustomDonationInput id={id}></CustomDonationInput>
         </div>
       }
+      <Container>
+        <PositionCard
+          projectId={id}
+          username={username}
+          image={image}
+        ></PositionCard>
+      </Container>
+      {/* <Divider orientation="horizontal" mt={4} />
+      <Heading fontSize="lg" mt={3} mb={4}>
+        Donate to this Project!
+      </Heading>
+      <CustomDonationInput id={id}></CustomDonationInput> */}
       <Divider orientation="horizontal" mt={4} />
       <Box>
         <Heading fontSize="lg" mt={3} mb={4}>

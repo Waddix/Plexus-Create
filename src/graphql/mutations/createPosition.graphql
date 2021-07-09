@@ -1,0 +1,14 @@
+mutation createPosition($input:PositionInput!, $projectId: Int!){
+  createPosition(input:$input, projectId:$projectId){
+    position{
+      id
+      type
+      title
+      description
+    }
+    errors{
+      field
+      message
+    }
+  }
+}
