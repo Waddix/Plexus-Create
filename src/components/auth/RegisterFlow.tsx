@@ -26,7 +26,7 @@ import { session, useSession } from "next-auth/client";
 import { useCreateProfileForUserMutation } from '../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 
-const RegisterFlow: React.FC<{}> = ({ }) => {
+const RegisterFlow: React.FC<unknown> = () => {
   // Ability to close dialog
   const { newUser, setNewUser } = useContext(UserContext);
   const closeRegisterFlowDialog = () => setNewUser(false)
@@ -39,14 +39,14 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
   const { userProfile, setUserProfile } = useContext(UserContext)
 
   // Form Fields
-  const [name, setName] = useState(userProfile.name || "");
-  const [username, setUsername] = useState(userProfile.username || "");
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [bio, setBio] = useState("");
-  const [website, setWebsite] = useState("");
-  const [tags, setTags] = useState([]);
-  const [social, setSocail] = useState({});
+  const [name, setName] = useState<string>(userProfile ? userProfile.name : "");
+  const [username, setUsername] = useState<string>(userProfile ? userProfile.username : "");
+  const [title, setTitle] = useState<string>(userProfile ? userProfile.title : "");
+  const [image, setImage] = useState<string>(userProfile ? userProfile.image : "");
+  const [bio, setBio] = useState<string>(userProfile ? userProfile.bio : "");
+  const [website, setWebsite] = useState<string>("");
+  // const [tags, setTags] = useState([]);
+  // const [social, setSocail] = useState({});
 
   // Set fields when a session is created
   useEffect(() => {
@@ -76,6 +76,9 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
     </Fragment>
   )
 
+  const [containsAt, setContainsAt] = useState<boolean>(false);
+  const [containsSpace, setContainsSpace] = useState<boolean>(false);
+
   const pages: Pages = {
     0: {
       header: "Let's create your account",
@@ -91,6 +94,10 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
         updateUsername={setUsername}
         updateTitle={setTitle}
         updateBio={setBio}
+        space={containsSpace}
+        updateSpace={setContainsSpace}
+        at={containsAt}
+        updateAt={setContainsAt}
       />,
       buttons: 'normal',
     },
@@ -202,6 +209,7 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
+                      isDisabled={containsAt || containsSpace}
                     >
                       Next
                     </Button>
@@ -225,6 +233,7 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
+                      isDisabled={containsAt || containsSpace}
                     >
                       Next
                     </Button>
@@ -254,6 +263,7 @@ const RegisterFlow: React.FC<{}> = ({ }) => {
                         handleSubmit();
                         setIsSubmitting(true);
                       }}
+                      isDisabled={containsAt || containsSpace}
                     >
                       Submit
                     </Button>

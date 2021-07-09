@@ -1,4 +1,3 @@
-// import { Users } from "../db/entities/nextauth/Users";
 import {
   Resolver,
   Query,
@@ -8,8 +7,8 @@ import {
   InputType,
   Int,
 } from "type-graphql";
-// import { getConnection } from 'typeorm';
 import { Profile } from "../db/entities/Profile";
+// import { Settings } from "../db/entities/Settings";
 
 @InputType()
 class ProfileInput {
@@ -18,6 +17,9 @@ class ProfileInput {
 
   @Field(() => Int)
   user_id: number;
+
+  // @Field(() => Settings)
+  // settings: Settings;
 
   @Field(() => String)
   name: string;
@@ -41,25 +43,64 @@ class ProfileInput {
   website: string;
 }
 
+@InputType()
+class UpdateProfileInput {
+  @Field(() => Int)
+  id: number;
+
+  @Field(() => String)
+  name: string;
+
+  @Field(() => String)
+  username: string;
+
+  @Field(() => String)
+  image: string;
+
+  @Field(() => String)
+  title: string;
+
+  @Field(() => String)
+  bio: string;
+
+  @Field(() => String)
+  website: string;
+}
+
+// @InputType()
+// class LinkSettingInput {
+//   @Field(() => Int)
+//   id!: number;
+
+//   @Field(() => Settings)
+//   settings!: Settings;
+// }
+
 @Resolver()
 export class ProfileResolver {
   @Query(() => [Profile], { nullable: true })
   getAllProfiles(): Promise<Profile[]> {
-    return Profile.find({ relations: ["user_id", "email"] });
+    return Profile.find({
+      relations: ["user_id", "email"],
+    });
   }
 
   @Query(() => Profile)
   profileLookup(
     @Arg("id", () => Int) id: number
   ): Promise<Profile | undefined> {
-    return Profile.findOne(id, {relations: ["email", "projects"]})
+    return Profile.findOne(id, {
+      relations: ["user_id", "email"],
+    });
   }
 
   @Query(() => Profile)
   findProfileID(
     @Arg("id", () => Int) id: number
   ): Promise<Profile | undefined> {
-    return Profile.findOne(id, { relations: ["user_id", "email"] });
+    return Profile.findOne(id, {
+      relations: ["user_id", "email"],
+    });
   }
 
   @Query(() => Profile)
@@ -71,6 +112,7 @@ export class ProfileResolver {
       relations: ["user_id", "email"],
     });
   }
+
   @Query(() => Profile)
   findProfileUsername(
     @Arg("username", () => String) username: string
@@ -83,6 +125,41 @@ export class ProfileResolver {
 
   @Mutation(() => Profile)
   async createProfile(@Arg("input") input: ProfileInput): Promise<Profile> {
-    return Profile.create({ ...input }).save();
+    return await Profile.create({ ...input }).save();
   }
+
+  @Mutation(() => Profile)
+  async updateProfile( @Arg("input") input: UpdateProfileInput ): Promise<Profile | undefined> {
+    const profile = await Profile.findOne({
+      where: {
+        id: input.id,
+      },
+    });
+
+    if (profile) {
+      profile.name = input.name;
+      profile.username = input.username;
+      profile.title = input.title;
+      profile.bio = input.bio;
+      profile.image = input.image;
+      profile.website = input.website;
+    }
+
+    return await profile?.save();
+  }
+
+  // @Mutation(() => Profile)
+  // async linkProfileSettings( @Arg("input") input: LinkSettingInput ): Promise<Profile | undefined> {
+  //   const profile = await Profile.findOne({
+  //     where: { id: input.id },
+  //     relations: ["user_id", "email", "settings"],
+  //   });
+
+  //   if (profile) {
+  //     profile.settings = input.settings;
+  //     return await Profile.save(profile);
+  //   } else {
+  //     return profile;
+  //   }
+  // }
 }

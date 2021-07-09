@@ -47,6 +47,7 @@ export type Mutation = {
   updatePost?: Maybe<Post>;
   deletePost: Scalars['Boolean'];
   createProfile: Profile;
+  updateProfile: Profile;
   createProject: Project;
   updateProject?: Maybe<Project>;
   deleteProject: Scalars['Boolean'];
@@ -117,6 +118,11 @@ export type MutationDeletePostArgs = {
 
 export type MutationCreateProfileArgs = {
   input: ProfileInput;
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input: UpdateProfileInput;
 };
 
 
@@ -365,6 +371,17 @@ export type Sessions = {
   expires: Scalars['DateTime'];
 };
 
+export type Settings = {
+  __typename?: 'Settings';
+  id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  profile_id: Scalars['Int'];
+  dyslexic_font: Scalars['Boolean'];
+  darkMode: Scalars['Boolean'];
+  colorScheme: Scalars['String'];
+};
+
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['Int'];
@@ -377,6 +394,16 @@ export type TagResponse = {
   __typename?: 'TagResponse';
   errors?: Maybe<Array<FieldError>>;
   tag?: Maybe<Tag>;
+};
+
+export type UpdateProfileInput = {
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  username: Scalars['String'];
+  image: Scalars['String'];
+  title: Scalars['String'];
+  bio: Scalars['String'];
+  website: Scalars['String'];
 };
 
 export type Users = {
@@ -516,6 +543,19 @@ export type FollowUserMutationVariables = Exact<{
 export type FollowUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'followUser'>
+);
+
+export type UpdateProfileMutationVariables = Exact<{
+  input: UpdateProfileInput;
+}>;
+
+
+export type UpdateProfileMutation = (
+  { __typename?: 'Mutation' }
+  & { updateProfile: (
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'image' | 'website'>
+  ) }
 );
 
 export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -941,6 +981,23 @@ export const FollowUserDocument = gql`
 
 export function useFollowUserMutation() {
   return Urql.useMutation<FollowUserMutation, FollowUserMutationVariables>(FollowUserDocument);
+};
+export const UpdateProfileDocument = gql`
+    mutation UpdateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input) {
+    id
+    name
+    username
+    title
+    bio
+    image
+    website
+  }
+}
+    `;
+
+export function useUpdateProfileMutation() {
+  return Urql.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument);
 };
 export const AllTagsDocument = gql`
     query allTags {

@@ -1,10 +1,10 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import { useGetFollowedUsersQuery } from "../../generated/graphql";
-import { UserCard } from "../UserCard";
+import UserCard from "../UserCard";
 
-export const FollowingFeed: React.FC = () => {
+const FollowingFeed = (): JSX.Element => {
   const { userProfile } = useContext(UserContext);
   const { id } = userProfile;
 
@@ -34,7 +34,13 @@ export const FollowingFeed: React.FC = () => {
           </SimpleGrid >
         }
       </div>
-
+    )
+  } else {
+    return (
+      <Fragment>
+      </Fragment>
     )
   }
 }
+
+export default FollowingFeed

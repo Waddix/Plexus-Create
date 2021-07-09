@@ -20,15 +20,17 @@ import {
   AlertTitle,
   CloseButton,
   HStack,
-  ScaleFade,
+  VStack,
+  Heading,
+  Text
 } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/client'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
 import RegisterFlow from './RegisterFlow';
+import { FaUserCircle, FaCog } from "react-icons/fa";
+import type { AppProps } from 'next/app'
 
 
 const UserLinks = ['Profile'];
@@ -36,24 +38,21 @@ const UserLinks = ['Profile'];
 const PopoverLink = (link: string): JSX.Element => (
   <Link
     key={link}
-    px={2}
-    py={1}
     rounded={'md'}
+    py={1}
     _hover={{
       textDecoration: 'none',
       bg: useColorModeValue('orange.200', 'orange.700'),
     }}
     href={`/${link.toLowerCase()}`}
+    w="100%"
+    textAlign="center"
   >
     {link}
   </Link>
 );
 
-export const loggedOutIcon = (): JSX.Element => {
-  return <FontAwesomeIcon icon={faUserCircle} size='3x' />
-}
-
-const NextAuth: React.FC<{}> = ({ }) => {
+const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
   // Next auth session
   const [session] = useSession();
   // User from next auth session
@@ -179,20 +178,26 @@ const NextAuth: React.FC<{}> = ({ }) => {
         </HStack>
       }
       {/** POPOVER BOX */}
-      <PopoverContent margin-top='0.72rem' marginRight={'0.3rem'} bg={useColorModeValue('gray.100', 'gray.900')} borderColor={useColorModeValue('orange.200', 'orange.700')}>
+      <PopoverContent
+        zIndex="popover"
+        mt='0.87rem'
+        mr='0.3rem'
+        bg={useColorModeValue('gray.100', 'gray.900')}
+        borderColor={useColorModeValue('orange.200', 'orange.700')}
+      >
         <Fragment>
           <PopoverHeader>
             {session ?
               <Flex justifyContent={'space-between'} alignItems={'center'}>
                 {loadingProfile ?
                   <Box justifyContent="flex-start">
-                    <p><small>Signed in as</small></p>
+                    <Text fontSize="sm">Signed in as</Text>
                     <Skeleton height="16px" />
                   </Box>
                   :
                   <Box justifyContent="flex-start" width="100%">
-                    <p><small>Signed in as</small></p>
-                    <p><strong>{userProfile.username || "Failed getting profile"}</strong></p>
+                    <Text fontSize="sm">Signed in as</Text>
+                    <Heading size="md">{userProfile.username || "Failed getting profile"}</Heading>
                   </Box>
                 }
                 <Box justifyContent="flex-end">
@@ -206,25 +211,27 @@ const NextAuth: React.FC<{}> = ({ }) => {
                         src={userProfile.image}
                       />
                       :
-                      <Icon as={loggedOutIcon} />
+                      <Icon boxSize={10} as={FaUserCircle} />
                   }
                 </Box>
               </Flex>
               :
               <Flex alignItems={'center'} justifyContent={'space-between'} >
                 <Box>
-                  <p><strong>{"You're not signed in"}</strong></p>
+                <Heading size="md">You're not signed in</Heading>
                 </Box>
                 <Box>
-                  <Icon as={loggedOutIcon} />
+                  <Icon boxSize={10} as={FaUserCircle} />
                 </Box>
               </Flex>
             }
           </PopoverHeader>
 
-          <PopoverBody>
-            {session ?
-              <Fragment>
+          {session &&
+            <PopoverBody>
+              <VStack
+                mx={2}
+              >
                 {UserLinks.map((link) => {
                   if (loadingProfile) {
                     return <Skeleton height='30px' />
@@ -232,73 +239,110 @@ const NextAuth: React.FC<{}> = ({ }) => {
                     return PopoverLink(link)
                   }
                 })}
-              </Fragment>
-              :
-              null
-            }
-            <Button
-              size="sm"
-              rounded={'md'}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('orange.200', 'orange.700'),
-              }}
-              onClick={toggleColorMode}
-            >
-              {colorMode === "light" ? "Dark Mode" : "Light Mode"}
-            </Button>
-          </PopoverBody>
+              </VStack>
+            </PopoverBody>
+          }
 
           <PopoverFooter>
-            {session ?
-              <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
-                }}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
+            <Flex
+              justifyContent="space-between"
+
+            >
+              <VStack
+                w="100%"
+                alignItems="stretch"
+                mx={2}
               >
-                Sign Out
-              </Button>
-              :
-              <Link
-                px={2}
-                py={1}
-                rounded={'md'}
-                href={`/api/auth/signin`}
+                {session ?
+                  <Fragment>
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        signOut()
+                      }}
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                    >
+                      Sign Out
+                    </Button>
+                    <Link
+                      rounded={'md'}
+                      href={`/create-project`}
+                    >
+                      <Button
+                        _hover={{
+                          textDecoration: 'none',
+                          bg: useColorModeValue('orange.200', 'orange.700'),
+                        }}
+                      >
+                        Create Project
+                      </Button>
+                    </Link>
+                  </Fragment>
+                  :
+                  <Link
+                    rounded={'md'}
+                    href={`/api/auth/signin`}
+                  >
+                    <Button
+                      w="100%"
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                }
+              </VStack>
+
+              <VStack
+                w="100%"
+                alignItems="stretch"
+                mx={2}
               >
                 <Button
+                  size="md"
+                  rounded={'md'}
                   _hover={{
                     textDecoration: 'none',
                     bg: useColorModeValue('orange.200', 'orange.700'),
                   }}
+                  onClick={toggleColorMode}
                 >
-                  Sign In
+                  {colorMode === "light" ? "Dark Mode" : "Light Mode"}
                 </Button>
-              </Link>
-            }
-            <Flex>
-              <Link
-                px={2}
-                py={1}
-                rounded={'md'}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-                href={`/create-project`}
-              >
-                New Project
-              </Link>
+                <Box
+                  d="inline-flex"
+                  justifyContent="end"
+                >
+                  {session &&
+                    <Link
+                      rounded={'md'}
+                      href={`/settings/profile`}
+                    >
+                      <Button
+                        _hover={{
+                          textDecoration: 'none',
+                          bg: useColorModeValue('orange.200', 'orange.700'),
+                        }}
+                        variant="ghost"
+                      >
+                        <Icon size={8} as={FaCog} />
+                      </Button>
+                    </Link>
+                  }
+                </Box>
+              </VStack>
             </Flex>
           </PopoverFooter>
         </Fragment>
       </PopoverContent>
 
-      <RegisterFlow />
+      <RegisterFlow pageProps={pageProps} />
     </Fragment>
   )
 }

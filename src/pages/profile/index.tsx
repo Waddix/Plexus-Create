@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Flex, SimpleGrid } from '@chakra-ui/react'
-import { UserCard } from "../../components/UserCard";
+import UserCard from "../../components/UserCard";
 import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
 import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useGetProjectsByUserQuery } from "../../generated/graphql";
 
-function ProfileView() {
+const ProfileView: React.FC<unknown> = () => {
   // const { projectsFollowing } = useContext(UserContext);
   const { userProfile } = useContext(UserContext);
   const { id, username, image } = userProfile;

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 // import { Field, ObjectType } from "type-graphql";
 // import { Column, JoinColumn, ManyToOne, Entity } from "typeorm";
 
@@ -26,3 +27,5 @@
 //   followed!: Promise<Profile>;
 
 // }
+
+export default {};
