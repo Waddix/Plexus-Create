@@ -39,4 +39,15 @@ export class FollowUserResolver {
       .add(profileId_2);
       return true;
   }
+
+  
+  // @Query(() => Profile, { nullable: true })
+  // async getFollowedUsersPosts(
+  //   @Arg('profileId', () => Int) profileId: number,
+  //   // @Arg('projectId', () => Int) projectId: number,
+  // ): Promise<Profile| void> {
+  //   const user = Profile.findOne({id: profileId}, { relations: ["followedProjects"] });
+  //   return user;
+  // }
+
 }

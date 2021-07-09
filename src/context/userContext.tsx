@@ -46,15 +46,15 @@ function UserContextProvider({ children }: { children: any }): any {
   const [userProfile, setUserProfile] = useState<Profile | Record<string, never>>({});
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
-  const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
+  // const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState<Tag[]>([])
   const [loadingProfile, setLoadingProfile] = useState<boolean>(false);
   const [newUser, setNewUser] = useState<boolean>(false);
   const [, followP] = useFollowProjectMutation();
-  const [, followU] = useFollowUserMutation();
-  const [, getFollowProj] = useGetFollowedProjectsQuery();
-  const [, getFollowUsers] = useGetFollowedUsersQuery();
-  const [userSettings, setUserSettings] = useState<userSettings | null>(null)
+  // const [, followU] = useFollowUserMutation();
+  // const [, getFollowProj] = useGetFollowedProjectsQuery();
+  // const [, getFollowUsers] = useGetFollowedUsersQuery();
+  // const [userSettings, setUserSettings] = useState<userSettings | null>(null)
 
   // const [{ data: allProjects, error }] = useProjectsQuery();
 
@@ -74,15 +74,15 @@ function UserContextProvider({ children }: { children: any }): any {
     // })
 
 
-  const followUser = async (userId: number) => {
-    await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
-  }
+  // const followUser = async (userId: number) => {
+  //   await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
+  // }
 
  //** Having issues getting the following functions to work. */
  //** May refactor to use these later so we can manage state and api calls from here */
  //** For now, just calling graphql hooks from components  */
-  // const getProjectsFollowing = async () => {
-  //   const projects = await getFollowProj({
+  // const getProjectsFollowing = () => {
+  //   const projects = getFollowProj({
   //     variables: {
   //       profileId: userProfile.id
   //     }
@@ -111,9 +111,9 @@ function UserContextProvider({ children }: { children: any }): any {
     setLoadingProfile,
     newUser,
     setNewUser,
-    followUser,
-    userSettings,
-    setUserSettings
+    // followUser,
+    // getProjectsFollowing,
+    // getUsersFollowing
   }
 
   // const sum = (x: number, y: number): number => x + y;

@@ -46,7 +46,7 @@ export default function Component(): JSX.Element {
           </GridItem>
           <GridItem mt={[5, null, 0]} colSpan={{ md: 2 }}>
             <chakra.form
-             
+
               method="POST"
               shadow="base"
               rounded={[null, "md"]}
@@ -73,31 +73,31 @@ export default function Component(): JSX.Element {
                     </FormHelperText>
                   </FormControl>
                 </div>
-                    <SimpleGrid columns={3} spacing={6}>
-                      <FormControl as={GridItem} colSpan={[3, 2]}>
-                        <FormLabel
-                          fontSize="sm"
-                          fontWeight="md"
-                          color={useColorModeValue("gray.700", "gray.50")}
-                        >
-                          Website
-                        </FormLabel>
-                        <InputGroup size="sm">
-                          <InputLeftAddon
-                            children="http://"
-                            bg={useColorModeValue("gray.50", "gray.800")}
-                            color={useColorModeValue("gray.500", "gay.50")}
-                            rounded="md"
-                          />
-                          <Input
-                            type="tel"
-                            placeholder="www.example.com"
-                            focusBorderColor="brand.400"
-                            rounded="md"
-                          />
-                        </InputGroup>
-                      </FormControl>
-                    </SimpleGrid>
+                <SimpleGrid columns={3} spacing={6}>
+                  <FormControl as={GridItem} colSpan={[3, 2]}>
+                    <FormLabel
+                      fontSize="sm"
+                      fontWeight="md"
+                      color={useColorModeValue("gray.700", "gray.50")}
+                    >
+                      Website
+                    </FormLabel>
+                    <InputGroup size="sm">
+                      <InputLeftAddon
+                        children="http://"
+                        bg={useColorModeValue("gray.50", "gray.800")}
+                        color={useColorModeValue("gray.500", "gay.50")}
+                        rounded="md"
+                      />
+                      <Input
+                        type="tel"
+                        placeholder="www.example.com"
+                        focusBorderColor="brand.400"
+                        rounded="md"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </SimpleGrid>
                 <FormControl>
                   <FormLabel
                     fontSize="sm"

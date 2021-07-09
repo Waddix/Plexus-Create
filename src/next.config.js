@@ -2,7 +2,7 @@ module.exports = {
   reactStrictMode: true,
   distDir: 'dist',
   images: {
-    domains: ['localhost']
+    domains: ['localhost', 'res.cloudinary.com']
   }
   // images: {
   //   loader: 'cloudinary',

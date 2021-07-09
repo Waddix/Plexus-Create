@@ -6,6 +6,7 @@ import { Column, Entity, ManyToOne, JoinTable, ManyToMany, OneToMany } from "typ
 // import { Follow } from "./Follow";
 import { Tag } from "./Tag";
 import { Position } from "./Position";
+import { Post } from "./Post";
 
 @ObjectType()
 @Entity()
@@ -25,6 +26,10 @@ export class Project extends Base {
   @Field(() => Profile)
   @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true})
   owner!: Profile;
+
+  @Field(() => [Post], {nullable: true})
+  @OneToMany(() => Post, (post: Post) => post.project)
+  posts: Promise<Post[]>;
 
   // // //* Allow users to follow the project by establishing jointable with Profile via Follow entity
   // @Field()
