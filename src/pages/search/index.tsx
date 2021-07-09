@@ -30,7 +30,15 @@ function Search(): JSX.Element {
     setShowFilterSelect(!showFilterSelect);
   }
 
-  const [filters, setFilters] = useState({
+  interface Filters {
+    "Profiles": true,
+    // Tags: true,
+    "Projects": true,
+    // Campaigns: true,
+    // Teams: true,
+  }
+
+  const [filters, setFilters] = useState<Filters>({
     Profiles: true,
     // Tags: true,
     Projects: true,
@@ -80,8 +88,8 @@ function Search(): JSX.Element {
     let filtered: [[string, Profile | null] | [string, Project | null]];
 
     interface Filtered {
-      Profiles: Profile[] | null,
-      Projects: Project[] | null,
+      "Profiles": Profile[] | null,
+      "Projects": Project[] | null,
     }
 
     const filterToData: Filtered = {
