@@ -78,9 +78,9 @@ export class Profile extends Base {
   @Column({ type: "text", nullable: true })
   stripeId: string;
 
-  @Field(() => [Project])
+  @Field(() => [Project], {nullable: true})
   @OneToMany(() => Project, (p: Project) => p.owner)
-  projects: Project[];
+  projects: Promise<Project[]>;
 
   @Field(() => [Post], {nullable: true})
   @OneToMany(() => Post, (post: Post) => post.owner)
