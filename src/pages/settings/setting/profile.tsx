@@ -120,8 +120,14 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
 
   // Handle file upload to cloudinary
   const handleUpload = (file: React.SetStateAction<string> | File): void => {
-    if (file) {
+    const profilePreset = process.env.CLOUDINARY_PROFILE_PRESET
 
+    if (file && profilePreset) {
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("upload_preset", profilePreset)
+
+      // Make request here
     }
   }
 
