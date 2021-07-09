@@ -31,9 +31,9 @@ function Search(): JSX.Element {
   }
 
   interface Filters {
-    "Profiles": true,
+    "Profiles": boolean,
     // Tags: true,
-    "Projects": true,
+    "Projects": boolean,
     // Campaigns: true,
     // Teams: true,
   }
