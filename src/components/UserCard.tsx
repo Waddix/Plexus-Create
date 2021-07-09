@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect, useRef, Fragment } from 'react';
+import React from 'react';
 
-import { UserContext } from '../context/userContext'
+// import { UserContext } from '../context/userContext'
 import {
   Heading,
   Avatar,
@@ -13,16 +13,21 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Profile, useFollowUserMutation, useGetFollowedUsersQuery, useProfileLookupQuery } from '../generated/graphql';
+import { Profile, useFollowUserMutation} from '../generated/graphql';
 
-// interface profileProps {
-//   currId: number,
-//   profile: Profile
-// }
+interface profileProps {
+  id: number,
+  username: string,
+  bio: string,
+  image: string
+}
+interface userCardProps {
+  currId: number,
+  profile: profileProps
+}
 
-const UserCard = (profile: Profile, currId: number): JSX.Element => {
-  const { id, name, username, bio, website, image } = profile;
-  console.log("user in UserCard ===>", profile)
+export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
+  const { id, username, bio, image } = profile;
   const [, followUser] = useFollowUserMutation();
   return (
     <Center py={6}>
@@ -34,32 +39,36 @@ const UserCard = (profile: Profile, currId: number): JSX.Element => {
         rounded={'lg'}
         p={6}
         textAlign={'center'}>
-        <Avatar
-          size={'xl'}
-          src={
-            image
-          }
-          alt={'Avatar Alt'}
-          mb={4}
-          pos={'relative'}
-          _after={{
-            content: '""',
-            w: 4,
-            h: 4,
-            bg: 'green.300',
-            border: '2px solid white',
-            rounded: 'full',
-            pos: 'absolute',
-            bottom: 0,
-            right: 3,
-          }}
-        />
-        <Heading fontSize={'2xl'} fontFamily={'body'}>
-          {name}
-        </Heading>
-        <Text fontWeight={600} color={'gray.500'} mb={4}>
-          {username}
-        </Text>
+        <Link href={`/profile/${id}`}>
+          <Avatar
+            size={'xl'}
+            src={
+              image
+            }
+            alt={'Avatar Alt'}
+            mb={4}
+            pos={'relative'}
+            _after={{
+              content: '""',
+              w: 4,
+              h: 4,
+              bg: 'green.300',
+              border: '2px solid white',
+              rounded: 'full',
+              pos: 'absolute',
+              bottom: 0,
+              right: 3,
+            }}
+          />
+          <Heading fontSize={'2xl'} fontFamily={'body'}>
+            { }
+          </Heading>
+          <Text fontWeight={600} color={'gray.500'} mb={4}>
+            {username}
+          </Text>
+
+        </Link>
+
         <Text
           textAlign={'center'}
           color={useColorModeValue('gray.700', 'gray.400')}
@@ -119,7 +128,8 @@ const UserCard = (profile: Profile, currId: number): JSX.Element => {
               Follow
             </Button>
             :
-            <Fragment></Fragment>
+            <></>
+            // <Fragment></Fragment>
           }
         </Stack>
       </Box>

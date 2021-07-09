@@ -13,6 +13,7 @@ import { Base } from "./Base";
 // import { FollowProject } from "./FollowProject";
 // import { FollowUser } from "./FollowUser";
 import { Users } from "./nextauth/Users";
+import { Post } from "./Post";
 import { Project } from "./Project";
 // import { Settings } from "./Settings";
 
@@ -81,15 +82,20 @@ export class Profile extends Base {
   @OneToMany(() => Project, (p: Project) => p.owner)
   projects: Project[];
 
+  @Field(() => [Post], {nullable: true})
+  @OneToMany(() => Post, (post: Post) => post.owner)
+  posts: Promise<Post[]>;
+
   //* self referencing many to many table for creating follow relationship
   @ManyToMany(() => Profile, (user) => user.following)
   @JoinTable()
   followers: Profile[];
 
-  @ManyToMany(() => Profile, (user) => user.followers)
+  @Field(() => [Profile])
+  @ManyToMany(() => Profile, user => user.followers)
   following: Profile[];
 
-  // @Field(() => [Project])
+  @Field(() => [Project])
   @ManyToMany(() => Project)
   @JoinTable()
   followedProjects: Promise<Project[]>;
