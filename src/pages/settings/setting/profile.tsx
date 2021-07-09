@@ -23,8 +23,9 @@ import {
   InputLeftAddon,
   Textarea,
   Link,
+  Image,
 } from "@chakra-ui/react"
-import React, { Fragment, useContext, useEffect, useState } from "react"
+import React, { Fragment, SetStateAction, useContext, useEffect, useState } from "react"
 import { UserContext } from "../../../context/userContext"
 import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
 import { useUpdateProfileMutation } from '../../../generated/graphql'
@@ -107,12 +108,13 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
       })
   }
 
-  const [file, setFile] = useState<string>("")
+  const [file, setFile] = useState<SetStateAction<string> | File | null>(null)
 
   // Handle uploading images
-  const handleImageInput = (files: FileList | React.SetStateAction<string>[] | null) => {
+  const handleImageInput = (files: FileList | SetStateAction<string>[] | null) => {
     if (files) {
-      setFile(files[0].name);
+      console.info(files[0])
+      setFile(files[0]);
     }
   }
 
@@ -147,15 +149,15 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
           }
 
           <form>
-            <chakra.label
-              for="image"
-              cursor="pointer"
-              rounded="md"
-              fontSize="md"
-              pos="relative"
-              textAlign="center"
-            >
-              <Fragment>
+            <Fragment>
+              <chakra.label
+                for="image"
+                cursor="pointer"
+                rounded="md"
+                fontSize="md"
+                pos="relative"
+                textAlign="center"
+              >
                 <FormLabel
                   htmlFor="image"
                   bg="whiteAlpha.200"
@@ -180,59 +182,66 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 <VisuallyHidden>
                   <Input isDisabled={loadingProfile} type="file" id="image" onChange={(e) => handleImageInput(e.target.files)} />
                 </VisuallyHidden>
-                {file &&
-                  <Fragment>
-                    <Text color="gray.300">{file}</Text>
-                    <HStack my={2} alignContent="center" justifyContent="center">
-                      <Button
-                        _hover={{
-                          textDecoration: 'none',
-                          bg: useColorModeValue('orange.200', 'orange.700'),
-                        }}
-                        variant="ghost"
-                        px={2}
-                        py={2}
-                        mr={2}
-                        size="sm"
-                        fontSize='1rem'
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setIsSubmitting(true);
-                        }}
-                        isLoading={isSubmitting}
-                      >
-                        <Icon
-                          as={FaCheckCircle}
-                        />
-                      </Button>
-                      <Button
-                        _hover={{
-                          textDecoration: 'none',
-                          bg: useColorModeValue('orange.200', 'orange.700'),
-                        }}
-                        variant="ghost"
-                        px={2}
-                        py={2}
-                        mr={2}
-                        size="sm"
-                        fontSize='1rem'
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setFile("")
-                        }}
-                        isDisabled={isSubmitting}
-                      >
-                        <Icon
-                          as={FaTimesCircle}
-                        />
-                      </Button>
-                    </HStack>
-                  </Fragment>
-                }
-              </Fragment>
-            </chakra.label>
+              </chakra.label>
+              {file &&
+                <Fragment>
+                  <VStack my={2} alignContent="center" justifyContent="center">
+                    <Avatar
+                      src={URL.createObjectURL(file)}
+                      name={file.name}
+                      size="xl"
+                    />
+                    <Text color="gray.300">{file.name}</Text>
+                  </VStack>
+                  <HStack my={2} alignContent="center" justifyContent="center">
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsSubmitting(true);
+                      }}
+                      isLoading={isSubmitting}
+                    >
+                      <Icon
+                        as={FaCheckCircle}
+                      />
+                    </Button>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFile("")
+                      }}
+                      isDisabled={isSubmitting}
+                    >
+                      <Icon
+                        as={FaTimesCircle}
+                      />
+                    </Button>
+                  </HStack>
+                </Fragment>
+              }
+            </Fragment>
           </form>
         </Box>
 
