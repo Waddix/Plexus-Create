@@ -31,7 +31,7 @@ import { useUpdateProfileMutation } from '../../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 import { useSession } from 'next-auth/client'
 
-const Profile: React.FC<unknown> = ():JSX.Element => {
+const Profile: React.FC<unknown> = (): JSX.Element => {
   // Next auth session
   const [session] = useSession();
 
@@ -41,11 +41,6 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
   const { loadingProfile } = useContext(UserContext)
 
   const { id, image, name, username, title, bio, website } = userProfile
-
-  // Handle uploading images
-  const handleImageUpload = () => {
-    return;
-  }
 
   // Which fields are being edited
   const [nameEdit, setNameEdit] = useState<boolean>(false);
@@ -112,6 +107,15 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
       })
   }
 
+  const [file, setFile] = useState<string>("")
+
+  // Handle uploading images
+  const handleImageInput = (files: FileList | React.SetStateAction<string>[] | null) => {
+    if (files) {
+      setFile(files[0].name);
+    }
+  }
+
   return session ? (
     <VStack
       w="100%"
@@ -142,7 +146,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
               <Icon boxSize={10} as={FaUserCircle} />
           }
 
-          <form onSubmit={handleImageUpload}>
+          <form>
             <chakra.label
               for="image"
               cursor="pointer"
@@ -160,9 +164,11 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                   px={2}
                   py={2}
                   mt={4}
+                  mx="auto"
                   textAlign="center"
                   _hover={{
                     bg: useColorModeValue("orange.200", "orange.700"),
+                    cursor: loadingProfile ? "not-allowed" : "pointer"
                   }}
                 >
                   <Skeleton
@@ -172,8 +178,11 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                   </Skeleton>
                 </FormLabel>
                 <VisuallyHidden>
-                  <Input type="file" id="image" />
+                  <Input isDisabled={loadingProfile} type="file" id="image" onChange={(e) => handleImageInput(e.target.files)} />
                 </VisuallyHidden>
+                {file &&
+                  <Text mb={4} color="gray.300">{file}</Text>
+                }
               </Fragment>
             </chakra.label>
           </form>
