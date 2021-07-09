@@ -26,7 +26,7 @@ import type { AppProps } from 'next/app'
 
 const Links = ['Home', 'Projects', 'Search'];
 
-const NavLink = (link: string | JSX.Element): JSX.Element => (
+const NavLink = (link: string): JSX.Element => (
   <Link
     key={link}
     px={2}
@@ -42,7 +42,7 @@ const NavLink = (link: string | JSX.Element): JSX.Element => (
   </Link>
 );
 
-function Nav({ pageProps }: AppProps): JSX.Element {
+function Nav(pageProps: AppProps): JSX.Element {
   // Session
   const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -152,7 +152,7 @@ function Nav({ pageProps }: AppProps): JSX.Element {
                     }
                   </Button>
                 </PopoverTrigger>
-                <NextAuth pageProps={pageProps} />
+                <NextAuth {...pageProps} />
               </Popover>
             </Box>
           </Flex>
