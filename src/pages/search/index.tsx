@@ -31,9 +31,9 @@ function Search(): JSX.Element {
   }
 
   interface Filters {
-    "Profiles": boolean,
+    Profiles: boolean,
     // Tags: true,
-    "Projects": boolean,
+    Projects: boolean,
     // Campaigns: true,
     // Teams: true,
   }
@@ -46,15 +46,20 @@ function Search(): JSX.Element {
     // Teams: true,
   })
 
+  interface Results {
+    Profiles: Profile[] | null,
+    Projects: Project[] | null,
+  }
+
   // Results of the search
-  const [results, setResults] = useState({
+  const [results, setResults] = useState<Results>({
     Profiles: null,
     Projects: null,
   });
 
-  const [initialData, setInitialData] = useState({
-    Profiles: [],
-    Projects: [],
+  const [initialData, setInitialData] = useState<Results>({
+    Profiles: null,
+    Projects: null,
   });
 
   // Fetch initial content //
@@ -81,16 +86,19 @@ function Search(): JSX.Element {
       }))
     }
   }, [projectsData, projectsError, projectsFetching])
-
+  
+  interface Filtered {
+    Profiles: Profile[] | null,
+    Projects: Project[] | null,
+  }
 
   // Filter the results
-  const filterResults = (filters: Filters) => {
-    let filtered: [[string, Profile | null] | [string, Project | null]];
+  const filterResults = (filters: Filters): Filtered => {
 
-    interface Filtered {
-      "Profiles": Profile[] | null,
-      "Projects": Project[] | null,
-    }
+    const filtered: Filtered = {
+      Profiles: null,
+      Projects: null,
+    };
 
     const filterToData: Filtered = {
       Profiles: initialData.Profiles,
@@ -101,18 +109,10 @@ function Search(): JSX.Element {
     for (let filter in filters) {
       if (filters[filter]) {
         filterToData[filter].map((results) => {
-          if (!filtered) {
-            filtered = [[filter, results]]
-          } else {
-            filtered.push([filter, results])
+          if (results.length) {
+            filtered[filter] = results
           }
         })
-      } else if (!filters[filter]) {
-        if (!filtered) {
-          filtered = [[filter, null]]
-        } else {
-          filtered.push([filter, null])
-        }
       }
     }
 
@@ -278,26 +278,23 @@ function Search(): JSX.Element {
   const handleSearch = (query: string): void => {
     // Get the filtered results
     const filtered = filterResults(filters);
-    interface Results {
-      Projects: Project[] | null,
-      Profiles: Profile[] | null,
-      // Posts
-      // Teams:
-      // Campaigns
-    }
 
     const searchResults: Results = {
       Projects: null,
       Profiles: null,
     };
 
-    for (let i = 0; i < filtered.length; i++) {
-      if (filtered[i][0] === 'Profiles') {
-        const profiles = searchProfile(filtered[i][1], query);
-        searchResults.Profiles = profiles.profileResults;
-      } else if (filtered[i][0] === 'Projects') {
-        const projects = searchProjects(filtered[i][1], query);
-        searchResults.Projects = projects.projectResults;
+    for (let filter in filtered) {
+      if (filtered[filter]) {
+        const results = filtered[filter];
+        if (filter === "Projects") {
+          const projects = searchProjects(results, query);
+          searchResults.Projects = projects.projectResults;
+        } else if (filter === "Profiles") {
+          const profiles = searchProfile(results, query);
+          console.log('query profiles');
+          searchResults.Profiles = profiles.profileResults;
+        }
       }
     }
 

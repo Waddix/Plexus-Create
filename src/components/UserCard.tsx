@@ -13,7 +13,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Profile, useFollowUserMutation} from '../generated/graphql';
+import { Profile, useFollowUserMutation } from '../generated/graphql';
 
 interface profileProps {
   id: number,
@@ -21,9 +21,19 @@ interface profileProps {
   bio: string,
   image: string
 }
+
+interface ProfileSearchProps {
+  bio: string
+  id: number
+  image: string
+  name: string
+  title: string
+  username: string
+  website: string
+}
 interface userCardProps {
   currId: number,
-  profile: profileProps
+  profile: profileProps | ProfileSearchProps
 }
 
 export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {

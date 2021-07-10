@@ -39,12 +39,15 @@ function SearchResults({ results, fetching }): JSX.Element {
               const profiles = results.Profiles;
               if (profiles) {
                 return profiles.map((profile: Profile) => {
-                  return (
-                    <UserCard
-                      key={profile.id + '-' + profile.username}
-                      profile={profile}
-                    />
-                  )
+                  if (profile.name) {
+                    return (
+                      <UserCard
+                        key={profile.id + '-' + profile.username}
+                        profile={profile}
+                        currId={profile.id}
+                      />
+                    )
+                  }
                 })
               }
             }
