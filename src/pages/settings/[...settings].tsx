@@ -26,7 +26,7 @@ import Accessibility from "../../components/setting/accessibility";
 import Theme from "../../components/setting/theme";
 import type { AppProps } from 'next/app'
 
-const Settings = ({pageProps}: AppProps): JSX.Element => {
+const Settings = ({ pageProps }: AppProps): JSX.Element => {
   // Be able to tell which settings is being accessed
   const router = useRouter();
   const { settings } = router.query;
@@ -98,7 +98,7 @@ const Settings = ({pageProps}: AppProps): JSX.Element => {
         >
           <NavItem icon={FaUser}>Profile</NavItem>
         </Link>
-        <Link
+        {/* <Link
           href='/settings/following'
           _hover={{
             textDecoration: 'none',
@@ -121,7 +121,7 @@ const Settings = ({pageProps}: AppProps): JSX.Element => {
           }}
         >
           <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
-        </Link>
+        </Link> */}
         <Link
           href='/settings/theme'
           _hover={{
@@ -157,6 +157,8 @@ const Settings = ({pageProps}: AppProps): JSX.Element => {
           aria-label="Settings Navigation"
           overflowX="auto"
           bg={useColorModeValue("gray.50", "gray.700")}
+          justifyContent="center"
+          alignContent="center"
         >
           <Link
             href='/settings/profile'
@@ -166,7 +168,7 @@ const Settings = ({pageProps}: AppProps): JSX.Element => {
           >
             <NavItem icon={FaUser}>Profile</NavItem>
           </Link>
-          <Link
+          {/* <Link
             href='/settings/following'
             _hover={{
               textDecoration: 'none',
@@ -189,7 +191,7 @@ const Settings = ({pageProps}: AppProps): JSX.Element => {
             }}
           >
             <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
-          </Link>
+          </Link> */}
           <Link
             href='/settings/theme'
             _hover={{
@@ -205,7 +207,7 @@ const Settings = ({pageProps}: AppProps): JSX.Element => {
         <Box as="main" p="4">
           {(settings && settings.length > 0) &&
             settings[0] === 'profile' &&
-            <Profile pageProps={pageProps}/>
+            <Profile pageProps={pageProps} />
           }
           {(settings && settings.length > 0) &&
             settings[0] === 'following' &&

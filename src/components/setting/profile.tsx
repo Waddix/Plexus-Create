@@ -482,7 +482,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 Username:
               </Heading>
             </Flex>
-            <Flex
+            {/* <Flex
               flexDirection="row"
               justifyContent="start"
               alignContent="center"
@@ -564,7 +564,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
               <Heading size="md">
                 Title:
               </Heading>
-            </Flex>
+            </Flex> */}
           </VStack>
           <Spacer />
           <VStack
@@ -646,7 +646,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 }
               </Text>
             </Skeleton>
-            <Skeleton
+            {/* <Skeleton
               isLoaded={!loadingProfile}
             >
               <Text>
@@ -671,7 +671,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       "No Title Set"
                 }
               </Text>
-            </Skeleton>
+            </Skeleton> */}
           </VStack>
         </Flex >
       </Flex >
