@@ -103,7 +103,7 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
   // User registration
   const { newUser, setNewUser } = useContext(UserContext);
 
-  const [failAlert, setFailAlert] = useState(false);
+  const [failAlert, setFailAlert] = useState<boolean>(false);
 
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {

@@ -168,7 +168,7 @@ const RegisterFlow: React.FC<unknown> = () => {
           position='absolute'
           left='0'
           top='0'
-          zIndex='9999'
+          zIndex='banner'
         >
           <Alert
             d='flex'

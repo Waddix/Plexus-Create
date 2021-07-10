@@ -183,7 +183,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
             :
             image.length > 0 ?
               < Avatar
-                name="userProfile.name"
+                name={userProfile.name}
                 src={image}
                 size="xl"
               />
