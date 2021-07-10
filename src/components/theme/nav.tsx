@@ -18,11 +18,10 @@ import {
   Heading,
   Collapse,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { UserContext } from '../../context/userContext';
-import { FaUserCircle, FaSearch } from "react-icons/fa";
+import { FaUserCircle, FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import type { AppProps } from 'next/app'
 
 const Links = ['Home', 'Projects', 'Search'];
@@ -52,6 +51,24 @@ function Nav(pageProps: AppProps): JSX.Element {
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
   const { loadingProfile } = useContext(UserContext)
+
+  // Hamburber Icons
+  const close = (): JSX.Element => {
+    return (
+      <Icon
+        as={FaTimes}
+        boxSize={5}
+      />
+    )
+  }
+
+  const bars = (): JSX.Element => {
+    return (
+      <Icon
+        as={FaBars}
+      />
+    )
+  }
 
   return (
     <Fragment>
@@ -90,7 +107,7 @@ function Nav(pageProps: AppProps): JSX.Element {
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <IconButton
               size={'md'}
-              icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+              icon={isOpen ? close() : bars()}
               aria-label={'Open Menu'}
               display={{ md: 'none' }}
               onClick={isOpen ? onClose : onOpen}
