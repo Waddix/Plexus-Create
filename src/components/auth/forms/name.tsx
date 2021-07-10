@@ -101,10 +101,10 @@ function Name({
           }
         </FormControl>
       </Box>
-      <Box mt={7}>
+      {/* <Box mt={7}>
         <FormLabel htmlFor="title">Your Title</FormLabel>
         <Input onChange={(e) => updateTitle(e.target.value)} id="title" placeholder={"Fullstack Web Developer"} />
-      </Box>
+      </Box> */}
       <Box mt={7}>
         <FormLabel htmlFor="bio">Your Bio</FormLabel>
         <Textarea onChange={(e) => updateBio(e.target.value)} id="bio" placeholder={"Write something about yourself"} />
