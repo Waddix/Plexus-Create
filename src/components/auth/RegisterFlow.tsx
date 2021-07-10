@@ -16,7 +16,8 @@ import {
   AlertIcon,
   AlertTitle,
   CloseButton,
-  Box
+  Box,
+  HStack
 } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from '../../context/userContext';
@@ -106,7 +107,7 @@ const RegisterFlow: React.FC<unknown> = () => {
     2: {
       header: "Profile Picture",
       body: <ImageUpload
-        // updateImage={setImage}
+      // updateImage={setImage}
       />,
       buttons: 'normal',
     },
@@ -162,14 +163,31 @@ const RegisterFlow: React.FC<unknown> = () => {
   return (
     <Fragment>
       {errorSubmitting &&
-        <Box w='100vw' pos='absolute' left='0' top='0'>
-          <Alert status="error" variant="solid" height="5rem" >
+        <HStack
+          h={['6rem', '4rem', '4rem', '4rem']}
+          position='absolute'
+          left='0'
+          top='0'
+          zIndex='9999'
+        >
+          <Alert
+            d='flex'
+            w='100vw'
+            h="100%"
+            status="error"
+            variant="solid"
+          >
             <AlertIcon />
             <AlertTitle mr={2}>There was an error submitting your profile data</AlertTitle>
             <AlertDescription>Please try again later</AlertDescription>
-            <CloseButton onClick={() => setErrorSubmitting(false)} position="absolute" right="8px" top="8px" />
+            <CloseButton
+              position={['unset', "absolute", "absolute", "absolute"]}
+              right="2rem"
+              my='auto'
+              onClick={() => setErrorSubmitting(false)}
+            />
           </Alert>
-        </Box>
+        </HStack>
       }
       <AlertDialog
         motionPreset="scale"

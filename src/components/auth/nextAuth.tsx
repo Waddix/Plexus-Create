@@ -154,17 +154,19 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
   return (
     <Fragment>
       {failAlert &&
-        <HStack>
+        <HStack
+          h={['6rem', '4rem', '4rem', '4rem']}
+          position='absolute'
+          left='0'
+          top='0'
+          zIndex='banner'
+        >
           <Alert
-            h={['6rem', '4rem', '4rem', '4rem']}
-            position='absolute'
             d='flex'
-            top='0'
-            left='0'
             w='100vw'
+            h="100%"
             status="error"
             variant="solid"
-            zIndex='100'
           >
             <AlertIcon />
             <AlertTitle mr={2}>Failed to fetch your profile</AlertTitle>
@@ -219,7 +221,7 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
               :
               <Flex alignItems={'center'} justifyContent={'space-between'} >
                 <Box>
-                <Heading size="md">You're not signed in</Heading>
+                  <Heading size="md">You're not signed in</Heading>
                 </Box>
                 <Box>
                   <Icon boxSize={10} as={FaUserCircle} />

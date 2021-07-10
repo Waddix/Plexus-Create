@@ -54,26 +54,6 @@ function Nav(pageProps: AppProps): JSX.Element {
 
   return (
     <Fragment>
-      <Flex
-        w="100vw"
-        justifyContent={["center", "center", "start", "center"]}
-        ml={["auto", "auto", "20px", "auto"]}
-      >
-        <Heading // Logo/App Name
-          width='max-content'
-          zIndex="popover"
-          top='0.7rem'
-          position='absolute'
-          fontSize="3xl"
-          _hover={{
-            textDecoration: 'none',
-            cursor: 'pointer',
-            bg: useColorModeValue('orange.200', 'orange.700'),
-          }}
-        >
-          Plexus Create
-        </Heading>
-      </Flex>
 
       <Box
         zIndex="sticky"
@@ -83,6 +63,26 @@ function Nav(pageProps: AppProps): JSX.Element {
         top='0'
         alignItems={'center'}
       >
+        <Flex
+          width="100vw"
+          justifyContent={["center", "center", "start", "center"]}
+          height="0"
+          mx={["auto", "auto", "inherit", "auto"]}
+          ml={["0px", "0px", "12px", "0px"]}
+          top='0.7rem'
+          position='absolute'
+        >
+          <Heading // Logo/App Name
+            fontSize="3xl"
+            _hover={{
+              textDecoration: 'none',
+              cursor: 'pointer',
+              bg: useColorModeValue('orange.200', 'orange.700'),
+            }}
+          >
+            Plexus Create
+          </Heading>
+        </Flex>
 
         <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
