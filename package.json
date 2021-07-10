@@ -1,6 +1,6 @@
 {
   "name": "plexus-create",
-  "version": "0.0.1",
+  "version": "1",
   "description": "",
   "main": "_app.tsx",
   "scripts": {
@@ -50,8 +50,6 @@
     "apollo-server-express": "^2.25.1",
     "axios": "^0.21.1",
     "class-validator": "^0.13.1",
-    "cloudinary": "^1.26.2",
-    "cloudinary-react": "^1.7.0",
     "cors": "^2.8.5",
     "dayjs": "^1.10.5",
     "express": "^4.17.1",
@@ -60,7 +58,6 @@
     "framer-motion": "^4.1.17",
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.4",
-    "graphql-upload": "^12.0.0",
     "husky": "^6.0.0",
     "next": "^11.0.0",
     "next-auth": "^3.27.0",
