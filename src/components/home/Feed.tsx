@@ -11,7 +11,7 @@ import { UserContext } from '../../context/userContext'
 import { useGetFeedQuery } from '../../generated/graphql';
 
 
-export const Feed: React.FC = () => {
+const Feed: React.FC = () => {
   const { userProfile } = useContext(UserContext);
   const { id } = userProfile;
 
@@ -123,3 +123,5 @@ export const Feed: React.FC = () => {
     )
   }
 }
+
+export default Feed;
