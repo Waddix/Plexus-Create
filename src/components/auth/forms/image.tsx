@@ -20,7 +20,16 @@ import {
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Axios from "axios"
 
-export default function ImageUpload({ image, updateImage, name, uploading, updateUploading, profileImage }): JSX.Element {
+interface ImageUploadProps {
+  name: string,
+  image: string,
+  updateImage: React.Dispatch<React.SetStateAction<string>>,
+  uploading: boolean,
+  updateUploading: React.Dispatch<React.SetStateAction<boolean>>
+  profileImage: string,
+}
+
+export default function ImageUpload({ image, updateImage, name, uploading, updateUploading, profileImage }: ImageUploadProps): JSX.Element {
   // Handle images input to display a preview of the file
   const [file, setFile] = useState<File | File[] | null>(null)
 

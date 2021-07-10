@@ -49,7 +49,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
   // Which fields are being edited
   const [nameEdit, setNameEdit] = useState<boolean>(false);
   const [userNameEdit, setUsernameEdit] = useState<boolean>(false);
-  const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  // const [titleEdit, setTitleEdit] = useState<boolean>(false);
   const [bioEdit, setBioEdit] = useState<boolean>(false);
 
   const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
@@ -107,7 +107,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
         setNameEdit(false);
         setUsernameEdit(false);
         setBioEdit(false);
-        setTitleEdit(false);
+        // setTitleEdit(false);
       })
   }
 
@@ -155,7 +155,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
             setNameEdit(false);
             setUsernameEdit(false);
             setBioEdit(false);
-            setTitleEdit(false);
+            // setTitleEdit(false);
           })
       }
     }

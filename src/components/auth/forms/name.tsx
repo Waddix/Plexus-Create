@@ -30,7 +30,7 @@ function Name({
   updateName,
   username,
   updateUsername,
-  updateTitle,
+  // updateTitle,
   updateBio,
   space,
   updateSpace,

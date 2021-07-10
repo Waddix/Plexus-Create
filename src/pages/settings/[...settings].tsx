@@ -14,9 +14,9 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import {
   FaUser,
-  FaUsers,
-  FaBell,
-  FaUniversalAccess,
+  // FaUsers,
+  // FaBell,
+  // FaUniversalAccess,
   FaSwatchbook,
 } from "react-icons/fa";
 import Profile from "../../components/setting/profile";
