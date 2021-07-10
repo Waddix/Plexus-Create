@@ -1,3 +1,0 @@
-query UploadImage ($IMG: File!) {
-  uploadProfilePicture(file: $IMG)
-}

@@ -206,7 +206,7 @@ export type Profile = {
   bio: Scalars['String'];
   website: Scalars['String'];
   stripeId: Scalars['String'];
-  projects: Array<Project>;
+  projects?: Maybe<Array<Project>>;
   posts?: Maybe<Array<Post>>;
   following: Array<Profile>;
   followedProjects: Array<Project>;
@@ -828,10 +828,10 @@ export type ProfileLookupQuery = (
   & { profileLookup: (
     { __typename?: 'Profile' }
     & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'website' | 'image'>
-    & { projects: Array<(
+    & { projects?: Maybe<Array<(
       { __typename?: 'Project' }
       & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
-    )> }
+    )>> }
   ) }
 );
 
