@@ -25,6 +25,7 @@ import {
   InputLeftAddon,
   Textarea,
   Link,
+  Collapse,
 } from "@chakra-ui/react";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext";
@@ -208,7 +209,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   rounded="md"
                   px={2}
                   py={2}
-                  mt={4}
+                  my={4}
                   mx="auto"
                   textAlign="center"
                   _hover={{
@@ -232,16 +233,21 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   />
                 </VisuallyHidden>
               </chakra.label>
-              {file &&
+              <Collapse
+                in={file ? true : false}
+                animateOpacity
+              >
                 <Fragment>
-                  <VStack my={2} alignContent="center" justifyContent="center">
-                    <Avatar
-                      src={URL.createObjectURL(file)}
-                      name={Array.isArray(file) ? "" : file.name}
-                      size="xl"
-                    />
-                    <Text color="gray.300">{Array.isArray(file) ? "" : file.name}</Text>
-                  </VStack>
+                  {file &&
+                    <VStack my={2} alignContent="center" justifyContent="center">
+                      <Avatar
+                        src={URL.createObjectURL(file)}
+                        name={Array.isArray(file) ? "" : file.name}
+                        size="xl"
+                      />
+                      <Text color="gray.300">{Array.isArray(file) ? "" : file.name}</Text>
+                    </VStack>
+                  }
                   <HStack my={2} alignContent="center" justifyContent="center">
                     <Button
                       _hover={{
@@ -292,7 +298,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                     </Button>
                   </HStack>
                 </Fragment>
-              }
+              </Collapse>
             </Fragment>
           </form>
         </Box>
