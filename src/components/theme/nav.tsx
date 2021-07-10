@@ -16,6 +16,7 @@ import {
   Spacer,
   SkeletonCircle,
   Heading,
+  Collapse,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
@@ -64,13 +65,14 @@ function Nav(pageProps: AppProps): JSX.Element {
         alignItems={'center'}
       >
         <Flex
-          width={{base: "100%", md: "auto", lg: "100%"}}
+          width={{ base: "100%", md: "auto", lg: "100%" }}
           justifyContent={["center", "center", "start", "center"]}
           height="0"
           mx={["auto", "auto", "inherit", "auto"]}
           ml={["0px", "0px", "12px", "0px"]}
           top='0.7rem'
           position='absolute'
+          transition=".3s ease"
         >
           <Heading // Logo/App Name
             fontSize="3xl"
@@ -157,7 +159,11 @@ function Nav(pageProps: AppProps): JSX.Element {
             </Box>
           </Flex>
 
-          {isOpen ? (
+
+          <Collapse
+            in={isOpen}
+            animateOpacity
+          >
             <Box pb={4} display={{ md: 'none' }}>
               <Stack as={'nav'} spacing={4}>
                 {Links.map((link) => (
@@ -165,7 +171,7 @@ function Nav(pageProps: AppProps): JSX.Element {
                 ))}
               </Stack>
             </Box>
-          ) : null}
+          </Collapse>
         </Box>
       </Box>
     </Fragment>
