@@ -1,16 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, Fragment } from "react"
 import { useRouter } from "next/router"
 
-const Settings = () => {
+const Settings = (): JSX.Element => {
   const router = useRouter();
 
   // Redirects user to the profile page when trying to access the base settings page.
 
-  useEffect((): JSX.Element => {
+  useEffect(() => {
     router.push('/settings/profile')
   }, [])
 
-  return(
+  return (
     <Fragment>
     </Fragment>
   )

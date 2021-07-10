@@ -5,7 +5,17 @@ import { ProjectCard } from "../../components/projects/ProjectCard";
 import { UserCard } from "../../components/UserCard"
 import Profile from "../../models/profile";
 
-function SearchResults({ results, fetching }): JSX.Element {
+interface Results {
+  Profiles: Profile[] | null,
+  Projects: Project[] | null,
+}
+
+interface Props {
+  results: Results,
+  fetching: boolean
+}
+
+function SearchResults({ results, fetching }: Props): JSX.Element {
   return (
     <Box
       mt={['1rem', '1em', '1rem', '2rem']}

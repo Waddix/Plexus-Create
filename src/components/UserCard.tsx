@@ -13,7 +13,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { Profile, useFollowUserMutation } from '../generated/graphql';
+import { useFollowUserMutation } from '../generated/graphql';
 
 interface profileProps {
   id: number,

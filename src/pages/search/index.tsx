@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Input,
   Box,
@@ -64,7 +65,7 @@ function Search(): JSX.Element {
 
   // Fetch initial content //
   // Get all profiles
-  const [profilesResult, refetchProfiles] = useGetAllProfilesQuery();
+  const [profilesResult] = useGetAllProfilesQuery();
   const { data: profilesData, fetching: profilesFetching, error: profilesError } = profilesResult;
 
   useEffect(() => {
@@ -76,7 +77,7 @@ function Search(): JSX.Element {
   }, [profilesData, profilesError, profilesFetching])
 
   // Get all projects
-  const [projectsResult, refetchProjects] = useProjectsQuery();
+  const [projectsResult] = useProjectsQuery();
   const { data: projectsData, fetching: projectsFetching, error: projectsError } = projectsResult;
 
   useEffect(() => {
@@ -86,7 +87,7 @@ function Search(): JSX.Element {
       }))
     }
   }, [projectsData, projectsError, projectsFetching])
-  
+
   interface Filtered {
     Profiles: Profile[] | null,
     Projects: Project[] | null,

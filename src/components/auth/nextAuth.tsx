@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import {
   Box,
@@ -24,7 +25,7 @@ import {
   Heading,
   Text
 } from '@chakra-ui/react';
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/client'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
@@ -68,7 +69,7 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
 
   // Get users
   const [userResult] = useGetUserQuery({ variables: { name: name, email: email } });
-  const { data: userData, fetching: userFetching, error: userError } = userResult;
+  const { data: userData, fetching: userFetching } = userResult;
 
   // User id from the queried user
   const userId = useRef(0)

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   AlertDialog,
@@ -22,7 +24,7 @@ import Name from "./forms/name";
 import ImageUpload from "./forms/image";
 import Tags from './forms/tags'
 import Settings from "./forms/settings";
-import { session, useSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 import { useCreateProfileForUserMutation } from '../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 
@@ -44,7 +46,7 @@ const RegisterFlow: React.FC<unknown> = () => {
   const [title, setTitle] = useState<string>(userProfile ? userProfile.title : "");
   const [image, setImage] = useState<string>(userProfile ? userProfile.image : "");
   const [bio, setBio] = useState<string>(userProfile ? userProfile.bio : "");
-  const [website, setWebsite] = useState<string>("");
+  const [website] = useState<string>("");
   // const [tags, setTags] = useState([]);
   // const [social, setSocail] = useState({});
 
@@ -104,7 +106,7 @@ const RegisterFlow: React.FC<unknown> = () => {
     2: {
       header: "Profile Picture",
       body: <ImageUpload
-        updateImage={setImage}
+        // updateImage={setImage}
       />,
       buttons: 'normal',
     },

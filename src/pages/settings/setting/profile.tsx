@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Avatar,
   Box,
@@ -24,7 +26,7 @@ import {
   Textarea,
   Link,
 } from "@chakra-ui/react";
-import React, { Fragment, SetStateAction, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../context/userContext";
 import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
 import { useUpdateProfileMutation } from '../../../generated/graphql';
@@ -109,12 +111,12 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
 
 
   // Handle images input to display a preview of the file
-  const [file, setFile] = useState<SetStateAction<string> | File | null>(null)
+  const [file, setFile] = useState<File | File[] |null>(null)
 
-  const handleImageInput = (files: FileList | SetStateAction<string>[] | null): void => {
-    if (files) {
-      console.info(files[0])
-      setFile(files[0]);
+  const handleImageInput = (files: FileList | React.SetStateAction<File | File[] | null>[] | null): void => {
+    if (files !== null) {
+      const file = files[0];
+      setFile(file);
     }
   }
 
@@ -126,7 +128,9 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
   //   api_secret: process.env.CLOUDINARY_API_SECRET,
   // });
 
-  const handleUpload = (file: File): void => {
+  const handleUpload = (file: File | File[]): void => {
+
+    console.log(file);
 
     // if (file) {
     //   const fileName = file.name
@@ -217,10 +221,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   <VStack my={2} alignContent="center" justifyContent="center">
                     <Avatar
                       src={URL.createObjectURL(file)}
-                      name={file.name}
+                      name={Array.isArray(file) ? "" : file.name}
                       size="xl"
                     />
-                    <Text color="gray.300">{file.name}</Text>
+                    <Text color="gray.300">{Array.isArray(file) ? "" : file.name}</Text>
                   </VStack>
                   <HStack my={2} alignContent="center" justifyContent="center">
                     <Button
@@ -262,7 +266,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       type="button"
                       onClick={(e) => {
                         e.preventDefault();
-                        setFile("")
+                        setFile(null)
                       }}
                       isDisabled={isSubmitting}
                     >
@@ -580,6 +584,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                     <FormControl id="username">
                       <InputGroup>
                         <InputLeftAddon
+                          // eslint-disable-next-line react/no-children-prop
                           children="@"
                           bg={useColorModeValue("gray.50", "gray.800")}
                           color={useColorModeValue("gray.500", "gay.50")}

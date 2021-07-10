@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import {
   FormLabel,
   Input,
@@ -62,6 +62,7 @@ function Name({
           <FormLabel htmlFor="username">Username</FormLabel>
           <InputGroup>
             <InputLeftAddon
+              // eslint-disable-next-line react/no-children-prop
               children="@"
               bg={useColorModeValue("gray.50", "gray.800")}
               color={useColorModeValue("gray.500", "gay.50")}

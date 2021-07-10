@@ -5,7 +5,7 @@ import {
   VStack,
   Text
 } from '@chakra-ui/react';
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
 import { useGetFeedQuery } from '../../generated/graphql';

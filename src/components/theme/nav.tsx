@@ -50,7 +50,7 @@ function Nav(pageProps: AppProps): JSX.Element {
   // User Profile Context
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
-  const { loadingProfile, setLoadingProfile } = useContext(UserContext)
+  const { loadingProfile } = useContext(UserContext)
 
   return (
     <Fragment>

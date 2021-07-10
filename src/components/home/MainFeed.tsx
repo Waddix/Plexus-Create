@@ -39,7 +39,7 @@ export const MainFeed: React.FC = () => {
 
 
   // need to add onClick that routes to 'projects/[projectId]'
-  const projectsFeed = data?.getFollowedProjects?.map((p, i) => (
+  const projectsFeed = data?.getFollowedProjects?.map((p) => (
     <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
   ));
 

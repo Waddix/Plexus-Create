@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   As,
   Box,
@@ -10,7 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
+import React from "react";
 import {
   FaUser,
   FaUsers,
@@ -23,8 +24,9 @@ import Following from './setting/following'
 import Notifications from "./setting/notifications";
 import Accessibility from "./setting/accessibility";
 import Theme from "./setting/theme";
+import type { AppProps } from 'next/app'
 
-const Settings = (): JSX.Element => {
+const Settings = ({pageProps}: AppProps): JSX.Element => {
   // Be able to tell which settings is being accessed
   const router = useRouter();
   const { settings } = router.query;
@@ -203,7 +205,7 @@ const Settings = (): JSX.Element => {
         <Box as="main" p="4">
           {(settings && settings.length > 0) &&
             settings[0] === 'profile' &&
-            <Profile />
+            <Profile pageProps={pageProps}/>
           }
           {(settings && settings.length > 0) &&
             settings[0] === 'following' &&

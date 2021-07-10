@@ -1,8 +1,21 @@
 import React, { Fragment, useContext } from "react";
-import { FormLabel, Input, Box, Image, Heading, useColorModeValue, chakra, Flex, Icon, Stack, VisuallyHidden, Text } from '@chakra-ui/react';
+import {
+  FormLabel,
+  Input,
+  Box,
+  Image,
+  Heading,
+  useColorModeValue,
+  chakra,
+  Flex,
+  Icon,
+  Stack,
+  VisuallyHidden,
+  Text
+} from '@chakra-ui/react';
 import { UserContext } from "../../../context/userContext";
 
-export default function ImageUpload({ updateImage }): JSX.Element {
+export default function ImageUpload(): JSX.Element {
 
   const { userProfile } = useContext(UserContext);
 
