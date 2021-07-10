@@ -19,11 +19,11 @@ import {
   FaUniversalAccess,
   FaSwatchbook,
 } from "react-icons/fa";
-import Profile from "./setting/profile";
-import Following from './setting/following'
-import Notifications from "./setting/notifications";
-import Accessibility from "./setting/accessibility";
-import Theme from "./setting/theme";
+import Profile from "../../components/setting/profile";
+import Following from '../../components/setting/following'
+import Notifications from "../../components/setting/notifications";
+import Accessibility from "../../components/setting/accessibility";
+import Theme from "../../components/setting/theme";
 import type { AppProps } from 'next/app'
 
 const Settings = ({pageProps}: AppProps): JSX.Element => {

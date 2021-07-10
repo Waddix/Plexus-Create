@@ -1,8 +1,8 @@
 import { Box, Heading } from "@chakra-ui/react"
 import React, { useContext } from "react"
-import { UserContext } from "../../../context/userContext"
+import { UserContext } from "../../context/userContext"
 
-const Following = (): JSX.Element => {
+const Notifications = (): JSX.Element => {
   // User Profile Context
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
@@ -10,9 +10,9 @@ const Following = (): JSX.Element => {
 
   return (
     <Box>
-      <Heading>{userProfile.name}'s Following</Heading>
+      <Heading>{userProfile.name}'s Notifications</Heading>
     </Box>
   )
 }
 
-export default Following;
+export default Notifications;

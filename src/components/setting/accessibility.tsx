@@ -1,8 +1,8 @@
 import { Box, Heading } from "@chakra-ui/react"
 import React, { useContext } from "react"
-import { UserContext } from "../../../context/userContext"
+import { UserContext } from "../../context/userContext"
 
-const Notifications = (): JSX.Element => {
+const Accessibility = (): JSX.Element => {
   // User Profile Context
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
@@ -10,9 +10,9 @@ const Notifications = (): JSX.Element => {
 
   return (
     <Box>
-      <Heading>{userProfile.name}'s Notifications</Heading>
+      <Heading>{userProfile.name}'s Accessibility</Heading>
     </Box>
   )
 }
 
-export default Notifications;
+export default Accessibility;

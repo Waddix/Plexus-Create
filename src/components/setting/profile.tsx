@@ -27,9 +27,9 @@ import {
   Link,
 } from "@chakra-ui/react";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../context/userContext";
+import { UserContext } from "../../context/userContext";
 import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
-import { useUpdateProfileMutation } from '../../../generated/graphql';
+import { useUpdateProfileMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { useSession } from 'next-auth/client';
 

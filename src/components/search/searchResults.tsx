@@ -1,8 +1,8 @@
 import { Box, VStack, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Project } from "../../../server/src/db/entities/Project";
-import { ProjectCard } from "../../components/projects/ProjectCard";
-import { UserCard } from "../../components/UserCard"
+import { ProjectCard } from "../projects/ProjectCard";
+import { UserCard } from "../UserCard"
 import Profile from "../../models/profile";
 
 interface Results {
