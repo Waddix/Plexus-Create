@@ -426,7 +426,7 @@ function Search(): JSX.Element {
                   handleSearch(query.current)
                 }
               }}
-              isDisabled={searchDisabled}
+              isDisabled={searchDisabled || searchBar.length === 0}
               isLoading={fetching}
             >
               Search
@@ -475,7 +475,7 @@ function Search(): JSX.Element {
           </HStack>
         </Collapse>
       </Box>
-      <SearchResults fetching={fetching} results={results} />
+      <SearchResults query={query.current} fetching={fetching} results={results} />
     </Fragment>
   )
 }

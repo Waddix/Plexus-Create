@@ -13,9 +13,10 @@ interface Results {
 interface Props {
   results: Results,
   fetching: boolean
+  query: string,
 }
 
-function SearchResults({ results, fetching }: Props): JSX.Element {
+function SearchResults({ results, fetching, query }: Props): JSX.Element {
   return (
     <Box
       mt={['1rem', '1em', '1rem', '2rem']}
@@ -27,7 +28,7 @@ function SearchResults({ results, fetching }: Props): JSX.Element {
         align="stretch"
         mx={['0', '0', '0', '2rem']}
       >
-        {Object.values(results).some(results => results !== null) ?
+        {Object.values(results).some(results => results !== null) &&
           Object.keys(results).map(resultKey => {
             if (resultKey === 'Projects') {
               const projects = results.Projects;
@@ -62,23 +63,33 @@ function SearchResults({ results, fetching }: Props): JSX.Element {
               }
             }
           })
-          :
-          fetching ?
-            (
-              <Box m='auto'>
-                <Heading>
-                  Fetching data, please wait.
-                </Heading>
-              </Box>
-            )
-            :
-            (
-              <Box m='auto'>
-                <Heading>
-                  Find the next big thing.
-                </Heading>
-              </Box>
-            )
+        }
+        {fetching &&
+          (
+            <Box m='auto'>
+              <Heading>
+                Fetching data, please wait.
+              </Heading>
+            </Box>
+          )
+        }
+        {(Object.values(results).every(results => results === null) && query) &&
+          (
+            <Box m='auto'>
+              <Heading>
+                No results found for {query}
+              </Heading>
+            </Box>
+          )
+        }
+        {(Object.values(results).every(results => results === null) && !query && !fetching) &&
+          (
+            <Box m='auto'>
+              <Heading>
+                Find the next big thing
+              </Heading>
+            </Box>
+          )
         }
       </VStack>
     </Box>
