@@ -64,7 +64,7 @@ function Nav(pageProps: AppProps): JSX.Element {
         alignItems={'center'}
       >
         <Flex
-          width="100vw"
+          width={{base: "100%", md: "auto", lg: "100%"}}
           justifyContent={["center", "center", "start", "center"]}
           height="0"
           mx={["auto", "auto", "inherit", "auto"]}
