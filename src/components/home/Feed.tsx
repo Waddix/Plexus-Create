@@ -8,14 +8,17 @@ import {
 import React, { useContext, useEffect, useRef } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
-import { useGetFeedQuery } from '../../generated/graphql';
+import { GetFollowedProjectsDocument, useGetFeedQuery, useGetPostsQuery } from '../../generated/graphql';
+import Post from '../../models/posts/post';
+import { FeedPosts } from './FeedPosts';
+import { FeedProject } from './FeedProject';
 
 
 export const Feed: React.FC = () => {
   const { userProfile } = useContext(UserContext);
   const { id } = userProfile;
 
-  const [{ fetching, data, error }] = useGetFeedQuery({ variables: { profileId: id } })
+  const [{ fetching, data, error }] = useGetPostsQuery({ variables: { profileId: id } })
   if (fetching) {
     return <div>Hold up a sec big dawg</div>
   }
@@ -27,23 +30,52 @@ export const Feed: React.FC = () => {
     if (data) {
       console.log("here's that data, baby!", data)
 
+      const allPosts: Array<Post> = [];
+      data.getFeed?.followedProjects.map(project => (
+        project.posts?.forEach((post: Post) => allPosts.push(post))
+      ))
+      data.getFeed?.following.forEach(user => (
+        user.posts?.forEach(post => {
+          if (!allPosts.includes(post)) {
+            allPosts.push(post)
+          }
+        })
+      ))
 
-      // need to add onClick that routes to 'projects/[projectId]'
-      // const projectsFeed = data?.getFollowedProjects?.map((p, i) => (
-      //   <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
-      // ));
-
+      // allPosts.sort((a, b) => a.createdAt - b.createdAt)
+      console.log("All the posts: ", allPosts)
       return (
         <VStack
           // justifyContent="center"
           alignContent="center"
           w="100vw"
         >
+
+          {
+
+            allPosts.map(post => (
+              <FeedPosts key={post.id} post={post} />
+            ))
+
+          }
+          {/* {
+            data.getFeed?.followedProjects.map(project => (
+              <FeedProject key={project.id} project={project} />
+            ))
+
+          }
+          {
+            data.getFeed?.following.map(user => (
+
+        ))
+          } */}
+
+
           {/* Individual Cards
           <YourCardHere profile={profile} posts={posts} />
           <YourSecondCardHere project={project} posts={posts} /> */}
 
-          <Box
+          {/* <Box
             w={["100%", "80%", "80%", "65%"]}
             border="solid 3px"
             borderColor="blue.200"
@@ -107,14 +139,10 @@ export const Feed: React.FC = () => {
                 <Text>{line}</Text>
               )
             })} */}
-              <Text>This is a project update</Text>
-              <Text>Plexus Create is coming along nicely</Text>
-              <Text>I am showing James how to style things!!</Text>
-              <Text>This is a project update</Text>
-              <Text>I hope we get this done by tomorrow evening.</Text>
-              <Text>TS is a pain in my rump!!</Text>
+          {/* <Text>This is a project update</Text>
+     
             </VStack>
-          </Box>
+          </Box> */}
         </VStack >
       )
     }

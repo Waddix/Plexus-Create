@@ -188,7 +188,7 @@ export type Post = {
   ownerId: Scalars['Float'];
   projectId: Scalars['Float'];
   owner: Profile;
-  project: Array<Project>;
+  project: Project;
   tags: Array<Tag>;
 };
 
@@ -206,7 +206,7 @@ export type Profile = {
   bio: Scalars['String'];
   website: Scalars['String'];
   stripeId: Scalars['String'];
-  projects: Array<Project>;
+  projects?: Maybe<Array<Project>>;
   posts?: Maybe<Array<Post>>;
   following: Array<Profile>;
   followedProjects: Array<Project>;
@@ -649,15 +649,27 @@ export type GetFeedQuery = (
     & { followedProjects: Array<(
       { __typename?: 'Project' }
       & Pick<Project, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'ownerId'>
-      & { posts?: Maybe<Array<(
+      & { owner: (
+        { __typename?: 'Profile' }
+        & Pick<Profile, 'name' | 'username' | 'image' | 'title'>
+      ), posts?: Maybe<Array<(
         { __typename?: 'Post' }
         & Pick<Post, 'id' | 'text' | 'projectId' | 'createdAt' | 'updatedAt' | 'ownerId'>
+        & { owner: (
+          { __typename?: 'Profile' }
+          & Pick<Profile, 'name' | 'username' | 'image' | 'title'>
+        ) }
       )>> }
     )>, following: Array<(
       { __typename?: 'Profile' }
+      & Pick<Profile, 'name' | 'username' | 'image' | 'title'>
       & { posts?: Maybe<Array<(
         { __typename?: 'Post' }
         & Pick<Post, 'id' | 'text' | 'projectId' | 'createdAt' | 'updatedAt' | 'ownerId'>
+        & { project: (
+          { __typename?: 'Project' }
+          & Pick<Project, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'ownerId'>
+        ) }
       )>> }
     )> }
   )> }
@@ -687,6 +699,53 @@ export type GetFollowedUsersQuery = (
     { __typename?: 'Profile' }
     & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
   )>> }
+);
+
+export type GetPostsQueryVariables = Exact<{
+  profileId: Scalars['Int'];
+}>;
+
+
+export type GetPostsQuery = (
+  { __typename?: 'Query' }
+  & { getFeed?: Maybe<(
+    { __typename?: 'Profile' }
+    & { followedProjects: Array<(
+      { __typename?: 'Project' }
+      & { posts?: Maybe<Array<(
+        { __typename?: 'Post' }
+        & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'text'>
+        & { project: (
+          { __typename?: 'Project' }
+          & Pick<Project, 'id' | 'title'>
+          & { tags?: Maybe<Array<(
+            { __typename?: 'Tag' }
+            & Pick<Tag, 'id' | 'name'>
+          )>> }
+        ), owner: (
+          { __typename?: 'Profile' }
+          & Pick<Profile, 'id' | 'name' | 'username' | 'image'>
+        ) }
+      )>> }
+    )>, following: Array<(
+      { __typename?: 'Profile' }
+      & { posts?: Maybe<Array<(
+        { __typename?: 'Post' }
+        & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'text'>
+        & { project: (
+          { __typename?: 'Project' }
+          & Pick<Project, 'id' | 'title'>
+          & { tags?: Maybe<Array<(
+            { __typename?: 'Tag' }
+            & Pick<Tag, 'id' | 'name'>
+          )>> }
+        ), owner: (
+          { __typename?: 'Profile' }
+          & Pick<Profile, 'id' | 'name' | 'username' | 'image'>
+        ) }
+      )>> }
+    )> }
+  )> }
 );
 
 export type GetProfileIdQueryVariables = Exact<{
@@ -828,10 +887,10 @@ export type ProfileLookupQuery = (
   & { profileLookup: (
     { __typename?: 'Profile' }
     & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'website' | 'image'>
-    & { projects: Array<(
+    & { projects?: Maybe<Array<(
       { __typename?: 'Project' }
       & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
-    )> }
+    )>> }
   ) }
 );
 
@@ -1115,6 +1174,12 @@ export const GetFeedDocument = gql`
       title
       description
       ownerId
+      owner {
+        name
+        username
+        image
+        title
+      }
       posts {
         id
         text
@@ -1122,9 +1187,19 @@ export const GetFeedDocument = gql`
         createdAt
         updatedAt
         ownerId
+        owner {
+          name
+          username
+          image
+          title
+        }
       }
     }
     following {
+      name
+      username
+      image
+      title
       posts {
         id
         text
@@ -1132,6 +1207,14 @@ export const GetFeedDocument = gql`
         createdAt
         updatedAt
         ownerId
+        project {
+          id
+          createdAt
+          updatedAt
+          title
+          description
+          ownerId
+        }
       }
     }
   }
@@ -1172,6 +1255,60 @@ export const GetFollowedUsersDocument = gql`
 
 export function useGetFollowedUsersQuery(options: Omit<Urql.UseQueryArgs<GetFollowedUsersQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetFollowedUsersQuery>({ query: GetFollowedUsersDocument, ...options });
+};
+export const GetPostsDocument = gql`
+    query getPosts($profileId: Int!) {
+  getFeed(profileId: $profileId) {
+    followedProjects {
+      posts {
+        id
+        createdAt
+        updatedAt
+        text
+        project {
+          id
+          title
+          tags {
+            id
+            name
+          }
+        }
+        owner {
+          id
+          name
+          username
+          image
+        }
+      }
+    }
+    following {
+      posts {
+        id
+        createdAt
+        updatedAt
+        text
+        project {
+          id
+          title
+          tags {
+            id
+            name
+          }
+        }
+        owner {
+          id
+          name
+          username
+          image
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useGetPostsQuery(options: Omit<Urql.UseQueryArgs<GetPostsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetPostsQuery>({ query: GetPostsDocument, ...options });
 };
 export const GetProfileIdDocument = gql`
     query GetProfileID($id: Int!) {

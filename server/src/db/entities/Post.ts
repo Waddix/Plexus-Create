@@ -22,11 +22,11 @@ export class Post extends Base {
 
   @Field(() => Profile)
   @ManyToOne(() => Profile, (profile: Profile) => profile.posts, {cascade:true})
-  owner!: Profile;
+  owner!: Promise<Profile>;
 
-  @Field(() => [Project])
+  @Field(() => Project)
   @ManyToOne(() => Project, (project: Project) => project.posts, {cascade:true})
-  project!: Project;
+  project!:Promise<Project>;
 
 
 
