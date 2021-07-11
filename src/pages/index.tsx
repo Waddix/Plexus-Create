@@ -27,6 +27,6 @@ const Home = () => {
   )
 }
 export default withUrqlClient(() => ({
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(Home);
 

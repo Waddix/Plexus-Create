@@ -14,10 +14,9 @@ const ProfileView: React.FC = (): JSX.Element => {
   const [{ fetching, data, error }] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
 
   if (fetching) {
-    return <div>Hold up a sec big dawg</div>
+    return <div>Loading Profile...</div>
   }
   else if (error) {
-    console.error(error);
     return <div>{error.message}</div>
   } else {
     if (data) {
@@ -42,5 +41,5 @@ const ProfileView: React.FC = (): JSX.Element => {
 
   export default withUrqlClient(() => ({
     // ...add your Client options here
-    url: 'http://localhost:8080/graphql',
+    url: 'https://server-seven-blue.vercel.app/graphql',
   }))(ProfileView);

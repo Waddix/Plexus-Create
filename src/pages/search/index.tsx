@@ -293,7 +293,6 @@ function Search(): JSX.Element {
           searchResults.Projects = projects.projectResults;
         } else if (filter === "Profiles") {
           const profiles = searchProfile(results, query);
-          console.log('query profiles');
           searchResults.Profiles = profiles.profileResults;
         }
       }
@@ -482,5 +481,5 @@ function Search(): JSX.Element {
 
 export default withUrqlClient(() => ({
   // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(Search);
