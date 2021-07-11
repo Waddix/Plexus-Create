@@ -141,8 +141,6 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
         })
 
       if (newPic && typeof newPic === "string") {
-        console.info('GOT THE IMAGE!!', newPic);
-
         const newProfile = Object.assign({ ...updatedUser });
         newProfile.username = "@" + updatedUser.username;
         newProfile.image = newPic;

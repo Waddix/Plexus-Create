@@ -20,13 +20,11 @@ export const ProjectFormBox = () : JSX.Element => {
           ownerId: userProfile.id,
         });
         if (response.error) {
-          console.log(response.error?.message);
           setErrors({
             title: "error in title",
             description: "error in description",
           });
         } else if (response.data) {
-          console.log(response.data);
           router.push("/projects");
         }
       }}

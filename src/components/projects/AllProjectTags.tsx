@@ -8,10 +8,7 @@ interface ProjectTagProps {
 
 export const ProjectTags: React.FC<ProjectTagProps> = ({id}) => {
   const [{ data }] = useAllTagsQuery();
-  const [{ error }, assignTag] = useAssignProjectTagMutation();
-  if (error) {
-    console.log(error)
-  }
+  const [, assignTag] = useAssignProjectTagMutation();
   return (<Stack spacing={4} isInline>
     {data?.tags.map(tag => (
       <Tag
@@ -22,7 +19,6 @@ export const ProjectTags: React.FC<ProjectTagProps> = ({id}) => {
         variantColor="cyan"
         cursor="grabbing"
         onClick={() => {
-          console.log("click")
           assignTag({
             projectId: id,
             tagId: tag.id

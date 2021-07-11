@@ -7,13 +7,10 @@ interface ProjectTagProps {
 }
 
 export const ProjectTagsByID: React.FC<ProjectTagProps> = ({id}) => {
-  const [{ data, error }] = useProjectTagsByIdQuery({variables:{
+  const [{ data }] = useProjectTagsByIdQuery({variables:{
     projectId: id
   }});
 
-  if (error) {
-    console.log(error)
-  }
   return (<Stack spacing={4} isInline>
     {data?.projectTags.map(tag => (
       <Tag

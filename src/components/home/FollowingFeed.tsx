@@ -15,14 +15,11 @@ const FollowingFeed = (): JSX.Element => {
       <h2>Hold up big homie</h2>
     )
   } else if (error) {
-    console.error(error);
     return (
       <div>{error.message}</div>
     )
   } else if (data) {
-    console.log("data in FollowingFeed", data);
     const followedUsersCards = data?.getFollowedUsers?.map(user => (
-      // console.log("user in map ===>", user);
       <UserCard key={user.id} profile={user} currId={id} />
     ))
 

@@ -69,7 +69,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
-  console.log("projectId, profileId: ", id, userProfile.id)
   return (
     <Box p={8} rounded="xl">
       <Box>
@@ -94,11 +93,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
       </Box>
       <Divider orientation="horizontal" mt={4} />
       {userProfile.id === ownerId ?
-        // <Button
-        //   onClick={() => console.log("let's update")}
-        // >
-        //   Update
-        // </Button>
         <PostFormBox projectId={id} ownerId={userProfile.id}/>
         :
         <div>

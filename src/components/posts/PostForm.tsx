@@ -22,14 +22,10 @@ export const PostFormBox: React.FC<PostProps> = ({ projectId, ownerId }) => {
             text: values.text,
           });
           if (post.error) {
-            console.log(post.error?.message);
             setErrors({
               text: "error in update",
             });
-          } else if (post.data) {
-            console.log(post.data);
-
-          }
+          } 
         }}
       >
         {({ isSubmitting }) => (

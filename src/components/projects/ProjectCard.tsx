@@ -124,14 +124,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 >
                   Follow
                 </Button>
-                {/* { source === "profile" ?
-                   <Button
-                   onClick={() => console.log("let's update")}
-                 >
-                   Update
-                 </Button> :
-                 <></>
-              } */}
               </Stack>
               :
               <div></div>
