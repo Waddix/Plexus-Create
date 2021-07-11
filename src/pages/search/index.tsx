@@ -17,8 +17,7 @@ import { FaCaretDown } from "react-icons/fa";
 import SearchResults from "../../components/search/searchResults";
 import { useGetAllProfilesQuery, useProjectsQuery } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
-import { Profile } from '../../../server/src/db/entities/Profile'
-import { Project } from '../../../server/src/db/entities/Project'
+import { Profile, Project } from '../../generated/graphql'
 
 function Search(): JSX.Element {
   // Search query

@@ -1,6 +1,6 @@
 import { Box, VStack, Heading } from "@chakra-ui/react";
 import React from "react";
-import { Project } from "../../../server/src/db/entities/Project";
+import { Project } from "../../generated/graphql";
 import { ProjectCard } from "../projects/ProjectCard";
 import { UserCard } from "../UserCard"
 import Profile from "../../models/profile";
