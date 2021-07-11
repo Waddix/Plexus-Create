@@ -109,7 +109,7 @@ export default function Component(): JSX.Element {
                 spacing={6}
                 p={{ sm: 6 }}
               >
-                <SimpleGrid columns={3} spacing={6}>
+                {/* <SimpleGrid columns={3} spacing={6}>
                   <FormControl as={GridItem} colSpan={[3, 2]}>
                     <FormLabel
                       fontSize="sm"
@@ -134,7 +134,7 @@ export default function Component(): JSX.Element {
                       />
                     </InputGroup>
                   </FormControl>
-                </SimpleGrid>
+                </SimpleGrid> */}
                 <Fragment>
                   <Box d='block' textAlign='center' width='100%'>
                     <Heading as="h4" size="md">Current Picture:</Heading>
