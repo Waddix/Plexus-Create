@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react';
 import { signOut, useSession } from 'next-auth/client'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
-import { withUrqlClient } from 'next-urql';
+import { NextComponentType, PartialNextContext, withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
 import RegisterFlow from './RegisterFlow';
 import { FaUserCircle, FaCog } from "react-icons/fa";
@@ -53,7 +53,7 @@ const PopoverLink = (link: string): JSX.Element => (
   </Link>
 );
 
-const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
+const NextAuth: NextComponentType = ({ pageProps }) => {
   // Next auth session
   const [session] = useSession();
   // User from next auth session
@@ -352,5 +352,5 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
 
 export default withUrqlClient(() => ({
   // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(NextAuth);

@@ -13,7 +13,7 @@ interface PositionFormProps {
 }
 
 export const PositionForm = ({id}: PositionFormProps): JSX.Element => {
-  const [{data}, createPosition] = useCreatePositionMutation();
+  const [, createPosition] = useCreatePositionMutation();
   return (
     <Container>
       <Heading fontSize="lg" mt={3} mb={4}>
