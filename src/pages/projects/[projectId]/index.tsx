@@ -91,7 +91,7 @@ const ProjectView: React.FC<unknown> = () => {
                   ownerId={data?.project?.ownerId}
                 ></ProjectDetails>
                 <Divider orientation="horizontal" mt={4} />
-                <PositionForm id={data?.project?.id}></PositionForm>
+                {/* <PositionForm id={data?.project?.id}></PositionForm> */}
               </Flex>
             </Box>
           </Box>

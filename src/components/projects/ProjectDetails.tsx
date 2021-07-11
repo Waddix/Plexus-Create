@@ -20,6 +20,7 @@ import { ProjectTagsByID } from "./ProjectTagsByID";
 import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
+import { PositionForm } from "./PositionForm";
 
 interface ProjectDetailsProps {
   id: number;
@@ -99,7 +100,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         // >
         //   Update
         // </Button>
-        <PostFormBox projectId={id} ownerId={userProfile.id}/>
+        <Stack mt={6} direction={"column"} spacing={4} align={"center"}>
+          <PostFormBox projectId={id} ownerId={userProfile.id}/>
+          <PositionForm id={id}></PositionForm>
+        </Stack>
+
         :
         <div>
           <Heading fontSize="lg" mt={3} mb={4}>

@@ -1,17 +1,11 @@
-import {
-  Avatar,
-  Box,
-  Heading,
-  VStack,
-  Text
-} from '@chakra-ui/react';
-import React, { useContext, useEffect, useRef } from 'react'
+import { VStack } from '@chakra-ui/react';
+import React, { useContext } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
-import { GetFollowedProjectsDocument, useGetFeedQuery, useGetPostsQuery } from '../../generated/graphql';
+import { useGetPostsQuery } from '../../generated/graphql';
 import Post from '../../models/posts/post';
 import { FeedPosts } from './FeedPosts';
-import { FeedProject } from './FeedProject';
+// import { FeedProject } from './FeedProject';
 
 
 export const Feed: React.FC = () => {
@@ -28,35 +22,28 @@ export const Feed: React.FC = () => {
   } else {
 
     if (data) {
-      console.log("here's that data, baby!", data)
-
-      const allPosts: Array<Post> = [];
+      let allPosts: Array<Post> = [];
       data.getFeed?.followedProjects.map(project => (
-        project.posts?.forEach((post: Post) => allPosts.push(post))
+        allPosts = [...allPosts, ...project.posts]
       ))
       data.getFeed?.following.forEach(user => (
         user.posts?.forEach(post => {
-          if (!allPosts.includes(post)) {
-            allPosts.push(post)
+          if (!allPosts.find(({ id }) => id === post.id)) {
+            allPosts.push(post);
           }
         })
       ))
 
-      // allPosts.sort((a, b) => a.createdAt - b.createdAt)
-      console.log("All the posts: ", allPosts)
       return (
         <VStack
           // justifyContent="center"
           alignContent="center"
           w="100vw"
         >
-
           {
-
             allPosts.map(post => (
               <FeedPosts key={post.id} post={post} />
             ))
-
           }
           {/* {
             data.getFeed?.followedProjects.map(project => (
@@ -140,7 +127,6 @@ export const Feed: React.FC = () => {
               )
             })} */}
           {/* <Text>This is a project update</Text>
-     
             </VStack>
           </Box> */}
         </VStack >
