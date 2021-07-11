@@ -12,7 +12,7 @@ interface ImageInfo {
   projectImage: string,
 }
 
-export const ProjectFormBox = ({ uploadingImage, projectImage }): JSX.Element => {
+const ProjectFormBox = ({ uploadingImage, projectImage }: ImageInfo): JSX.Element => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
   return (
@@ -61,3 +61,5 @@ export const ProjectFormBox = ({ uploadingImage, projectImage }): JSX.Element =>
     </Container>
   );
 };
+
+export default ProjectFormBox;

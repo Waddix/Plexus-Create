@@ -22,7 +22,7 @@ import {
   VStack,
   Image
 } from "@chakra-ui/react";
-import { ProjectFormBox } from "./ProjectFormBox";
+import ProjectFormBox from "./ProjectFormBox";
 import { FaCheckCircle, FaTimesCircle, FaImage } from "react-icons/fa";
 import Axios from 'axios';
 
@@ -92,18 +92,20 @@ export default function Component(): JSX.Element {
               </Text>
             </Box>
           </GridItem>
-          <GridItem mt={[5, null, 0]} colSpan={{ md: 2 }}>
+          <GridItem
+            mt={[5, null, 0]}
+            colSpan={{ md: 2 }}
+            bg={useColorModeValue("white", "gray.700")}
+            shadow="base"
+            rounded={[null, "md"]}
+            overflow={{ sm: "hidden" }}
+          >
             <chakra.form
-
-              // method="POST"
-              shadow="base"
-              rounded={[null, "md"]}
-              overflow={{ sm: "hidden" }}
+              method="#"
             >
               <Stack
                 px={4}
                 py={5}
-                bg={useColorModeValue("white", "gray.700")}
                 spacing={6}
                 p={{ sm: 6 }}
               >
@@ -243,8 +245,6 @@ export default function Component(): JSX.Element {
                         alignContent="center"
                         textAlign="center"
                         px={6}
-                        pt={5}
-                        pb={6}
                       >
                         <Heading
                           fontSize="xl"
@@ -323,17 +323,19 @@ export default function Component(): JSX.Element {
                     </Box>
                   </Collapse>
                 </Fragment >
-                <ProjectFormBox
-                  uploadingImage={uploadingImage}
-                  projectImage={projectPic}
-                >
-                </ProjectFormBox>
               </Stack>
             </chakra.form>
+            <Box
+              m={4}
+            >
+              <ProjectFormBox
+                uploadingImage={uploadingImage}
+                projectImage={projectPic ? projectPic : ""}
+              >
+              </ProjectFormBox>
+            </Box>
           </GridItem>
         </SimpleGrid>
-      </Box>
-      <Box visibility={{ base: "hidden", sm: "visible" }} aria-hidden="true">
       </Box>
     </Box>
   );
