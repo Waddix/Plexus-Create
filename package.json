@@ -1,6 +1,6 @@
 {
   "name": "plexus-create",
-  "version": "0.0.1",
+  "version": "1",
   "description": "",
   "main": "_app.tsx",
   "scripts": {
@@ -48,6 +48,7 @@
     "@emotion/styled": "^11",
     "@urql/exchange-graphcache": "^4.1.4",
     "apollo-server-express": "^2.25.1",
+    "axios": "^0.21.1",
     "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "dayjs": "^1.10.5",

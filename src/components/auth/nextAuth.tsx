@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import {
   Box,
@@ -24,7 +25,7 @@ import {
   Heading,
   Text
 } from '@chakra-ui/react';
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signOut, useSession } from 'next-auth/client'
 import { useGetUserQuery, useGetProfileUserIdQuery, useCreateProfileForUserMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
 import { UserContext } from '../../context/userContext';
@@ -68,7 +69,7 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
 
   // Get users
   const [userResult] = useGetUserQuery({ variables: { name: name, email: email } });
-  const { data: userData, fetching: userFetching, error: userError } = userResult;
+  const { data: userData, fetching: userFetching } = userResult;
 
   // User id from the queried user
   const userId = useRef(0)
@@ -102,7 +103,7 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
   // User registration
   const { newUser, setNewUser } = useContext(UserContext);
 
-  const [failAlert, setFailAlert] = useState(false);
+  const [failAlert, setFailAlert] = useState<boolean>(false);
 
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {
@@ -153,17 +154,19 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
   return (
     <Fragment>
       {failAlert &&
-        <HStack>
+        <HStack
+          h={['6rem', '4rem', '4rem', '4rem']}
+          position='absolute'
+          left='0'
+          top='0'
+          zIndex='banner'
+        >
           <Alert
-            h={['6rem', '4rem', '4rem', '4rem']}
-            position='absolute'
             d='flex'
-            top='0'
-            left='0'
             w='100vw'
+            h="100%"
             status="error"
             variant="solid"
-            zIndex='100'
           >
             <AlertIcon />
             <AlertTitle mr={2}>Failed to fetch your profile</AlertTitle>
@@ -218,7 +221,7 @@ const NextAuth: React.FC<AppProps> = ({ pageProps }: AppProps) => {
               :
               <Flex alignItems={'center'} justifyContent={'space-between'} >
                 <Box>
-                <Heading size="md">You're not signed in</Heading>
+                  <Heading size="md">You're not signed in</Heading>
                 </Box>
                 <Box>
                   <Icon boxSize={10} as={FaUserCircle} />

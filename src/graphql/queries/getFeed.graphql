@@ -1,0 +1,30 @@
+query getFeed($profileId: Int!){
+  getFeed(profileId: $profileId) {
+    followedProjects {
+      id
+      createdAt
+      updatedAt
+      title
+      description
+      ownerId
+      posts {
+        id
+        text
+        projectId
+        createdAt
+        updatedAt
+        ownerId
+      }
+    }
+    following {
+      posts {
+        id
+        text
+        projectId
+        createdAt
+        updatedAt
+        ownerId
+      }
+    }
+  }
+}

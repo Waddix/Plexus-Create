@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   As,
   Box,
@@ -10,21 +11,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/dist/client/router";
-import React, { useState } from "react";
+import React from "react";
 import {
   FaUser,
-  FaUsers,
-  FaBell,
-  FaUniversalAccess,
+  // FaUsers,
+  // FaBell,
+  // FaUniversalAccess,
   FaSwatchbook,
 } from "react-icons/fa";
-import Profile from "./setting/profile";
-import Following from './setting/following'
-import Notifications from "./setting/notifications";
-import Accessibility from "./setting/accessibility";
-import Theme from "./setting/theme";
+import Profile from "../../components/setting/profile";
+import Following from '../../components/setting/following'
+import Notifications from "../../components/setting/notifications";
+import Accessibility from "../../components/setting/accessibility";
+import Theme from "../../components/setting/theme";
+import type { AppProps } from 'next/app'
 
-const Settings = (): JSX.Element => {
+const Settings = ({ pageProps }: AppProps): JSX.Element => {
   // Be able to tell which settings is being accessed
   const router = useRouter();
   const { settings } = router.query;
@@ -96,7 +98,7 @@ const Settings = (): JSX.Element => {
         >
           <NavItem icon={FaUser}>Profile</NavItem>
         </Link>
-        <Link
+        {/* <Link
           href='/settings/following'
           _hover={{
             textDecoration: 'none',
@@ -119,7 +121,7 @@ const Settings = (): JSX.Element => {
           }}
         >
           <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
-        </Link>
+        </Link> */}
         <Link
           href='/settings/theme'
           _hover={{
@@ -155,6 +157,8 @@ const Settings = (): JSX.Element => {
           aria-label="Settings Navigation"
           overflowX="auto"
           bg={useColorModeValue("gray.50", "gray.700")}
+          justifyContent="center"
+          alignContent="center"
         >
           <Link
             href='/settings/profile'
@@ -164,7 +168,7 @@ const Settings = (): JSX.Element => {
           >
             <NavItem icon={FaUser}>Profile</NavItem>
           </Link>
-          <Link
+          {/* <Link
             href='/settings/following'
             _hover={{
               textDecoration: 'none',
@@ -187,7 +191,7 @@ const Settings = (): JSX.Element => {
             }}
           >
             <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
-          </Link>
+          </Link> */}
           <Link
             href='/settings/theme'
             _hover={{
@@ -203,7 +207,7 @@ const Settings = (): JSX.Element => {
         <Box as="main" p="4">
           {(settings && settings.length > 0) &&
             settings[0] === 'profile' &&
-            <Profile />
+            <Profile pageProps={pageProps} />
           }
           {(settings && settings.length > 0) &&
             settings[0] === 'following' &&

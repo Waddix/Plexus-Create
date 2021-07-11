@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Button,
   AlertDialog,
@@ -14,7 +16,7 @@ import {
   AlertIcon,
   AlertTitle,
   CloseButton,
-  Box
+  HStack
 } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from '../../context/userContext';
@@ -22,7 +24,7 @@ import Name from "./forms/name";
 import ImageUpload from "./forms/image";
 import Tags from './forms/tags'
 import Settings from "./forms/settings";
-import { session, useSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 import { useCreateProfileForUserMutation } from '../../generated/graphql'
 import { withUrqlClient } from 'next-urql';
 
@@ -37,14 +39,47 @@ const RegisterFlow: React.FC<unknown> = () => {
 
   // User Profile
   const { userProfile, setUserProfile } = useContext(UserContext)
+  const { image: profileImage } = userProfile;
 
   // Form Fields
   const [name, setName] = useState<string>(userProfile ? userProfile.name : "");
   const [username, setUsername] = useState<string>(userProfile ? userProfile.username : "");
-  const [title, setTitle] = useState<string>(userProfile ? userProfile.title : "");
-  const [image, setImage] = useState<string>(userProfile ? userProfile.image : "");
-  const [bio, setBio] = useState<string>(userProfile ? userProfile.bio : "");
-  const [website, setWebsite] = useState<string>("");
+  const [title, setTitle] = useState<string>(
+    userProfile ?
+      userProfile.title ?
+        userProfile.title
+        :
+        ""
+      :
+      ""
+  );
+  const [image, setImage] = useState<string>(
+    userProfile ?
+      userProfile.image ?
+        userProfile.image
+        :
+        ""
+      :
+      ""
+  );
+  const [bio, setBio] = useState<string>(
+    userProfile ?
+      userProfile.bio ?
+        userProfile.bio
+        :
+        ""
+      :
+      ""
+  );
+  const [website] = useState<string>(
+    userProfile ?
+      userProfile.website ?
+        userProfile.website
+        :
+        ""
+      :
+      ""
+  );
   // const [tags, setTags] = useState([]);
   // const [social, setSocail] = useState({});
 
@@ -76,8 +111,12 @@ const RegisterFlow: React.FC<unknown> = () => {
     </Fragment>
   )
 
+  // Form control for username. Prevent spaces and starting with @.
   const [containsAt, setContainsAt] = useState<boolean>(false);
   const [containsSpace, setContainsSpace] = useState<boolean>(false);
+
+  // Is the image uploading
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const pages: Pages = {
     0: {
@@ -87,7 +126,7 @@ const RegisterFlow: React.FC<unknown> = () => {
     },
     1: {
       header: "Profile Appearance",
-      body: <Name
+      body: (<Name
         name={name}
         updateName={setName}
         username={username}
@@ -98,24 +137,29 @@ const RegisterFlow: React.FC<unknown> = () => {
         updateSpace={setContainsSpace}
         at={containsAt}
         updateAt={setContainsAt}
-      />,
+      />),
       buttons: 'normal',
     },
     2: {
       header: "Profile Picture",
-      body: <ImageUpload
+      body: (<ImageUpload
+        name={name}
+        image={image}
         updateImage={setImage}
-      />,
-      buttons: 'normal',
+        uploading={uploading}
+        updateUploading={setUploading}
+        profileImage={profileImage}
+      />),
+      buttons: 'submit',
     },
     3: {
       header: "Tags",
-      body: <Tags />,
+      body: (<Tags />),
       buttons: 'normal'
     },
     4: {
       header: "Settings",
-      body: <Settings />,
+      body: (<Settings />),
       buttons: 'submit'
     },
   }
@@ -160,14 +204,31 @@ const RegisterFlow: React.FC<unknown> = () => {
   return (
     <Fragment>
       {errorSubmitting &&
-        <Box w='100vw' pos='absolute' left='0' top='0'>
-          <Alert status="error" variant="solid" height="5rem" >
+        <HStack
+          h={['6rem', '4rem', '4rem', '4rem']}
+          position='absolute'
+          left='0'
+          top='0'
+          zIndex='banner'
+        >
+          <Alert
+            d='flex'
+            w='100vw'
+            h="100%"
+            status="error"
+            variant="solid"
+          >
             <AlertIcon />
             <AlertTitle mr={2}>There was an error submitting your profile data</AlertTitle>
             <AlertDescription>Please try again later</AlertDescription>
-            <CloseButton onClick={() => setErrorSubmitting(false)} position="absolute" right="8px" top="8px" />
+            <CloseButton
+              position={['unset', "absolute", "absolute", "absolute"]}
+              right="2rem"
+              my='auto'
+              onClick={() => setErrorSubmitting(false)}
+            />
           </Alert>
-        </Box>
+        </HStack>
       }
       <AlertDialog
         motionPreset="scale"
@@ -199,6 +260,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                       }} ref={cancelRef}
                       onClick={closeRegisterFlowDialog}
                       variant="ghost"
+                      isDisabled={uploading}
                     >
                       Skip
                     </Button>
@@ -209,7 +271,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
-                      isDisabled={containsAt || containsSpace}
+                      isDisabled={containsAt || containsSpace || uploading}
                     >
                       Next
                     </Button>
@@ -223,6 +285,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handlePrev}
+                      isDisabled={uploading}
                     >
                       Back
                     </Button>
@@ -233,7 +296,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
-                      isDisabled={containsAt || containsSpace}
+                      isDisabled={containsAt || containsSpace || uploading}
                     >
                       Next
                     </Button>
@@ -247,6 +310,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handlePrev}
+                      isDisabled={uploading}
                     >
                       Back
                     </Button>
@@ -263,7 +327,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         handleSubmit();
                         setIsSubmitting(true);
                       }}
-                      isDisabled={containsAt || containsSpace}
+                      isDisabled={containsAt || containsSpace || uploading}
                     >
                       Submit
                     </Button>

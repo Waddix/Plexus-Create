@@ -1,12 +1,12 @@
 import { Box, Heading } from "@chakra-ui/react"
-import React, { Fragment, useContext } from "react"
-import { UserContext } from "../../../context/userContext"
+import React, { useContext } from "react"
+import { UserContext } from "../../context/userContext"
 
-const Following = () => {
+const Following = (): JSX.Element => {
   // User Profile Context
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
-  const { loadingProfile, setLoadingProfile } = useContext(UserContext)
+  // const { loadingProfile, setLoadingProfile } = useContext(UserContext)
 
   return (
     <Box>
