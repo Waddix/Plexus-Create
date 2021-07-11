@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/prop-types */
 import { FormControl, FormLabel, Input, FormErrorMessage } from '@chakra-ui/react';
 import { useField } from 'formik';

@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useRef } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
 import { useGetFollowedProjectsQuery} from '../../generated/graphql';
-
-// import { withUrqlClient } from "next-urql";
 import { SimpleGrid } from '@chakra-ui/react';
 import { ProjectCard } from '../projects/ProjectCard';
 

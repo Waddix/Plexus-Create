@@ -8,7 +8,7 @@ interface ProjectTagProps {
 
 export const ProjectTags: React.FC<ProjectTagProps> = ({id}) => {
   const [{ data }] = useAllTagsQuery();
-  const [{ fetching, error }, assignTag] = useAssignProjectTagMutation();
+  const [{ error }, assignTag] = useAssignProjectTagMutation();
   if (error) {
     console.log(error)
   }
