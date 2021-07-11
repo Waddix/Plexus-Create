@@ -13,6 +13,7 @@ import {
   Badge,
   Button
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
@@ -28,12 +29,12 @@ interface ProjectCardProps {
   description: string,
   createdAt: Date,
   updatedAt: Date,
-  username?: string | undefined
-  image?: string | undefined
-  // progress: number,
+  username?: string | undefined,
+  image?: string | undefined,
+  ownerId?: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt, username, image }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, username, image, ownerId }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
 
@@ -97,25 +98,32 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               </Text>
             </Stack>
             {username ?
+
+
               <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                <Avatar
-                  size={'md'}
-                  src={image}
-                />
+                <Link href={`/profile/${ownerId}`} passHref={true}>
+                  <Avatar
+                    size={'md'}
+                    src={image}
+                  />
+                </Link>
                 <Stack direction={'column'} spacing={0} fontSize={'sm'}>
                   <Text fontWeight={600}>{username}</Text>
                   <Text color={'gray.500'}> {postedAt}</Text>
                 </Stack>
+
+
+
                 <Flex>
                   <Spacer>
                     <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                   </Spacer>
                 </Flex>
                 <Button
-              onClick={() => followProject({ profileId: userProfile.id, projectId: id })}
-            >
-              Follow
-            </Button>
+                  onClick={() => followProject({ profileId: userProfile.id, projectId: id })}
+                >
+                  Follow
+                </Button>
               </Stack>
               :
               <div></div>

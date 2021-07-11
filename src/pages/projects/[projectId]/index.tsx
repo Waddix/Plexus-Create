@@ -7,6 +7,7 @@ import {
   Container,
   Flex,
   Divider,
+  Text,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/dist/client/router";
@@ -40,20 +41,15 @@ const ProjectView: React.FC<unknown> = () => {
   const router = useRouter();
   const { projectId } = router.query;
   const idToInt = typeof projectId === "string" ? parseInt(projectId) : 1;
-
-  const [{ data, error, fetching }] = useProjectQuery({
-    pause: idToInt === 0, // this pauses the query on project id 0 bc ik we dont have a project id 0 but it is unneccessary
+  const [{ data, fetching }] = useProjectQuery({
+    pause: idToInt === 0,
 
     variables: {
-      id: idToInt, /// this is only because i am using the route as id otherwise pass in variables like so
+      id: idToInt,
     },
   });
   if (fetching) {
-    return <div>loading</div>;
-  }
-  if (error) {
-    console.log(error.message);
-    return <div>{error.message}</div>;
+    return <Text>Loading Project Please Wait</Text>;
   } else {
     return (
       <Container>
@@ -86,7 +82,8 @@ const ProjectView: React.FC<unknown> = () => {
                   createdAt={data?.project?.createdAt}
                   image={data?.project?.owner?.image}
                   username={data?.project?.owner.username}
-                  id={parseInt(projectId)}
+                  id={idToInt}
+                  ownerId={data?.project?.ownerId}
                 ></ProjectDetails>
                 <Divider orientation="horizontal" mt={4} />
                 <PositionForm id={data?.project?.id}></PositionForm>
@@ -99,10 +96,6 @@ const ProjectView: React.FC<unknown> = () => {
   }
 };
 
-export default withUrqlClient(
-  () => ({
-    // ...add your Client options here
-    url: "http://localhost:8080/graphql",
-  }),
-  { ssr: true }
-)(ProjectView);
+export default withUrqlClient(() => ({
+  url: "https://server-seven-blue.vercel.app/graphql",
+}))(ProjectView);

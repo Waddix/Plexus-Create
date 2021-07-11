@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex } from "@chakra-ui/react";
+import { Box, Button, Container, } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import router from "next/dist/client/router";
 import React, { useContext } from "react";
@@ -20,13 +20,11 @@ export const ProjectFormBox = () : JSX.Element => {
           ownerId: userProfile.id,
         });
         if (response.error) {
-          console.log(response.error?.message);
           setErrors({
             title: "error in title",
             description: "error in description",
           });
         } else if (response.data) {
-          console.log(response.data);
           router.push("/projects");
         }
       }}

@@ -23,16 +23,14 @@ interface DonationProps {
 export const CustomDonationInput = ({ id }: DonationProps): JSX.Element => {
   const [value, setValue] = React.useState(0);
   const handleChange = (value: SetStateAction<number | string>) =>
-    setValue(value);
-  const [{ data, fetching, error }] = useCreateCheckoutSessionQuery({
+    setValue(Number(value));
+  const [{ data }] = useCreateCheckoutSessionQuery({
     variables: {
       amount: value,
       id: id,
     },
   });
-  if(error){
-    console.log(error, id);
-  }
+
   return (
     <Container>
       <Box>

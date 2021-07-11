@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext } from "react";
 import {
   FormLabel,
   Input,
@@ -30,7 +30,7 @@ function Name({
   updateName,
   username,
   updateUsername,
-  updateTitle,
+  // updateTitle,
   updateBio,
   space,
   updateSpace,
@@ -62,6 +62,7 @@ function Name({
           <FormLabel htmlFor="username">Username</FormLabel>
           <InputGroup>
             <InputLeftAddon
+              // eslint-disable-next-line react/no-children-prop
               children="@"
               bg={useColorModeValue("gray.50", "gray.800")}
               color={useColorModeValue("gray.500", "gay.50")}
@@ -100,10 +101,10 @@ function Name({
           }
         </FormControl>
       </Box>
-      <Box mt={7}>
+      {/* <Box mt={7}>
         <FormLabel htmlFor="title">Your Title</FormLabel>
         <Input onChange={(e) => updateTitle(e.target.value)} id="title" placeholder={"Fullstack Web Developer"} />
-      </Box>
+      </Box> */}
       <Box mt={7}>
         <FormLabel htmlFor="bio">Your Bio</FormLabel>
         <Textarea onChange={(e) => updateBio(e.target.value)} id="bio" placeholder={"Write something about yourself"} />

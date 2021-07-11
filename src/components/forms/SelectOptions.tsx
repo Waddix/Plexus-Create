@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FormControlProps } from '@chakra-ui/react';
-import { FormControl, FormLabel, Input, FormErrorMessage, Select, SelectProps } from '@chakra-ui/react';
+import { FormControl, FormLabel, FormErrorMessage, Select, SelectProps } from '@chakra-ui/react';
 import { useField } from 'formik';
 import React, { ReactNode } from 'react'
 
@@ -12,7 +12,7 @@ export type SelectOptionsProps = FormControlProps & {
   children: ReactNode;
 }
 // need size as part of input type def
-export const SelectOptions: React.FC<SelectOptionsProps> = ({ label, size, name, children, selectProps,}: SelectOptionsProps) => {
+export const SelectOptions: React.FC<SelectOptionsProps> = ({ label, name, children, selectProps,}: SelectOptionsProps) => {
   const [field, { error }] = useField(name);
   return (
     // !! converts error message to boolean 

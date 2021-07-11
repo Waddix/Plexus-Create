@@ -15,5 +15,5 @@ const CreateProject: React.FC<unknown> = ({ }) => {
 };
 
 export default withUrqlClient(() => ({
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(CreateProject);

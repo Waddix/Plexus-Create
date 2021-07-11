@@ -12,8 +12,7 @@ const theme = extendTheme({
   config,
   fonts: {
     body: `'Bai Jamjuree', sans-serif`,
-    // body: `'Bai Jamjuree', sans-serif`,
-    heading: `'Lobster Two', cursive`,
+    heading: `'Bai Jamjuree', sans-serif`,
   },
 });
 export default theme;

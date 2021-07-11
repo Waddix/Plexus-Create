@@ -7,14 +7,12 @@ interface PositionTagProps {
 }
 
 export const PositionTagsByID: React.FC<PositionTagProps> = ({id}) => {
-  const [{ data, error }] = usePositionTagsQuery({
+  const [{ data }] = usePositionTagsQuery({
     pause: typeof id === "undefined",
     variables:{
     positionId: id
   }});
-  if (error) {
-    console.log(error)
-  } 
+
   return (<Stack spacing={4} isInline>
     {data?.positionTags.map(tag => (
       <Tag

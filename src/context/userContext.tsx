@@ -1,37 +1,12 @@
-import React, { useState, ReactElement, ReactNode } from "react";
-
+import React, { useState,  } from "react";
 import {
   useFollowProjectMutation,
-  useFollowUserMutation,
-  useGetFollowedProjectsQuery,
-  useGetFollowedUsersQuery,
-  useProjectsQuery,
   Project,
   Profile,
   Tag,
 } from "../generated/graphql";
 
-// import Profile from '../models/profile';
-// import Project from "../models/project"
-
-
-//* work in progress. Still a little unclear on how contexts are defined in typescript
-//* May need to use define interface, but not sure what properties it would take on.
-
-// interface userContextInterface {
-//   userProjects: [Project];
-//   projectsFollowing: [Project];
-//   usersFollowing: [Profile];
-//   tagsFollowing: [Tag];
-//   userProfile: Profile;
-//   loadingProfile: boolean;
-//   newUser: boolean;
-//   followP:
-// }
-
-//! what to pass pass in here for type????
 const UserContext = React.createContext<any | null>(null);
-
 interface userSettings {
   theme: string,
   mode: 'light' | 'dark',
@@ -46,60 +21,16 @@ function UserContextProvider({ children }: { children: any }): any {
   const [userProfile, setUserProfile] = useState<Profile | Record<string, never>>({});
   const [userProjects, setUserProjects] = useState<Project[]>([]);
   const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
-  const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState<Tag[]>([])
   const [loadingProfile, setLoadingProfile] = useState<boolean>(false);
   const [newUser, setNewUser] = useState<boolean>(false);
   const [, followP] = useFollowProjectMutation();
-  const [, followU] = useFollowUserMutation();
-  const [, getFollowProj] = useGetFollowedProjectsQuery();
-  const [, getFollowUsers] = useGetFollowedUsersQuery();
-  const [userSettings, setUserSettings] = useState<userSettings | null>(null)
-
-  // const [{ data: allProjects, error }] = useProjectsQuery();
-
-
-
   const followProject = (projectId: number) => {
-    console.log("projectId: ", projectId)
     followP({
       profileId: userProfile.id,
       projectId: projectId
     });
   }
-
-    // setProjectsFollowing((prevProjects) => {
-
-    //   return [...prevProjects, project];
-    // })
-
-
-  const followUser = async (userId: number) => {
-    await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
-  }
-
- //** Having issues getting the following functions to work. */
- //** May refactor to use these later so we can manage state and api calls from here */
- //** For now, just calling graphql hooks from components  */
-  // const getProjectsFollowing = async () => {
-  //   const projects = await getFollowProj({
-  //     variables: {
-  //       profileId: userProfile.id
-  //     }
-  //   });
-  //   setProjectsFollowing(projects);
-  // }
-
-
-  // const getUsersFollowing = async () => {
-  //   const users = await getFollowUsers({
-  //     variables: {
-  //       profileId: userProfile.id
-  //     }
-  //   });
-  //   setUsersFollowing(users);
-  // }
-
   const userProps = {
     userProjects,
     projectsFollowing,
@@ -111,12 +42,8 @@ function UserContextProvider({ children }: { children: any }): any {
     setLoadingProfile,
     newUser,
     setNewUser,
-    followUser,
-    userSettings,
-    setUserSettings
   }
 
-  // const sum = (x: number, y: number): number => x + y;
 
   return (
     <UserContext.Provider value={userProps}>
@@ -124,5 +51,4 @@ function UserContextProvider({ children }: { children: any }): any {
     </UserContext.Provider>
   )
 }
-
 export { UserContextProvider, UserContext };

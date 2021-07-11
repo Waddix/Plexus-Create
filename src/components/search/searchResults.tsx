@@ -1,11 +1,22 @@
 import { Box, VStack, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Project } from "../../../server/src/db/entities/Project";
-import { ProjectCard } from "../../components/projects/ProjectCard";
-import { UserCard } from "../../components/UserCard"
+import { ProjectCard } from "../projects/ProjectCard";
+import { UserCard } from "../UserCard"
 import Profile from "../../models/profile";
 
-function SearchResults({ results, fetching }): JSX.Element {
+interface Results {
+  Profiles: Profile[] | null,
+  Projects: Project[] | null,
+}
+
+interface Props {
+  results: Results,
+  fetching: boolean
+  query: string,
+}
+
+function SearchResults({ results, fetching, query }: Props): JSX.Element {
   return (
     <Box
       mt={['1rem', '1em', '1rem', '2rem']}
@@ -17,7 +28,7 @@ function SearchResults({ results, fetching }): JSX.Element {
         align="stretch"
         mx={['0', '0', '0', '2rem']}
       >
-        {Object.values(results).some(results => results !== null) ?
+        {Object.values(results).some(results => results !== null) &&
           Object.keys(results).map(resultKey => {
             if (resultKey === 'Projects') {
               const projects = results.Projects;
@@ -39,33 +50,46 @@ function SearchResults({ results, fetching }): JSX.Element {
               const profiles = results.Profiles;
               if (profiles) {
                 return profiles.map((profile: Profile) => {
-                  return (
-                    <UserCard
-                      key={profile.id + '-' + profile.username}
-                      profile={profile}
-                    />
-                  )
+                  if (profile.name) {
+                    return (
+                      <UserCard
+                        key={profile.id + '-' + profile.username}
+                        profile={profile}
+                        currId={profile.id}
+                      />
+                    )
+                  }
                 })
               }
             }
           })
-          :
-          fetching ?
-            (
-              <Box m='auto'>
-                <Heading>
-                  Fetching data, please wait.
-                </Heading>
-              </Box>
-            )
-            :
-            (
-              <Box m='auto'>
-                <Heading>
-                  Find the next big thing.
-                </Heading>
-              </Box>
-            )
+        }
+        {fetching &&
+          (
+            <Box m='auto'>
+              <Heading>
+                Fetching data, please wait.
+              </Heading>
+            </Box>
+          )
+        }
+        {(Object.values(results).every(results => results === null) && query) &&
+          (
+            <Box m='auto'>
+              <Heading>
+                No results found for {query}
+              </Heading>
+            </Box>
+          )
+        }
+        {(Object.values(results).every(results => results === null) && !query && !fetching) &&
+          (
+            <Box m='auto'>
+              <Heading>
+                Find the next big thing
+              </Heading>
+            </Box>
+          )
         }
       </VStack>
     </Box>

@@ -16,17 +16,17 @@ import {
   Spacer,
   SkeletonCircle,
   Heading,
+  Collapse,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import NextAuth from '../auth/nextAuth';
 import { useSession } from 'next-auth/client';
 import { UserContext } from '../../context/userContext';
-import { FaUserCircle, FaSearch } from "react-icons/fa";
+import { FaUserCircle, FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import type { AppProps } from 'next/app'
 
 const Links = ['Home', 'Projects', 'Search'];
 
-const NavLink = (link: string | JSX.Element): JSX.Element => (
+const NavLink = (link: string): JSX.Element => (
   <Link
     key={link}
     px={2}
@@ -42,7 +42,7 @@ const NavLink = (link: string | JSX.Element): JSX.Element => (
   </Link>
 );
 
-function Nav({ pageProps }: AppProps): JSX.Element {
+function Nav(pageProps: AppProps): JSX.Element {
   // Session
   const [session] = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,30 +50,28 @@ function Nav({ pageProps }: AppProps): JSX.Element {
   // User Profile Context
   const { userProfile } = useContext(UserContext)
   // Conditionally render the skeleton loading effects
-  const { loadingProfile, setLoadingProfile } = useContext(UserContext)
+  const { loadingProfile } = useContext(UserContext)
+
+  // Hamburber Icons
+  const close = (): JSX.Element => {
+    return (
+      <Icon
+        as={FaTimes}
+        boxSize={5}
+      />
+    )
+  }
+
+  const bars = (): JSX.Element => {
+    return (
+      <Icon
+        as={FaBars}
+      />
+    )
+  }
 
   return (
     <Fragment>
-      <Flex
-        w="100vw"
-        justifyContent={["center", "center", "start", "center"]}
-        ml={["auto", "auto", "20px", "auto"]}
-      >
-        <Heading // Logo/App Name
-          width='max-content'
-          zIndex="popover"
-          top='0.7rem'
-          position='absolute'
-          fontSize="3xl"
-          _hover={{
-            textDecoration: 'none',
-            cursor: 'pointer',
-            bg: useColorModeValue('orange.200', 'orange.700'),
-          }}
-        >
-          Plexus Create
-        </Heading>
-      </Flex>
 
       <Box
         zIndex="sticky"
@@ -83,12 +81,33 @@ function Nav({ pageProps }: AppProps): JSX.Element {
         top='0'
         alignItems={'center'}
       >
+        <Flex
+          width={{ base: "100%", md: "auto", lg: "100%" }}
+          justifyContent={["center", "center", "start", "center"]}
+          height="0"
+          mx={["auto", "auto", "inherit", "auto"]}
+          ml={["0px", "0px", "12px", "0px"]}
+          top='0.7rem'
+          position='absolute'
+          transition=".3s ease"
+        >
+          <Heading // Logo/App Name
+            fontSize="3xl"
+            _hover={{
+              textDecoration: 'none',
+              cursor: 'pointer',
+              bg: useColorModeValue('orange.200', 'orange.700'),
+            }}
+          >
+            Plexus Create
+          </Heading>
+        </Flex>
 
         <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
             <IconButton
               size={'md'}
-              icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+              icon={isOpen ? close() : bars()}
               aria-label={'Open Menu'}
               display={{ md: 'none' }}
               onClick={isOpen ? onClose : onOpen}
@@ -152,12 +171,16 @@ function Nav({ pageProps }: AppProps): JSX.Element {
                     }
                   </Button>
                 </PopoverTrigger>
-                <NextAuth pageProps={pageProps} />
+                <NextAuth {...pageProps} />
               </Popover>
             </Box>
           </Flex>
 
-          {isOpen ? (
+
+          <Collapse
+            in={isOpen}
+            animateOpacity
+          >
             <Box pb={4} display={{ md: 'none' }}>
               <Stack as={'nav'} spacing={4}>
                 {Links.map((link) => (
@@ -165,7 +188,7 @@ function Nav({ pageProps }: AppProps): JSX.Element {
                 ))}
               </Stack>
             </Box>
-          ) : null}
+          </Collapse>
         </Box>
       </Box>
     </Fragment>

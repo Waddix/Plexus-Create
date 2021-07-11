@@ -11,12 +11,14 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { CustomDonationInput } from "./DonationInput";
 import { ProjectTagsByID } from "./ProjectTagsByID";
+import { UserContext } from "../../context/userContext";
+import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
 
 interface ProjectDetailsProps {
@@ -28,6 +30,7 @@ interface ProjectDetailsProps {
   username?: string;
   email?: string;
   image?: string;
+  ownerId: number | undefined;
 }
 
 interface DescriptionProps {
@@ -61,9 +64,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   title,
   username,
   image,
+  ownerId
 }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
+  const { userProfile } = useContext(UserContext);
   return (
     <Box p={8} rounded="xl">
       <Box>
@@ -87,6 +92,16 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         )}
       </Box>
       <Divider orientation="horizontal" mt={4} />
+      {userProfile.id === ownerId ?
+        <PostFormBox projectId={id} ownerId={userProfile.id}/>
+        :
+        <div>
+          <Heading fontSize="lg" mt={3} mb={4}>
+            Donate to this Project!
+          </Heading>
+          <CustomDonationInput id={id}></CustomDonationInput>
+        </div>
+      }
       <Container>
         <PositionCard
           projectId={id}
@@ -94,11 +109,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           image={image}
         ></PositionCard>
       </Container>
-      <Divider orientation="horizontal" mt={4} />
+      {/* <Divider orientation="horizontal" mt={4} />
       <Heading fontSize="lg" mt={3} mb={4}>
         Donate to this Project!
       </Heading>
-      <CustomDonationInput id={id}></CustomDonationInput>
+      <CustomDonationInput id={id}></CustomDonationInput> */}
       <Divider orientation="horizontal" mt={4} />
       <Box>
         <Heading fontSize="lg" mt={3} mb={4}>

@@ -6,7 +6,7 @@ import { withUrqlClient } from "next-urql";
 import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useGetProjectsByUserQuery } from "../../generated/graphql";
 
-const ProfileView: React.FC<unknown> = () => {
+const ProfileView: React.FC = (): JSX.Element => {
   // const { projectsFollowing } = useContext(UserContext);
   const { userProfile } = useContext(UserContext);
   const { id, username, image } = userProfile;
@@ -14,10 +14,9 @@ const ProfileView: React.FC<unknown> = () => {
   const [{ fetching, data, error }] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
 
   if (fetching) {
-    return <div>Hold up a sec big dawg</div>
+    return <div>Loading Profile...</div>
   }
   else if (error) {
-    console.error(error);
     return <div>{error.message}</div>
   } else {
     if (data) {
@@ -27,7 +26,7 @@ const ProfileView: React.FC<unknown> = () => {
             <UserCard profile={userProfile} currId={id} />
           </Flex>
           <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
-            {data.getProjectsByUser?.map((p, i) => {
+            {data.getProjectsByUser?.map((p) => {
               return <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt} username={username} image={image}> </ProjectCard>
             })}
           </SimpleGrid>
@@ -35,9 +34,12 @@ const ProfileView: React.FC<unknown> = () => {
       )
     }
   }
+  return (
+    <></>
+  )
 }
 
   export default withUrqlClient(() => ({
     // ...add your Client options here
-    url: 'http://localhost:8080/graphql',
+    url: 'https://server-seven-blue.vercel.app/graphql',
   }))(ProfileView);

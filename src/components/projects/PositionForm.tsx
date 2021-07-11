@@ -13,7 +13,7 @@ interface PositionFormProps {
 }
 
 export const PositionForm = ({id}: PositionFormProps): JSX.Element => {
-  const [{data}, createPosition] = useCreatePositionMutation();
+  const [, createPosition] = useCreatePositionMutation();
   return (
     <Container>
       <Heading fontSize="lg" mt={3} mb={4}>
@@ -27,13 +27,11 @@ export const PositionForm = ({id}: PositionFormProps): JSX.Element => {
             projectId: id
           });
           if (response.error) {
-            console.log(response.error?.message);
             setErrors({
               title: "error in title",
               description: "error in description",
             });
           } else if (response.data) {
-            console.log(response.data);
             router.push(`/projects/${id}`);
           }
         }}
