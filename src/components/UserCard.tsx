@@ -22,9 +22,19 @@ interface profileProps {
   bio: string,
   image: string
 }
+
+interface ProfileSearchProps {
+  bio: string
+  id: number
+  image: string
+  name: string
+  title: string
+  username: string
+  website: string
+}
 interface userCardProps {
   currId: number,
-  profile: profileProps
+  profile: profileProps | ProfileSearchProps
 }
 
 export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {

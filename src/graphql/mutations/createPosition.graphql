@@ -7,8 +7,8 @@ mutation createPosition($input:PositionInput!, $projectId: Int!){
       description
     }
     errors{
-      field
-      message
+      posField
+      posMessage
     }
   }
 }

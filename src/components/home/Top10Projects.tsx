@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 // import React, { ReactElement, useContext } from 'react'
 // import { ProjectsContext } from "../../context/projectsContext"
 // // import { UserContext } from '../../context/userContext'

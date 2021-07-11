@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Link from 'next/link';
 import { useSession } from 'next-auth/client';
 import {
   Button,
@@ -9,9 +8,10 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  Link
 } from '@chakra-ui/react';
 
-export default function SplitScreen() {
+export default function SplitScreen(): JSX.Element {
   const [session] = useSession();
   return (
     <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>

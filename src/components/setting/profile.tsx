@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Avatar,
   Box,
@@ -23,15 +25,17 @@ import {
   InputLeftAddon,
   Textarea,
   Link,
-} from "@chakra-ui/react"
-import React, { Fragment, useContext, useEffect, useState } from "react"
-import { UserContext } from "../../../context/userContext"
+  Collapse,
+} from "@chakra-ui/react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { UserContext } from "../../context/userContext";
 import { FaUserEdit, FaEdit, FaTimesCircle, FaCheckCircle, FaUserCircle } from "react-icons/fa";
-import { useUpdateProfileMutation } from '../../../generated/graphql'
+import { useUpdateProfileMutation } from '../../generated/graphql';
 import { withUrqlClient } from 'next-urql';
-import { useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client';
+import Axios from 'axios';
 
-const Profile: React.FC<unknown> = ():JSX.Element => {
+const Profile: React.FC<unknown> = (): JSX.Element => {
   // Next auth session
   const [session] = useSession();
 
@@ -42,15 +46,10 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
 
   const { id, image, name, username, title, bio, website } = userProfile
 
-  // Handle uploading images
-  const handleImageUpload = () => {
-    return;
-  }
-
   // Which fields are being edited
   const [nameEdit, setNameEdit] = useState<boolean>(false);
   const [userNameEdit, setUsernameEdit] = useState<boolean>(false);
-  const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  // const [titleEdit, setTitleEdit] = useState<boolean>(false);
   const [bioEdit, setBioEdit] = useState<boolean>(false);
 
   const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
@@ -108,8 +107,57 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
         setNameEdit(false);
         setUsernameEdit(false);
         setBioEdit(false);
-        setTitleEdit(false);
+        // setTitleEdit(false);
       })
+  }
+
+
+  // Handle images input to display a preview of the file
+  const [file, setFile] = useState<File | File[] | null>(null)
+
+  const handleImageInput = (files: FileList | React.SetStateAction<File | File[] | null>[] | null): void => {
+    if (files !== null) {
+      const file = files[0];
+      setFile(file);
+    }
+  }
+
+  // Handle file upload to cloudinary
+
+  const handleUpload = async (file: File | File[]): Promise<void> => {
+    if (file && !Array.isArray(file)) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "blmanvfk");
+
+      const newPic = await Axios.post(`https://api.cloudinary.com/v1_1/plexus-create/image/upload`, formData)
+        .then(res => {
+          if (res.status === 200) {
+            const { secure_url: newPic } = res.data;
+            return newPic
+          } else if (res.status < 400) {
+            // Show error code here
+          }
+        })
+
+      if (newPic && typeof newPic === "string") {
+        const newProfile = Object.assign({ ...updatedUser });
+        newProfile.username = "@" + updatedUser.username;
+        newProfile.image = newPic;
+
+        updateProfile({ input: newProfile })
+          .then(() => {
+            setIsSubmitting(false);
+            setUserProfile(Object.assign({ ...newProfile, ...userProfile }))
+            setFile(null)
+            setNameEdit(false);
+            setUsernameEdit(false);
+            setBioEdit(false);
+            // setTitleEdit(false);
+          })
+      }
+    }
+    return;
   }
 
   return session ? (
@@ -134,7 +182,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
             :
             image.length > 0 ?
               < Avatar
-                name="userProfile.name"
+                name={userProfile.name}
                 src={image}
                 size="xl"
               />
@@ -142,16 +190,16 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
               <Icon boxSize={10} as={FaUserCircle} />
           }
 
-          <form onSubmit={handleImageUpload}>
-            <chakra.label
-              for="image"
-              cursor="pointer"
-              rounded="md"
-              fontSize="md"
-              pos="relative"
-              textAlign="center"
-            >
-              <Fragment>
+          <form>
+            <Fragment>
+              <chakra.label
+                for="image"
+                cursor="pointer"
+                rounded="md"
+                fontSize="md"
+                pos="relative"
+                textAlign="center"
+              >
                 <FormLabel
                   htmlFor="image"
                   bg="whiteAlpha.200"
@@ -159,10 +207,12 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                   rounded="md"
                   px={2}
                   py={2}
-                  mt={4}
+                  my={4}
+                  mx="auto"
                   textAlign="center"
                   _hover={{
                     bg: useColorModeValue("orange.200", "orange.700"),
+                    cursor: loadingProfile ? "not-allowed" : "pointer"
                   }}
                 >
                   <Skeleton
@@ -172,10 +222,82 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                   </Skeleton>
                 </FormLabel>
                 <VisuallyHidden>
-                  <Input type="file" id="image" />
+                  <Input
+                    isDisabled={loadingProfile}
+                    type="file"
+                    accept="image/*"
+                    id="image"
+                    onChange={(e) => handleImageInput(e.target.files)}
+                  />
                 </VisuallyHidden>
-              </Fragment>
-            </chakra.label>
+              </chakra.label>
+              <Collapse
+                in={file ? true : false}
+                animateOpacity
+              >
+                <Fragment>
+                  {file &&
+                    <VStack my={2} alignContent="center" justifyContent="center">
+                      <Avatar
+                        src={URL.createObjectURL(file)}
+                        name={Array.isArray(file) ? "" : file.name}
+                        size="xl"
+                      />
+                      <Text color="gray.300">{Array.isArray(file) ? "" : file.name}</Text>
+                    </VStack>
+                  }
+                  <HStack my={2} alignContent="center" justifyContent="center">
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsSubmitting(true);
+                        if (file) {
+                          handleUpload(file);
+                        }
+                      }}
+                      isLoading={isSubmitting}
+                    >
+                      <Icon
+                        as={FaCheckCircle}
+                      />
+                    </Button>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFile(null)
+                      }}
+                      isDisabled={isSubmitting}
+                    >
+                      <Icon
+                        as={FaTimesCircle}
+                      />
+                    </Button>
+                  </HStack>
+                </Fragment>
+              </Collapse>
+            </Fragment>
           </form>
         </Box>
 
@@ -358,7 +480,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                 Username:
               </Heading>
             </Flex>
-            <Flex
+            {/* <Flex
               flexDirection="row"
               justifyContent="start"
               alignContent="center"
@@ -440,7 +562,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
               <Heading size="md">
                 Title:
               </Heading>
-            </Flex>
+            </Flex> */}
           </VStack>
           <Spacer />
           <VStack
@@ -482,6 +604,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                     <FormControl id="username">
                       <InputGroup>
                         <InputLeftAddon
+                          // eslint-disable-next-line react/no-children-prop
                           children="@"
                           bg={useColorModeValue("gray.50", "gray.800")}
                           color={useColorModeValue("gray.500", "gay.50")}
@@ -521,7 +644,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                 }
               </Text>
             </Skeleton>
-            <Skeleton
+            {/* <Skeleton
               isLoaded={!loadingProfile}
             >
               <Text>
@@ -546,7 +669,7 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
                       "No Title Set"
                 }
               </Text>
-            </Skeleton>
+            </Skeleton> */}
           </VStack>
         </Flex >
       </Flex >
@@ -754,5 +877,5 @@ const Profile: React.FC<unknown> = ():JSX.Element => {
 
 export default withUrqlClient(() => ({
   // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(Profile);

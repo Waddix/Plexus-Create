@@ -84,6 +84,7 @@ export default function Component(): JSX.Element {
                     </FormLabel>
                     <InputGroup size="sm">
                       <InputLeftAddon
+                        // eslint-disable-next-line react/no-children-prop
                         children="http://"
                         bg={useColorModeValue("gray.50", "gray.800")}
                         color={useColorModeValue("gray.500", "gay.50")}

@@ -32,20 +32,16 @@ interface ProjectCardProps {
   username?: string | undefined,
   image?: string | undefined,
   ownerId?: number,
-  // source: string | undefined
-
-  // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt, username, image, ownerId }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, username, image, ownerId }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
 
   //* use this once userContext is fixed
   const { userProfile, followProject, projectsFollowing } = useContext(UserContext);
 
-  // const [, followProject] = useFollowProjectMutation();
-  // console.log("source?", source)
+
 
   return (
     <Flex>
@@ -105,7 +101,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
 
 
               <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                <Link href={`/profile/${ownerId}`}>
+                <Link href={`/profile/${ownerId}`} passHref={true}>
                   <Avatar
                     size={'md'}
                     src={image}

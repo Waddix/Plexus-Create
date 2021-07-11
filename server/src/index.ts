@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import dotenv from "dotenv";
@@ -41,7 +41,7 @@ const main = async () => {
     context: ({ req, res }) => ({
       req,
       res,
-    }), // allows us to use express req and res in graphql
+    }), 
   });
 
   apolloServer.applyMiddleware({ app });
