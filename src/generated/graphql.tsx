@@ -231,6 +231,7 @@ export type Project = {
   updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
   description: Scalars['String'];
+  image: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
   posts?: Maybe<Array<Post>>;
@@ -241,6 +242,7 @@ export type Project = {
 export type ProjectInput = {
   title: Scalars['String'];
   description: Scalars['String'];
+  image: Scalars['String'];
 };
 
 export type Query = {
@@ -522,7 +524,7 @@ export type CreateProjectMutation = (
   { __typename?: 'Mutation' }
   & { createProject: (
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
+    & Pick<Project, 'id' | 'title' | 'image' | 'description' | 'createdAt' | 'updatedAt'>
   ) }
 );
 
@@ -982,6 +984,7 @@ export const CreateProjectDocument = gql`
   createProject(input: $input, ownerId: $ownerId) {
     id
     title
+    image
     description
     createdAt
     updatedAt

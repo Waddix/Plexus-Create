@@ -16,6 +16,9 @@ class ProjectInput {
 
   @Field(() => String)
   description: string;
+
+  @Field(() => String)
+  image: string;
 }
 @Resolver()
 

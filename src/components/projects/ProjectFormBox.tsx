@@ -7,51 +7,57 @@ import { useCreateProjectMutation } from "../../generated/graphql";
 import { InputField } from "../forms/InputField";
 import { TextArea } from "../forms/TextArea";
 
-export const ProjectFormBox = () : JSX.Element => {
+interface ImageInfo {
+  uploadingImage: boolean,
+  projectImage: string,
+}
+
+export const ProjectFormBox = ({ uploadingImage, projectImage }): JSX.Element => {
   const [, createProject] = useCreateProjectMutation();
   const { userProfile } = useContext(UserContext);
   return (
     <Container>
-    <Formik
-      initialValues={{ title: "", description: "" }}
-      onSubmit={async (values, { setErrors }) => {
-        const response = await createProject({
-          input: values,
-          ownerId: userProfile.id,
-        });
-        if (response.error) {
-          console.log(response.error?.message);
-          setErrors({
-            title: "error in title",
-            description: "error in description",
+      <Formik
+        initialValues={{ title: "", description: "" }}
+        onSubmit={async (values, { setErrors }) => {
+          const response = await createProject({
+            input: Object.assign({ ...values }, { image: projectImage }),
+            ownerId: userProfile.id,
           });
-        } else if (response.data) {
-          console.log(response.data);
-          router.push("/projects");
-        }
-      }}
+          if (response.error) {
+            console.log(response.error?.message);
+            setErrors({
+              title: "error in title",
+              description: "error in description",
+            });
+          } else if (response.data) {
+            console.log(response.data);
+            router.push("/projects");
+          }
+        }}
       >
-      {({ isSubmitting }) => (
-        <Form>
-          <InputField name="title" placeholder="Project Title" label="Title" />
-          <Box mt={4}>
-            <TextArea
-              name="description"
-              placeholder="Project Description"
-              label="Description"
+        {({ isSubmitting }) => (
+          <Form>
+            <InputField name="title" placeholder="Project Title" label="Title" />
+            <Box mt={4}>
+              <TextArea
+                name="description"
+                placeholder="Project Description"
+                label="Description"
               />
-          </Box>
-          <Button
-            mt={4}
-            type="submit"
-            colorScheme="orange"
-            isLoading={isSubmitting}
+            </Box>
+            <Button
+              mt={4}
+              type="submit"
+              colorScheme="orange"
+              isLoading={isSubmitting}
+              isDisabled={uploadingImage}
             >
-            Create Project
-          </Button>
-        </Form>
-      )}
-    </Formik>
-      </Container>
+              Submit Project
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 };
