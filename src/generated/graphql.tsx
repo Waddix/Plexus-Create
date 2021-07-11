@@ -16,17 +16,12 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type Accounts = {
-  __typename?: 'Accounts';
-  id: Scalars['ID'];
-  created_at: Scalars['DateTime'];
-  updated_at: Scalars['DateTime'];
-  compound_id: Scalars['String'];
-  user_id: Scalars['Float'];
-  provider_id: Scalars['String'];
-  provider_account_id: Scalars['String'];
-};
 
+export type Error = {
+  __typename?: 'Error';
+  posField: Scalars['String'];
+  posMessage: Scalars['String'];
+};
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -38,9 +33,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   followProject: Scalars['Boolean'];
   followUser: Scalars['Boolean'];
-  createTag: TagResponse;
-  assignTag: Scalars['Boolean'];
-  assignPositionTag: Scalars['Boolean'];
   createPosition: PositionResponse;
   assignPosition: Scalars['Boolean'];
   createPost: Post;
@@ -54,6 +46,9 @@ export type Mutation = {
   createPaymentIntent: Scalars['String'];
   createStripeLink: Scalars['String'];
   createStripeAccount: Scalars['String'];
+  createTag: TagResponse;
+  assignTag: Scalars['Boolean'];
+  assignPositionTag: Scalars['Boolean'];
 };
 
 
@@ -66,23 +61,6 @@ export type MutationFollowProjectArgs = {
 export type MutationFollowUserArgs = {
   profileId_2: Scalars['Int'];
   profileId_1: Scalars['Int'];
-};
-
-
-export type MutationCreateTagArgs = {
-  name: Scalars['String'];
-};
-
-
-export type MutationAssignTagArgs = {
-  projectId: Scalars['Int'];
-  tagId: Scalars['Int'];
-};
-
-
-export type MutationAssignPositionTagArgs = {
-  positionId: Scalars['Int'];
-  tagId: Scalars['Int'];
 };
 
 
@@ -154,6 +132,23 @@ export type MutationCreateStripeLinkArgs = {
   stripeId: Scalars['String'];
 };
 
+
+export type MutationCreateTagArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationAssignTagArgs = {
+  projectId: Scalars['Int'];
+  tagId: Scalars['Int'];
+};
+
+
+export type MutationAssignPositionTagArgs = {
+  positionId: Scalars['Int'];
+  tagId: Scalars['Int'];
+};
+
 export type Position = {
   __typename?: 'Position';
   id: Scalars['Int'];
@@ -163,8 +158,8 @@ export type Position = {
   description: Scalars['String'];
   type: Scalars['String'];
   projectId: Scalars['Float'];
-  project: Project;
-  tags: Array<Tag>;
+  project?: Maybe<Project>;
+  tags?: Maybe<Array<Tag>>;
 };
 
 export type PositionInput = {
@@ -175,7 +170,7 @@ export type PositionInput = {
 
 export type PositionResponse = {
   __typename?: 'PositionResponse';
-  errors?: Maybe<Array<FieldError>>;
+  errors?: Maybe<Array<Error>>;
   position?: Maybe<Position>;
 };
 
@@ -227,8 +222,8 @@ export type Project = {
   description: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
-  tags: Array<Tag>;
-  position: Array<Position>;
+  tags?: Maybe<Array<Tag>>;
+  position?: Maybe<Array<Position>>;
 };
 
 export type ProjectInput = {
@@ -241,10 +236,6 @@ export type Query = {
   getFollowedProjects?: Maybe<Array<Project>>;
   user?: Maybe<Profile>;
   getFollowedUsers?: Maybe<Array<Profile>>;
-  tags: Array<Tag>;
-  tag?: Maybe<Tag>;
-  projectTags: Array<Tag>;
-  positionTags: Array<Tag>;
   positions: Array<Position>;
   position?: Maybe<Position>;
   projectPositions: Array<Position>;
@@ -259,6 +250,10 @@ export type Query = {
   project?: Maybe<Project>;
   getProjectsByUser?: Maybe<Array<Project>>;
   createCheckoutSession: Scalars['String'];
+  tags: Array<Tag>;
+  tag?: Maybe<Tag>;
+  projectTags: Array<Tag>;
+  positionTags: Array<Tag>;
   getAllUsers?: Maybe<Array<Users>>;
   findUserName?: Maybe<Users>;
   findUserEmail: Users;
@@ -278,21 +273,6 @@ export type QueryUserArgs = {
 
 export type QueryGetFollowedUsersArgs = {
   profileId: Scalars['Int'];
-};
-
-
-export type QueryTagArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type QueryProjectTagsArgs = {
-  projectId: Scalars['Int'];
-};
-
-
-export type QueryPositionTagsArgs = {
-  positionId: Scalars['Int'];
 };
 
 
@@ -347,6 +327,21 @@ export type QueryCreateCheckoutSessionArgs = {
 };
 
 
+export type QueryTagArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryProjectTagsArgs = {
+  projectId: Scalars['Int'];
+};
+
+
+export type QueryPositionTagsArgs = {
+  positionId: Scalars['Int'];
+};
+
+
 export type QueryFindUserNameArgs = {
   name: Scalars['String'];
 };
@@ -360,26 +355,6 @@ export type QueryFindUserEmailArgs = {
 export type QueryFindUserArgs = {
   email: Scalars['String'];
   name: Scalars['String'];
-};
-
-export type Sessions = {
-  __typename?: 'Sessions';
-  id: Scalars['ID'];
-  created_at: Scalars['DateTime'];
-  updated_at: Scalars['DateTime'];
-  user_id: Scalars['Float'];
-  expires: Scalars['DateTime'];
-};
-
-export type Settings = {
-  __typename?: 'Settings';
-  id: Scalars['Int'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  profile_id: Scalars['Int'];
-  dyslexic_font: Scalars['Boolean'];
-  darkMode: Scalars['Boolean'];
-  colorScheme: Scalars['String'];
 };
 
 export type Tag = {
@@ -457,8 +432,8 @@ export type CreatePositionMutation = (
       { __typename?: 'Position' }
       & Pick<Position, 'id' | 'type' | 'title' | 'description'>
     )>, errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
+      { __typename?: 'Error' }
+      & Pick<Error, 'posField' | 'posMessage'>
     )>> }
   ) }
 );
@@ -800,10 +775,10 @@ export type ProjectQuery = (
     & { owner: (
       { __typename?: 'Profile' }
       & Pick<Profile, 'username' | 'image'>
-    ), tags: Array<(
+    ), tags?: Maybe<Array<(
       { __typename?: 'Tag' }
       & Pick<Tag, 'name'>
-    )> }
+    )>> }
   )> }
 );
 
@@ -844,10 +819,10 @@ export type ProjectsQuery = (
     & { owner: (
       { __typename?: 'Profile' }
       & Pick<Profile, 'username' | 'image'>
-    ), tags: Array<(
+    ), tags?: Maybe<Array<(
       { __typename?: 'Tag' }
       & Pick<Tag, 'name'>
-    )> }
+    )>> }
   )> }
 );
 
@@ -887,8 +862,8 @@ export const CreatePositionDocument = gql`
       description
     }
     errors {
-      field
-      message
+      posField
+      posMessage
     }
   }
 }
