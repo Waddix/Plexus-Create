@@ -42,9 +42,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   const postedAt = dayjs().to(dayjs(createdAt))
 
   //* use this once userContext is fixed
-  const { userProfile } = useContext(UserContext);
+  const { userProfile, followProject, projectsFollowing } = useContext(UserContext);
 
-  const [, followProject] = useFollowProjectMutation();
+  // const [, followProject] = useFollowProjectMutation();
   // console.log("source?", source)
 
   return (
@@ -123,11 +123,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                   </Spacer>
                 </Flex>
-                <Button
-                  onClick={() => followProject({ profileId: userProfile.id, projectId: id })}
-                >
-                  Follow
-                </Button>
+                { ownerId != userProfile.id && !projectsFollowing.includes(id) ?
+                  <Button
+                    onClick={() => followProject(id)}
+                  >
+                    Follow
+                  </Button>
+                  :
+                  <></>
+                }
+
                 {/* { source === "profile" ?
                    <Button
                    onClick={() => console.log("let's update")}
