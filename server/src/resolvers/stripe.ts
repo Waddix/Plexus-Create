@@ -61,7 +61,6 @@ export class StripeResolver {
       type: "account_onboarding",
     };
     const link = await stripe.accountLinks.create(params);
-    console.log(link);
     return link.url;
   }
 

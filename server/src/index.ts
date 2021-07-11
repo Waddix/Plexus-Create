@@ -41,7 +41,7 @@ const main = async () => {
     context: ({ req, res }) => ({
       req,
       res,
-    }), // allows us to use express req and res in graphql
+    }), 
   });
 
   apolloServer.applyMiddleware({ app });
