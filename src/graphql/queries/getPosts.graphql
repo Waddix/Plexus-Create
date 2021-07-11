@@ -9,10 +9,7 @@ query getPosts($profileId: Int!) {
         project{
           id
           title
-          tags {
-            id
-            name
-          }
+
         }
         owner {
           id
@@ -31,10 +28,7 @@ query getPosts($profileId: Int!) {
         project{
           id
           title
-          tags {
-            id
-            name
-          }
+
         }
         owner {
           id

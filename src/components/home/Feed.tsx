@@ -21,8 +21,9 @@ const Feed: React.FC = () => {
 
     if (data) {
       let allPosts: Array<Post> = [];
-      data.getFeed?.followedProjects.map(project => (
-        allPosts = [...allPosts, ...project.posts]
+      data.getFeed?.followedProjects.forEach(project => (
+        project?.posts?.forEach(post => allPosts.push(post))
+        // allPosts = [...allPosts, ...project.posts]
       ))
       data.getFeed?.following.forEach(user => (
         user.posts?.forEach(post => {
@@ -41,8 +42,9 @@ const Feed: React.FC = () => {
             allPosts.map(post => (
               <FeedPosts key={post.id} post={post} />
             ))
+
           }
-       
+
         </VStack >
       )
     }

@@ -23,7 +23,7 @@ export const PostFormBox: React.FC<PostProps> = ({ projectId, ownerId }) => {
               ownerId,
               text: values.text,
             });
-            resetForm({ values: '' });
+            resetForm({});
           }
           catch (error) {
             console.error(error);
