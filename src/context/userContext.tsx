@@ -9,6 +9,7 @@ import {
   Project,
   Profile,
   Tag,
+  FollowUserDocument,
 } from "../generated/graphql";
 
 // import Profile from '../models/profile';
@@ -45,42 +46,58 @@ interface userSettings {
 function UserContextProvider({ children }: { children: any }): any {
   const [userProfile, setUserProfile] = useState<Profile | Record<string, never>>({});
   const [userProjects, setUserProjects] = useState<Project[]>([]);
-  const [projectsFollowing, setProjectsFollowing] = useState<Project[]>([]);
-  // const [usersFollowing, setUsersFollowing] = useState<Profile[]>([]);
+  const [projectsFollowing, setProjectsFollowing] = useState<number[]>([]);
+  const [usersFollowing, setUsersFollowing] = useState<number[]>([]);
   const [tagsFollowing, setTagsFollowing] = useState<Tag[]>([])
   const [loadingProfile, setLoadingProfile] = useState<boolean>(false);
   const [newUser, setNewUser] = useState<boolean>(false);
   const [, followP] = useFollowProjectMutation();
-  // const [, followU] = useFollowUserMutation();
+  const [, followU] = useFollowUserMutation();
   // const [, getFollowProj] = useGetFollowedProjectsQuery();
   // const [, getFollowUsers] = useGetFollowedUsersQuery();
   // const [userSettings, setUserSettings] = useState<userSettings | null>(null)
 
   // const [{ data: allProjects, error }] = useProjectsQuery();
 
+  // const addToFollowedProjects = (projectId: number) => {
+  //   setProjectsFollowing(followed => [...followed, projectId])
+  // }
 
+  // const addToFollowedUsers = (profileId: number) => {
+  //   setProjectsFollowing(followed => [...followed, profileId])
+  // }
 
-  const followProject = (projectId: number) => {
-    console.log("projectId: ", projectId)
-    followP({
+  const followProject = async (projectId: number) => {
+    await followP({
       profileId: userProfile.id,
       projectId: projectId
     });
+    setProjectsFollowing(followed => {
+      return [...followed, projectId];
+    })
   }
 
-    // setProjectsFollowing((prevProjects) => {
 
-    //   return [...prevProjects, project];
-    // })
+  const followUser = async (userId: number) => {
+    await followU({
+      profileId_2: userProfile.id,
+      profileId_1: userId
+    });
+    setUsersFollowing(followed => {
+      return [...followed, userId];
+    })
+  }
+
+
 
 
   // const followUser = async (userId: number) => {
   //   await followU({ profileId_1: parseInt(userProfile.id), profileId_2: userId })
   // }
 
- //** Having issues getting the following functions to work. */
- //** May refactor to use these later so we can manage state and api calls from here */
- //** For now, just calling graphql hooks from components  */
+  //** Having issues getting the following functions to work. */
+  //** May refactor to use these later so we can manage state and api calls from here */
+  //** For now, just calling graphql hooks from components  */
   // const getProjectsFollowing = () => {
   //   const projects = getFollowProj({
   //     variables: {
@@ -106,12 +123,13 @@ function UserContextProvider({ children }: { children: any }): any {
     tagsFollowing,
     userProfile,
     setUserProfile,
-    followProject,
     loadingProfile,
     setLoadingProfile,
     newUser,
     setNewUser,
-    // followUser,
+    usersFollowing,
+    followProject,
+    followUser
     // getProjectsFollowing,
     // getUsersFollowing
   }
