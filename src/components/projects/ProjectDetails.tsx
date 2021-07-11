@@ -21,6 +21,7 @@ import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
 import { PositionForm } from "./PositionForm";
+import profile from "../../pages/profile";
 
 interface ProjectDetailsProps {
   id: number;
@@ -70,7 +71,8 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
-  console.log("projectId, profileId: ", id, userProfile.id)
+
+  console.log("projectId, profileId, ownerId: ", id, userProfile.id, ownerId)
   return (
     <Box p={8} rounded="xl">
       <Box>

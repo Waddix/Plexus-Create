@@ -40,7 +40,7 @@ export class FollowUserResolver {
       return true;
   }
 
-  
+
   // @Query(() => Profile, { nullable: true })
   // async getFollowedUsersPosts(
   //   @Arg('profileId', () => Int) profileId: number,
