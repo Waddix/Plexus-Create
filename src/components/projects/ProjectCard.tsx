@@ -69,8 +69,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               mt={-6}
               mx={-6}
               mb={6}
-              // pos={'relative'}
-              >
+            // pos={'relative'}
+            >
               {/* <Image
                 src={ image && image.length > 0 ?
                   image
@@ -106,13 +106,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 <ProjectTagsByID id={id}></ProjectTagsByID>
               </Stack>
               <Link href={`/projects/${id}`}>
-              <Heading
-                color={useColorModeValue('gray.700', 'white')}
-                fontSize={'2xl'}
-                fontFamily={'body'}>
-                {title}
-              </Heading>
-                </Link>
+                <Heading
+                  color={useColorModeValue('gray.700', 'white')}
+                  fontSize={'2xl'}
+                  fontFamily={'body'}>
+                  {title}
+                </Heading>
+              </Link>
               <Text color={'gray.500'}>
                 {description}
               </Text>
@@ -126,10 +126,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     size={'md'}
                     src={profileImage}
                   />
-                <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                  <Text fontWeight={600}>{username}</Text>
-                  <Text color={'gray.500'}> {postedAt}</Text>
-                </Stack>
+                  <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                    <Text fontWeight={600}>{username}</Text>
+                    <Text color={'gray.500'}> {postedAt}</Text>
+                  </Stack>
                 </Link>
 
 
@@ -146,11 +146,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     Follow
                   </Button>
                   :
-                  <Button
-                    onClick={() => unfollowProject(id)}
-                  >
-                    Unfollow
+                  (ownerId != userProfile.id ?
+                    <Button
+                      onClick={() => unfollowProject(id)}
+                    >
+                      Unfollow
                     </Button>
+                    :
+                    <></>
+                  )
+
                 }
 
                 {/* { source === "profile" ?
