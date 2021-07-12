@@ -40,6 +40,15 @@ function UserContextProvider({ children }: { children: any }): any {
     })
   }
 
+  const unfollowProject = (projectId: number) => {
+    setProjectsFollowing(followed => {
+      let index = followed.indexOf(projectId)
+      let copy = followed.slice();
+      copy.splice(index, 1)
+      return copy
+    })
+  }
+
 
   const followUser = async (userId: number) => {
     await followU({
@@ -51,6 +60,15 @@ function UserContextProvider({ children }: { children: any }): any {
     })
   }
 
+  
+  const unfollowUser = (userId: number) => {
+    setUsersFollowing(followed => {
+      let index = followed.indexOf(userId)
+      let copy = followed.slice();
+      copy.splice(index, 1)
+      return copy
+    })
+  }
 
   const userProps = {
     userProjects,
@@ -64,7 +82,9 @@ function UserContextProvider({ children }: { children: any }): any {
     setNewUser,
     usersFollowing,
     followProject,
-    followUser
+    followUser,
+    unfollowProject,
+    unfollowUser
   }
 
 

@@ -46,7 +46,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   const postedAt = dayjs().to(dayjs(createdAt))
 
   //* use this once userContext is fixed
-  const { userProfile, followProject, projectsFollowing } = useContext(UserContext);
+  const { userProfile, followProject, unfollowProject, projectsFollowing } = useContext(UserContext);
 
 
 
@@ -144,7 +144,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     Follow
                   </Button>
                   :
-                  <></>
+                  <Button
+                    onClick={() => unfollowProject(id)}
+                  >
+                    Unfollow
+                    </Button>
                 }
 
                 {/* { source === "profile" ?

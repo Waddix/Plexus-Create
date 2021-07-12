@@ -40,7 +40,7 @@ interface userCardProps {
 export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
   const { id, username, bio, image } = profile;
   // const [, followUser] = useFollowUserMutation();
-  const { usersFollowing, followUser } = useContext(UserContext);
+  const { usersFollowing, followUser, unfollowUser } = useContext(UserContext);
   return (
     <Center py={6}>
       <Box
@@ -141,7 +141,11 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
               Follow
             </Button>
             :
-            <></>
+            <Button
+              onClick={() => unfollowUser(id)}
+            >
+              Unfollow
+            </Button>
             // <Fragment></Fragment>
           }
         </Stack>
