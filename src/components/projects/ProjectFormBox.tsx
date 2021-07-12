@@ -1,28 +1,38 @@
-import { Box, Button, Container, } from "@chakra-ui/react";
+import { Box, Button, Container, Heading, } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import router from "next/dist/client/router";
 import React, { useContext } from "react";
+import { ProjectsContext } from "../../context/projectsContext";
 import { UserContext } from "../../context/userContext";
 import { useCreateProjectMutation } from "../../generated/graphql";
 import { InputField } from "../forms/InputField";
 import { TextArea } from "../forms/TextArea";
+import { AllTags } from "./TagSelection";
 
 interface ImageInfo {
   uploadingImage: boolean,
   projectImage: string,
 }
 
-const ProjectFormBox = ({ uploadingImage, projectImage }: ImageInfo): JSX.Element => {
+export const ProjectFormBox = ({ uploadingImage, projectImage }: ImageInfo): JSX.Element => {
   const [, createProject] = useCreateProjectMutation();
-  const { userProfile } = useContext(UserContext);
+  const { userProfile,  } = useContext(UserContext);
+  const { projectTag  } = useContext(ProjectsContext);
   return (
     <Container>
+      <Box m={2}>
+      <Heading h="inherit">
+        Select Tags
+      </Heading>
+      <AllTags></AllTags>
+      </Box>
       <Formik
-        initialValues={{ title: "", description: "" }}
+        initialValues={{ title: "", description: ""}}
         onSubmit={async (values, { setErrors }) => {
           const response = await createProject({
             input: Object.assign({ ...values }, { image: projectImage }),
             ownerId: userProfile.id,
+            tagId: projectTag
           });
           if (response.error) {
             console.log(response.error?.message);
@@ -62,4 +72,3 @@ const ProjectFormBox = ({ uploadingImage, projectImage }: ImageInfo): JSX.Elemen
   );
 };
 
-export default ProjectFormBox;
