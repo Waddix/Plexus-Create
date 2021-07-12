@@ -20,11 +20,11 @@ import {
   FaSwatchbook,
 } from "react-icons/fa";
 import Profile from "../../components/setting/profile";
-import Following from '../../components/setting/following'
+import Following from "../../components/setting/following";
 import Notifications from "../../components/setting/notifications";
 import Accessibility from "../../components/setting/accessibility";
 import Theme from "../../components/setting/theme";
-import type { AppProps } from 'next/app'
+import type { AppProps } from "next/app";
 
 const Settings = ({ pageProps }: AppProps): JSX.Element => {
   // Be able to tell which settings is being accessed
@@ -65,7 +65,20 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
   };
 
   // Sidebar
-  const SidebarContent = (props: JSX.IntrinsicAttributes & OmitCommonProps<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, keyof ChakraProps> & ChakraProps & OmitCommonProps<unknown, keyof ChakraProps> & { as?: As<unknown> | undefined; }) => (
+  const SidebarContent = (
+    props: JSX.IntrinsicAttributes &
+      OmitCommonProps<
+        React.DetailedHTMLProps<
+          React.HTMLAttributes<HTMLDivElement>,
+          HTMLDivElement
+        >,
+        keyof ChakraProps
+      > &
+      ChakraProps &
+      OmitCommonProps<unknown, keyof ChakraProps> & {
+        as?: As<unknown> | undefined;
+      }
+  ) => (
     <Box
       as="nav"
       pos="fixed"
@@ -91,9 +104,9 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
         aria-label="Settings Navigation"
       >
         <Link
-          href='/settings/profile'
+          href="/settings/profile"
           _hover={{
-            textDecoration: 'none',
+            textDecoration: "none",
           }}
         >
           <NavItem icon={FaUser}>Profile</NavItem>
@@ -123,9 +136,9 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
           <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
         </Link> */}
         <Link
-          href='/settings/theme'
+          href="/settings/theme"
           _hover={{
-            textDecoration: 'none',
+            textDecoration: "none",
           }}
         >
           <NavItem icon={FaSwatchbook}>Theme</NavItem>
@@ -138,16 +151,14 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.700")}
-    // minH="93.1vh"
+      // minH="93.1vh"
     >
-      <SidebarContent
-        display={{ base: "none", md: "unset" }}
-      />
+      <SidebarContent display={{ base: "none", md: "unset" }} />
 
       <HStack
         display={{ base: "unset", md: "none" }}
         position="sticky"
-        top='4rem'
+        top="4rem"
       >
         <Flex
           direction="row"
@@ -161,9 +172,9 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
           alignContent="center"
         >
           <Link
-            href='/settings/profile'
+            href="/settings/profile"
             _hover={{
-              textDecoration: 'none',
+              textDecoration: "none",
             }}
           >
             <NavItem icon={FaUser}>Profile</NavItem>
@@ -193,9 +204,9 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
             <NavItem icon={FaUniversalAccess}>Accessibility</NavItem>
           </Link> */}
           <Link
-            href='/settings/theme'
+            href="/settings/theme"
             _hover={{
-              textDecoration: 'none',
+              textDecoration: "none",
             }}
           >
             <NavItem icon={FaSwatchbook}>Theme</NavItem>
@@ -205,26 +216,21 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
 
       <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
         <Box as="main" p="4">
-          {(settings && settings.length > 0) &&
-            settings[0] === 'profile' &&
+          {settings && settings.length > 0 && settings[0] === "profile" && (
             <Profile pageProps={pageProps} />
-          }
-          {(settings && settings.length > 0) &&
-            settings[0] === 'following' &&
+          )}
+          {settings && settings.length > 0 && settings[0] === "following" && (
             <Following />
-          }
-          {(settings && settings.length > 0) &&
-            settings[0] === 'notifications' &&
-            <Notifications />
-          }
-          {(settings && settings.length > 0) &&
-            settings[0] === 'accessibility' &&
-            <Accessibility />
-          }
-          {(settings && settings.length > 0) &&
-            settings[0] === 'theme' &&
+          )}
+          {settings &&
+            settings.length > 0 &&
+            settings[0] === "notifications" && <Notifications />}
+          {settings &&
+            settings.length > 0 &&
+            settings[0] === "accessibility" && <Accessibility />}
+          {settings && settings.length > 0 && settings[0] === "theme" && (
             <Theme />
-          }
+          )}
         </Box>
       </Box>
     </Box>

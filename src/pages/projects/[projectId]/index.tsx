@@ -49,7 +49,7 @@ const ProjectView: React.FC<unknown> = () => {
     },
   });
   if (fetching) {
-    return <Text>Loading Project Please Wait</Text>;
+    return <Text>Loading Project..</Text>;
   } else {
     return (
       <Container>
