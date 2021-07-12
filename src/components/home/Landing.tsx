@@ -60,7 +60,7 @@ export default function SplitScreen(): JSX.Element {
                   bg: useColorModeValue('orange.200', 'orange.700'),
                 }}
               >
-                Get inspiration
+                Discover
               </Button>
             </Link>
 

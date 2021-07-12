@@ -105,6 +105,7 @@ export type MutationUpdateProfileArgs = {
 
 
 export type MutationCreateProjectArgs = {
+  tagId: Scalars['Int'];
   ownerId: Scalars['Int'];
   input: ProjectInput;
 };
@@ -492,6 +493,7 @@ export type CreateProfileForUserMutation = (
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
   ownerId: Scalars['Int'];
+  tagId: Scalars['Int'];
 }>;
 
 
@@ -1006,8 +1008,8 @@ export function useCreateProfileForUserMutation() {
   return Urql.useMutation<CreateProfileForUserMutation, CreateProfileForUserMutationVariables>(CreateProfileForUserDocument);
 }
 export const CreateProjectDocument = gql`
-    mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
-  createProject(input: $input, ownerId: $ownerId) {
+    mutation CreateProject($input: ProjectInput!, $ownerId: Int!, $tagId: Int!) {
+  createProject(input: $input, ownerId: $ownerId, tagId: $tagId) {
     id
     title
     image

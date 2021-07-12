@@ -140,11 +140,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           image={ownerImage}
         ></PositionCard>
       </Container>
-      {/* <Divider orientation="horizontal" mt={4} />
-      <Heading fontSize="lg" mt={3} mb={4}>
-        Donate to this Project!
-      </Heading>
-      <CustomDonationInput id={id}></CustomDonationInput> */}
       <Divider orientation="horizontal" mt={4} />
       <Box>
         <Heading fontSize="lg" mt={3} mb={4}>

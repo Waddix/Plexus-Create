@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/dist/client/router";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import { UserCard } from "../../components/UserCard";
 import { useProfileLookupQuery } from "../../generated/graphql";
 import { UserContext } from "../../context/userContext";
@@ -14,21 +14,16 @@ const UserProfile: React.FC<unknown> = () => {
   const { userId } = router.query;
   const userIdInt = typeof userId === "string" ? parseInt(userId) : 0;
 
-
-  const [{ fetching, data, error }] = useProfileLookupQuery({ variables: { id: userIdInt } })
+  const [{ fetching, data }] = useProfileLookupQuery({
+    variables: { id: userIdInt },
+  });
   if (fetching) {
-    return <div>Hold up a sec big dawg</div>
-  }
-  else if (error) {
-    return <div>{error.message}</div>
+    return <Text>Loading Profile</Text>;
   } else {
-
-    if (data) {
-      const { username, image } = data?.profileLookup
-      // const source = "profile"
+      const { username, image } = data?.profileLookup;
       return (
         <div>
-          <Flex justify={'center'}>
+          <Flex justify={"center"}>
             <UserCard profile={data?.profileLookup} currId={id} />
           </Flex>
           <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
@@ -37,17 +32,10 @@ const UserProfile: React.FC<unknown> = () => {
             })}
           </SimpleGrid>
         </div>
-
-      )
-    }
-
+      );
   }
-  return (
-    <></>
-  )
-}
+};
 
 export default withUrqlClient(() => ({
-  // ...add your Client options here
-  url: 'https://server-seven-blue.vercel.app/graphql',
+  url: "https://server-seven-blue.vercel.app/graphql",
 }))(UserProfile);

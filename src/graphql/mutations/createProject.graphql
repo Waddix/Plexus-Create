@@ -1,5 +1,5 @@
-mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
-  createProject(input: $input, ownerId: $ownerId) {
+mutation CreateProject($input: ProjectInput!, $ownerId: Int!, $tagId: Int!) {
+  createProject(input: $input, ownerId: $ownerId, tagId: $tagId) {
     id
     title
     image
