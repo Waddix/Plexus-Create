@@ -12,9 +12,10 @@ import {
   Spacer,
   Badge,
   Button,
+  Link,
   Image
 } from '@chakra-ui/react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
@@ -45,7 +46,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   const postedAt = dayjs().to(dayjs(createdAt))
 
   //* use this once userContext is fixed
-  const { userProfile, followProject, projectsFollowing } = useContext(UserContext);
+  const { userProfile, followProject, unfollowProject, projectsFollowing } = useContext(UserContext);
 
 
 
@@ -61,14 +62,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
             rounded={'md'}
             p={6}
             overflow={'hidden'}>
+
             <Box
               h="max-content"
               bg={'gray.100'}
               mt={-6}
               mx={-6}
               mb={6}
-              // pos={'relative'}
-              >
+            // pos={'relative'}
+            >
               {/* <Image
                 src={ image && image.length > 0 ?
                   image
@@ -103,13 +105,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               <Stack direction="row">
                 <ProjectTagsByID id={id}></ProjectTagsByID>
               </Stack>
-              <Heading
-                color={useColorModeValue('gray.700', 'white')}
-                fontSize={'2xl'}
-                fontFamily={'body'}>
-                {title}
-              </Heading>
-
+              <Link href={`/projects/${id}`}>
+                <Heading
+                  color={useColorModeValue('gray.700', 'white')}
+                  fontSize={'2xl'}
+                  fontFamily={'body'}>
+                  {title}
+                </Heading>
+              </Link>
               <Text color={'gray.500'}>
                 {description}
               </Text>
@@ -123,11 +126,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     size={'md'}
                     src={profileImage}
                   />
+                  <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                    <Text fontWeight={600}>{username}</Text>
+                    <Text color={'gray.500'}> {postedAt}</Text>
+                  </Stack>
                 </Link>
-                <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                  <Text fontWeight={600}>{username}</Text>
-                  <Text color={'gray.500'}> {postedAt}</Text>
-                </Stack>
 
 
 
@@ -143,7 +146,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     Follow
                   </Button>
                   :
-                  <></>
+                  (ownerId != userProfile.id ?
+                    <Button
+                      onClick={() => unfollowProject(id)}
+                    >
+                      Unfollow
+                    </Button>
+                    :
+                    <></>
+                  )
+
                 }
 
                 {/* { source === "profile" ?

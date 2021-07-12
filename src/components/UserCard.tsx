@@ -10,7 +10,7 @@ import {
   Stack,
   Button,
   Link,
-  Badge,
+  // Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { Profile, useFollowUserMutation } from '../generated/graphql';
@@ -40,7 +40,7 @@ interface userCardProps {
 export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
   const { id, username, bio, image } = profile;
   // const [, followUser] = useFollowUserMutation();
-  const { usersFollowing, followUser } = useContext(UserContext);
+  const { usersFollowing, followUser, unfollowUser } = useContext(UserContext);
   return (
     <Center py={6}>
       <Box
@@ -91,7 +91,8 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
           {' '} */}
         </Text>
 
-        <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
+          {/* User/profile tags will go here */}
+        {/* <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
           <Badge
             px={2}
             py={1}
@@ -113,7 +114,7 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
             fontWeight={'400'}>
             #music
           </Badge>
-        </Stack>
+        </Stack> */}
 
         <Stack mt={8} direction={'row'} spacing={4}>
           {currId != id && !usersFollowing.includes(id) ?
@@ -140,7 +141,15 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
               Follow
             </Button>
             :
-            <></>
+            (currId != id ?
+              <Button
+                onClick={() => unfollowUser(id)}
+              >
+                Unfollow
+              </Button>
+              :
+              <></>
+            )
             // <Fragment></Fragment>
           }
         </Stack>

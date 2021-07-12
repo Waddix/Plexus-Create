@@ -10,6 +10,7 @@ import {
   Spacer,
   Stack,
   Text,
+  Link,
   Image
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
@@ -92,9 +93,13 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         <Heading as="h3">{title}</Heading>
         <Box>
           <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
+          <Link href={`/profile/${ownerId}`}>
             <Avatar size={"md"} src={ownerImage} />
+          </Link>
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
+            <Link href={`/profile/${ownerId}`}>
               <Text fontWeight={600}>{username}</Text>
+            </Link>
               <Text color={"gray.500"}> {postedAt}</Text>
               <ProjectTagsByID id={id}></ProjectTagsByID>
             </Stack>
