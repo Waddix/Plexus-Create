@@ -32,6 +32,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
   projectId,
   username,
   image,
+  email
 }) => {
   const [{ data }] = useProjectPositionsQuery({
     variables: {
@@ -92,7 +93,9 @@ export const PositionCard: React.FC<PositionCardProps> = ({
             <Link color={"brand.400"} _hover={{ textDecor: "underline" }}>
               <Spacer>
                 <Box>
+                <a href={`mailto:lalib.worldwide@gmail.com`}>
                   <SiMinutemailer></SiMinutemailer>
+                </a>
                 </Box>
               </Spacer>
             </Link>
