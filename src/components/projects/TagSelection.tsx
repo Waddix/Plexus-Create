@@ -23,7 +23,7 @@ export const AllTags: React.FC= () => {
         rounded="full"
         variant="solid"
         variantColor="cyan"
-        cursor="grabbing"
+        cursor="pointer"
       >
         <TagLabel onClick={(e) => handleClick(e)} key={tag.id}>{tag.name}</TagLabel>
       </Tag>
