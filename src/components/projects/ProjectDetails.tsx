@@ -21,7 +21,7 @@ import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
 import { PositionForm } from "./PositionForm";
-import profile from "../../pages/profile";
+// import profile from "../../pages/profile";
 
 interface ProjectDetailsProps {
   id: number;

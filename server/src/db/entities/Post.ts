@@ -29,7 +29,6 @@ export class Post extends Base {
   project!:Promise<Project>;
 
 
-
   // @Field(() => String)
   // @Column()
   // type!: string;

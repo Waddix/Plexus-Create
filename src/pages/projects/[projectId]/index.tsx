@@ -14,7 +14,7 @@ import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import React from "react";
 import { Wrapper } from "../../../components/forms/Wrapper";
-import { PositionForm } from "../../../components/projects/PositionForm";
+// import { PositionForm } from "../../../components/projects/PositionForm";
 import { ProjectDetails } from "../../../components/projects/ProjectDetails";
 import { useProjectQuery } from "../../../generated/graphql";
 

@@ -23,18 +23,14 @@ export class Project extends Base {
   @Column()
   ownerId!: number;
 
+  // Add Promise back to Profile
   @Field(() => Profile)
   @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true})
-  owner!: Promise<Profile>;
+  owner!: Profile;
 
   @Field(() => [Post], {nullable: true})
   @OneToMany(() => Post, (post: Post) => post.project)
   posts: Promise<Post[]>;
-
-  // // //* Allow users to follow the project by establishing jointable with Profile via Follow entity
-  // @Field()
-  // @ManyToMany(() => Profile, (profile: Profile) => profile.followedProjects)
-  // followers: Promise<Profile[]>;
 
   @Field(() => [Tag], {nullable: true})
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
@@ -45,9 +41,4 @@ export class Project extends Base {
   @OneToMany(() => Position, (p: Position) => p.project, {nullable:true})
   position: Position[];
 
-
-  // @Field(() => [Profile])
-  // @ManyToMany(() => Profile)
-  // @JoinTable()
-  // followers: Profile[];
 }

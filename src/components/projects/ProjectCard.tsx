@@ -19,7 +19,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
 import { FcNext } from 'react-icons/fc'
 import { UserContext } from '../../context/userContext';
-import { useFollowProjectMutation } from '../../generated/graphql';
+// import { useFollowProjectMutation } from '../../generated/graphql';
 import { ProjectTagsByID } from './ProjectTagsByID';
 
 

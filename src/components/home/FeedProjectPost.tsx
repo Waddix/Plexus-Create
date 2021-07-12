@@ -29,7 +29,7 @@ interface Props {
 }
 
 export const FeedProjectPost: React.FC<Props> = ({ post }) => {
-  const { createdAt, updatedAt, id, ownerId, projectId, text, owner } = post;
+  const { createdAt, ownerId, projectId, text, owner } = post;
 
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
