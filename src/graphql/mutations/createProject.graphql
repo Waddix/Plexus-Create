@@ -2,6 +2,7 @@ mutation CreateProject($input: ProjectInput!, $ownerId: Int!) {
   createProject(input: $input, ownerId: $ownerId) {
     id
     title
+    image
     description
     createdAt
     updatedAt

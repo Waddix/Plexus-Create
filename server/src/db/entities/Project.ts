@@ -19,6 +19,10 @@ export class Project extends Base {
   @Column()
   description!: string;
 
+  @Field(() => String)
+  @Column()
+  image: string;
+
   @Field()
   @Column()
   ownerId!: number;
