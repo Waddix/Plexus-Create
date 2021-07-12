@@ -2,10 +2,6 @@ module.exports = {
   reactStrictMode: true,
   distDir: 'dist',
   images: {
-    domains: ['localhost', 'res.cloudinary.com']
-  }
-  // images: {
-  //   loader: 'cloudinary',
-  //   path: 'https://cloudinary.com/myaccount/',
-  // },
+    domains: ['res.cloudinary.com', "cloudinary.com", "localhost", "plexus-create.vercel.app"],
+  },
 }

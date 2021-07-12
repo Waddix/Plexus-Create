@@ -10,7 +10,8 @@ import {
   Spacer,
   Stack,
   Text,
-  Link
+  Link,
+  Image
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { SocialIcon } from "react-social-icons";
@@ -33,6 +34,7 @@ interface ProjectDetailsProps {
   username?: string;
   email?: string;
   image?: string;
+  projectImage: string;
   ownerId: number | undefined;
 }
 
@@ -66,22 +68,33 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   createdAt,
   title,
   username,
-  image,
-  ownerId
+  image: ownerImage,
+  ownerId,
+  projectImage,
 }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
 
-  console.log("projectId, profileId, ownerId: ", id, userProfile.id, ownerId)
+  // console.log("projectId, profileId, ownerId: ", id, userProfile.id, ownerId)
   return (
     <Box p={8} rounded="xl">
+      <Box>
+        <Box alignContent="center" height="max-content">
+          <Image
+            src={projectImage.length > 0 ? projectImage :"/PlexusProject3D.png"}
+            alt={title}
+            shadow="xl"
+            rounded="xl"
+          ></Image>
+        </Box>
+      </Box>
       <Box>
         <Heading as="h3">{title}</Heading>
         <Box>
           <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
           <Link href={`/profile/${ownerId}`}>
-            <Avatar size={"md"} src={image} />
+            <Avatar size={"md"} src={ownerImage} />
           </Link>
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
             <Link href={`/profile/${ownerId}`}>
@@ -108,7 +121,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         //   Update
         // </Button>
         <Stack mt={6} direction={"column"} spacing={4} align={"center"}>
-          <PostFormBox projectId={id} ownerId={userProfile.id}/>
+          <PostFormBox projectId={id} ownerId={userProfile.id} />
           <PositionForm id={id}></PositionForm>
         </Stack>
 
@@ -124,7 +137,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         <PositionCard
           projectId={id}
           username={username}
-          image={image}
+          image={ownerImage}
         ></PositionCard>
       </Container>
       {/* <Divider orientation="horizontal" mt={4} />

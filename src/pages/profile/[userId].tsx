@@ -33,7 +33,7 @@ const UserProfile: React.FC<unknown> = () => {
           </Flex>
           <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
             {data?.profileLookup?.projects?.map((p) => {
-              return <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt} username={username} image={image}> </ProjectCard>
+              return <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt} image={p.image} username={username} profileImage={image}> </ProjectCard>
             })}
           </SimpleGrid>
         </div>

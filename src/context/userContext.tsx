@@ -1,4 +1,4 @@
-import React, { useState,  } from "react";
+import React, { useState, } from "react";
 import {
   useFollowProjectMutation,
   Project,
@@ -28,7 +28,7 @@ function UserContextProvider({ children }: { children: any }): any {
   const [newUser, setNewUser] = useState<boolean>(false);
   const [, followP] = useFollowProjectMutation();
   const [, followU] = useFollowUserMutation();
- 
+
 
   const followProject = async (projectId: number) => {
     await followP({
