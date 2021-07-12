@@ -13,6 +13,7 @@ import {
   // Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useFollowUserMutation } from '../generated/graphql';
 // import { Profile, useFollowUserMutation } from '../generated/graphql';
 
 
@@ -39,8 +40,8 @@ interface userCardProps {
 
 export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
   const { id, username, bio, image } = profile;
-  // const [, followUser] = useFollowUserMutation();
-  const { usersFollowing, followUser } = useContext(UserContext);
+  const [, followUser] = useFollowUserMutation();
+  // const { usersFollowing, followUser } = useContext(UserContext);
   return (
     <Center py={6}>
       <Box
@@ -117,7 +118,7 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
         </Stack> */}
 
         <Stack mt={8} direction={'row'} spacing={4}>
-          {currId != id && !usersFollowing.includes(id) ?
+          {currId != id?
             <Button
               flex={1}
               fontSize={'sm'}
@@ -133,10 +134,10 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
               _focus={{
                 bg: 'blue.500',
               }}
-              onClick={() => {
-                // await followUser({ profileId_2: currId, profileId_1: id })
-                followUser(id);
-              }}
+              onClick={() => followUser({
+                profileId_2: profile.id,
+                profileId_1: currId
+              })}
             >
               Follow
             </Button>

@@ -22,6 +22,7 @@ import { FcNext } from 'react-icons/fc'
 import { UserContext } from '../../context/userContext';
 // import { useFollowProjectMutation } from '../../generated/graphql';
 import { ProjectTagsByID } from './ProjectTagsByID';
+import { useFollowProjectMutation } from '../../generated/graphql';
 
 
 interface ProjectCardProps {
@@ -40,8 +41,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
   const postedAt = dayjs().to(dayjs(createdAt))
 
   //* use this once userContext is fixed
-  const { userProfile, followProject, projectsFollowing } = useContext(UserContext);
-
+  const { userProfile} = useContext(UserContext);
+  const [, followProject ] = useFollowProjectMutation();
 
 
   return (
@@ -120,9 +121,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                   </Spacer>
                 </Flex>
-                { ownerId != userProfile.id && !projectsFollowing.includes(id) ?
+                { ownerId != userProfile.id ?
                   <Button
-                    onClick={() => followProject(id)}
+                    onClick={() => followProject({
+                      profileId: userProfile.id,
+                      projectId: id
+                    })}
                   >
                     Follow
                   </Button>
