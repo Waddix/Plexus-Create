@@ -28,7 +28,7 @@ export class PostResolver {
     return user;
   }
 
-  @Query(() => Post)
+
 
   @Mutation(() => Post)
   async createPost(
@@ -36,7 +36,7 @@ export class PostResolver {
     @Arg("ownerId", () => Int) ownerId: number,
     @Arg("projectId", () => Int) projectId: number
   ): Promise<Post> {
-    const newPost = await Post.create({ text, ownerId }).save();
+    const newPost = await Post.create({ text, ownerId, projectId }).save();
     await getConnection()
       .createQueryBuilder()
       .relation(Profile, "posts")

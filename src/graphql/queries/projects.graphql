@@ -3,6 +3,7 @@ query Projects {
     title
     description
     ownerId
+    image
     owner {
       username
       image

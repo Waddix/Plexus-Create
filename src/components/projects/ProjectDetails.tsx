@@ -10,6 +10,7 @@ import {
   Spacer,
   Stack,
   Text,
+  Image
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { SocialIcon } from "react-social-icons";
@@ -20,6 +21,8 @@ import { ProjectTagsByID } from "./ProjectTagsByID";
 import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
+import { PositionForm } from "./PositionForm";
+// import profile from "../../pages/profile";
 
 interface ProjectDetailsProps {
   id: number;
@@ -30,6 +33,7 @@ interface ProjectDetailsProps {
   username?: string;
   email?: string;
   image?: string;
+  projectImage: string;
   ownerId: number | undefined;
 }
 
@@ -63,19 +67,32 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   createdAt,
   title,
   username,
-  image,
-  ownerId
+  image: ownerImage,
+  ownerId,
+  projectImage,
 }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
+
+  // console.log("projectId, profileId, ownerId: ", id, userProfile.id, ownerId)
   return (
     <Box p={8} rounded="xl">
+      <Box>
+        <Box alignContent="center" height="max-content">
+          <Image
+            src={projectImage.length > 0 ? projectImage :"/PlexusProject3D.png"}
+            alt={title}
+            shadow="xl"
+            rounded="xl"
+          ></Image>
+        </Box>
+      </Box>
       <Box>
         <Heading as="h3">{title}</Heading>
         <Box>
           <Stack mt={6} direction={"row"} spacing={4} align={"center"}>
-            <Avatar size={"md"} src={image} />
+            <Avatar size={"md"} src={ownerImage} />
             <Stack direction={"column"} spacing={0} fontSize={"sm"}>
               <Text fontWeight={600}>{username}</Text>
               <Text color={"gray.500"}> {postedAt}</Text>
@@ -93,7 +110,16 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
       </Box>
       <Divider orientation="horizontal" mt={4} />
       {userProfile.id === ownerId ?
-        <PostFormBox projectId={id} ownerId={userProfile.id}/>
+        // <Button
+        //   onClick={() => console.log("let's update")}
+        // >
+        //   Update
+        // </Button>
+        <Stack mt={6} direction={"column"} spacing={4} align={"center"}>
+          <PostFormBox projectId={id} ownerId={userProfile.id} />
+          <PositionForm id={id}></PositionForm>
+        </Stack>
+
         :
         <div>
           <Heading fontSize="lg" mt={3} mb={4}>
@@ -106,7 +132,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         <PositionCard
           projectId={id}
           username={username}
-          image={image}
+          image={ownerImage}
         ></PositionCard>
       </Container>
       {/* <Divider orientation="horizontal" mt={4} />
