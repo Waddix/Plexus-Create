@@ -331,8 +331,7 @@ export default function Component(): JSX.Element {
               <ProjectFormBox
                 uploadingImage={uploadingImage}
                 projectImage={projectPic ? projectPic : ""}
-              >
-              </ProjectFormBox>
+              />
             </Box>
           </GridItem>
         </SimpleGrid>

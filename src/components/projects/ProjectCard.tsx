@@ -32,12 +32,13 @@ interface ProjectCardProps {
   username?: string | undefined,
   image?: string | undefined,
   ownerId?: number,
+  // projectPic: string,
   // source: string | undefined
 
   // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, updatedAt, username, image, ownerId }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ /*projectPic,*/ title, description, id, createdAt, updatedAt, username, image, ownerId }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
 
@@ -70,6 +71,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 src={
                   '/PlexusProject3D.png'
                 }
+                // src={projectPic.length > 0 ?
+                //   projectPic
+                //   :
+                //   '/PlexusProject3D.png'
+                // }
                 layout={'fill'}
                 alt={"project image"}
               />
