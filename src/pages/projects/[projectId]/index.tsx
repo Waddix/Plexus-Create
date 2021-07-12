@@ -1,6 +1,6 @@
 import {
   Box,
-  Image,
+  // Image,
   SpaceProps,
   HStack,
   Tag,
@@ -14,7 +14,7 @@ import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import React from "react";
 import { Wrapper } from "../../../components/forms/Wrapper";
-import { PositionForm } from "../../../components/projects/PositionForm";
+// import { PositionForm } from "../../../components/projects/PositionForm";
 import { ProjectDetails } from "../../../components/projects/ProjectDetails";
 import { useProjectQuery } from "../../../generated/graphql";
 
@@ -63,7 +63,7 @@ const ProjectView: React.FC<unknown> = () => {
         </Head>
         <Wrapper variant="regular">
           <Box mb={8}>
-            <Box>
+            {/* <Box>
               <Box alignContent="center" height="max-content">
                 <Image
                   src="/PlexusProject3D.png"
@@ -72,7 +72,7 @@ const ProjectView: React.FC<unknown> = () => {
                   rounded="xl"
                 ></Image>
               </Box>
-            </Box>
+            </Box> */}
             <Box>
               <Flex h="100%" flexDirection="column" justifyContent="center">
                 <ProjectDetails
@@ -84,9 +84,10 @@ const ProjectView: React.FC<unknown> = () => {
                   username={data?.project?.owner.username}
                   id={idToInt}
                   ownerId={data?.project?.ownerId}
+                  projectImage={data?.project?.image ? data?.project?.image : ""}
                 ></ProjectDetails>
                 <Divider orientation="horizontal" mt={4} />
-                <PositionForm id={data?.project?.id}></PositionForm>
+                {/* <PositionForm id={data?.project?.id}></PositionForm> */}
               </Flex>
             </Box>
           </Box>

@@ -17,7 +17,7 @@ export class Project extends Base {
   @Column()
   description!: string;
 
-  @Field(() => String)
+  @Field(() => String, {nullable: true})
   @Column()
   image: string;
 
@@ -25,9 +25,10 @@ export class Project extends Base {
   @Column()
   ownerId!: number;
 
-  @Field(() => Profile, {nullable: false})
-  @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true, eager: true})
-  owner!: Promise<Profile[]>;
+  // Add Promise back to Profile
+  @Field(() => Profile)
+  @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true})
+  owner!: Profile;
 
   @Field(() => [Post], {nullable: true})
   @OneToMany(() => Post, (post: Post) => post.project)

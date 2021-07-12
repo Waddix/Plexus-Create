@@ -12,8 +12,8 @@ const ProjectsContext = React.createContext<any | null>(null);
 
 //Todo create context to manage projects in state and provide that data to rest of the app
 function ProjectsContextProvider({children}: { children: React.ReactNode }): React.ReactElement | null {
-  const [projects, setProjects] = React.useState<Project[]>([]);
-  const [top10Projects, setTop10Projects] = React.useState<Project[]>([]);
+  const [projects, /*setProjects*/] = React.useState<Project[]>([]);
+  const [top10Projects, /*setTop10Projects*/] = React.useState<Project[]>([]);
   const [projectTag, setProjectTag] = useState<string>('')
 
 

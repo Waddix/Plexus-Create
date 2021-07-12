@@ -15,17 +15,30 @@ export const PostFormBox: React.FC<PostProps> = ({ projectId, ownerId }) => {
     <Container>
       <Formik
         initialValues={{ text: "" }}
-        onSubmit={async (values, { setErrors }) => {
-          const post = await createPost({
-            projectId,
-            ownerId,
-            text: values.text,
-          });
-          if (post.error) {
-            setErrors({
-              text: "error in update",
+        onSubmit={async (values, { resetForm }) => {
+          console.log("projectId: ", projectId, "ownerId: ", ownerId)
+          try {
+            await createPost({
+              projectId,
+              ownerId,
+              text: values.text,
             });
-          } 
+            resetForm({});
+          }
+          catch (error) {
+            console.error(error);
+          }
+
+          // if (post.error) {
+          //   console.log(post.error?.message);
+          //   setErrors({
+          //     text: "error in update",
+          //   });
+          // } else if (post.data) {
+          //   console.log(post.data);
+
+          // }
+
         }}
       >
         {({ isSubmitting }) => (
