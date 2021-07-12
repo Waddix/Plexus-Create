@@ -11,9 +11,10 @@ import {
   Flex,
   Spacer,
   Badge,
-  Button
+  Button,
+  Link
 } from '@chakra-ui/react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import router from "next/dist/client/router";
@@ -106,11 +107,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     size={'md'}
                     src={image}
                   />
-                </Link>
                 <Stack direction={'column'} spacing={0} fontSize={'sm'}>
                   <Text fontWeight={600}>{username}</Text>
                   <Text color={'gray.500'}> {postedAt}</Text>
                 </Stack>
+                </Link>
 
 
 

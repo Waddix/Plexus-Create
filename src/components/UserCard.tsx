@@ -10,7 +10,7 @@ import {
   Stack,
   Button,
   Link,
-  Badge,
+  // Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
 // import { Profile, useFollowUserMutation } from '../generated/graphql';
