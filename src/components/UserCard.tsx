@@ -131,7 +131,6 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
                 bg: 'blue.500',
               }}
               onClick={async () => {
-                console.log("currId: ", currId, "profileId: ", id);
                 await followUser({ profileId_2: currId, profileId_1: id })
               }}
             >

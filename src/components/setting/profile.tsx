@@ -141,8 +141,6 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
         })
 
       if (newPic && typeof newPic === "string") {
-        console.info('GOT THE IMAGE!!', newPic);
-
         const newProfile = Object.assign({ ...updatedUser });
         newProfile.username = "@" + updatedUser.username;
         newProfile.image = newPic;
@@ -879,5 +877,5 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
 
 export default withUrqlClient(() => ({
   // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(Profile);

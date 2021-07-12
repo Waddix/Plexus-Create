@@ -16,7 +16,7 @@ interface PositionCardProps {
   type?: string
   email?: string
 }
-export const PositionCard: React.FC<PositionCardProps> = ({ title, description, projectId, createdAt, updatedAt, username, image, email }) => {
+export const PositionCard: React.FC<PositionCardProps> = ({ description, projectId, username, image, }) => {
   const [{data}] = useProjectPositionsQuery({
     variables:{
     projectId

@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react'
-// import { ProjectsContext } from "../../context/projectsContext"
 import { UserContext } from '../../context/userContext'
 import { useGetFollowedProjectsQuery} from '../../generated/graphql';
-
-// import { withUrqlClient } from "next-urql";
 import { SimpleGrid } from '@chakra-ui/react';
 import { ProjectCard } from '../projects/ProjectCard';
 
 export const MainFeed: React.FC = () => {
-  // const { projectsFollowing } = useContext(UserContext);
   const isMounted = useRef(true)
-  // const [projects, useProjects] = useState([])
 
   useEffect(() => {
     return () => {
@@ -19,16 +14,13 @@ export const MainFeed: React.FC = () => {
   }, [])
 
   const { userProfile } = useContext(UserContext);
-  const { id } = userProfile;
-  console.log("here is the profile id: ", id)
-
+  const { id } = userProfile
   const [{ data, error }] = useGetFollowedProjectsQuery({
     variables: {
       profileId: id
     }
   });
-  console.log(data?.getFollowedProjects);
-  // const { getFollowedProjects } = data;
+
   if (error) {
     console.error(error);
   }
@@ -37,8 +29,6 @@ export const MainFeed: React.FC = () => {
     isMounted.current = true;
   }, [data])
 
-
-  // need to add onClick that routes to 'projects/[projectId]'
   const projectsFeed = data?.getFollowedProjects?.map((p) => (
     <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt}> </ProjectCard>
   ));
@@ -53,6 +43,5 @@ export const MainFeed: React.FC = () => {
         <h1>Well Fuck</h1>
       }
     </div>
-
   )
 }

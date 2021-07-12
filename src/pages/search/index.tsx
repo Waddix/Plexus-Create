@@ -17,8 +17,7 @@ import { FaCaretDown } from "react-icons/fa";
 import SearchResults from "../../components/search/searchResults";
 import { useGetAllProfilesQuery, useProjectsQuery } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
-import { Profile } from '../../../server/src/db/entities/Profile'
-import { Project } from '../../../server/src/db/entities/Project'
+import { Profile, Project } from '../../generated/graphql'
 
 function Search(): JSX.Element {
   // Search query
@@ -293,7 +292,6 @@ function Search(): JSX.Element {
           searchResults.Projects = projects.projectResults;
         } else if (filter === "Profiles") {
           const profiles = searchProfile(results, query);
-          console.log('query profiles');
           searchResults.Profiles = profiles.profileResults;
         }
       }
@@ -482,5 +480,5 @@ function Search(): JSX.Element {
 
 export default withUrqlClient(() => ({
   // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(Search);

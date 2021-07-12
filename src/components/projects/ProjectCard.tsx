@@ -46,7 +46,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ /*projectPic,*/ title,
   const { userProfile } = useContext(UserContext);
 
   const [, followProject] = useFollowProjectMutation();
-  // console.log("source?", source)
 
   return (
     <Flex>
@@ -111,7 +110,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ /*projectPic,*/ title,
 
 
               <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                <Link href={`/profile/${ownerId}`}>
+                <Link href={`/profile/${ownerId}`} passHref={true}>
                   <Avatar
                     size={'md'}
                     src={image}
@@ -134,14 +133,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ /*projectPic,*/ title,
                 >
                   Follow
                 </Button>
-                {/* { source === "profile" ?
-                   <Button
-                   onClick={() => console.log("let's update")}
-                 >
-                   Update
-                 </Button> :
-                 <></>
-              } */}
               </Stack>
               :
               <div></div>

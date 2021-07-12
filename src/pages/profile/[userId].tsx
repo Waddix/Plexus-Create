@@ -20,12 +20,11 @@ const UserProfile: React.FC<unknown> = () => {
     return <div>Hold up a sec big dawg</div>
   }
   else if (error) {
-    console.error(error);
     return <div>{error.message}</div>
   } else {
 
     if (data) {
-      const { username, image } = data.profileLookup
+      const { username, image } = data?.profileLookup
       // const source = "profile"
       return (
         <div>
@@ -50,5 +49,5 @@ const UserProfile: React.FC<unknown> = () => {
 
 export default withUrqlClient(() => ({
   // ...add your Client options here
-  url: 'http://localhost:8080/graphql',
+  url: 'https://server-seven-blue.vercel.app/graphql',
 }))(UserProfile);
