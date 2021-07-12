@@ -226,6 +226,7 @@ export type Project = {
   updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
   description: Scalars['String'];
+  image: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
   posts?: Maybe<Array<Post>>;
@@ -236,6 +237,7 @@ export type Project = {
 export type ProjectInput = {
   title: Scalars['String'];
   description: Scalars['String'];
+  image: Scalars['String'];
 };
 
 export type Query = {
@@ -497,7 +499,7 @@ export type CreateProjectMutation = (
   { __typename?: 'Mutation' }
   & { createProject: (
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
+    & Pick<Project, 'id' | 'title' | 'image' | 'description' | 'createdAt' | 'updatedAt'>
   ) }
 );
 
@@ -856,7 +858,7 @@ export type ProfileLookupQuery = (
     & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'website' | 'image'>
     & { projects?: Maybe<Array<(
       { __typename?: 'Project' }
-      & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
+      & Pick<Project, 'id' | 'title' | 'image' | 'description' | 'createdAt' | 'updatedAt'>
     )>> }
   ) }
 );
@@ -870,7 +872,7 @@ export type ProjectQuery = (
   { __typename?: 'Query' }
   & { project?: Maybe<(
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
+    & Pick<Project, 'id' | 'title' | 'image' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
       & Pick<Profile, 'username' | 'image'>
@@ -914,7 +916,7 @@ export type ProjectsQuery = (
   { __typename?: 'Query' }
   & { projects: Array<(
     { __typename?: 'Project' }
-    & Pick<Project, 'title' | 'description' | 'ownerId' | 'id' | 'createdAt' | 'updatedAt'>
+    & Pick<Project, 'title' | 'description' | 'ownerId' | 'image' | 'id' | 'createdAt' | 'updatedAt'>
     & { owner: (
       { __typename?: 'Profile' }
       & Pick<Profile, 'username' | 'image'>
@@ -1008,6 +1010,7 @@ export const CreateProjectDocument = gql`
   createProject(input: $input, ownerId: $ownerId) {
     id
     title
+    image
     description
     createdAt
     updatedAt
@@ -1429,6 +1432,7 @@ export const ProfileLookupDocument = gql`
     projects {
       id
       title
+      image
       description
       createdAt
       updatedAt
@@ -1445,6 +1449,7 @@ export const ProjectDocument = gql`
   project(id: $id) {
     id
     title
+    image
     owner {
       username
       image
@@ -1497,6 +1502,7 @@ export const ProjectsDocument = gql`
     title
     description
     ownerId
+    image
     owner {
       username
       image
