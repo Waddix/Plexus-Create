@@ -67,7 +67,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               mt={-6}
               mx={-6}
               mb={6}
-              pos={'relative'}>
+              // pos={'relative'}
+              >
               {/* <Image
                 src={ image && image.length > 0 ?
                   image
