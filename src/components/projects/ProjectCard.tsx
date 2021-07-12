@@ -62,6 +62,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
             rounded={'md'}
             p={6}
             overflow={'hidden'}>
+
             <Box
               h="max-content"
               bg={'gray.100'}
@@ -104,13 +105,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               <Stack direction="row">
                 <ProjectTagsByID id={id}></ProjectTagsByID>
               </Stack>
+              <Link href={`/projects/${id}`}>
               <Heading
                 color={useColorModeValue('gray.700', 'white')}
                 fontSize={'2xl'}
                 fontFamily={'body'}>
                 {title}
               </Heading>
-
+                </Link>
               <Text color={'gray.500'}>
                 {description}
               </Text>
