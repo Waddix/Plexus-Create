@@ -143,7 +143,7 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
             :
             (currId != id ?
               <Button
-                onClick={() => unfollowProject(id)}
+                onClick={() => unfollowUser(id)}
               >
                 Unfollow
               </Button>
