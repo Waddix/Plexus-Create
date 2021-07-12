@@ -9,11 +9,8 @@ import {
   Heading,
   Text,
   Stack,
-  FormControl,
   FormLabel,
   Input,
-  InputGroup,
-  InputLeftAddon,
   Icon,
   VisuallyHidden,
   Button,
@@ -22,7 +19,7 @@ import {
   VStack,
   Image
 } from "@chakra-ui/react";
-import ProjectFormBox from "./ProjectFormBox";
+import {ProjectFormBox} from "./ProjectFormBox";
 import { FaCheckCircle, FaTimesCircle, FaImage } from "react-icons/fa";
 import Axios from 'axios';
 
@@ -109,32 +106,6 @@ export default function Component(): JSX.Element {
                 spacing={6}
                 p={{ sm: 6 }}
               >
-                {/* <SimpleGrid columns={3} spacing={6}>
-                  <FormControl as={GridItem} colSpan={[3, 2]}>
-                    <FormLabel
-                      fontSize="sm"
-                      fontWeight="md"
-                      color={useColorModeValue("gray.700", "gray.50")}
-                    >
-                      Website
-                    </FormLabel>
-                    <InputGroup size="sm">
-                      <InputLeftAddon
-                        // eslint-disable-next-line react/no-children-prop
-                        children="http://"
-                        bg={useColorModeValue("gray.50", "gray.800")}
-                        color={useColorModeValue("gray.500", "gay.50")}
-                        rounded="md"
-                      />
-                      <Input
-                        type="url"
-                        placeholder="www.example.com"
-                        focusBorderColor="brand.400"
-                        rounded="md"
-                      />
-                    </InputGroup>
-                  </FormControl>
-                </SimpleGrid> */}
                 <Fragment>
                   <Box d='block' textAlign='center' width='100%'>
                     <Heading as="h4" size="md">Current Picture:</Heading>
