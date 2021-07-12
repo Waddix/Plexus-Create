@@ -326,7 +326,9 @@ export default function Component(): JSX.Element {
               </Stack>
             </chakra.form>
             <Box
-              m={4}
+              mt={4}
+              mx={4}
+              mb={10}
             >
               <ProjectFormBox
                 uploadingImage={uploadingImage}
