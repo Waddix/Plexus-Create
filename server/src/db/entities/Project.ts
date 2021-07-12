@@ -25,9 +25,9 @@ export class Project extends Base {
   @Column()
   ownerId!: number;
 
-  @Field(() => Profile)
-  @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true})
-  owner!: Profile;
+  @Field(() => Profile, {nullable: false})
+  @ManyToOne(() => Profile, (p: Profile) => p.projects, {cascade: true, eager: true})
+  owner!: Promise<Profile[]>;
 
   @Field(() => [Post], {nullable: true})
   @OneToMany(() => Post, (post: Post) => post.project)
