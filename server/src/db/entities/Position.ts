@@ -25,7 +25,7 @@ export class Position extends Base {
 
   @Field(() => Project, {nullable: true})
   @ManyToOne(() => Project, (project: Project) => project.position, {cascade: true, nullable: true, eager: true})
-  project: Project;
+  project: Promise<Project[]>;
 
   @Field(() => [Tag], {nullable: true})
   @ManyToMany(() => Tag, (t: Tag) => t.name, {cascade: true, nullable: true})
