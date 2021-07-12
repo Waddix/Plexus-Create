@@ -91,7 +91,8 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
           {' '} */}
         </Text>
 
-        <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
+          {/* User/profile tags will go here */}
+        {/* <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
           <Badge
             px={2}
             py={1}
@@ -113,7 +114,7 @@ export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
             fontWeight={'400'}>
             #music
           </Badge>
-        </Stack>
+        </Stack> */}
 
         <Stack mt={8} direction={'row'} spacing={4}>
           {currId != id && !usersFollowing.includes(id) ?

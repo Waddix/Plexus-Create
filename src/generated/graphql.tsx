@@ -226,6 +226,7 @@ export type Project = {
   updatedAt: Scalars['DateTime'];
   title: Scalars['String'];
   description: Scalars['String'];
+  image: Scalars['String'];
   ownerId: Scalars['Float'];
   owner: Profile;
   posts?: Maybe<Array<Post>>;
@@ -236,6 +237,7 @@ export type Project = {
 export type ProjectInput = {
   title: Scalars['String'];
   description: Scalars['String'];
+  image: Scalars['String'];
 };
 
 export type Query = {
