@@ -1,7 +1,7 @@
 import { Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 
-const LoadingAnimation = () => {
+const LoadingAnimation = (): JSX.Element => {
   return (
     <Box textAlign="center" w="auto" mx="auto" my={6}>
       <Heading mb={4}>Loading</Heading>
