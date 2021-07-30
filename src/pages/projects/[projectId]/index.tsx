@@ -14,6 +14,7 @@ import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import React from "react";
 import { Wrapper } from "../../../components/forms/Wrapper";
+import LoadingAnimation from "../../../components/loading";
 // import { PositionForm } from "../../../components/projects/PositionForm";
 import { ProjectDetails } from "../../../components/projects/ProjectDetails";
 import { useProjectQuery } from "../../../generated/graphql";
@@ -49,7 +50,7 @@ const ProjectView: React.FC<unknown> = () => {
     },
   });
   if (fetching) {
-    return <Text>Loading Project..</Text>;
+    return (<LoadingAnimation />);
   } else {
     return (
       <Container>

@@ -28,7 +28,7 @@ export default NextAuth({
   // * The Email provider requires a database (OAuth providers do not)
   database: {
     type: "postgres",
-   url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL_LOCAL,
     ssl: {
       rejectUnauthorized: false,
     },
@@ -60,7 +60,6 @@ export default NextAuth({
     //   // User is from the accounts DB
     //   // Account is from the oAuth
     //   // Profile is the trimmed down version of the oAuth response
-
     //   return true;
     // },
     // async redirect(url, baseUrl) { return baseUrl },

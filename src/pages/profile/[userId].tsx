@@ -6,6 +6,7 @@ import { useProfileLookupQuery } from "../../generated/graphql";
 import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
 import { ProjectCard } from "../../components/projects/ProjectCard";
+import LoadingAnimation from "../../components/loading";
 
 const UserProfile: React.FC<unknown> = () => {
   const { userProfile } = useContext(UserContext);
@@ -18,7 +19,7 @@ const UserProfile: React.FC<unknown> = () => {
     variables: { id: userIdInt },
   });
   if (fetching) {
-    return <Text>Loading Profile</Text>;
+    return (<LoadingAnimation />);
   } else {
       const { username, image } = data?.profileLookup;
       return (

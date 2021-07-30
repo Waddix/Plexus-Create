@@ -5,6 +5,7 @@ import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
 import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useGetProjectsByUserQuery } from "../../generated/graphql";
+import LoadingAnimation from "../../components/loading";
 
 const ProfileView: React.FC = (): JSX.Element => {
   const { userProfile } = useContext(UserContext);
@@ -13,7 +14,7 @@ const ProfileView: React.FC = (): JSX.Element => {
   const [{ fetching, data, error }] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
 
   if (fetching) {
-    return <Text>Loading Profile...</Text>
+    return (<LoadingAnimation />)
   }
   else if (error) {
     return <div>{error.message}</div>
