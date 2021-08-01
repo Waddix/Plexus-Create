@@ -8,6 +8,7 @@ import Project from '../models/project';
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ProjectsContext = React.createContext<any | null>(null);
 
 //Todo create context to manage projects in state and provide that data to rest of the app
@@ -15,8 +16,7 @@ function ProjectsContextProvider({children}: { children: React.ReactNode }): Rea
   const [projects, /*setProjects*/] = React.useState<Project[]>([]);
   const [top10Projects, /*setTop10Projects*/] = React.useState<Project[]>([]);
   const [projectTag, setProjectTag] = useState<string>('')
-
-
+  
   const projectsProps = {
     projects,
     top10Projects,

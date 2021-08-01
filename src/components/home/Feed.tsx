@@ -6,6 +6,8 @@ import { useGetPostsQuery } from '../../generated/graphql';
 import Post from '../../models/posts/post';
 import { FeedPosts } from './FeedPosts';
 // import { FeedProject } from './FeedProject';
+import LoadingAnimation from '../loading';
+import Landing from "./Landing";
 
 const Feed: React.FC = () => {
   const { userProfile } = useContext(UserContext);
@@ -13,10 +15,11 @@ const Feed: React.FC = () => {
 
   const [{ fetching, data, error }] = useGetPostsQuery({ variables: { profileId: id } })
   if (fetching) {
-    return <div>Loading</div>
+    return (<LoadingAnimation />)
   }
   else if (error) {
-    return <div>{error.message}</div>
+    return <Landing />
+
   } else {
 
     if (data) {
@@ -49,7 +52,7 @@ const Feed: React.FC = () => {
       )
     }
     return (
-      <h2> Hold Up </h2>
+      <LoadingAnimation />
     )
   }
 }

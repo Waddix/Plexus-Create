@@ -7,8 +7,16 @@ import Feed from "../components/home/Feed";
 const Home = () => {
   const [session] = useSession();
 
-  return <div>{session ? <Feed /> : <Landing />}</div>;
+  return session ?
+    (
+      <Feed />
+    )
+    :
+    (
+      <Landing />
+    )
 };
+
 export default withUrqlClient(() => ({
   url: "https://server-seven-blue.vercel.app/graphql",
 }))(Home);

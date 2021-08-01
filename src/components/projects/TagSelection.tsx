@@ -6,8 +6,8 @@ import { useAllTagsQuery } from "../../generated/graphql";
 export const AllTags: React.FC = () => {
   const [{ data }] = useAllTagsQuery();
   const { projectTag, setProjectTag } = useContext(ProjectsContext);
-  const handleClick = (event: { target: HTMLSpanElement }) => {
-    console.log(event.target.innerText);
+  const handleClick = (event: any) => {
+    // console.log(event.target.innerText);
     data?.tags.forEach((tag) => {
       if (tag.name === event.target.innerText) {
         setProjectTag(tag.id);
@@ -26,7 +26,7 @@ export const AllTags: React.FC = () => {
           variantColor="cyan"
           cursor="pointer"
         >
-          <TagLabel onClick={(e: any) => handleClick(e)} key={tag.id}>
+          <TagLabel onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => handleClick(e)} key={tag.id}>
             {tag.name}
           </TagLabel>
         </Tag>

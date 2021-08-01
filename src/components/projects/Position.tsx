@@ -32,7 +32,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
   projectId,
   username,
   image,
-  email
+  // email
 }) => {
   const [{ data }] = useProjectPositionsQuery({
     variables: {
