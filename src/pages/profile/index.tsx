@@ -11,13 +11,10 @@ const ProfileView: React.FC = (): JSX.Element => {
   const { userProfile } = useContext(UserContext);
   const { id, username, image } = userProfile;
 
-  const [{ fetching, data, error }] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
+  const [{ fetching, data/*, error */}] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
 
   if (fetching) {
     return (<LoadingAnimation />)
-  }
-  else if (error) {
-    return <div>{error.message}</div>
   } else {
     if (data) {
       return (
