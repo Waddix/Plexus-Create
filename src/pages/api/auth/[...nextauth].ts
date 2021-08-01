@@ -28,7 +28,8 @@ export default NextAuth({
   // * The Email provider requires a database (OAuth providers do not)
   database: {
     type: "postgres",
-    url: process.env.DATABASE_URL_LOCAL,
+    // url: process.env.DATABASE_URL_LOCAL, // Dev
+    url: process.env.DATABASE_URL, // Prod
     ssl: {
       rejectUnauthorized: false,
     },
