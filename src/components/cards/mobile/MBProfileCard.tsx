@@ -1,9 +1,17 @@
-import React, { Fragment } from "react";
+import { Box } from "@chakra-ui/react";
+import React from "react";
 
-const MBProfileCard = (): JSX.Element => {
+const MBProfileCard = ({ profile }): JSX.Element => {
+  const { name, username, image, title, email, bio, id } = profile;
+
   return (
-    <Fragment>
-    </Fragment>
+    <Box
+      w="100%"
+      h="100%"
+      m="auto"
+      border="2px solid blue"
+    >
+    </Box>
   )
 };
 
