@@ -35,13 +35,6 @@ const NewFeed = (): JSX.Element => {
         <Heading>{"Tablet & Desktop View!"}</Heading>
         <DTProfileCard profile={userProfile} />
       </VStack>
-      <VStack
-        d={["none", "none", "none", "none", "none", "none", "flex"]}
-        m="auto"
-        w="100%"
-      >
-        <Heading>UltraWide View!</Heading>
-      </VStack>
     </Box>
   )
 };

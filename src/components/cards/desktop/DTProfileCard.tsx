@@ -10,14 +10,35 @@ import {
   Collapse,
   Button,
   useColorModeValue,
-  Tooltip
+  Tooltip,
+  Divider,
+  Icon
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { FaPaperPlane, FaGlobe } from "react-icons/fa";
 
 const DTProfileCard = ({ profile }): JSX.Element => {
   const { name, username, image, title, email, bio, website, id } = profile;
 
   const [showMore, setShowMore] = useState<boolean>(false);
+
+  const plane = (): JSX.Element => {
+    return (
+      <Icon
+        as={FaPaperPlane}
+        boxSize={5}
+      />
+    )
+  }
+
+  const globe = (): JSX.Element => {
+    return (
+      <Icon
+        as={FaGlobe}
+        boxSize={5}
+      />
+    )
+  }
 
   return (
     <HStack
@@ -60,6 +81,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
             href={`mailto:${email}`}
           >
             <Button
+              leftIcon={plane()}
               p={2}
               _hover={{
                 textDecoration: 'none',
@@ -75,6 +97,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
             href={website}
           >
             <Button
+              leftIcon={globe()}
               p={2}
               _hover={{
                 textDecoration: 'none',
@@ -172,6 +195,27 @@ const DTProfileCard = ({ profile }): JSX.Element => {
               }
             </Box>
           }
+          <VStack
+            w="100%"
+            my={4}
+          >
+            <Divider />
+            <Link
+              href={`/profile/${id}`}
+            >
+              <Button
+                p={2}
+                mt={4}
+                mb={2}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('orange.200', 'orange.700'),
+                }}
+              >
+                View Full Profile
+              </Button>
+            </Link>
+          </VStack>
         </VStack>
       </VStack>
       {/* TODO: Add view profile button. */}
