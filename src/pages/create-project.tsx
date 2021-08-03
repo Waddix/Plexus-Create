@@ -1,19 +1,20 @@
 import { Wrapper } from "../components/forms/Wrapper";
 import React from "react";
 import { withUrqlClient } from "next-urql";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
-const ProjectForm = dynamic(() => import('../components/projects/CreateProjectForm'))
+const ProjectForm = dynamic(
+  () => import("../components/projects/CreateProjectForm")
+);
 
-const CreateProject: React.FC<unknown> = ({ }) => {
+const CreateProject: React.FC<unknown> = ({}) => {
   return (
     <Wrapper variant="regular">
       <ProjectForm></ProjectForm>
     </Wrapper>
-
   );
 };
 
 export default withUrqlClient(() => ({
-  url: 'https://server-seven-blue.vercel.app/graphql',
+  url: "https://server-seven-blue.vercel.app/graphql",
 }))(CreateProject);

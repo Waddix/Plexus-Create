@@ -14,7 +14,7 @@ import {
 export default function SplitScreen(): JSX.Element {
   const [session] = useSession();
   return (
-    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+    <Stack minH={'93vh'} minW={'100%'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={6} w={'full'} maxW={'lg'}>
           <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
@@ -60,7 +60,7 @@ export default function SplitScreen(): JSX.Element {
                   bg: useColorModeValue('orange.200', 'orange.700'),
                 }}
               >
-                Get inspiration
+                Discover
               </Button>
             </Link>
 

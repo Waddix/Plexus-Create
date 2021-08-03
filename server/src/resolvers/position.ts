@@ -40,7 +40,7 @@ export class PositionResolver {
     return Position.findOne(id);
   }
 
-  @Query(() => [Position])
+  @Query(() => [Position], {nullable:true})
   async projectPositions(
     @Arg('projectId', () => Int) projectId: number
   ): Promise<Position[]> {

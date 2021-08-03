@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import Image from 'next/image';
+// import Image from 'next/image';
 import {
   Box,
   Center,
@@ -12,7 +12,8 @@ import {
   Spacer,
   Badge,
   Button,
-  Link
+  Link,
+  Image
 } from '@chakra-ui/react';
 // import Link from 'next/link';
 import dayjs from 'dayjs'
@@ -33,16 +34,21 @@ interface ProjectCardProps {
   updatedAt: Date,
   username?: string | undefined,
   image?: string | undefined,
+  profileImage?: string | undefined
   ownerId?: number,
+  // projectPic: string,
+  // source: string | undefined
+
+  // progress: number,
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, username, image, ownerId }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id, createdAt, username, image, profileImage, ownerId }) => {
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt))
 
   //* use this once userContext is fixed
-  const { userProfile} = useContext(UserContext);
-  const [, followProject ] = useFollowProjectMutation();
+  const { userProfile, followProject, unfollowProject, projectsFollowing } = useContext(UserContext);
+
 
 
   return (
@@ -57,19 +63,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
             rounded={'md'}
             p={6}
             overflow={'hidden'}>
+
             <Box
-              h={'210px'}
+              h="max-content"
               bg={'gray.100'}
               mt={-6}
               mx={-6}
               mb={6}
-              pos={'relative'}>
-              <Image
-                src={
+            // pos={'relative'}
+            >
+              {/* <Image
+                src={ image && image.length > 0 ?
+                  image
+                  :
                   '/PlexusProject3D.png'
                 }
                 layout={'fill'}
                 alt={"project image"}
+              /> */}
+              <Image
+                src={image && image.length > 0 ?
+                  image
+                  :
+                  '/PlexusProject3D.png'
+                }
+                alt={title}
               />
             </Box>
             <Stack>
@@ -88,13 +106,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
               <Stack direction="row">
                 <ProjectTagsByID id={id}></ProjectTagsByID>
               </Stack>
-              <Heading
-                color={useColorModeValue('gray.700', 'white')}
-                fontSize={'2xl'}
-                fontFamily={'body'}>
-                {title}
-              </Heading>
-
+              <Link href={`/projects/${id}`}>
+                <Heading
+                  color={useColorModeValue('gray.700', 'white')}
+                  fontSize={'2xl'}
+                  fontFamily={'body'}>
+                  {title}
+                </Heading>
+              </Link>
               <Text color={'gray.500'}>
                 {description}
               </Text>
@@ -106,12 +125,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 <Link href={`/profile/${ownerId}`} passHref={true}>
                   <Avatar
                     size={'md'}
-                    src={image}
+                    src={profileImage}
                   />
-                <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                  <Text fontWeight={600}>{username}</Text>
-                  <Text color={'gray.500'}> {postedAt}</Text>
-                </Stack>
+                  <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                    <Text fontWeight={600}>{username}</Text>
+                    <Text color={'gray.500'}> {postedAt}</Text>
+                  </Stack>
                 </Link>
 
 
@@ -121,7 +140,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     <FcNext onClick={() => router.push(`/projects/${id}`)}></FcNext>
                   </Spacer>
                 </Flex>
-                { ownerId != userProfile.id ?
+                {/* { ownerId != userProfile.id ? */}
+                {ownerId != userProfile.id && !projectsFollowing.includes(id) ?
                   <Button
                     onClick={() => followProject({
                       profileId: userProfile.id,
@@ -131,7 +151,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                     Follow
                   </Button>
                   :
-                  <></>
+                  (ownerId != userProfile.id ?
+                    <Button
+                      onClick={() => unfollowProject(id)}
+                    >
+                      Unfollow
+                    </Button>
+                    :
+                    <></>
+                  )
+
                 }
 
                 {/* { source === "profile" ?

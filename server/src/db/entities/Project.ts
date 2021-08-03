@@ -2,8 +2,6 @@ import { Base } from "./Base"
 import { Field, ObjectType } from "type-graphql";
 import { Profile } from "./Profile";
 import { Column, Entity, ManyToOne, JoinTable, ManyToMany, OneToMany } from "typeorm";
-// import { FollowProject } from "./FollowProject";
-// import { Follow } from "./Follow";
 import { Tag } from "./Tag";
 import { Position } from "./Position";
 import { Post } from "./Post";
@@ -18,6 +16,10 @@ export class Project extends Base {
   @Field()
   @Column()
   description!: string;
+
+  @Field(() => String, {nullable: true})
+  @Column()
+  image: string;
 
   @Field()
   @Column()

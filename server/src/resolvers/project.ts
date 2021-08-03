@@ -16,6 +16,9 @@ class ProjectInput {
 
   @Field(() => String)
   description: string;
+
+  @Field(() => String)
+  image: string;
 }
 @Resolver()
 
@@ -42,9 +45,17 @@ export class ProjectResolver {
   // @UseMiddleware(auth) only loggedIn users can create/manipulate projects
   async createProject(
     @Arg("input") input: ProjectInput,
-    @Arg("ownerId", () => Int) ownerId: number
+    @Arg("ownerId", () => Int) ownerId: number,
+    @Arg("tagId", () => Int) tagId: number
   ): Promise<Project> {
-    return Project.create({ ...input, ownerId }).save();
+    const project = await Project.create({ ...input, ownerId }).save();
+    await getConnection()
+    .createQueryBuilder()
+    .relation(Project, "tags")
+    .of(project.id)
+    .add(tagId);
+
+    return project;
   }
 
   @Mutation(() => Project, { nullable: true })

@@ -10,6 +10,7 @@ query profileLookup($id: Int!) {
     projects {
       id
       title
+      image
       description
       createdAt
       updatedAt

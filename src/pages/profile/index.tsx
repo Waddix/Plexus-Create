@@ -1,23 +1,20 @@
 import React, { useContext } from "react";
-import { Flex, SimpleGrid } from '@chakra-ui/react'
+import { Flex, SimpleGrid,Text } from '@chakra-ui/react'
 import UserCard from "../../components/UserCard";
 import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
 import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useGetProjectsByUserQuery } from "../../generated/graphql";
+import LoadingAnimation from "../../components/loading";
 
 const ProfileView: React.FC = (): JSX.Element => {
-  // const { projectsFollowing } = useContext(UserContext);
   const { userProfile } = useContext(UserContext);
   const { id, username, image } = userProfile;
 
-  const [{ fetching, data, error }] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
+  const [{ fetching, data/*, error */}] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
 
   if (fetching) {
-    return <div>Loading Profile...</div>
-  }
-  else if (error) {
-    return <div>{error.message}</div>
+    return (<LoadingAnimation />)
   } else {
     if (data) {
       return (

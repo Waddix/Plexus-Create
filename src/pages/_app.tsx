@@ -1,13 +1,15 @@
-import type { AppProps } from 'next/app'
+import type { AppProps } from "next/app";
 
-import { Provider } from 'next-auth/client'
-import { UserContextProvider } from '../context/userContext';
-import { ProjectsContextProvider } from '../context/projectsContext'
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react"
+import { Provider } from "next-auth/client";
+import { UserContextProvider } from "../context/userContext";
+import { ProjectsContextProvider } from "../context/projectsContext";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 
-import theme from '../components/theme/chakra/theme';
-import React from 'react';
-import Layout from '../components/theme/layout';
+import theme from "../components/theme/chakra/theme";
+import React from "react";
+import Layout from "../components/theme/layout";
+
+import '../styles/loading.scss';
 
 const Plexus = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
@@ -27,27 +29,22 @@ const Plexus = ({ Component, pageProps }: AppProps): JSX.Element => {
         //
         // Note: If a session has expired when keep alive is triggered, all open
         // windows / tabs will be updated to reflect the user is signed out.
-        keepAlive: 0
+        keepAlive: 0,
       }}
-      session={pageProps.session} >
-
+      session={pageProps.session}
+    >
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <ChakraProvider theme={theme}>
         <UserContextProvider>
           <Layout {...pageProps}>
-
             <ProjectsContextProvider>
-
               <Component {...pageProps} />
-
             </ProjectsContextProvider>
-
           </Layout>
         </UserContextProvider>
       </ChakraProvider>
-
     </Provider>
   );
-}
+};
 
 export default Plexus;

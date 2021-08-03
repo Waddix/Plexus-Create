@@ -4,6 +4,7 @@ import { Project } from "../../generated/graphql";
 import { ProjectCard } from "../projects/ProjectCard";
 import { UserCard } from "../UserCard"
 import Profile from "../../models/profile";
+import LoadingAnimation from "../loading";
 
 interface Results {
   Profiles: Profile[] | null,
@@ -67,9 +68,7 @@ function SearchResults({ results, fetching, query }: Props): JSX.Element {
         {fetching &&
           (
             <Box m='auto'>
-              <Heading>
-                Fetching data, please wait.
-              </Heading>
+              <LoadingAnimation />
             </Box>
           )
         }

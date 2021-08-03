@@ -2,6 +2,7 @@ query Project($id: Int!) {
   project(id: $id) {
     id
     title
+    image
     owner {
       username
       image
