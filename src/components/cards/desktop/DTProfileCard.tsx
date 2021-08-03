@@ -61,6 +61,10 @@ const DTProfileCard = ({ profile }): JSX.Element => {
           >
             <Button
               p={2}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
             >
               Contact
             </Button>
@@ -72,6 +76,10 @@ const DTProfileCard = ({ profile }): JSX.Element => {
           >
             <Button
               p={2}
+              _hover={{
+                textDecoration: 'none',
+                bg: useColorModeValue('orange.200', 'orange.700'),
+              }}
             >
               Visit Website
             </Button>
@@ -157,7 +165,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
                       variant="link"
                       color='orange.500'
                     >
-                      Show Less
+                      Show Less ...
                     </Button>
                   }
                 </Box>
