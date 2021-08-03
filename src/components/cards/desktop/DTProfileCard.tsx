@@ -1,14 +1,23 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Avatar,
+  Box,
   Heading,
   HStack,
   Link,
-  VStack
+  VStack,
+  Text,
+  Collapse,
+  Button,
+  useColorModeValue,
+  Tooltip
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 
 const DTProfileCard = ({ profile }): JSX.Element => {
-  const { name, username, image, title, email, bio, id } = profile;
+  const { name, username, image, title, email, bio, website, id } = profile;
+
+  const [showMore, setShowMore] = useState<boolean>(false);
 
   return (
     <HStack
@@ -20,6 +29,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
     >
       <VStack
         m={4}
+        spacing={4}
       >
         <Link
           href={`/profile/${id}`}
@@ -40,6 +50,33 @@ const DTProfileCard = ({ profile }): JSX.Element => {
             {username}
           </Heading>
         </Link>
+        {/* TODO: ADD FOLLOW BUTTON */}
+        <Tooltip
+          hasArrow
+          openDelay={200}
+          label="Opens email client"
+        >
+          <Link
+            href={`mailto:${email}`}
+          >
+            <Button
+              p={2}
+            >
+              Contact
+            </Button>
+          </Link>
+        </Tooltip>
+        {website &&
+          <Link
+            href={website}
+          >
+            <Button
+              p={2}
+            >
+              Visit Website
+            </Button>
+          </Link>
+        }
       </VStack>
       <VStack
         w="100%"
@@ -47,6 +84,9 @@ const DTProfileCard = ({ profile }): JSX.Element => {
       >
         <VStack
           spacing={0}
+          my={6}
+          ml={2}
+          mr={4}
         >
           <Heading
             as="h2"
@@ -71,6 +111,58 @@ const DTProfileCard = ({ profile }): JSX.Element => {
                 {title}
               </Heading>
             )
+          }
+          {bio &&
+            <Box>
+              <Text
+                mt={2}
+              >
+                {bio.split('\n')[0]}
+              </Text>
+              {bio.split('\n').length > 1 &&
+                <Box>
+                  {!showMore &&
+                    <Button
+                      p={2}
+                      m={2}
+                      mb={0}
+                      onClick={() => setShowMore(!showMore)}
+                      variant="link"
+                      color='orange.500'
+                    >
+                      ... Show More
+                    </Button>
+                  }
+                  <Collapse
+                    in={showMore}
+                    animateOpacity
+                  >
+                    <Box>
+                      {bio.split('\n').splice(1).map((bioLine: string) => (
+                        <Text
+                          key={bioLine.split(".")[0].replace(" ", "-").toLowerCase()}
+                          mt={2}
+                        >
+                          {bioLine}
+                        </Text>
+                      ))}
+                    </Box>
+                  </Collapse>
+                  {showMore &&
+                    <Button
+                      p={2}
+                      m={2}
+                      mb={0}
+                      onClick={() => setShowMore(!showMore)}
+                      variant="link"
+                      color='orange.500'
+                    >
+                      Show Less
+                    </Button>
+                  }
+                </Box>
+              }
+            </Box>
           }
         </VStack>
       </VStack>
