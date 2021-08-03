@@ -895,7 +895,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                           const newUser = updatedUser;
                           newUser.website = newWebsite;
                           setUpdatedUser(Object.assign({ ...newUser }))
-                          if (newWebsite.match(/(http(s)?:\/\/)/) || (newWebsite.split(".").length <= 1 || newWebsite.split(".")[1].length === 0)) {
+                          if (newWebsite.match(/(http(s)?:\/\/)/) || (newWebsite.length >= 2 && !newWebsite.split(".")[1])) {
                             setWebsiteInvalid(true);
                           } else {
                             setWebsiteInvalid(false);
@@ -906,7 +906,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                     {updatedUser.website.match(/(http(s)?:\/\/)/) &&
                       <FormHelperText color="red.300">Do not include "http://" or "https://"</FormHelperText>
                     }
-                    {(updatedUser.website.split(".").length <= 1 || updatedUser.website.split(".")[1].length === 0) &&
+                    {(website.length >= 2 && !website.split(".")[1]) &&
                       <FormHelperText color="red.300">Link should be valid</FormHelperText>
                     }
                   </FormControl>

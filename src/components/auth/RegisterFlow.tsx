@@ -16,7 +16,8 @@ import {
   AlertIcon,
   AlertTitle,
   CloseButton,
-  HStack
+  HStack,
+  Text,
 } from "@chakra-ui/react"
 import React, { Fragment, useContext, useEffect, useState } from "react"
 import { UserContext } from '../../context/userContext';
@@ -71,7 +72,7 @@ const RegisterFlow: React.FC<unknown> = () => {
       :
       ""
   );
-  const [website] = useState<string>(
+  const [website, setWebsite] = useState<string>(
     userProfile ?
       userProfile.website ?
         userProfile.website
@@ -106,14 +107,23 @@ const RegisterFlow: React.FC<unknown> = () => {
 
   const firstBody = (): JSX.Element => (
     <Fragment>
-      <p>Over the next few pages we will setup your profile.</p>
-      <p>You can to skip this if you wish.</p>
+      <Text>Over the next few pages we will setup your profile.</Text>
+      <Text>You can to skip this if you wish.</Text>
     </Fragment>
   )
 
   // Form control for username. Prevent spaces and starting with @.
   const [containsAt, setContainsAt] = useState<boolean>(false);
   const [containsSpace, setContainsSpace] = useState<boolean>(false);
+
+  // Form control for website.
+  const [invalidWebsite, setInvalidWebsite] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (website.length === 0) {
+      setInvalidWebsite(false);
+    }
+  }, [website])
 
   // Is the image uploading
   const [uploading, setUploading] = useState<boolean>(false);
@@ -137,6 +147,10 @@ const RegisterFlow: React.FC<unknown> = () => {
         updateSpace={setContainsSpace}
         at={containsAt}
         updateAt={setContainsAt}
+        website={website}
+        updateWebsite={setWebsite}
+        invalidateWebsite={setInvalidWebsite}
+        invalidWebsite={invalidWebsite}
       />),
       buttons: 'normal',
     },
@@ -271,7 +285,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
-                      isDisabled={containsAt || containsSpace || uploading}
+                      isDisabled={containsAt || containsSpace || invalidWebsite || uploading}
                     >
                       Next
                     </Button>
@@ -296,7 +310,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         bg: useColorModeValue('orange.200', 'orange.700'),
                       }} ref={cancelRef}
                       onClick={handleNext}
-                      isDisabled={containsAt || containsSpace || uploading}
+                      isDisabled={containsAt || containsSpace || uploading || invalidWebsite}
                     >
                       Next
                     </Button>
@@ -327,7 +341,7 @@ const RegisterFlow: React.FC<unknown> = () => {
                         handleSubmit();
                         setIsSubmitting(true);
                       }}
-                      isDisabled={containsAt || containsSpace || uploading}
+                      isDisabled={containsAt || containsSpace || invalidWebsite || uploading}
                     >
                       Submit
                     </Button>

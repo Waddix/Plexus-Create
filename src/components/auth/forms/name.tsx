@@ -15,7 +15,7 @@ import { UserContext } from "../../../context/userContext";
 interface NameProps {
   name: string,
   updateName: React.Dispatch<React.SetStateAction<string>>,
-  username:string,
+  username: string,
   updateUsername: React.Dispatch<React.SetStateAction<string>>,
   updateTitle: React.Dispatch<React.SetStateAction<string>>,
   updateBio: React.Dispatch<React.SetStateAction<string>>,
@@ -23,6 +23,10 @@ interface NameProps {
   updateSpace: React.Dispatch<React.SetStateAction<boolean>>,
   at: boolean
   updateAt: React.Dispatch<React.SetStateAction<boolean>>,
+  website: string,
+  updateWebsite: React.Dispatch<React.SetStateAction<string>>,
+  invalidateWebsite: React.Dispatch<React.SetStateAction<boolean>>,
+  invalidWebsite: boolean,
 }
 
 function Name({
@@ -30,12 +34,16 @@ function Name({
   updateName,
   username,
   updateUsername,
-  // updateTitle,
+  updateTitle,
   updateBio,
   space,
   updateSpace,
   at,
   updateAt,
+  updateWebsite,
+  website,
+  invalidateWebsite,
+  invalidWebsite,
 }: NameProps): JSX.Element {
 
   // User Profile
@@ -101,10 +109,48 @@ function Name({
           }
         </FormControl>
       </Box>
-      {/* <Box mt={7}>
+      <Box mt={7}>
         <FormLabel htmlFor="title">Your Title</FormLabel>
-        <Input onChange={(e) => updateTitle(e.target.value)} id="title" placeholder={"Fullstack Web Developer"} />
-      </Box> */}
+        <Input onChange={(e) => updateTitle(e.target.value)} id="title" placeholder={"Web Developer | Artist | Graphic Designer"} />
+      </Box>
+      <Box mt={7}>
+        <FormLabel htmlFor="title">Your Website</FormLabel>
+        <FormControl id="website">
+          <InputGroup>
+            <InputLeftAddon
+              // eslint-disable-next-line react/no-children-prop
+              children="https://"
+              bg={useColorModeValue("gray.50", "gray.800")}
+              color={useColorModeValue("gray.500", "gay.50")}
+              rounded="md"
+            />
+            <Input
+              required
+              isInvalid={invalidWebsite}
+              type="url"
+              value={website}
+              placeholder={"plexuscreate.com"}
+              errorBorderColor="red.300"
+              id="website"
+              onChange={(e) => {
+                const website = e.target.value;
+                updateWebsite(website)
+                if (website.match(/(http(s)?:\/\/)/) || (website.length >= 2 && !website.split(".")[1])) {
+                  invalidateWebsite(true);
+                } else {
+                  invalidateWebsite(false);
+                }
+              }}
+            />
+          </InputGroup>
+          {website.match(/(http(s)?:\/\/)/) &&
+            <FormHelperText color="red.300">Do not include "http://" or "https://"</FormHelperText>
+          }
+          {(website.length >= 2 && !website.split(".")[1]) &&
+            <FormHelperText color="red.300">Link should be valid</FormHelperText>
+          }
+        </FormControl>
+      </Box>
       <Box mt={7}>
         <FormLabel htmlFor="bio">Your Bio</FormLabel>
         <Textarea onChange={(e) => updateBio(e.target.value)} id="bio" placeholder={"Write something about yourself"} />
