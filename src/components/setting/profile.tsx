@@ -49,7 +49,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
   // Which fields are being edited
   const [nameEdit, setNameEdit] = useState<boolean>(false);
   const [userNameEdit, setUsernameEdit] = useState<boolean>(false);
-  // const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  const [titleEdit, setTitleEdit] = useState<boolean>(false);
   const [bioEdit, setBioEdit] = useState<boolean>(false);
 
   const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
@@ -107,7 +107,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
         setNameEdit(false);
         setUsernameEdit(false);
         setBioEdit(false);
-        // setTitleEdit(false);
+        setTitleEdit(false);
       })
   }
 
@@ -480,7 +480,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 Username:
               </Heading>
             </Flex>
-            {/* <Flex
+            <Flex
               flexDirection="row"
               justifyContent="start"
               alignContent="center"
@@ -562,7 +562,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
               <Heading size="md">
                 Title:
               </Heading>
-            </Flex> */}
+            </Flex>
           </VStack>
           <Spacer />
           <VStack
@@ -644,7 +644,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 }
               </Text>
             </Skeleton>
-            {/* <Skeleton
+            <Skeleton
               isLoaded={!loadingProfile}
             >
               <Text>
@@ -669,7 +669,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       "No Title Set"
                 }
               </Text>
-            </Skeleton> */}
+            </Skeleton>
           </VStack>
         </Flex >
       </Flex >
@@ -686,7 +686,6 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
         >
           <Heading>Bio</Heading>
           <Box
-            my={4}
             width="100%"
           >
             <Box
@@ -731,7 +730,6 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 </Fragment>
                 :
                 bioEdit ?
-
                   <Textarea
                     onChange={(e) => {
                       const newBio = e.target.value;
@@ -750,6 +748,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                           key={line.replace(" ", "-")}
                           textAlign="center"
                           w="100%"
+                          my={6}
                         >
                           {line}
                         </Text>

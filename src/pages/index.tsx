@@ -1,15 +1,19 @@
 import { withUrqlClient } from "next-urql/";
-import React from "react";
+import React, { Fragment } from "react";
 import { useSession } from "next-auth/client";
 import Landing from "../components/home/Landing";
 import Feed from "../components/home/Feed";
+import NewFeed from "../components/home/NewFeed";
 
 const Home = () => {
   const [session] = useSession();
 
   return session ?
     (
-      <Feed />
+      <Fragment >
+        <NewFeed />
+        <Feed />
+      </Fragment>
     )
     :
     (

@@ -156,11 +156,11 @@ const NextAuth: NextComponentType = ({ pageProps }) => {
       }
     }
 
-    if (profileError && !profileError.message.split(" ").includes("null")) {
-      console.warn("Error loading profile!");
-      setFailAlert(true);
-      setLoadingProfile(false);
-    }
+    // if (profileError && !profileError.message.split(" ").includes("null")) {
+    //   console.warn("Error loading profile!");
+    //   setFailAlert(true);
+    //   setLoadingProfile(false);
+    // }
   }, [
     createProfile,
     email,
@@ -183,7 +183,7 @@ const NextAuth: NextComponentType = ({ pageProps }) => {
 
   return (
     <Fragment>
-      {failAlert && (
+      {/* {failAlert && (
         <HStack
           h={["6rem", "4rem", "4rem", "4rem"]}
           position="absolute"
@@ -205,7 +205,7 @@ const NextAuth: NextComponentType = ({ pageProps }) => {
             />
           </Alert>
         </HStack>
-      )}
+      )} */}
       <PopoverContent
         zIndex="popover"
         mt="0.87rem"
