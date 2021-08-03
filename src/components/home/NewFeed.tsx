@@ -6,6 +6,7 @@ import React, { useContext } from "react";
 import DTProfileCard from "../cards/desktop/DTProfileCard";
 import { UserContext } from "../../context/userContext";
 import { VStack } from "@chakra-ui/react";
+import MBProfileCard from "../cards/mobile/MBProfileCard";
 
 const NewFeed = (): JSX.Element => {
   const profile = useContext(UserContext);
@@ -24,6 +25,7 @@ const NewFeed = (): JSX.Element => {
         w="100%"
       >
         <Heading>Mobile View!</Heading>
+        <MBProfileCard profile={userProfile} />
       </VStack>
       <VStack
         d={{ base: "none", md: "flex" }}

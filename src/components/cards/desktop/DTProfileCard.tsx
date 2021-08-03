@@ -174,6 +174,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
           }
         </VStack>
       </VStack>
+      {/* TODO: Add view profile button. */}
     </HStack>
   )
 };
