@@ -49,10 +49,24 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
   // Which fields are being edited
   const [nameEdit, setNameEdit] = useState<boolean>(false);
   const [userNameEdit, setUsernameEdit] = useState<boolean>(false);
-  // const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  const [titleEdit, setTitleEdit] = useState<boolean>(false);
+  const [websiteEdit, setWebsiteEdit] = useState<boolean>(false);
   const [bioEdit, setBioEdit] = useState<boolean>(false);
 
   const [usernameInvalid, setUsernameInvalid] = useState<boolean>(false);
+  const [websiteInvalid, setWebsiteInvalid] = useState<boolean>(false);
+
+  const [anyInvalid, setAnyInvalid] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (usernameInvalid || websiteInvalid) {
+      setAnyInvalid(true)
+    }
+
+    if (!usernameInvalid && !websiteInvalid) {
+      setAnyInvalid(false);
+    }
+  }, [usernameInvalid, websiteInvalid])
 
   // Updated user before submitting
   interface UpdatedUser {
@@ -107,7 +121,8 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
         setNameEdit(false);
         setUsernameEdit(false);
         setBioEdit(false);
-        // setTitleEdit(false);
+        setWebsiteEdit(false);
+        setTitleEdit(false);
       })
   }
 
@@ -153,7 +168,8 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
             setNameEdit(false);
             setUsernameEdit(false);
             setBioEdit(false);
-            // setTitleEdit(false);
+            setTitleEdit(false);
+            setWebsiteEdit(false);
           })
       }
     }
@@ -166,9 +182,9 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
       alignContent="center"
       align={["stretch", "center"]}
     >
-      <Flex
+      <VStack
         alignItems="center"
-        flexDirection="column"
+        w={{ base: "100%", lg: "80%" }}
       >
         <Box
           // textAlign="center"
@@ -218,7 +234,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   <Skeleton
                     isLoaded={!loadingProfile}
                   >
-                    Upload a custom image
+                    {file ? "Change your image" : "Upload a custom image"}
                   </Skeleton>
                 </FormLabel>
                 <VisuallyHidden>
@@ -248,6 +264,11 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   }
                   <HStack my={2} alignContent="center" justifyContent="center">
                     <Button
+                      isDisabled={
+                        isSubmitting
+                        ||
+                        anyInvalid
+                      }
                       _hover={{
                         textDecoration: 'none',
                         bg: useColorModeValue('orange.200', 'orange.700'),
@@ -261,8 +282,8 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       type="button"
                       onClick={(e) => {
                         e.preventDefault();
-                        setIsSubmitting(true);
                         if (file) {
+                          setIsSubmitting(true);
                           handleUpload(file);
                         }
                       }}
@@ -301,19 +322,22 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
           </form>
         </Box>
 
-        <Flex
-          justifyContent="space-between"
+        <VStack
           alignItems="center"
-          w={["100%", "25rem"]}
+          justifyContent="space-between"
+          spacing={6}
+          w="100%"
         >
-          <VStack
-            alignItems="left"
-            spacing={8}
+          <HStack
+            alignItems="center"
+            justifyContent="space-between"
+            w="100%"
           >
-            <Flex
-              flexDirection="row"
-              justifyContent="start"
-              alignContent="center"
+            <HStack
+              spacing={1}
+              alignItems="center"
+              justifyContent="space-between"
+              w="max-content"
             >
               {!nameEdit &&
                 (
@@ -359,6 +383,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                         updatedUser.name.length === 0
                         ||
                         updatedUser.name === name
+                        ||
+                        isSubmitting
+                        ||
+                        anyInvalid
                       }
                       isLoading={isSubmitting}
                     >
@@ -379,6 +407,9 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       fontSize='1rem'
                       onClick={() => {
                         setNameEdit(false)
+                        const newUser = updatedUser;
+                        newUser.name = name ? name : "";
+                        setUpdatedUser(Object.assign({ ...newUser }));
                       }}
                       isDisabled={isSubmitting}
                     >
@@ -392,11 +423,54 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
               <Heading size="md">
                 Name:
               </Heading>
-            </Flex>
-            <Flex
-              flexDirection="row"
-              justifyContent="start"
-              alignContent="center"
+            </HStack>
+            {loadingProfile ?
+              (
+                <Box>
+                  <Spacer />
+                  <Skeleton
+                    isLoaded={!loadingProfile}
+                  >
+                    "Loading Profile..."
+                  </Skeleton>
+                </Box>
+              )
+              :
+              nameEdit ?
+                <Box>
+                  <Spacer d={{ base: "none", lg: "flex" }} />
+                  <Input
+                    w="100%"
+                    value={updatedUser.name}
+                    placeholder={name || "Name"}
+                    onChange={(e) => {
+                      const newName = e.target.value;
+                      const newUser = updatedUser;
+                      newUser.name = newName;
+                      setUpdatedUser(Object.assign({ ...newUser }))
+                    }}
+                  />
+                </Box>
+                :
+                (
+                  <Box>
+                    <Spacer />
+                    <Text>{name}</Text>
+                  </Box>
+                )
+            }
+          </HStack>
+
+          <HStack
+            alignItems="center"
+            justifyContent="space-between"
+            w="100%"
+          >
+            <HStack
+              spacing={{ base: 0, md: 1 }}
+              alignItems="center"
+              justifyContent="space-between"
+              w="max-content"
             >
               {!userNameEdit &&
                 (
@@ -446,6 +520,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                         updatedUser.username === username.split("@")[1]
                         ||
                         updatedUser.username.split(" ").length > 1
+                        ||
+                        isSubmitting
+                        ||
+                        anyInvalid
                       }
                       isLoading={isSubmitting}
                     >
@@ -466,6 +544,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       fontSize='1rem'
                       onClick={() => {
                         setUsernameEdit(false)
+                        setUsernameInvalid(false);
+                        const newUser = updatedUser;
+                        newUser.username = username ? username.split('@')[1] : "";
+                        setUpdatedUser(Object.assign({ ...newUser }));
                       }}
                       isDisabled={isSubmitting}
                     >
@@ -479,11 +561,77 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
               <Heading size="md">
                 Username:
               </Heading>
-            </Flex>
-            {/* <Flex
-              flexDirection="row"
-              justifyContent="start"
-              alignContent="center"
+            </HStack>
+            {loadingProfile ?
+              <Box>
+                <Spacer />
+                <Skeleton
+                  isLoaded={!loadingProfile}
+                >
+                  "Loading Profile..."
+                </Skeleton>
+              </Box>
+              :
+              userNameEdit ?
+                <Box>
+                  <Spacer d={{ base: "none", lg: "flex" }} />
+                  <FormControl id="username">
+                    <InputGroup>
+                      <InputLeftAddon
+                        // eslint-disable-next-line react/no-children-prop
+                        children="@"
+                        bg={useColorModeValue("gray.50", "gray.800")}
+                        color={useColorModeValue("gray.500", "gay.50")}
+                        rounded="md"
+                        p={{ base: 2, md: 4 }}
+                      />
+                      <Input
+                        w="100%"
+                        required
+                        isInvalid={usernameInvalid}
+                        value={updatedUser.username}
+                        onChange={(e) => {
+                          const newUsername = e.target.value;
+                          const newUser = updatedUser;
+                          newUser.username = newUsername;
+                          setUpdatedUser(Object.assign({ ...newUser }))
+                          if (e.target.value[0] === '@' || e.target.value.split(" ").length > 1) {
+                            setUsernameInvalid(true);
+                          } else if (e.target.value[0] !== '@') {
+                            setUsernameInvalid(false);
+                          }
+                        }}
+                        id="username"
+                        placeholder={username || "Username"}
+                        errorBorderColor="red.300"
+                      />
+                    </InputGroup>
+                    {updatedUser.username[0] === '@' &&
+                      <FormHelperText color="red.300">Should not start with @</FormHelperText>
+                    }
+                    {updatedUser.username.split(" ").length > 1 &&
+                      <FormHelperText color="red.300">Usernames should not contain spaces</FormHelperText>
+                    }
+                  </FormControl>
+                </Box>
+                :
+                <Box>
+                  <Spacer />
+                  <Text>{username}</Text>
+                </Box>
+            }
+          </HStack>
+
+          <HStack
+            alignItems="center"
+            justifyContent="space-between"
+            w="100%"
+          >
+            <HStack
+              spacing={1}
+              alignItems="center"
+              justifyContent="space-between"
+              w="max-content"
             >
               {!titleEdit &&
                 (
@@ -529,6 +677,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                         updatedUser.title.length === 0
                         ||
                         updatedUser.title === title
+                        ||
+                        isSubmitting
+                        ||
+                        anyInvalid
                       }
                       isLoading={isSubmitting}
                     >
@@ -548,7 +700,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                       size="sm"
                       fontSize='1rem'
                       onClick={() => {
-                        setTitleEdit(false)
+                        setTitleEdit(false);
+                        const newUser = updatedUser;
+                        newUser.title = title ? title : "";
+                        setUpdatedUser(Object.assign({ ...newUser }));
                       }}
                       isDisabled={isSubmitting}
                     >
@@ -562,131 +717,227 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
               <Heading size="md">
                 Title:
               </Heading>
-            </Flex> */}
-          </VStack>
-          <Spacer />
-          <VStack
-            alignItems="end"
-            // width='max-content'
-            spacing={8}
-          >
-            <Skeleton
-              isLoaded={!loadingProfile}
-            >
-              <Text>
-                {loadingProfile ?
-                  "Loading Profile..."
+            </HStack>
+            {loadingProfile ?
+              (
+                <Box>
+                  <Spacer />
+                  <Skeleton
+                    isLoaded={!loadingProfile}
+                  >
+                    "Loading Profile..."
+                  </Skeleton>
+                </Box>
+              )
+              :
+              titleEdit ?
+                <Box>
+                  <Spacer d={{ base: "none", lg: "flex" }} />
+                  <Input
+                    w="100%"
+                    value={updatedUser.title}
+                    placeholder={title || "Title"}
+                    onChange={(e) => {
+                      const newTitle = e.target.value;
+                      const newUser = updatedUser;
+                      newUser.title = newTitle;
+                      setUpdatedUser(Object.assign({ ...newUser }))
+                    }}
+                  />
+                </Box>
+                :
+                title ?
+                  (
+                    <Box>
+                      <Spacer />
+                      <Text>{title}</Text>
+                    </Box>
+                  )
                   :
-                  nameEdit ?
-                    <Input
-                      value={updatedUser.name}
-                      placeholder={updatedUser.name}
-                      onChange={(e) => {
-                        const newName = e.target.value;
-                        const newUser = updatedUser;
-                        newUser.name = newName;
-                        setUpdatedUser(Object.assign({ ...newUser }))
-                      }}
-                    />
-                    :
-                    name
-                }
-              </Text>
-            </Skeleton>
-            <Skeleton
-              isLoaded={!loadingProfile}
-            >
-              <Text>
-                {loadingProfile ?
-                  "Loading Profile..."
-                  :
-                  userNameEdit ?
-                    <FormControl id="username">
-                      <InputGroup>
-                        <InputLeftAddon
-                          // eslint-disable-next-line react/no-children-prop
-                          children="@"
-                          bg={useColorModeValue("gray.50", "gray.800")}
-                          color={useColorModeValue("gray.500", "gay.50")}
-                          rounded="md"
-                        />
-                        <Input
-                          required
-                          validationMessage="Should not start with @"
-                          isInvalid={usernameInvalid}
-                          value={updatedUser.username}
-                          onChange={(e) => {
-                            const newUsername = e.target.value;
-                            const newUser = updatedUser;
-                            newUser.username = newUsername;
-                            setUpdatedUser(Object.assign({ ...newUser }))
+                  (
+                    <Box>
+                      <Spacer />
+                      <Text>No title set</Text>
+                    </Box>
+                  )
+            }
+          </HStack>
 
-                            if (e.target.value[0] === '@') {
-                              setUsernameInvalid(true);
-                            } else if (e.target.value[0] !== '@') {
-                              setUsernameInvalid(false);
-                            }
-                          }}
-                          id="username"
-                          placeholder={updatedUser.username || "Username"}
-                          errorBorderColor="red.300"
-                        />
-                      </InputGroup>
-                      {usernameInvalid &&
-                        <FormHelperText color="red.300">Should not start with @</FormHelperText>
-                      }
-                      {updatedUser.username.split(" ").length > 1 &&
-                        <FormHelperText color="red.300">Usernames cannot contain spaces</FormHelperText>
-                      }
-                    </FormControl>
-                    :
-                    username
-                }
-              </Text>
-            </Skeleton>
-            {/* <Skeleton
-              isLoaded={!loadingProfile}
+          <HStack
+            alignItems="center"
+            justifyContent="space-between"
+            w="100%"
+          >
+            <HStack
+              spacing={{ base: 0, md: 1 }}
+              alignItems="center"
+              justifyContent="space-between"
+              w="max-content"
             >
-              <Text>
-                {loadingProfile ?
-                  "Loading Profile..."
-                  :
-                  titleEdit ?
-                    <Input
-                      value={updatedUser.title}
-                      placeholder={updatedUser.title}
-                      onChange={(e) => {
-                        const newTitle = e.target.value;
-                        const newUser = updatedUser;
-                        newUser.title = newTitle;
-                        setUpdatedUser(Object.assign({ ...newUser }))
-                      }}
+              {!websiteEdit &&
+                (
+                  <Button
+                    _hover={{
+                      textDecoration: 'none',
+                      bg: useColorModeValue('orange.200', 'orange.700'),
+                    }}
+                    variant="ghost"
+                    px={2}
+                    py={2}
+                    mr={2}
+                    size="sm"
+                    fontSize='1rem'
+                    onClick={() => setWebsiteEdit(true)}
+                    isLoading={loadingProfile}
+                  >
+                    <Icon
+                      as={FaUserEdit}
                     />
-                    :
-                    title ?
-                      title
-                      :
-                      "No Title Set"
-                }
-              </Text>
-            </Skeleton> */}
-          </VStack>
-        </Flex >
-      </Flex >
-      <Divider orientation="horizontal" />
+                  </Button>
+                )
+              }
+              {websiteEdit &&
+                (
+                  <Fragment>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setIsSubmitting(true);
+                        handleSubmit()
+                      }}
+                      isDisabled={
+                        updatedUser.website.length === 0
+                        ||
+                        updatedUser.website === website
+                        ||
+                        isSubmitting
+                        ||
+                        anyInvalid
+                      }
+                      isLoading={isSubmitting}
+                    >
+                      <Icon
+                        as={FaCheckCircle}
+                      />
+                    </Button>
+                    <Button
+                      _hover={{
+                        textDecoration: 'none',
+                        bg: useColorModeValue('orange.200', 'orange.700'),
+                      }}
+                      variant="ghost"
+                      px={2}
+                      py={2}
+                      mr={2}
+                      size="sm"
+                      fontSize='1rem'
+                      onClick={() => {
+                        setWebsiteEdit(false);
+                        const newUser = updatedUser;
+                        newUser.website = website ? website : "";
+                        setUpdatedUser(Object.assign({ ...newUser }));
+                      }}
+                      isDisabled={isSubmitting}
+                    >
+                      <Icon
+                        as={FaTimesCircle}
+                      />
+                    </Button>
+                  </Fragment>
+                )
+              }
+              <Heading size="md">
+                Website:
+              </Heading>
+            </HStack>
+            {loadingProfile ?
+              <Box>
+                <Spacer />
+                <Skeleton
+                  isLoaded={!loadingProfile}
+                >
+                  "Loading Profile..."
+                </Skeleton>
+              </Box>
+              :
+              websiteEdit ?
+                <Box>
+                  <Spacer d={{ base: "none", lg: "flex" }} />
+                  <FormControl id="website">
+                    <InputGroup>
+                      <InputLeftAddon
+                        // eslint-disable-next-line react/no-children-prop
+                        children="https://"
+                        bg={useColorModeValue("gray.50", "gray.800")}
+                        color={useColorModeValue("gray.500", "gay.50")}
+                        rounded="md"
+                        p={{ base: 0.5, md: 4 }}
+                      />
+                      <Input
+                        required
+                        isInvalid={websiteInvalid}
+                        type="url"
+                        value={updatedUser.website}
+                        placeholder={website || "plexuscreate.com"}
+                        errorBorderColor="red.300"
+                        id="website"
+                        onChange={(e) => {
+                          const newWebsite = e.target.value;
+                          const newUser = updatedUser;
+                          newUser.website = newWebsite;
+                          setUpdatedUser(Object.assign({ ...newUser }))
+                          if (newWebsite.match(/(http(s)?:\/\/)/) || (newWebsite.length >= 2 && !newWebsite.split(".")[1])) {
+                            setWebsiteInvalid(true);
+                          } else {
+                            setWebsiteInvalid(false);
+                          }
+                        }}
+                      />
+                    </InputGroup>
+                    {updatedUser.website.match(/(http(s)?:\/\/)/) &&
+                      <FormHelperText color="red.300">Do not include "http://" or "https://"</FormHelperText>
+                    }
+                    {(website.length >= 2 && !website.split(".")[1]) &&
+                      <FormHelperText color="red.300">Link should be valid</FormHelperText>
+                    }
+                  </FormControl>
+                </Box>
+                :
+                website ?
+                  <Box>
+                    <Spacer />
+                    <Text>{website}</Text>
+                  </Box>
+                  :
+                  <Box>
+                    <Spacer />
+                    <Text>No Website Set</Text>
+                  </Box>
+            }
+          </HStack>
+        </VStack>
+      </VStack >
+      <Divider />
       <VStack
         w="100%"
         alignContent="center"
         align={["stretch", "center"]}
       >
-        <Flex
+        <VStack
           alignItems="center"
-          flexDirection="column"
           width="100%"
         >
           <Heading>Bio</Heading>
           <Box
-            my={4}
             width="100%"
           >
             <Box
@@ -731,8 +982,9 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 </Fragment>
                 :
                 bioEdit ?
-
                   <Textarea
+                    rows={10}
+                    value={bio}
                     onChange={(e) => {
                       const newBio = e.target.value;
                       const newUser = updatedUser;
@@ -750,6 +1002,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                           key={line.replace(" ", "-")}
                           textAlign="center"
                           w="100%"
+                          my={6}
                         >
                           {line}
                         </Text>
@@ -809,6 +1062,10 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                     updatedUser.bio.length === 0
                     ||
                     updatedUser.bio === bio
+                    ||
+                    isSubmitting
+                    ||
+                    anyInvalid
                   }
                   isLoading={isSubmitting}
                 >
@@ -828,6 +1085,9 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                   fontSize='1.5rem'
                   onClick={() => {
                     setBioEdit(false)
+                    const newUser = updatedUser;
+                    newUser.bio = bio ? bio : "";
+                    setUpdatedUser(Object.assign({ ...newUser }));
                   }}
                   isDisabled={isSubmitting}
                 >
@@ -838,7 +1098,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
               </HStack>
             )
           }
-        </Flex>
+        </VStack>
       </VStack>
     </VStack >
   )

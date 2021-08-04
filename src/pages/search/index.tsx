@@ -268,7 +268,7 @@ function Search(): JSX.Element {
           if (queryTerm === "") {
             return null;
           } else {
-            const exp = RegExp(`\\b${queryTerm}\\b`, "i");
+            const exp = RegExp(queryTerm, "i");
             return exp;
           }
         });
@@ -279,7 +279,7 @@ function Search(): JSX.Element {
           if (targetExp === null) {
             return false;
           } else {
-            return targetExp.test(project.title);
+            return targetExp.test(project.title.toLowerCase());
           }
         }
       );

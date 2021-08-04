@@ -11,6 +11,9 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   fonts: {
+    // Dyslexia friendly
+    // body: `'Helvetica', 'Arial', sans-serif`,
+    // heading: `'Helvetica', 'Arial', sans-serif`,
     body: `'Bai Jamjuree', sans-serif`,
     heading: `'Bai Jamjuree', sans-serif`,
   },
