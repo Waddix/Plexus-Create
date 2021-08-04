@@ -163,7 +163,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
                       variant="link"
                       color='orange.500'
                     >
-                      ... Show More
+                      Show More ...
                     </Button>
                   }
                   <Collapse
@@ -190,7 +190,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
                       variant="link"
                       color='orange.500'
                     >
-                      Show Less ...
+                      ... Show Less
                     </Button>
                   }
                 </Box>

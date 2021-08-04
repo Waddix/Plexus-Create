@@ -52,24 +52,20 @@ const MBProjectCard = ({ project }): JSX.Element => {
           // m={4}
           spacing={4}
         >
-          {description &&
-            (
-              <VStack
-                spacing={4}
+          <VStack
+            spacing={4}
+          >
+            <Text>
+              {description.split('\n')[0]}
+            </Text>
+            {description.split('\n').length > 1 &&
+              <Text
+                mt={4}
               >
-                <Text>
-                  {description.split('\n')[0]}
-                </Text>
-                {description.split('\n').length > 1 &&
-                  <Text
-                    mt={4}
-                  >
-                    Read more by viewing the project page...
-                  </Text>
-                }
-              </VStack>
-            )
-          }
+                Read more by viewing the project page...
+              </Text>
+            }
+          </VStack>
           <VStack
             w="100%"
             h="100%"

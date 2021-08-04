@@ -11,12 +11,16 @@ import {
   Spacer,
   Tag,
   Badge,
+  Collapse,
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
-import React from "react";
+import React, { useState } from "react";
 
 const DTProjectCard = ({ project }): JSX.Element => {
   const { title, description, image, tags, position, id } = project;
+
+  const [showMore, setShowMore] = useState<boolean>(false);
+
   return (
     <Box
       w="100%"
@@ -50,24 +54,56 @@ const DTProjectCard = ({ project }): JSX.Element => {
               {title}
             </Heading>
           </Link>
-          {description &&
-            (
-              <VStack
-                spacing={4}
-              >
-                <Text>
-                  {description.split('\n')[0]}
-                </Text>
-                {description.split('\n').length > 1 &&
-                  <Text
-                    mt={4}
+          <Box>
+            <Text
+              mt={2}
+            >
+              {description.split('\n')[0]}
+            </Text>
+            {description.split('\n').length > 1 &&
+              <Box>
+                {!showMore &&
+                  <Button
+                    p={2}
+                    m={2}
+                    mb={0}
+                    onClick={() => setShowMore(!showMore)}
+                    variant="link"
+                    color='orange.500'
                   >
-                    Read more by viewing the project page...
-                  </Text>
+                    Show More ...
+                  </Button>
                 }
-              </VStack>
-            )
-          }
+                <Collapse
+                  in={showMore}
+                  animateOpacity
+                >
+                  <Box>
+                    {description.split('\n').splice(1).map((bioLine: string) => (
+                      <Text
+                        key={bioLine.split(".")[0].replace(" ", "-").toLowerCase()}
+                        mt={2}
+                      >
+                        {bioLine}
+                      </Text>
+                    ))}
+                  </Box>
+                </Collapse>
+                {showMore &&
+                  <Button
+                    p={2}
+                    m={2}
+                    mb={0}
+                    onClick={() => setShowMore(!showMore)}
+                    variant="link"
+                    color='orange.500'
+                  >
+                    ... Show Less
+                  </Button>
+                }
+              </Box>
+            }
+          </Box>
           <VStack
             w="100%"
           >
