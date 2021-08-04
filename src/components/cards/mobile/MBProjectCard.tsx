@@ -24,22 +24,19 @@ const MBProjectCard = ({ project }): JSX.Element => {
       m="auto"
       border="2px solid blue"
     >
-      <HStack
-        m={6}
-        h="100%"
+      <VStack
+        m={4}
+        spacing={4}
       >
-        <Link
-          href={`/projects/${id}`}
-        >
-          <Image
-            src={image ? image : ""}
-            alt={`${title} image`}
-          />
-        </Link>
-        <VStack
-          m={4}
-          spacing={4}
-        >
+        <Box>
+          <Link
+            href={`/projects/${id}`}
+          >
+            <Image
+              src={image ? image : ""}
+              alt={`${title} image`}
+            />
+          </Link>
           <Link
             href={`/projects/${id}`}
           >
@@ -50,6 +47,11 @@ const MBProjectCard = ({ project }): JSX.Element => {
               {title}
             </Heading>
           </Link>
+        </Box>
+        <VStack
+          // m={4}
+          spacing={4}
+        >
           {description &&
             (
               <VStack
@@ -70,29 +72,33 @@ const MBProjectCard = ({ project }): JSX.Element => {
           }
           <VStack
             w="100%"
+            h="100%"
           >
             {(tags || position) &&
-              <HStack
+              <VStack
                 w="100%"
                 alignContent="center"
                 justifyContent="space-between"
                 h="100%"
                 mb={2}
+                spacing={4}
               >
-                <Spacer />
                 {tags &&
-                  tags.map((tag: string) => (
-                    <Tag
-                      key={tag.replace(" ", "-").toLowerCase()}
-                      variant="solid"
-                      size="md"
-                      borderRadius="full"
-                    >
-                      {tag}
-                    </Tag>
-                  ))
+                  (
+                    <HStack>
+                      {tags.map((tag: string) => (
+                        <Tag
+                          key={tag.replace(" ", "-").toLowerCase()}
+                          variant="solid"
+                          size="md"
+                          borderRadius="full"
+                        >
+                          {tag}
+                        </Tag>
+                      ))}
+                    </HStack>
+                  )
                 }
-                <Spacer />
                 {position &&
                   (
                     <Badge
@@ -105,7 +111,7 @@ const MBProjectCard = ({ project }): JSX.Element => {
                     </Badge>
                   )
                 }
-              </HStack>
+              </VStack>
             }
             {/* TODO: ADD FOLLOW BUTTON */}
             <Divider />
@@ -113,6 +119,7 @@ const MBProjectCard = ({ project }): JSX.Element => {
               href={`/projects/${id}`}
             >
               <Button
+                mt={2}
                 p={2}
                 _hover={{
                   textDecoration: 'none',
@@ -124,7 +131,7 @@ const MBProjectCard = ({ project }): JSX.Element => {
             </Link>
           </VStack>
         </VStack>
-      </HStack>
+      </VStack>
     </Box>
   )
 };

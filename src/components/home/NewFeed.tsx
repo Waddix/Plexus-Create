@@ -34,7 +34,7 @@ const NewFeed = (): JSX.Element => {
           description: "We work as a collective of community members, youth, and families working together envision and create a new juvenile justice system. Our organizational partners include the Legal Rights Center, the University of Minnesota Law School, The Link, ACLU-Minnesota, Project for Pride in Living, Until We Are All Free, Minnesota Alliance with Youth, Youthprise, Minneapolis Youth Coordinating Board, St. Paul Youth Services, N4 and NAACP-Minneapolis, among others.",
           image: "https://res.cloudinary.com/plexus-create/image/upload/v1626101249/projects/bidcuvrkhvqshwqvqktz.png",
           id: 4,
-          tags: ["Social Justice"],
+          tags: ["Social Justice", "Youth"],
           position: ["Testing"]
         }} />
       </VStack>

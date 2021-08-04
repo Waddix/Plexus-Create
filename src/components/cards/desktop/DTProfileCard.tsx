@@ -72,26 +72,28 @@ const DTProfileCard = ({ profile }): JSX.Element => {
           </Heading>
         </Link>
         {/* TODO: ADD FOLLOW BUTTON */}
-        <Tooltip
-          hasArrow
-          openDelay={200}
-          label="Opens email client"
-        >
-          <Link
-            href={`mailto:${email}`}
+        {email &&
+          <Tooltip
+            hasArrow
+            openDelay={200}
+            label="Opens email client"
           >
-            <Button
-              leftIcon={plane()}
-              p={2}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('orange.200', 'orange.700'),
-              }}
+            <Link
+              href={`mailto:${email}`}
             >
-              Contact
-            </Button>
-          </Link>
-        </Tooltip>
+              <Button
+                leftIcon={plane()}
+                p={2}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: useColorModeValue('orange.200', 'orange.700'),
+                }}
+              >
+                Contact
+              </Button>
+            </Link>
+          </Tooltip>
+        }
         {website &&
           <Link
             href={website}

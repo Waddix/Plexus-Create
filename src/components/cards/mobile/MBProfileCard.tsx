@@ -121,21 +121,24 @@ const MBProfileCard = ({ profile }): JSX.Element => {
         >
           {/* TODO: ADD FOLLOW BUTTON */}
           <Divider />
+          <Box mt={4}></Box>
           <HStack>
-            <Link
-              href={`mailto:${email}`}
-            >
-              <Button
-                leftIcon={plane()}
-                p={2}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
+            {email &&
+              <Link
+                href={`mailto:${email}`}
               >
-                Contact
-              </Button>
-            </Link>
+                <Button
+                  leftIcon={plane()}
+                  p={2}
+                  _hover={{
+                    textDecoration: 'none',
+                    bg: useColorModeValue('orange.200', 'orange.700'),
+                  }}
+                >
+                  Contact
+                </Button>
+              </Link>
+            }
             {website &&
               <Link
                 href={website}
