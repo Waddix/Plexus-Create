@@ -21,12 +21,6 @@ import {
   useColorMode,
   Skeleton,
   SkeletonCircle,
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
-  HStack,
   VStack,
   Heading,
   Text,
@@ -215,45 +209,64 @@ const NextAuth: NextComponentType = ({ pageProps }) => {
       >
         <Fragment>
           <PopoverHeader>
-            {session ? (
-              <Flex justifyContent={"space-between"} alignItems={"center"}>
-                {loadingProfile ? (
-                  <Box justifyContent="flex-start">
-                    <Text fontSize="sm">Signed in as</Text>
-                    <Skeleton height="16px" />
-                  </Box>
-                ) : (
-                  <Box justifyContent="flex-start" width="100%">
-                    <Text fontSize="sm">Signed in as</Text>
-                    <Heading size="md">
-                      {userProfile.username || "Failed getting profile"}
-                    </Heading>
-                  </Box>
-                )}
-                <Box justifyContent="flex-end">
+            {session ?
+              (
+                <Flex justifyContent={"space-between"} alignItems={"center"}>
                   {loadingProfile ? (
-                    <SkeletonCircle size="3rem" />
-                  ) : userProfile.image ? (
-                    <Avatar
-                      name={userProfile.name}
-                      size={"md"}
-                      src={userProfile.image}
-                    />
-                  ) : (
+                    <Box justifyContent="flex-start">
+                      <Text fontSize="sm">Signed in as</Text>
+                      <Skeleton height="16px" />
+                    </Box>
+                  )
+                    :
+                    (
+                      <Box justifyContent="flex-start">
+                        <Text fontSize="sm">Signed in as</Text>
+                        <Link
+                          href="/profile"
+                          w="max-content"
+                        >
+                          <Heading w="max-content" size="md">
+                            {userProfile.username || "Failed getting profile"}
+                          </Heading>
+                        </Link>
+                      </Box>
+                    )}
+                  <Box justifyContent="flex-end">
+                    {loadingProfile ?
+                      (
+                        <SkeletonCircle size="3rem" />
+                      )
+                      :
+                      <Link
+                        href={"/profile"}
+                      >
+                        {userProfile.image ? (
+                          <Avatar
+                            name={userProfile.name}
+                            size={"md"}
+                            src={userProfile.image}
+                          />
+                        )
+                          :
+                          (
+                            <Icon boxSize={10} as={FaUserCircle} />
+                          )
+                        }
+                      </Link>
+                    }
+                  </Box>
+                </Flex>
+              ) : (
+                <Flex alignItems={"center"} justifyContent={"space-between"}>
+                  <Box>
+                    <Heading size="md">You're not signed in</Heading>
+                  </Box>
+                  <Box>
                     <Icon boxSize={10} as={FaUserCircle} />
-                  )}
-                </Box>
-              </Flex>
-            ) : (
-              <Flex alignItems={"center"} justifyContent={"space-between"}>
-                <Box>
-                  <Heading size="md">You're not signed in</Heading>
-                </Box>
-                <Box>
-                  <Icon boxSize={10} as={FaUserCircle} />
-                </Box>
-              </Flex>
-            )}
+                  </Box>
+                </Flex>
+              )}
           </PopoverHeader>
           {session && (
             <PopoverBody>
