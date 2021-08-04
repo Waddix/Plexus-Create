@@ -10,10 +10,12 @@ import {
   Divider,
   Button,
   useColorModeValue,
-  Icon
+  Icon,
+  Spacer
 } from "@chakra-ui/react";
 import React from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
+import Tags from "../../auth/forms/tags";
 
 const MBProfileCard = ({ profile }): JSX.Element => {
   const { name, username, image, title, email, bio, website, id } = profile;
