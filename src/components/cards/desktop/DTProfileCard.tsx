@@ -45,7 +45,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
       w="100%"
       h="100%"
       m="auto"
-      border="2px solid blue"
+      boxShadow="0px 10px 13px -7px #000000"
       justifyContent="flex-start"
     >
       <VStack

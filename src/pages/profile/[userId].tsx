@@ -5,7 +5,7 @@ import { UserCard } from "../../components/UserCard";
 import { useProfileLookupQuery } from "../../generated/graphql";
 import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
-import { ProjectCard } from "../../components/projects/ProjectCard";
+// import { ProjectCard } from "../../components/projects/ProjectCard";
 import LoadingAnimation from "../../components/loading";
 import DTProjectCard from "../../components/cards/desktop/DTProjectCard";
 import MBProjectCard from "../../components/cards/mobile/MBProjectCard";
@@ -23,7 +23,7 @@ const UserProfile: React.FC<unknown> = () => {
   if (fetching) {
     return (<LoadingAnimation />);
   } else {
-    const { username, image } = data?.profileLookup;
+    // const { username, image } = data?.profileLookup;
     return (
       <div>
         <Flex justify={"center"}>

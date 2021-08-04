@@ -3,7 +3,7 @@ import { Box, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 import UserCard from "../../components/UserCard";
 import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
-import { ProjectCard } from "../../components/projects/ProjectCard";
+// import { ProjectCard } from "../../components/projects/ProjectCard";
 import { useGetProjectsByUserQuery } from "../../generated/graphql";
 import LoadingAnimation from "../../components/loading";
 import DTProjectCard from "../../components/cards/desktop/DTProjectCard";
@@ -11,7 +11,7 @@ import MBProjectCard from "../../components/cards/mobile/MBProjectCard";
 
 const ProfileView: React.FC = (): JSX.Element => {
   const { userProfile } = useContext(UserContext);
-  const { id, username, image } = userProfile;
+  const { id/*, username, image*/ } = userProfile;
 
   const [{ fetching, data/*, error */ }] = useGetProjectsByUserQuery({ variables: { ownerId: id } })
 
