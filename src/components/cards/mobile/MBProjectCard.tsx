@@ -17,12 +17,17 @@ import React from "react";
 
 const MBProjectCard = ({ project }): JSX.Element => {
   const { title, description, image, tags, position, id } = project;
+
+  interface Tag {
+    name: string,
+  }
+
   return (
     <Box
       w="100%"
       h="100%"
       m="auto"
-      border="2px solid blue"
+      boxShadow="0px 10px 13px -7px #000000"
     >
       <VStack
         m={4}
@@ -80,20 +85,18 @@ const MBProjectCard = ({ project }): JSX.Element => {
                 spacing={4}
               >
                 {tags &&
-                  (
-                    <HStack>
-                      {tags.map((tag: string) => (
-                        <Tag
-                          key={tag.replace(" ", "-").toLowerCase()}
-                          variant="solid"
-                          size="md"
-                          borderRadius="full"
-                        >
-                          {tag}
-                        </Tag>
-                      ))}
-                    </HStack>
-                  )
+                  tags.map(({ name }: Tag) => {
+                    return (
+                      <Tag
+                        key={name.replace(" ", "-").toLowerCase()}
+                        variant="solid"
+                        size="md"
+                        borderRadius="full"
+                      >
+                        {name}
+                      </Tag>
+                    )
+                  })
                 }
                 {position &&
                   (

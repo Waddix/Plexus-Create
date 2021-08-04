@@ -11,7 +11,7 @@ const Home = () => {
   return session ?
     (
       <Fragment >
-        <NewFeed />
+        {/* <NewFeed /> */}
         <Feed />
       </Fragment>
     )

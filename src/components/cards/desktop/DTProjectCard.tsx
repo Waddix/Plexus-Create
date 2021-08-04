@@ -21,16 +21,22 @@ const DTProjectCard = ({ project }): JSX.Element => {
 
   const [showMore, setShowMore] = useState<boolean>(false);
 
+  interface Tag {
+    name: string,
+  }
+
   return (
     <Box
       w="100%"
       h="100%"
       m="auto"
-      border="2px solid blue"
+      boxShadow="0px 10px 13px -7px #000000"
     >
-      <HStack
-        m={6}
+      <VStack
+        // m={6}
         h="100%"
+        alignContent="center"
+        justifyContent="end"
       >
         <Link
           href={`/projects/${id}`}
@@ -117,16 +123,18 @@ const DTProjectCard = ({ project }): JSX.Element => {
               >
                 <Spacer />
                 {tags &&
-                  tags.map((tag: string) => (
-                    <Tag
-                      key={tag.replace(" ", "-").toLowerCase()}
-                      variant="solid"
-                      size="md"
-                      borderRadius="full"
-                    >
-                      {tag}
-                    </Tag>
-                  ))
+                  tags.map(({ name }: Tag) => {
+                    return (
+                      <Tag
+                        key={name.replace(" ", "-").toLowerCase()}
+                        variant="solid"
+                        size="md"
+                        borderRadius="full"
+                      >
+                        {name}
+                      </Tag>
+                    )
+                  })
                 }
                 <Spacer />
                 {position &&
@@ -149,6 +157,7 @@ const DTProjectCard = ({ project }): JSX.Element => {
               href={`/projects/${id}`}
             >
               <Button
+                mb={4}
                 p={2}
                 _hover={{
                   textDecoration: 'none',
@@ -160,7 +169,7 @@ const DTProjectCard = ({ project }): JSX.Element => {
             </Link>
           </VStack>
         </VStack>
-      </HStack>
+      </VStack>
     </Box>
   )
 };
