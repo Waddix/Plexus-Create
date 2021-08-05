@@ -8,7 +8,7 @@ import {
   Int,
 } from "type-graphql";
 import { Profile } from "../db/entities/Profile";
-// import { Settings } from "../db/entities/Settings";
+import { getConnection } from "typeorm";
 
 @InputType()
 class ProfileInput {
@@ -129,7 +129,9 @@ export class ProfileResolver {
   }
 
   @Mutation(() => Profile)
-  async updateProfile( @Arg("input") input: UpdateProfileInput ): Promise<Profile | undefined> {
+  async updateProfile(
+    @Arg("input") input: UpdateProfileInput
+  ): Promise<Profile | undefined> {
     const profile = await Profile.findOne({
       where: {
         id: input.id,
@@ -148,18 +150,15 @@ export class ProfileResolver {
     return await profile?.save();
   }
 
-  // @Mutation(() => Profile)
-  // async linkProfileSettings( @Arg("input") input: LinkSettingInput ): Promise<Profile | undefined> {
-  //   const profile = await Profile.findOne({
-  //     where: { id: input.id },
-  //     relations: ["user_id", "email", "settings"],
-  //   });
-
-  //   if (profile) {
-  //     profile.settings = input.settings;
-  //     return await Profile.save(profile);
-  //   } else {
-  //     return profile;
-  //   }
-  // }
+  @Query(() => String, { nullable: true })
+  async getUserEmail(
+    @Arg("profileId", () => Int) profileId: number
+  ): Promise<string | null> {
+    const email = await getConnection()
+      .createQueryBuilder()
+      .relation(Profile, "email")
+      .of(profileId)
+      .loadOne();
+    return email;
+  }
 }

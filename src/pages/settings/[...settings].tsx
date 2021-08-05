@@ -151,14 +151,18 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
     <Box
       as="section"
       bg={useColorModeValue("gray.50", "gray.700")}
-      // minH="93.1vh"
+    // minH="93.1vh"
     >
-      <SidebarContent display={{ base: "none", md: "unset" }} />
+      <SidebarContent
+        zIndex="sticky"
+        display={{ base: "none", md: "unset" }}
+      />
 
       <HStack
         display={{ base: "unset", md: "none" }}
         position="sticky"
         top="4rem"
+        zIndex="sticky"
       >
         <Flex
           direction="row"
@@ -170,6 +174,7 @@ const Settings = ({ pageProps }: AppProps): JSX.Element => {
           bg={useColorModeValue("gray.50", "gray.700")}
           justifyContent="center"
           alignContent="center"
+          zIndex="sticky"
         >
           <Link
             href="/settings/profile"

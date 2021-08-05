@@ -23,6 +23,9 @@ const Feed: React.FC = () => {
   } else {
 
     if (data) {
+      if (data.getFeed?.followedProjects.length === 0) {
+        return <Landing />
+      }
       let allPosts: Array<Post> = [];
       data.getFeed?.followedProjects.forEach(project => (
         project?.posts?.forEach(post => allPosts.push(post))

@@ -18,6 +18,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { UserContext } from '../../context/userContext';
 import { ProjectTagsByID } from './ProjectTagsByID';
+// import { useFollowProjectMutation } from '../../generated/graphql';
 
 
 interface ProjectCardProps {
@@ -110,7 +111,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, id
                 </Link>
                 {ownerId != userProfile.id && !projectsFollowing.includes(id) ?
                   <Button
-                    onClick={() => followProject(id)}
+                    onClick={() => followProject({
+                      profileId: userProfile.id,
+                      projectId: id
+                    })}
                   >
                     Follow
                   </Button>
