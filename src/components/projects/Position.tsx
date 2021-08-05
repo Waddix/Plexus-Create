@@ -3,12 +3,12 @@ import {
   Flex,
   Link,
   HStack,
-  Image,
   Text,
   Button,
   Collapse,
   Heading,
   Spacer,
+  Image
 } from "@chakra-ui/react";
 import { chakra } from "@chakra-ui/system";
 import React from "react";
@@ -25,14 +25,14 @@ interface PositionCardProps {
   username?: string | undefined;
   image?: string | undefined;
   type?: string;
-  email?: string;
+  ownerEmail?: string | null;
 }
 export const PositionCard: React.FC<PositionCardProps> = ({
   description,
   projectId,
   username,
   image,
-  // email
+  ownerEmail
 }) => {
   const [{ data }] = useProjectPositionsQuery({
     variables: {
@@ -84,7 +84,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
                 rounded="full"
                 fit="cover"
                 display={{ base: "none", sm: "block" }}
-                src={image}
+                src={`${image}`}
                 alt="Project Owner Avatar"
               />
               <Link color={"gray.200"} fontWeight="700" cursor="pointer">
@@ -94,7 +94,7 @@ export const PositionCard: React.FC<PositionCardProps> = ({
             <Link color={"brand.400"} _hover={{ textDecor: "underline" }}>
               <Spacer>
                 <Box>
-                <a href={`mailto:lalib.worldwide@gmail.com`}>
+                <a href={`mailto:${ownerEmail}`}>
                   <SiMinutemailer></SiMinutemailer>
                 </a>
                 </Box>
