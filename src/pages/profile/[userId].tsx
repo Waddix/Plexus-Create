@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/dist/client/router";
-import { Flex, SimpleGrid, Text } from "@chakra-ui/react";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { UserCard } from "../../components/UserCard";
 import { useProfileLookupQuery } from "../../generated/graphql";
 import { UserContext } from "../../context/userContext";

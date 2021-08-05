@@ -16,7 +16,7 @@ import { Wrapper } from "../../../components/forms/Wrapper";
 import LoadingAnimation from "../../../components/loading";
 import { ProjectDetails } from "../../../components/projects/ProjectDetails";
 import { useProjectQuery } from "../../../generated/graphql";
-import { FacebookShareButton, FacebookIcon, TwitterIcon, TwitterShareButton, PinterestIcon, PinterestShareButton, LinkedinShareButton, LinkedinIcon, RedditIcon, RedditShareButton } from "react-share";
+import { FacebookShareButton, FacebookIcon, TwitterIcon, TwitterShareButton, PinterestIcon, PinterestShareButton, RedditIcon, RedditShareButton } from "react-share";
 interface ProjectTags {
   tags: Array<string>;
   marginTop?: SpaceProps["marginTop"];
