@@ -19,13 +19,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
 import { NextComponentType, withUrqlClient } from "next-urql";
 import { UserContext } from "../../../context/userContext";
-import { useGetUserEmailQuery } from "../../../generated/graphql";
-import { useFollowUserMutation } from "../../../generated/graphql";
-import Profile from "../../../models/profile";
+import { useFollowUserMutation, useGetUserEmailQuery } from "../../../generated/graphql";
 
-const DTProfileCard: NextComponentType = ({ profile }) => {
+const MBProfileCard: NextComponentType = (props) => {
+  console.log(props);
   // Given profile
-  const { name, username, image, title, bio, website, id } = profile;
+  const { name, username, image, title, bio, website, id } = props.profile;
 
   // Logged in user's profile
   const { userProfile, addToFollowedUsers, usersFollowing, unfollowUser } = useContext(UserContext)
@@ -73,16 +72,17 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
   }
 
   return (
-    <HStack
-      w="100%"
+    <VStack
+      w="95vw"
       h="100%"
       m="auto"
       boxShadow="0px 10px 13px -7px #000000"
       justifyContent="flex-start"
     >
       <VStack
-        m={4}
-        spacing={4}
+        w="100%"
+        m={2}
+        spacing={2}
       >
         <Link
           href={`/profile/${id}`}
@@ -93,6 +93,30 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
             alt={`${name} avatar`}
           />
         </Link>
+        <Heading
+          as="h2"
+        >
+          <Link
+            href={`/profile/${id}`}
+          >
+            <Heading
+              size="md"
+              as="h3"
+            >
+              {name}
+            </Heading>
+          </Link>
+        </Heading>
+        {title &&
+          (
+            <Heading
+              size="sm"
+              as="h2"
+            >
+              {title}
+            </Heading>
+          )
+        }
         <Link
           href={`/profile/${id}`}
         >
@@ -103,7 +127,7 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
             {username}
           </Heading>
         </Link>
-        <HStack>
+        <VStack>
           {currId != id ?
             (!usersFollowing.includes(id) ?
               <Button
@@ -178,7 +202,7 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
               </Button>
             </Link>
           }
-        </HStack>
+        </VStack>
       </VStack>
       <VStack
         w="100%"
@@ -186,34 +210,10 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
       >
         <VStack
           spacing={0}
-          my={6}
           ml={2}
           mr={4}
+          mb={6}
         >
-          <Heading
-            as="h2"
-          >
-            <Link
-              href={`/profile/${id}`}
-            >
-              <Heading
-                size="md"
-                as="h3"
-              >
-                {name}
-              </Heading>
-            </Link>
-          </Heading>
-          {title &&
-            (
-              <Heading
-                size="sm"
-                as="h2"
-              >
-                {title}
-              </Heading>
-            )
-          }
           {bio &&
             <Box>
               <Text
@@ -266,33 +266,12 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
               }
             </Box>
           }
-          <VStack
-            w="100%"
-            my={4}
-          >
-            <Divider />
-            <Link
-              href={`/profile/${id}`}
-            >
-              <Button
-                p={2}
-                mt={4}
-                mb={2}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-              >
-                View Full Profile
-              </Button>
-            </Link>
-          </VStack>
         </VStack>
       </VStack>
-    </HStack>
+    </VStack>
   )
 };
 
 export default withUrqlClient(() => ({
   url: "https://server-seven-blue.vercel.app/graphql",
-}))(DTProfileCard);
+}))(MBProfileCard);

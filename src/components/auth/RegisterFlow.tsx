@@ -141,7 +141,9 @@ const RegisterFlow: React.FC<unknown> = () => {
         updateName={setName}
         username={username}
         updateUsername={setUsername}
+        title={title}
         updateTitle={setTitle}
+        bio={bio}
         updateBio={setBio}
         space={containsSpace}
         updateSpace={setContainsSpace}

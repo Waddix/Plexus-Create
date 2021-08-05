@@ -19,13 +19,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
 import { NextComponentType, withUrqlClient } from "next-urql";
 import { UserContext } from "../../../context/userContext";
-import { useGetUserEmailQuery } from "../../../generated/graphql";
-import { useFollowUserMutation } from "../../../generated/graphql";
-import Profile from "../../../models/profile";
+import { useFollowUserMutation, useGetUserEmailQuery } from "../../../generated/graphql";
 
-const DTProfileCard: NextComponentType = ({ profile }) => {
+const DTProfileCard: NextComponentType = (props) => {
+  console.log(props);
   // Given profile
-  const { name, username, image, title, bio, website, id } = profile;
+  const { name, username, image, title, bio, website, id } = props.profile;
 
   // Logged in user's profile
   const { userProfile, addToFollowedUsers, usersFollowing, unfollowUser } = useContext(UserContext)
@@ -266,27 +265,6 @@ const DTProfileCard: NextComponentType = ({ profile }) => {
               }
             </Box>
           }
-          <VStack
-            w="100%"
-            my={4}
-          >
-            <Divider />
-            <Link
-              href={`/profile/${id}`}
-            >
-              <Button
-                p={2}
-                mt={4}
-                mb={2}
-                _hover={{
-                  textDecoration: 'none',
-                  bg: useColorModeValue('orange.200', 'orange.700'),
-                }}
-              >
-                View Full Profile
-              </Button>
-            </Link>
-          </VStack>
         </VStack>
       </VStack>
     </HStack>

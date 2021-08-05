@@ -984,7 +984,7 @@ const Profile: React.FC<unknown> = (): JSX.Element => {
                 bioEdit ?
                   <Textarea
                     rows={10}
-                    value={bio}
+                    value={updatedUser.bio}
                     onChange={(e) => {
                       const newBio = e.target.value;
                       const newUser = updatedUser;

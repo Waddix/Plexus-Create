@@ -14,14 +14,23 @@ import {
   Icon,
   Spacer
 } from "@chakra-ui/react";
+import { NextComponentType, withUrqlClient } from "next-urql";
 import React, { useContext, useEffect, useState } from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
-import { withUrqlClient } from "next-urql";
 import { UserContext } from "../../../context/userContext";
-import { useGetUserEmailQuery } from "../../../generated/graphql";
+import { useFollowUserMutation, useGetUserEmailQuery } from "../../../generated/graphql";
 
-const MBProfileCard = ({ profile }): JSX.Element => {
+
+const MBProfileCard: NextComponentType = ({ profile }) => {
+  // Given profile
   const { name, username, image, title, bio, website, id } = profile;
+
+  // Logged in user's profile
+  const { userProfile, addToFollowedUsers, usersFollowing, unfollowUser } = useContext(UserContext);
+  const { id: currId } = userProfile;
+
+  // Follows
+  const [, followUser] = useFollowUserMutation();
 
   const plane = (): JSX.Element => {
     return (
@@ -117,6 +126,42 @@ const MBProfileCard = ({ profile }): JSX.Element => {
           >
             {title}
           </Heading>
+          {currId != id ?
+            (!usersFollowing.includes(id) ?
+              <Button
+                // flex={1}
+                fontSize={'md'}
+                rounded={'full'}
+                bg={'blue.400'}
+                color={'white'}
+                boxShadow={
+                  '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                }
+                _hover={{
+                  bg: 'blue.500',
+                }}
+                _focus={{
+                  bg: 'blue.500',
+                }}
+                onClick={() => {
+                  followUser({
+                    profileId_2: id,
+                    profileId_1: currId
+                  })
+                  addToFollowedUsers(id)
+                }}
+              >
+                Follow
+              </Button>
+              :
+              <Button
+                onClick={() => unfollowUser(id)}
+              >
+                Unfollow
+              </Button>
+            ) :
+            <></>
+          }
         </VStack>
         {bio &&
           (
@@ -139,14 +184,12 @@ const MBProfileCard = ({ profile }): JSX.Element => {
             </VStack>
           )
         }
+        <Divider />
         <VStack
           w="100%"
         >
-          {/* TODO: ADD FOLLOW BUTTON */}
-          <Divider />
-          <Box mt={4}></Box>
           <HStack>
-            {(email && currUser.id !== id && !emailFetching) &&
+            {(currId && email && currId !== id && !emailFetching) &&
               <Link
                 href={`mailto:${email}`}
               >

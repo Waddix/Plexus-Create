@@ -202,7 +202,7 @@ const NextAuth: NextComponentType = ({ pageProps }) => {
       )} */}
       <PopoverContent
         zIndex="popover"
-        mt="0.87rem"
+        mt={{base: "4rem", md: "0.87rem"}}
         mr="0.3rem"
         bg={useColorModeValue("gray.100", "gray.900")}
         borderColor={useColorModeValue("orange.200", "orange.700")}

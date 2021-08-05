@@ -9,6 +9,7 @@ import DTProjectCard from "../cards/desktop/DTProjectCard";
 import MBProjectCard from "../cards/mobile/MBProjectCard";
 import DTProfileCard from "../cards/desktop/DTProfileCard";
 import MBProfileCard from "../cards/mobile/MBProfileCard";
+import { AppProps } from "next/app";
 
 interface Results {
   Profiles: Profile[] | null,
@@ -19,9 +20,10 @@ interface Props {
   results: Results,
   fetching: boolean
   query: string,
+  pageProps: AppProps
 }
 
-function SearchResults({ results, fetching, query }: Props): JSX.Element {
+function SearchResults({ results, fetching, query, pageProps }: Props): JSX.Element {
   return (
     <Box
       mt={['1rem', '1em', '1rem', '2rem']}
@@ -94,6 +96,7 @@ function SearchResults({ results, fetching, query }: Props): JSX.Element {
                         <MBProfileCard
                           key={p.title.replace(" ", "-").toLowerCase()}
                           profile={p}
+                          {...pageProps}
                         />
                       ))}
                     </VStack>
@@ -106,6 +109,7 @@ function SearchResults({ results, fetching, query }: Props): JSX.Element {
                         <DTProfileCard
                           key={p.title.replace(" ", "-").toLowerCase()}
                           profile={p}
+                          {...pageProps}
                         />
                       ))}
                     </VStack>

@@ -8,8 +8,12 @@ import { useGetProjectsByUserQuery } from "../../generated/graphql";
 import LoadingAnimation from "../../components/loading";
 import DTProjectCard from "../../components/cards/desktop/DTProjectCard";
 import MBProjectCard from "../../components/cards/mobile/MBProjectCard";
+import DTProfileCard from "../../components/profile/desktop/DTProfileCard";
+import { AppProps } from "next/app";
+import MBProfileCard from "../../components/profile/mobile/MBProfileCard";
 
-const ProfileView: React.FC = (): JSX.Element => {
+
+function ProfileView(pageProps: AppProps): JSX.Element {
   const { userProfile } = useContext(UserContext);
   const { id/*, username, image*/ } = userProfile;
 
@@ -20,15 +24,34 @@ const ProfileView: React.FC = (): JSX.Element => {
   } else {
     if (data) {
       return (
-        <div>
-          <Flex justify={'center'}>
+        <VStack
+          spacing={{ base: 4, lg: 8 }}
+          m={{ base: 2, lg: 4 }}
+        >
+          {/* <Flex justify={'center'}>
             <UserCard profile={userProfile} currId={id} />
-          </Flex>
+          </Flex> */}
           {/* <SimpleGrid columns={[2, null, 3]} spacing="20px" maxBlockSize="fit-content">
             {data.getProjectsByUser?.map((p) => {
               return <ProjectCard key={p.id} id={p.id} description={p.description} title={p.title} createdAt={p.createdAt} updatedAt={p.updatedAt} username={username} image={image}> </ProjectCard>
             })}
           </SimpleGrid> */}
+          <Box
+            d={{ base: "none", md: "flex" }}
+          >
+            <DTProfileCard
+              {...pageProps}
+              profile={userProfile}
+            />
+          </Box>
+          <Box
+            d={{ base: "flex", md: "none" }}
+          >
+            <MBProfileCard
+              {...pageProps}
+              profile={userProfile}
+            />
+          </Box>
           <Box
             w={["95%", "95%", "90%", "80%"]}
             mx="auto"
@@ -63,7 +86,7 @@ const ProfileView: React.FC = (): JSX.Element => {
               ))}
             </SimpleGrid>
           </Box>
-        </div>
+        </VStack>
       )
     }
   }

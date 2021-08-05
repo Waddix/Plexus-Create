@@ -21,8 +21,9 @@ import {
 } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
 import { Profile, Project } from "../../generated/graphql";
+import { AppProps } from "next/app";
 
-function Search(): JSX.Element {
+function Search(pageProps: AppProps): JSX.Element {
   // Search query
   const [searchBar, setSearchBar] = useState("");
   const query = useRef("");
@@ -509,6 +510,7 @@ function Search(): JSX.Element {
         query={query.current}
         fetching={fetching}
         results={results}
+        {...pageProps}
       />
     </Fragment>
   );

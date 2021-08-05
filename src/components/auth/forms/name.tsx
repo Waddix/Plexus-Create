@@ -17,7 +17,9 @@ interface NameProps {
   updateName: React.Dispatch<React.SetStateAction<string>>,
   username: string,
   updateUsername: React.Dispatch<React.SetStateAction<string>>,
+  title: string,
   updateTitle: React.Dispatch<React.SetStateAction<string>>,
+  bio: string,
   updateBio: React.Dispatch<React.SetStateAction<string>>,
   space: boolean,
   updateSpace: React.Dispatch<React.SetStateAction<boolean>>,
@@ -34,7 +36,9 @@ function Name({
   updateName,
   username,
   updateUsername,
+  title,
   updateTitle,
+  bio,
   updateBio,
   space,
   updateSpace,
@@ -111,7 +115,11 @@ function Name({
       </Box>
       <Box mt={7}>
         <FormLabel htmlFor="title">Your Title</FormLabel>
-        <Input onChange={(e) => updateTitle(e.target.value)} id="title" placeholder={"Web Developer | Artist | Graphic Designer"} />
+        <Input value={title}
+          onChange={(e) => updateTitle(e.target.value)}
+          id="title"
+          placeholder={"Web Developer | Artist | Graphic Designer"}
+        />
       </Box>
       <Box mt={7}>
         <FormLabel htmlFor="title">Your Website</FormLabel>
@@ -153,7 +161,12 @@ function Name({
       </Box>
       <Box mt={7}>
         <FormLabel htmlFor="bio">Your Bio</FormLabel>
-        <Textarea onChange={(e) => updateBio(e.target.value)} id="bio" placeholder={"Write something about yourself"} />
+        <Textarea
+          value={bio}
+          onChange={(e) => updateBio(e.target.value)}
+          id="bio"
+          placeholder={"Write something about yourself"}
+        />
       </Box>
     </Fragment >
   )
