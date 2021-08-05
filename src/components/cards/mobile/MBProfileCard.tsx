@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   Box,
@@ -13,12 +14,14 @@ import {
   Icon,
   Spacer
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
-import Tags from "../../auth/forms/tags";
+import { withUrqlClient } from "next-urql";
+import { UserContext } from "../../../context/userContext";
+import { useGetUserEmailQuery } from "../../../generated/graphql";
 
 const MBProfileCard = ({ profile }): JSX.Element => {
-  const { name, username, image, title, email, bio, website, id } = profile;
+  const { name, username, image, title, bio, website, id } = profile;
 
   const plane = (): JSX.Element => {
     return (
@@ -38,12 +41,32 @@ const MBProfileCard = ({ profile }): JSX.Element => {
     )
   }
 
+  const user = useContext(UserContext);
+  const { userProfile: currUser } = user
+
+  const [emailResult] = useGetUserEmailQuery({
+    variables: { profileId: id },
+  });
+
+  const { data: emailData, fetching: emailFetching } = emailResult
+
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (!emailFetching && emailData?.getUserEmail) {
+      const fetchedEmail = emailData.getUserEmail;
+      if (fetchedEmail !== email) {
+        setEmail(fetchedEmail);
+      }
+    }
+  }, [emailData, emailFetching])
+
   return (
     <Box
       w="100%"
       h="100%"
       m="auto"
-      border="2px solid blue"
+      boxShadow="0px 10px 13px -7px #000000"
     >
       <VStack
         m={4}
@@ -123,7 +146,7 @@ const MBProfileCard = ({ profile }): JSX.Element => {
           <Divider />
           <Box mt={4}></Box>
           <HStack>
-            {email &&
+            {(email && currUser.id !== id && !emailFetching) &&
               <Link
                 href={`mailto:${email}`}
               >
@@ -175,4 +198,6 @@ const MBProfileCard = ({ profile }): JSX.Element => {
   )
 };
 
-export default MBProfileCard;
+export default withUrqlClient(() => ({
+  url: "https://server-seven-blue.vercel.app/graphql",
+}))(MBProfileCard);

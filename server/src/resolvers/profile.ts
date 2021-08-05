@@ -154,11 +154,11 @@ export class ProfileResolver {
   async getUserEmail(
     @Arg("profileId", () => Int) profileId: number
   ): Promise<string | null> {
-    const profile = await getConnection()
+    const email = await getConnection()
       .createQueryBuilder()
       .relation(Profile, "email")
       .of(profileId)
       .loadOne();
-    return profile;
+    return email;
   }
 }

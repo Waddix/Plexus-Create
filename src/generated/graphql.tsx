@@ -258,6 +258,7 @@ export type Query = {
   findProfileID: Profile;
   findProfileUserId: Profile;
   findProfileUsername: Profile;
+  getUserEmail?: Maybe<Scalars['String']>;
   projects: Array<Project>;
   project?: Maybe<Project>;
   getProjectsByUser?: Maybe<Array<Project>>;
@@ -332,6 +333,11 @@ export type QueryFindProfileUserIdArgs = {
 
 export type QueryFindProfileUsernameArgs = {
   username: Scalars['String'];
+};
+
+
+export type QueryGetUserEmailArgs = {
+  profileId: Scalars['Int'];
 };
 
 
@@ -598,11 +604,11 @@ export type GetUserQueryVariables = Exact<{
 export type GetUserQuery = { __typename?: 'Query', findUser: { __typename?: 'Users', id: string, name?: Maybe<string>, email?: Maybe<string>, image: string } };
 
 export type GetUserEmailQueryVariables = Exact<{
-  email: Scalars['String'];
+  profileId: Scalars['Int'];
 }>;
 
 
-export type GetUserEmailQuery = { __typename?: 'Query', findUserEmail: { __typename?: 'Users', id: string, name?: Maybe<string>, email?: Maybe<string>, image: string } };
+export type GetUserEmailQuery = { __typename?: 'Query', getUserEmail?: Maybe<string> };
 
 export type GetUserNameQueryVariables = Exact<{
   name: Scalars['String'];
@@ -1096,13 +1102,8 @@ export function useGetUserQuery(options: Omit<Urql.UseQueryArgs<GetUserQueryVari
   return Urql.useQuery<GetUserQuery>({ query: GetUserDocument, ...options });
 };
 export const GetUserEmailDocument = gql`
-    query GetUserEmail($email: String!) {
-  findUserEmail(email: $email) {
-    id
-    name
-    email
-    image
-  }
+    query getUserEmail($profileId: Int!) {
+  getUserEmail(profileId: $profileId)
 }
     `;
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   Avatar,
@@ -14,13 +15,36 @@ import {
   Divider,
   Icon
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
+import { withUrqlClient } from "next-urql";
+import { UserContext } from "../../../context/userContext";
+import { useGetUserEmailQuery } from "../../../generated/graphql";
 
 const DTProfileCard = ({ profile }): JSX.Element => {
-  const { name, username, image, title, email, bio, website, id } = profile;
+  const { name, username, image, title, bio, website, id } = profile;
 
   const [showMore, setShowMore] = useState<boolean>(false);
+
+  const user = useContext(UserContext);
+  const { userProfile: currUser } = user
+
+  const [emailResult] = useGetUserEmailQuery({
+    variables: { profileId: id },
+  });
+
+  const { data: emailData, fetching: emailFetching } = emailResult
+
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (!emailFetching && emailData?.getUserEmail) {
+      const fetchedEmail = emailData.getUserEmail;
+      if (fetchedEmail !== email) {
+        setEmail(fetchedEmail);
+      }
+    }
+  }, [emailData, emailFetching])
 
   const plane = (): JSX.Element => {
     return (
@@ -72,7 +96,7 @@ const DTProfileCard = ({ profile }): JSX.Element => {
           </Heading>
         </Link>
         {/* TODO: ADD FOLLOW BUTTON */}
-        {email &&
+        {(email && currUser.id !== id && !emailFetching) &&
           <Tooltip
             hasArrow
             openDelay={200}
@@ -225,4 +249,6 @@ const DTProfileCard = ({ profile }): JSX.Element => {
   )
 };
 
-export default DTProfileCard;
+export default withUrqlClient(() => ({
+  url: "https://server-seven-blue.vercel.app/graphql",
+}))(DTProfileCard);
