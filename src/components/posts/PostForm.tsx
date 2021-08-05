@@ -6,8 +6,8 @@ import { Box, Button, Container } from "@chakra-ui/react";
 import { TextArea } from "../forms/TextArea";
 
 interface PostProps {
-  projectId: number,
-  ownerId: number
+  projectId: number;
+  ownerId: number;
 }
 export const PostFormBox: React.FC<PostProps> = ({ projectId, ownerId }) => {
   const [, createPost] = useCreatePostMutation();
@@ -15,8 +15,7 @@ export const PostFormBox: React.FC<PostProps> = ({ projectId, ownerId }) => {
     <Container>
       <Formik
         initialValues={{ text: "" }}
-        onSubmit={async (values, { resetForm }) => {
-          console.log("projectId: ", projectId, "ownerId: ", ownerId)
+        onSubmit={async (values, { resetForm, setErrors }) => {
           try {
             await createPost({
               projectId,
@@ -24,31 +23,17 @@ export const PostFormBox: React.FC<PostProps> = ({ projectId, ownerId }) => {
               text: values.text,
             });
             resetForm({});
+          } catch (error) {
+            setErrors({
+              text: "Please enter text",
+            });
           }
-          catch (error) {
-            console.error(error);
-          }
-
-          // if (post.error) {
-          //   console.log(post.error?.message);
-          //   setErrors({
-          //     text: "error in update",
-          //   });
-          // } else if (post.data) {
-          //   console.log(post.data);
-
-          // }
-
         }}
       >
         {({ isSubmitting }) => (
           <Form>
             <Box mt={4}>
-              <TextArea
-                name="text"
-                placeholder="What's new?"
-                label="Post"
-              />
+              <TextArea name="text" placeholder="What's new?" label="Post" />
             </Box>
             <Button
               mt={4}
