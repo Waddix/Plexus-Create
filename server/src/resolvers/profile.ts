@@ -129,7 +129,9 @@ export class ProfileResolver {
   }
 
   @Mutation(() => Profile)
-  async updateProfile( @Arg("input") input: UpdateProfileInput ): Promise<Profile | undefined> {
+  async updateProfile(
+    @Arg("input") input: UpdateProfileInput
+  ): Promise<Profile | undefined> {
     const profile = await Profile.findOne({
       where: {
         id: input.id,
@@ -148,15 +150,15 @@ export class ProfileResolver {
     return await profile?.save();
   }
 
-  @Query(() => Profile, { nullable: true })
+  @Query(() => String, { nullable: true })
   async getUserEmail(
     @Arg("profileId", () => Int) profileId: number
-  ): Promise<unknown> {
-    const email = await getConnection()
+  ): Promise<string | null> {
+    const profile = await getConnection()
       .createQueryBuilder()
       .relation(Profile, "email")
-      .of({id: profileId})
+      .of(profileId)
       .loadOne();
-    return email;
+    return profile;
   }
 }

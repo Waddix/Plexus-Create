@@ -415,10 +415,7 @@ export type Users = {
   image: Scalars['String'];
 };
 
-export type TagFragmentFragment = (
-  { __typename?: 'Tag' }
-  & Pick<Tag, 'id' | 'name' | 'createdAt' | 'updatedAt'>
-);
+export type TagFragmentFragment = { __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any };
 
 export type AssignPositionTagMutationVariables = Exact<{
   positionId: Scalars['Int'];
@@ -426,10 +423,7 @@ export type AssignPositionTagMutationVariables = Exact<{
 }>;
 
 
-export type AssignPositionTagMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'assignPositionTag'>
-);
+export type AssignPositionTagMutation = { __typename?: 'Mutation', assignPositionTag: boolean };
 
 export type AssignProjectTagMutationVariables = Exact<{
   projectId: Scalars['Int'];
@@ -437,10 +431,7 @@ export type AssignProjectTagMutationVariables = Exact<{
 }>;
 
 
-export type AssignProjectTagMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'assignTag'>
-);
+export type AssignProjectTagMutation = { __typename?: 'Mutation', assignTag: boolean };
 
 export type CreatePositionMutationVariables = Exact<{
   input: PositionInput;
@@ -448,19 +439,7 @@ export type CreatePositionMutationVariables = Exact<{
 }>;
 
 
-export type CreatePositionMutation = (
-  { __typename?: 'Mutation' }
-  & { createPosition: (
-    { __typename?: 'PositionResponse' }
-    & { position?: Maybe<(
-      { __typename?: 'Position' }
-      & Pick<Position, 'id' | 'type' | 'title' | 'description'>
-    )>, errors?: Maybe<Array<(
-      { __typename?: 'Error' }
-      & Pick<Error, 'posField' | 'posMessage'>
-    )>> }
-  ) }
-);
+export type CreatePositionMutation = { __typename?: 'Mutation', createPosition: { __typename?: 'PositionResponse', position?: Maybe<{ __typename?: 'Position', id: number, type: string, title: string, description: string }>, errors?: Maybe<Array<{ __typename?: 'Error', posField: string, posMessage: string }>> } };
 
 export type CreatePostMutationVariables = Exact<{
   projectId: Scalars['Int'];
@@ -469,26 +448,14 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = (
-  { __typename?: 'Mutation' }
-  & { createPost: (
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'text'>
-  ) }
-);
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, text: string } };
 
 export type CreateProfileForUserMutationVariables = Exact<{
   input: ProfileInput;
 }>;
 
 
-export type CreateProfileForUserMutation = (
-  { __typename?: 'Mutation' }
-  & { createProfile: (
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'user_id' | 'name' | 'username' | 'email' | 'image' | 'title' | 'bio' | 'website' | 'createdAt' | 'updatedAt'>
-  ) }
-);
+export type CreateProfileForUserMutation = { __typename?: 'Mutation', createProfile: { __typename?: 'Profile', user_id: number, name: string, username: string, email: string, image: string, title: string, bio: string, website: string, createdAt: any, updatedAt: any } };
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
@@ -497,32 +464,14 @@ export type CreateProjectMutationVariables = Exact<{
 }>;
 
 
-export type CreateProjectMutation = (
-  { __typename?: 'Mutation' }
-  & { createProject: (
-    { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'image' | 'description' | 'createdAt' | 'updatedAt'>
-  ) }
-);
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', id: number, title: string, image: string, description: string, createdAt: any, updatedAt: any } };
 
 export type CreateTagMutationVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type CreateTagMutation = (
-  { __typename?: 'Mutation' }
-  & { createTag: (
-    { __typename?: 'TagResponse' }
-    & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
-    )>>, tag?: Maybe<(
-      { __typename?: 'Tag' }
-      & TagFragmentFragment
-    )> }
-  ) }
-);
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'TagResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, tag?: Maybe<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> } };
 
 export type FollowProjectMutationVariables = Exact<{
   profileId: Scalars['Int'];
@@ -530,10 +479,7 @@ export type FollowProjectMutationVariables = Exact<{
 }>;
 
 
-export type FollowProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'followProject'>
-);
+export type FollowProjectMutation = { __typename?: 'Mutation', followProject: boolean };
 
 export type FollowUserMutationVariables = Exact<{
   profileId_2: Scalars['Int'];
@@ -541,34 +487,19 @@ export type FollowUserMutationVariables = Exact<{
 }>;
 
 
-export type FollowUserMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'followUser'>
-);
+export type FollowUserMutation = { __typename?: 'Mutation', followUser: boolean };
 
 export type UpdateProfileMutationVariables = Exact<{
   input: UpdateProfileInput;
 }>;
 
 
-export type UpdateProfileMutation = (
-  { __typename?: 'Mutation' }
-  & { updateProfile: (
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'image' | 'website'>
-  ) }
-);
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'Profile', id: number, name: string, username: string, title: string, bio: string, image: string, website: string } };
 
 export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTagsQuery = (
-  { __typename?: 'Query' }
-  & { tags: Array<(
-    { __typename?: 'Tag' }
-    & TagFragmentFragment
-  )> }
-);
+export type AllTagsQuery = { __typename?: 'Query', tags: Array<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> };
 
 export type CreateCheckoutSessionQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -576,213 +507,87 @@ export type CreateCheckoutSessionQueryVariables = Exact<{
 }>;
 
 
-export type CreateCheckoutSessionQuery = (
-  { __typename?: 'Query' }
-  & Pick<Query, 'createCheckoutSession'>
-);
+export type CreateCheckoutSessionQuery = { __typename?: 'Query', createCheckoutSession: string };
 
 export type FindTagByIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type FindTagByIdQuery = (
-  { __typename?: 'Query' }
-  & { tag?: Maybe<(
-    { __typename?: 'Tag' }
-    & TagFragmentFragment
-  )> }
-);
+export type FindTagByIdQuery = { __typename?: 'Query', tag?: Maybe<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> };
 
 export type GetAllProfilesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllProfilesQuery = (
-  { __typename?: 'Query' }
-  & { getAllProfiles?: Maybe<Array<(
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
-  )>> }
-);
+export type GetAllProfilesQuery = { __typename?: 'Query', getAllProfiles?: Maybe<Array<{ __typename?: 'Profile', id: number, name: string, username: string, image: string, title: string, bio: string, website: string }>> };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllUsersQuery = (
-  { __typename?: 'Query' }
-  & { getAllUsers?: Maybe<Array<(
-    { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'image'>
-  )>> }
-);
+export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers?: Maybe<Array<{ __typename?: 'Users', id: string, name?: Maybe<string>, image: string }>> };
 
 export type GetFeedQueryVariables = Exact<{
   profileId: Scalars['Int'];
 }>;
 
 
-export type GetFeedQuery = (
-  { __typename?: 'Query' }
-  & { getFeed?: Maybe<(
-    { __typename?: 'Profile' }
-    & { followedProjects: Array<(
-      { __typename?: 'Project' }
-      & Pick<Project, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'ownerId'>
-      & { owner: (
-        { __typename?: 'Profile' }
-        & Pick<Profile, 'name' | 'username' | 'image' | 'title'>
-      ), posts?: Maybe<Array<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'id' | 'text' | 'projectId' | 'createdAt' | 'updatedAt' | 'ownerId'>
-        & { owner: (
-          { __typename?: 'Profile' }
-          & Pick<Profile, 'name' | 'username' | 'image' | 'title'>
-        ) }
-      )>> }
-    )>, following: Array<(
-      { __typename?: 'Profile' }
-      & Pick<Profile, 'name' | 'username' | 'image' | 'title'>
-      & { posts?: Maybe<Array<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'id' | 'text' | 'projectId' | 'createdAt' | 'updatedAt' | 'ownerId'>
-        & { project: (
-          { __typename?: 'Project' }
-          & Pick<Project, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description' | 'ownerId'>
-        ) }
-      )>> }
-    )> }
-  )> }
-);
+export type GetFeedQuery = { __typename?: 'Query', getFeed?: Maybe<{ __typename?: 'Profile', followedProjects: Array<{ __typename?: 'Project', id: number, createdAt: any, updatedAt: any, title: string, description: string, ownerId: number, owner: { __typename?: 'Profile', name: string, username: string, image: string, title: string }, posts?: Maybe<Array<{ __typename?: 'Post', id: number, text: string, projectId: number, createdAt: any, updatedAt: any, ownerId: number, owner: { __typename?: 'Profile', name: string, username: string, image: string, title: string } }>> }>, following: Array<{ __typename?: 'Profile', name: string, username: string, image: string, title: string, posts?: Maybe<Array<{ __typename?: 'Post', id: number, text: string, projectId: number, createdAt: any, updatedAt: any, ownerId: number, project: { __typename?: 'Project', id: number, createdAt: any, updatedAt: any, title: string, description: string, ownerId: number } }>> }> }> };
 
 export type GetFollowedProjectsQueryVariables = Exact<{
   profileId: Scalars['Int'];
 }>;
 
 
-export type GetFollowedProjectsQuery = (
-  { __typename?: 'Query' }
-  & { getFollowedProjects?: Maybe<Array<(
-    { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>
-  )>> }
-);
+export type GetFollowedProjectsQuery = { __typename?: 'Query', getFollowedProjects?: Maybe<Array<{ __typename?: 'Project', id: number, title: string, description: string, createdAt: any, updatedAt: any }>> };
 
 export type GetFollowedUsersQueryVariables = Exact<{
   profileId: Scalars['Int'];
 }>;
 
 
-export type GetFollowedUsersQuery = (
-  { __typename?: 'Query' }
-  & { getFollowedUsers?: Maybe<Array<(
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
-  )>> }
-);
+export type GetFollowedUsersQuery = { __typename?: 'Query', getFollowedUsers?: Maybe<Array<{ __typename?: 'Profile', id: number, name: string, username: string, image: string, title: string, bio: string, website: string }>> };
 
 export type GetPostsQueryVariables = Exact<{
   profileId: Scalars['Int'];
 }>;
 
 
-export type GetPostsQuery = (
-  { __typename?: 'Query' }
-  & { getFeed?: Maybe<(
-    { __typename?: 'Profile' }
-    & { followedProjects: Array<(
-      { __typename?: 'Project' }
-      & { posts?: Maybe<Array<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'text'>
-        & { project: (
-          { __typename?: 'Project' }
-          & Pick<Project, 'id' | 'title'>
-        ), owner: (
-          { __typename?: 'Profile' }
-          & Pick<Profile, 'id' | 'name' | 'username' | 'image'>
-        ) }
-      )>> }
-    )>, following: Array<(
-      { __typename?: 'Profile' }
-      & { posts?: Maybe<Array<(
-        { __typename?: 'Post' }
-        & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'text'>
-        & { project: (
-          { __typename?: 'Project' }
-          & Pick<Project, 'id' | 'title'>
-        ), owner: (
-          { __typename?: 'Profile' }
-          & Pick<Profile, 'id' | 'name' | 'username' | 'image'>
-        ) }
-      )>> }
-    )> }
-  )> }
-);
+export type GetPostsQuery = { __typename?: 'Query', getFeed?: Maybe<{ __typename?: 'Profile', followedProjects: Array<{ __typename?: 'Project', posts?: Maybe<Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, text: string, project: { __typename?: 'Project', id: number, title: string }, owner: { __typename?: 'Profile', id: number, name: string, username: string, image: string } }>> }>, following: Array<{ __typename?: 'Profile', posts?: Maybe<Array<{ __typename?: 'Post', id: number, createdAt: any, updatedAt: any, text: string, project: { __typename?: 'Project', id: number, title: string }, owner: { __typename?: 'Profile', id: number, name: string, username: string, image: string } }>> }> }> };
 
 export type GetProfileIdQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GetProfileIdQuery = (
-  { __typename?: 'Query' }
-  & { findProfileID: (
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
-  ) }
-);
+export type GetProfileIdQuery = { __typename?: 'Query', findProfileID: { __typename?: 'Profile', id: number, name: string, username: string, image: string, title: string, bio: string, website: string } };
 
 export type GetProfileUserIdQueryVariables = Exact<{
   user_id: Scalars['Int'];
 }>;
 
 
-export type GetProfileUserIdQuery = (
-  { __typename?: 'Query' }
-  & { findProfileUserId: (
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
-  ) }
-);
+export type GetProfileUserIdQuery = { __typename?: 'Query', findProfileUserId: { __typename?: 'Profile', id: number, name: string, username: string, image: string, title: string, bio: string, website: string } };
 
 export type GetProfileUsernameQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
 
-export type GetProfileUsernameQuery = (
-  { __typename?: 'Query' }
-  & { findProfileUsername: (
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'image' | 'title' | 'bio' | 'website'>
-  ) }
-);
+export type GetProfileUsernameQuery = { __typename?: 'Query', findProfileUsername: { __typename?: 'Profile', id: number, name: string, username: string, image: string, title: string, bio: string, website: string } };
 
 export type ProjectTagsByIdQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
 
 
-export type ProjectTagsByIdQuery = (
-  { __typename?: 'Query' }
-  & { projectTags: Array<(
-    { __typename?: 'Tag' }
-    & Pick<Tag, 'id' | 'name' | 'createdAt' | 'updatedAt'>
-  )> }
-);
+export type ProjectTagsByIdQuery = { __typename?: 'Query', projectTags: Array<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> };
 
 export type GetProjectsByUserQueryVariables = Exact<{
   ownerId: Scalars['Int'];
 }>;
 
 
-export type GetProjectsByUserQuery = (
-  { __typename?: 'Query' }
-  & { getProjectsByUser?: Maybe<Array<(
-    { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'description'>
-  )>> }
-);
+export type GetProjectsByUserQuery = { __typename?: 'Query', getProjectsByUser?: Maybe<Array<{ __typename?: 'Project', id: number, createdAt: any, updatedAt: any, title: string, description: string }>> };
 
 export type GetUserQueryVariables = Exact<{
   name: Scalars['String'];
@@ -790,144 +595,66 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = (
-  { __typename?: 'Query' }
-  & { findUser: (
-    { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
-  ) }
-);
+export type GetUserQuery = { __typename?: 'Query', findUser: { __typename?: 'Users', id: string, name?: Maybe<string>, email?: Maybe<string>, image: string } };
 
 export type GetUserEmailQueryVariables = Exact<{
   email: Scalars['String'];
 }>;
 
 
-export type GetUserEmailQuery = (
-  { __typename?: 'Query' }
-  & { findUserEmail: (
-    { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
-  ) }
-);
+export type GetUserEmailQuery = { __typename?: 'Query', findUserEmail: { __typename?: 'Users', id: string, name?: Maybe<string>, email?: Maybe<string>, image: string } };
 
 export type GetUserNameQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type GetUserNameQuery = (
-  { __typename?: 'Query' }
-  & { findUserName?: Maybe<(
-    { __typename?: 'Users' }
-    & Pick<Users, 'id' | 'name' | 'email' | 'image'>
-  )> }
-);
+export type GetUserNameQuery = { __typename?: 'Query', findUserName?: Maybe<{ __typename?: 'Users', id: string, name?: Maybe<string>, email?: Maybe<string>, image: string }> };
 
 export type PositionTagsQueryVariables = Exact<{
   positionId: Scalars['Int'];
 }>;
 
 
-export type PositionTagsQuery = (
-  { __typename?: 'Query' }
-  & { positionTags: Array<(
-    { __typename?: 'Tag' }
-    & TagFragmentFragment
-  )> }
-);
+export type PositionTagsQuery = { __typename?: 'Query', positionTags: Array<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> };
 
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostsQuery = (
-  { __typename?: 'Query' }
-  & { posts: Array<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'text' | 'createdAt' | 'updatedAt'>
-  )> }
-);
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, text: string, createdAt: any, updatedAt: any }> };
 
 export type ProfileLookupQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ProfileLookupQuery = (
-  { __typename?: 'Query' }
-  & { profileLookup: (
-    { __typename?: 'Profile' }
-    & Pick<Profile, 'id' | 'name' | 'username' | 'title' | 'bio' | 'website' | 'image'>
-    & { projects?: Maybe<Array<(
-      { __typename?: 'Project' }
-      & Pick<Project, 'id' | 'title' | 'image' | 'description' | 'createdAt' | 'updatedAt'>
-    )>> }
-  ) }
-);
+export type ProfileLookupQuery = { __typename?: 'Query', profileLookup: { __typename?: 'Profile', id: number, name: string, username: string, title: string, bio: string, website: string, image: string, projects?: Maybe<Array<{ __typename?: 'Project', id: number, title: string, image: string, description: string, createdAt: any, updatedAt: any }>> } };
 
 export type ProjectQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ProjectQuery = (
-  { __typename?: 'Query' }
-  & { project?: Maybe<(
-    { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'title' | 'image' | 'ownerId' | 'description' | 'createdAt' | 'updatedAt'>
-    & { owner: (
-      { __typename?: 'Profile' }
-      & Pick<Profile, 'username' | 'image'>
-    ), tags?: Maybe<Array<(
-      { __typename?: 'Tag' }
-      & Pick<Tag, 'name'>
-    )>> }
-  )> }
-);
+export type ProjectQuery = { __typename?: 'Query', project?: Maybe<{ __typename?: 'Project', id: number, title: string, image: string, ownerId: number, description: string, createdAt: any, updatedAt: any, owner: { __typename?: 'Profile', username: string, image: string }, tags?: Maybe<Array<{ __typename?: 'Tag', name: string }>> }> };
 
 export type ProjectPositionsQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
 
 
-export type ProjectPositionsQuery = (
-  { __typename?: 'Query' }
-  & { projectPositions: Array<(
-    { __typename?: 'Position' }
-    & Pick<Position, 'id' | 'type' | 'title' | 'description' | 'projectId' | 'createdAt' | 'updatedAt'>
-  )> }
-);
+export type ProjectPositionsQuery = { __typename?: 'Query', projectPositions: Array<{ __typename?: 'Position', id: number, type: string, title: string, description: string, projectId: number, createdAt: any, updatedAt: any }> };
 
 export type ProjectTagsQueryVariables = Exact<{
   projectId: Scalars['Int'];
 }>;
 
 
-export type ProjectTagsQuery = (
-  { __typename?: 'Query' }
-  & { projectTags: Array<(
-    { __typename?: 'Tag' }
-    & TagFragmentFragment
-  )> }
-);
+export type ProjectTagsQuery = { __typename?: 'Query', projectTags: Array<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> };
 
 export type ProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProjectsQuery = (
-  { __typename?: 'Query' }
-  & { projects: Array<(
-    { __typename?: 'Project' }
-    & Pick<Project, 'title' | 'description' | 'ownerId' | 'image' | 'id' | 'createdAt' | 'updatedAt'>
-    & { owner: (
-      { __typename?: 'Profile' }
-      & Pick<Profile, 'username' | 'image'>
-    ), tags?: Maybe<Array<(
-      { __typename?: 'Tag' }
-      & Pick<Tag, 'name'>
-    )>> }
-  )> }
-);
+export type ProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', title: string, description: string, ownerId: number, image: string, id: number, createdAt: any, updatedAt: any, owner: { __typename?: 'Profile', username: string, image: string }, tags?: Maybe<Array<{ __typename?: 'Tag', name: string }>> }> };
 
 export const TagFragmentFragmentDoc = gql`
     fragment tagFragment on Tag {
