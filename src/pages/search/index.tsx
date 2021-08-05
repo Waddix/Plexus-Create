@@ -21,8 +21,9 @@ import {
 } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
 import { Profile, Project } from "../../generated/graphql";
+import { AppProps } from "next/app";
 
-function Search(): JSX.Element {
+function Search(pageProps: AppProps): JSX.Element {
   // Search query
   const [searchBar, setSearchBar] = useState("");
   const query = useRef("");
@@ -268,7 +269,7 @@ function Search(): JSX.Element {
           if (queryTerm === "") {
             return null;
           } else {
-            const exp = RegExp(`\\b${queryTerm}\\b`, "i");
+            const exp = RegExp(queryTerm, "i");
             return exp;
           }
         });
@@ -279,7 +280,7 @@ function Search(): JSX.Element {
           if (targetExp === null) {
             return false;
           } else {
-            return targetExp.test(project.title);
+            return targetExp.test(project.title.toLowerCase());
           }
         }
       );
@@ -509,6 +510,7 @@ function Search(): JSX.Element {
         query={query.current}
         fetching={fetching}
         results={results}
+        {...pageProps}
       />
     </Fragment>
   );
