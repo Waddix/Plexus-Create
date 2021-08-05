@@ -10,7 +10,8 @@ import {
   Stack,
   Text,
   Link,
-  Image
+  Image,
+  HStack
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import dayjs from "dayjs";
@@ -21,7 +22,8 @@ import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
 import { PositionForm } from "./PositionForm";
-import { useGetUserEmailQuery } from "../../generated/graphql";
+import { useDeleteProjectMutation, useGetUserEmailQuery } from "../../generated/graphql";
+import router from "next/router";
 
 interface ProjectDetailsProps {
   id: number;
@@ -73,11 +75,13 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
+  const [, deleteProject] = useDeleteProjectMutation();
   const [{ data }] = useGetUserEmailQuery({
     variables: {
       profileId: ownerId,
     },
   })
+  
   return (
     <Box p={8} rounded="xl">
       <Box>
@@ -119,6 +123,28 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         <Stack mt={6} direction={"column"} spacing={4} align={"center"}>
           <PostFormBox projectId={id} ownerId={userProfile.id} />
           <PositionForm id={id}></PositionForm>
+          <HStack direction={'row'} spacing={4}>
+          <Button
+            flex={1}
+            fontSize={'sm'}
+            rounded={'full'}
+            bg={'red.400'}
+            color={'white'}
+            boxShadow={
+              '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+            }
+            _hover={{
+              bg: 'red.500',
+            }}
+            _focus={{
+              bg: 'red.500',
+            }} onClick={() => {
+              deleteProject({id})
+              router.push('/projects')
+              }}>
+            Delete Project
+          </Button>
+        </HStack>
         </Stack>
         :
         <div>
@@ -137,7 +163,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           ownerEmail={data?.getUserEmail}
         ></PositionCard>
       </Container>
-      <Divider orientation="horizontal" mt={4} />
     </Box>
 
   );
