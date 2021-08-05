@@ -6,7 +6,6 @@ import {
   Container,
   Divider,
   Heading,
-  HStack,
   Spacer,
   Stack,
   Text,
@@ -14,7 +13,6 @@ import {
   Image
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
-import { SocialIcon } from "react-social-icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { CustomDonationInput } from "./DonationInput";
@@ -23,7 +21,6 @@ import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
 import { PositionForm } from "./PositionForm";
-// import profile from "../../pages/profile";
 
 interface ProjectDetailsProps {
   id: number;
@@ -75,8 +72,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
-
-  // console.log("projectId, profileId, ownerId: ", id, userProfile.id, ownerId)
   return (
     <Box p={8} rounded="xl">
       <Box>
@@ -115,16 +110,10 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
       </Box>
       <Divider orientation="horizontal" mt={4} />
       {userProfile.id === ownerId ?
-        // <Button
-        //   onClick={() => console.log("let's update")}
-        // >
-        //   Update
-        // </Button>
         <Stack mt={6} direction={"column"} spacing={4} align={"center"}>
           <PostFormBox projectId={id} ownerId={userProfile.id} />
           <PositionForm id={id}></PositionForm>
         </Stack>
-
         :
         <div>
           <Heading fontSize="lg" mt={3} mb={4}>
@@ -141,17 +130,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         ></PositionCard>
       </Container>
       <Divider orientation="horizontal" mt={4} />
-      <Box>
-        <Heading fontSize="lg" mt={3} mb={4}>
-          Share this Project!
-        </Heading>
-        <HStack>
-          <SocialIcon url="https://linkedin.com/" />
-          <SocialIcon network="tumblr" />
-          <SocialIcon network="twitter" />
-          <SocialIcon network="facebook" />
-        </HStack>
-      </Box>
     </Box>
   );
 };
