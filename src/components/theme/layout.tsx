@@ -20,7 +20,7 @@ function Layout({ children }: Props , { pageProps }: AppProps): JSX.Element {
       <Head>
         <title>Plexus Create</title>
         <meta name="description" content="Create, Connect, Collaborate" />
-        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Nav {...pageProps} />
