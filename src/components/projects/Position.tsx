@@ -43,7 +43,9 @@ export const PositionCard: React.FC<PositionCardProps> = ({
   const [show, setShow] = useState(false);
   const handleToggle = () => setShow(!show);
   const position = data?.projectPositions[0];
+  console.log(position);
   return (
+    position !== undefined ? 
     <Box>
       <Heading as="h4" fontSize="md">
         Open Positions
@@ -72,7 +74,6 @@ export const PositionCard: React.FC<PositionCardProps> = ({
             {position?.description}
           </chakra.p>
         </Box>
-
         <Flex justifyContent="space-between" alignItems="center" mt={4}>
           <HStack>
             <Flex alignItems="center">
@@ -108,5 +109,6 @@ export const PositionCard: React.FC<PositionCardProps> = ({
         </Button>
       </Spacer>
     </Box>
+    : <div></div>
   );
 };
