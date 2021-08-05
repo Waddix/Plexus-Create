@@ -28,8 +28,8 @@ export const PositionForm = ({id}: PositionFormProps): JSX.Element => {
           });
           if (response.error) {
             setErrors({
-              title: "error in title",
-              description: "error in description",
+              title: "Please enter a title",
+              description: "Please enter a description",
             });
           } else if (response.data) {
             router.push(`/projects/${id}`);
