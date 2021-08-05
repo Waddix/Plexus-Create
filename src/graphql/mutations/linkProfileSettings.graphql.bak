@@ -1,8 +1,0 @@
-mutation LinkProfileSettings($input: LinkSettingInput!) {
-  linkProfileSettings(input: $input) {
-    id
-    settings
-    username
-    name
-  }
-}
