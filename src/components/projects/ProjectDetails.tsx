@@ -130,9 +130,6 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             rounded={'full'}
             bg={'red.400'}
             color={'white'}
-            boxShadow={
-              '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-            }
             _hover={{
               bg: 'red.500',
             }}
