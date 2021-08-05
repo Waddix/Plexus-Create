@@ -479,6 +479,16 @@ export type CreateTagMutationVariables = Exact<{
 
 export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'TagResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, tag?: Maybe<{ __typename?: 'Tag', id: number, name: string, createdAt: any, updatedAt: any }> } };
 
+export type DeleteProjectMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteProjectMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteProject'>
+);
+
 export type FollowProjectMutationVariables = Exact<{
   profileId: Scalars['Int'];
   projectId: Scalars['Int'];
@@ -772,6 +782,15 @@ export const CreateTagDocument = gql`
 
 export function useCreateTagMutation() {
   return Urql.useMutation<CreateTagMutation, CreateTagMutationVariables>(CreateTagDocument);
+}
+export const DeleteProjectDocument = gql`
+    mutation DeleteProject($id: Int!) {
+  deleteProject(id: $id)
+}
+    `;
+
+export function useDeleteProjectMutation() {
+  return Urql.useMutation<DeleteProjectMutation, DeleteProjectMutationVariables>(DeleteProjectDocument);
 }
 export const FollowProjectDocument = gql`
     mutation followProject($profileId: Int!, $projectId: Int!) {

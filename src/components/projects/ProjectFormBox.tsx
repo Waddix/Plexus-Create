@@ -36,13 +36,11 @@ export const ProjectFormBox = ({
             tagId: projectTag,
           });
           if (response.error) {
-            console.log(response.error?.message);
             setErrors({
-              title: "error in title",
-              description: "error in description",
+              title: "Please enter a title",
+              description: "Please enter a description",
             });
           } else if (response.data) {
-            console.log(response.data);
             router.push("/projects");
           }
         }}

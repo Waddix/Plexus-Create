@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
-import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { ApolloServer, } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import dotenv from "dotenv";
@@ -18,8 +17,8 @@ const main = async () => {
     database: process.env.DATABASE,
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
-    logging: true,
-    synchronize: true,
+    // logging: true,
+    // synchronize: true,
     // dropSchema: true,
     entities: [
       __dirname + "/db/entities/*.ts",
@@ -34,7 +33,7 @@ const main = async () => {
     })
   );
 
-  const apolloServer = await new ApolloServer({
+  const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [__dirname + "/resolvers/*.ts"],
       validate: false,
@@ -42,12 +41,8 @@ const main = async () => {
     context: ({ req, res }) => ({
       req,
       res,
-    }),
-    introspection: true,
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    }), 
   });
-
-  await apolloServer.start();
 
   apolloServer.applyMiddleware({ app });
 

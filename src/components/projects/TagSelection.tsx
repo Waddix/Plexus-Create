@@ -5,16 +5,15 @@ import { useAllTagsQuery } from "../../generated/graphql";
 
 export const AllTags: React.FC = () => {
   const [{ data }] = useAllTagsQuery();
-  const { projectTag, setProjectTag } = useContext(ProjectsContext);
+  const { setProjectTag } = useContext(ProjectsContext);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClick = (event: any) => {
-    // console.log(event.target.innerText);
     data?.tags.forEach((tag) => {
       if (tag.name === event.target.innerText) {
         setProjectTag(tag.id);
       }
     });
   };
-  console.log(projectTag);
   return (
     <Stack spacing={4} isInline>
       {data?.tags.map((tag) => (

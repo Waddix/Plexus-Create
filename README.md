@@ -1,8 +1,8 @@
-# plexus-create
+# Plexus Create
 
 # Overview
 
-Plexus Create is a application designed to connect content creators of all backgrounds together in one central network. Creators can sign up and create a profile with their contact information and their social media information start campaigns to crowdfund and gather support for their projects or ideas. Users may also list their skills and proficiencies on their profile to fulfill open positions needed on current projects...
+Plexus Create is a community-oriented platform for content creators, developers, artists, and other creatives to raise awareness on upcoming projects, recruit for full-time, part-time, or contract positions, and create crowdfunding campaigns for their creative endeavors.
 
 # Built in devtools
 
