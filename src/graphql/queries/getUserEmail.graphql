@@ -1,8 +1,3 @@
-query GetUserEmail($email: String!) {
-  findUserEmail(email: $email) {
-    id
-    name
-    email
-    image
-  }
+query getUserEmail($profileId:Int!){
+  getUserEmail(profileId:$profileId)
 }
