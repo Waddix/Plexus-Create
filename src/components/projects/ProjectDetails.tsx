@@ -21,6 +21,7 @@ import { UserContext } from "../../context/userContext";
 import { PostFormBox } from "../posts/PostForm";
 import { PositionCard } from "./Position";
 import { PositionForm } from "./PositionForm";
+import { useGetUserEmailQuery } from "../../generated/graphql";
 
 interface ProjectDetailsProps {
   id: number;
@@ -32,7 +33,7 @@ interface ProjectDetailsProps {
   email?: string;
   image?: string;
   projectImage: string;
-  ownerId: number | undefined;
+  ownerId: number;
 }
 
 interface DescriptionProps {
@@ -72,6 +73,11 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   dayjs.extend(relativeTime);
   const postedAt = dayjs().to(dayjs(createdAt));
   const { userProfile } = useContext(UserContext);
+  const [{ data }] = useGetUserEmailQuery({
+    variables: {
+      profileId: ownerId,
+    },
+  })
   return (
     <Box p={8} rounded="xl">
       <Box>
@@ -122,14 +128,17 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
           <CustomDonationInput id={id}></CustomDonationInput>
         </div>
       }
+      <Divider orientation="horizontal" mt={4} />
       <Container>
         <PositionCard
           projectId={id}
           username={username}
           image={ownerImage}
+          ownerEmail={data?.getUserEmail}
         ></PositionCard>
       </Container>
       <Divider orientation="horizontal" mt={4} />
     </Box>
+
   );
 };
