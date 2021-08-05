@@ -3,7 +3,6 @@
 import {
   Avatar,
   Box,
-  Flex,
   chakra,
   FormLabel,
   Heading,

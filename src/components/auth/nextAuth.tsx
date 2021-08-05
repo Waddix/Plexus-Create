@@ -4,7 +4,6 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState,
 } from "react";
 import {
   Box,
@@ -113,7 +112,7 @@ const NextAuth: NextComponentType = ({ pageProps }) => {
   // User registration
   const { newUser, setNewUser } = useContext(UserContext);
 
-  const [failAlert, setFailAlert] = useState<boolean>(false);
+  // const [failAlert, setFailAlert] = useState<boolean>(false);
 
   // Getting user's profile from the database and setting it to context or creating a profile for them and re-fetching the profile with fresh data
   useEffect(() => {

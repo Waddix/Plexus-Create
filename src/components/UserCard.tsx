@@ -13,7 +13,7 @@ import {
   // Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useFollowUserMutation } from '../generated/graphql';
+// import { useFollowUserMutation } from '../generated/graphql';
 // import { Profile, useFollowUserMutation } from '../generated/graphql';
 
 
@@ -41,7 +41,7 @@ interface userCardProps {
 export const UserCard: React.FC<userCardProps> = ({ profile, currId }) => {
   const { id, username, bio, image } = profile;
   // const [, followUser] = useFollowUserMutation();
-  const { usersFollowing, followUser, unfollowUser } = useContext(UserContext);
+  const { /*usersFollowing,*/ followUser, unfollowUser } = useContext(UserContext);
   return (
     <Center py={6}>
       <Box

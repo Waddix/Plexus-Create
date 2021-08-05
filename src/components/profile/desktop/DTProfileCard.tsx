@@ -12,7 +12,6 @@ import {
   Button,
   useColorModeValue,
   Tooltip,
-  Divider,
   Icon
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";

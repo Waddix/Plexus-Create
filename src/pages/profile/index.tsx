@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { Box, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
-import UserCard from "../../components/UserCard";
+import { Box, SimpleGrid, VStack } from '@chakra-ui/react'
+// import UserCard from "../../components/UserCard";
 import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
 // import { ProjectCard } from "../../components/projects/ProjectCard";

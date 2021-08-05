@@ -4,7 +4,6 @@ import {
   Avatar,
   Box,
   Heading,
-  HStack,
   Link,
   VStack,
   Text,
@@ -12,7 +11,6 @@ import {
   Button,
   useColorModeValue,
   Tooltip,
-  Divider,
   Icon
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";

@@ -1,10 +1,8 @@
 import {
   Box,
-  HStack,
   Link,
   VStack,
   Heading,
-  Spacer,
   Tag,
   Badge,
   Divider,

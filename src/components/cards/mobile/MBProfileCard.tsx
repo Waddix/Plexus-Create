@@ -12,7 +12,6 @@ import {
   Button,
   useColorModeValue,
   Icon,
-  Spacer
 } from "@chakra-ui/react";
 import { NextComponentType, withUrqlClient } from "next-urql";
 import React, { useContext, useEffect, useState } from "react";
@@ -49,9 +48,6 @@ const MBProfileCard: NextComponentType = ({ profile }) => {
       />
     )
   }
-
-  const user = useContext(UserContext);
-  const { userProfile: currUser } = user
 
   const [emailResult] = useGetUserEmailQuery({
     variables: { profileId: id },

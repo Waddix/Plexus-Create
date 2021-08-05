@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useRouter } from "next/dist/client/router";
-import { Box, Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { UserCard } from "../../components/UserCard";
+import { Box, SimpleGrid, VStack } from "@chakra-ui/react";
+// import { UserCard } from "../../components/UserCard";
 import { useProfileLookupQuery } from "../../generated/graphql";
-import { UserContext } from "../../context/userContext";
+// import { UserContext } from "../../context/userContext";
 import { withUrqlClient } from "next-urql";
 // import { ProjectCard } from "../../components/projects/ProjectCard";
 import LoadingAnimation from "../../components/loading";
@@ -14,8 +14,8 @@ import DTProfileCard from "../../components/profile/desktop/DTProfileCard";
 import MBProfileCard from "../../components/profile/mobile/MBProfileCard";
 
 function UserProfile(pageProps: AppProps) {
-  const { userProfile } = useContext(UserContext);
-  const { id } = userProfile;
+  // const { userProfile } = useContext(UserContext);
+  // const { id } = userProfile;
   const router = useRouter();
   const { userId } = router.query;
   const userIdInt = typeof userId === "string" ? parseInt(userId) : 0;
@@ -94,7 +94,7 @@ function UserProfile(pageProps: AppProps) {
       </VStack>
     );
   }
-};
+}
 
 export default withUrqlClient(() => ({
   url: "https://server-seven-blue.vercel.app/graphql",

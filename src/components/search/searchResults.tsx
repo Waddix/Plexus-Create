@@ -1,4 +1,4 @@
-import { Box, VStack, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, VStack, Heading } from "@chakra-ui/react";
 import React, { Fragment } from "react";
 import { Project } from "../../generated/graphql";
 // import { ProjectCard } from "../projects/ProjectCard";

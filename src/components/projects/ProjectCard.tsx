@@ -23,7 +23,7 @@ import { FcNext } from 'react-icons/fc'
 import { UserContext } from '../../context/userContext';
 // import { useFollowProjectMutation } from '../../generated/graphql';
 import { ProjectTagsByID } from './ProjectTagsByID';
-import { useFollowProjectMutation } from '../../generated/graphql';
+// import { useFollowProjectMutation } from '../../generated/graphql';
 
 
 interface ProjectCardProps {

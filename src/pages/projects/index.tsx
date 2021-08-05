@@ -1,4 +1,4 @@
-import { Box, Heading, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Box, SimpleGrid, VStack } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import React from "react"
 import DTProjectCard from "../../components/cards/desktop/DTProjectCard";

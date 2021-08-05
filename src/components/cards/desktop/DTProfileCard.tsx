@@ -21,7 +21,6 @@ import { NextComponentType, withUrqlClient } from "next-urql";
 import { UserContext } from "../../../context/userContext";
 import { useGetUserEmailQuery } from "../../../generated/graphql";
 import { useFollowUserMutation } from "../../../generated/graphql";
-import Profile from "../../../models/profile";
 
 const DTProfileCard: NextComponentType = ({ profile }) => {
   // Given profile
