@@ -13,10 +13,15 @@ import {
   Text
 } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/system";
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../../context/userContext";
+import { useFollowProjectMutation } from "../../../generated/graphql";
 
 const MBProjectCard = ({ project }): JSX.Element => {
-  const { title, description, image, tags, position, id } = project;
+  const { title, description, image, tags, position, id, ownerId } = project;
+  const { userProfile, projectsFollowing, addToFollowedProjects, unfollowProject } = useContext(UserContext);
+  const { id: currId } = userProfile;
+  const [, followProject] = useFollowProjectMutation();
 
   interface Tag {
     name: string,
@@ -112,7 +117,30 @@ const MBProjectCard = ({ project }): JSX.Element => {
                 }
               </VStack>
             }
-            {/* TODO: ADD FOLLOW BUTTON */}
+            {ownerId != currId ?
+              (!projectsFollowing.includes(id) ?
+                <Button
+                  onClick={() => {
+                    followProject({
+                      profileId: currId,
+                      projectId: id
+                    })
+                    addToFollowedProjects(id)
+                  }
+                  }
+                >
+                  Follow
+                </Button>
+                :
+                <Button
+                  onClick={() => unfollowProject(id)}
+                >
+                  Unfollow
+                </Button>
+              )
+              :
+              <></>
+            }
             <Divider />
             <Link
               href={`/projects/${id}`}

@@ -13,12 +13,18 @@ import {
   Icon,
   Spacer
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { FaPaperPlane, FaGlobe } from "react-icons/fa";
+import { UserContext } from "../../../context/userContext";
+import { useFollowUserMutation } from "../../../generated/graphql";
 import Tags from "../../auth/forms/tags";
+
 
 const MBProfileCard = ({ profile }): JSX.Element => {
   const { name, username, image, title, email, bio, website, id } = profile;
+  const { userProfile, addToFollowedUsers, usersFollowing, unfollowUser } = useContext(UserContext);
+  const { id: currId } = userProfile;
+  const [, followUser] = useFollowUserMutation();
 
   const plane = (): JSX.Element => {
     return (
@@ -119,7 +125,42 @@ const MBProfileCard = ({ profile }): JSX.Element => {
         <VStack
           w="100%"
         >
-          {/* TODO: ADD FOLLOW BUTTON */}
+          {currId != id ?
+            (!usersFollowing.includes(id) ?
+              <Button
+                flex={1}
+                fontSize={'sm'}
+                rounded={'full'}
+                bg={'blue.400'}
+                color={'white'}
+                boxShadow={
+                  '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                }
+                _hover={{
+                  bg: 'blue.500',
+                }}
+                _focus={{
+                  bg: 'blue.500',
+                }}
+                onClick={() => {
+                  followUser({
+                    profileId_2: id,
+                    profileId_1: currId
+                  })
+                  addToFollowedUsers(id)
+                }}
+              >
+                Follow
+              </Button>
+              :
+              <Button
+                onClick={() => unfollowUser(id)}
+              >
+                Unfollow
+              </Button>
+            ) :
+            <></>
+          }
           <Divider />
           <Box mt={4}></Box>
           <HStack>

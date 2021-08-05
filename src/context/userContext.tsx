@@ -30,12 +30,19 @@ function UserContextProvider({ children }: { children: unknown }): JSX.Element {
   const [, followP] = useFollowProjectMutation();
   const [, followU] = useFollowUserMutation();
 
-
-  const followProject = async (projectId: number) => {
-    await followP({
+  //? graphql hook not working within function. Call from component
+  //? and pass addToFollowed instead for now
+  const followProject = (projectId: number) => {
+     followP({
       profileId: userProfile.id,
       projectId: projectId
     });
+    setProjectsFollowing(followed => {
+      return [...followed, projectId];
+    })
+  }
+
+  const addToFollowedProjects = (projectId: number) => {
     setProjectsFollowing(followed => {
       return [...followed, projectId];
     })
@@ -50,9 +57,10 @@ function UserContextProvider({ children }: { children: unknown }): JSX.Element {
     })
   }
 
-
-  const followUser = async (userId: number) => {
-    await followU({
+  //? graphql hook not working within function. Call from component
+  //? and pass addToFollowed instead for now
+  const followUser = (userId: number) => {
+    followU({
       profileId_2: userProfile.id,
       profileId_1: userId
     });
@@ -61,7 +69,12 @@ function UserContextProvider({ children }: { children: unknown }): JSX.Element {
     })
   }
 
-  
+  const addToFollowedUsers = (userId: number) => {
+    setUsersFollowing(followed => {
+      return [...followed, userId];
+    })
+  }
+
   const unfollowUser = (userId: number) => {
     setUsersFollowing(followed => {
       let index = followed.indexOf(userId)
@@ -83,6 +96,8 @@ function UserContextProvider({ children }: { children: unknown }): JSX.Element {
     setNewUser,
     usersFollowing,
     followProject,
+    addToFollowedProjects,
+    addToFollowedUsers,
     followUser,
     unfollowProject,
     unfollowUser
